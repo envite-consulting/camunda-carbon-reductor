@@ -1,0 +1,3 @@
+name: DelayForGreenEnergyTask
+type: de.envite.greenbpm:delayforgreenenergytask:1
+variables: [ timerDuration, location, timestamp ]

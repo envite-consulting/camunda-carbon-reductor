@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>de.envite.greenbpm</groupId>
+    <artifactId>DelayForGreenEnergyConnector</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <parent>
+        <artifactId>connector-parent</artifactId>
+        <groupId>io.camunda.connector</groupId>
+        <version>0.2.2</version>
+    </parent>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <version.connector-core>0.2.2</version.connector-core>
+        <!-- external libraries -->
+        <version.assertj>3.23.1</version.assertj>
+        <version.junit-jupiter>5.9.0</version.junit-jupiter>
+        <version.mockito>4.7.0</version.mockito>
+        <version.slf4j>1.7.36</version.slf4j>
+        <version.gson>2.9.1</version.gson>
+        <version.gson-extras>1.0.0</version.gson-extras>
+        <version.lombok>1.18.24</version.lombok>
+
+        <version.swagger-core>2.0.0</version.swagger-core>
+        <version.okhttp>2.7.5</version.okhttp>
+        <version.gson>2.8.1</version.gson>
+        <version.gson-fire>1.8.3</version.gson-fire>
+        <version.threetenbp>1.3.5</version.threetenbp>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.camunda.connector</groupId>
+            <artifactId>connector-core</artifactId>
+            <version>${version.connector-core}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.camunda.connector</groupId>
+            <artifactId>connector-validation</artifactId>
+            <version>${version.connector-core}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.camunda.connector</groupId>
+            <artifactId>connector-runtime-job-worker</artifactId>
+            <version>${version.connector-core}</version>
+        </dependency>
+        <!-- This dependency will be removed after camunda/zeebe#9859 is resolved. -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-text</artifactId>
+            <version>1.10.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${version.slf4j}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${version.junit-jupiter}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${version.assertj}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>${version.mockito}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${version.lombok}</version>
+        </dependency>
+
+        <!-- swagger client -->
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>${version.swagger-core}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>${version.okhttp}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp</groupId>
+            <artifactId>logging-interceptor</artifactId>
+            <version>${version.okhttp}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>${version.gson}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.gsonfire</groupId>
+            <artifactId>gson-fire</artifactId>
+            <version>${version.gson-fire}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.threeten</groupId>
+            <artifactId>threetenbp</artifactId>
+            <version>${version.threetenbp}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>jsr250-api</artifactId>
+            <version>1.0</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <configuration>
+                    <outputFile>${project.build.directory}/deployment/${project.build.finalName}.jar</outputFile>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
