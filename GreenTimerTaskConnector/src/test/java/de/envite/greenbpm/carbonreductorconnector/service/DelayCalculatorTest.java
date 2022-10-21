@@ -18,6 +18,7 @@ package de.envite.greenbpm.carbonreductorconnector.service;
 
 import static de.envite.greenbpm.carbonreductorconnector.service.Locations.GERMANY_WEST_CENTRAL;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.data.Offset.offset;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -27,6 +28,8 @@ import de.envite.greenbpm.carbonreductorconnector.model.CarbonReductorOutput;
 import io.swagger.client.model.EmissionsData;
 import io.swagger.client.model.EmissionsDataDTO;
 import java.time.Duration;
+
+import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.threeten.bp.OffsetDateTime;
@@ -114,7 +117,7 @@ class DelayCalculatorTest {
         .isGreaterThanOrEqualTo(Duration.ofMinutes(179).toMillis());
     assertThat(carbonReductorOutput.getActualCarbon()).isEqualTo(200.6);
     assertThat(carbonReductorOutput.getOriginalCarbon()).isEqualTo(500.1);
-    assertThat(carbonReductorOutput.getSavedCarbon()).isEqualTo(299.5);
+    assertThat(carbonReductorOutput.getSavedCarbon()).isCloseTo(59.88, offset(0.1));
   }
 
   @Test
