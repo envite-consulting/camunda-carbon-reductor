@@ -1,0 +1,32 @@
+# This workflow will build a Java project with Maven
+
+name: Continuous Integration
+
+on:
+  push:
+    branches: [ '**' ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        java: ['17']
+
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v3
+      - name: Set up JDKs with Matrix Build
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: ${{ matrix.java }}
+          cache: 'maven'
+      - name: Build with Maven Wrapper
+        run: ./mvnw verify -DskipTests=true
+        working-directory: GreenTimerTaskConnector
+
