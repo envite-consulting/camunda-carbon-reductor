@@ -14,16 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.envite.greenbpm.connector.model;
+package de.envite.greenbpm.carbonreductorconnector.service;
 
-import jakarta.validation.constraints.NotEmpty;
-import lombok.Data;
+public enum Locations {
+  EUROPE_NORTH("northeurope"),
+  EUROPE_WEST("westeurope"),
+  FRANCE_CENTRAL("francecentral"),
+  FRANCE_SOUTH("francesouth"),
+  GERMANY_NORTH("germanynorth"),
+  GERMANY_WEST_CENTRAL("germanywestcentral"),
+  UK_SOUTH("uksouth"),
+  UK_WEST("ukwest"),
+  SWITZERLAND_NORTH("switzerlandnorth"),
+  SWITZERLAND_WEST("switzerlandwest"),
+  SWEDEN_CENTRAL("swedencentral"),
+  NORWAY_EAST("norwayeast");
 
-@Data
-public class GreenEnergyInput {
+  Locations(String regionname) {
+    this.regionname = regionname;
+  }
 
-  // TODO regex
-  @NotEmpty private String timerDuration;
-  @NotEmpty private String location;
-  @NotEmpty private String timestamp;
+  private String regionname;
+
+  public String regionname() {
+    return this.regionname;
+  }
 }

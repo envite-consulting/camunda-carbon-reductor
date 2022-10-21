@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.envite.greenbpm.connector.model;
+package de.envite.greenbpm.carbonreductorconnector.model;
 
 import java.util.Objects;
 import lombok.Builder;
 
 @Builder
-public class GreenEnergyOutput {
+public class CarbonReductorOutput {
 
   private boolean executionDelayed;
   private double originalCarbon;
@@ -88,7 +88,7 @@ public class GreenEnergyOutput {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    GreenEnergyOutput that = (GreenEnergyOutput) o;
+    CarbonReductorOutput that = (CarbonReductorOutput) o;
     return executionDelayed == that.executionDelayed
         && Double.compare(that.originalCarbon, originalCarbon) == 0
         && Double.compare(that.actualCarbon, actualCarbon) == 0

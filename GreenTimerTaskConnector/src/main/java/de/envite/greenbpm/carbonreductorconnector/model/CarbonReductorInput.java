@@ -14,34 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.envite.greenbpm.connector.service;
+package de.envite.greenbpm.carbonreductorconnector.model;
 
-import io.swagger.client.ApiException;
+import jakarta.validation.constraints.NotEmpty;
+import lombok.Data;
 
-public class CarbonAwareSDKException extends Exception {
+@Data
+public class CarbonReductorInput {
 
-  public CarbonAwareSDKException(ApiException apiException) {
-    this(
-        "Error when calling the carbonawaresdk. Returned "
-            + apiException.getCode()
-            + " "
-            + apiException.getResponseBody(),
-        apiException);
-  }
-
-  public CarbonAwareSDKException() {
-    super();
-  }
-
-  public CarbonAwareSDKException(String message) {
-    super(message);
-  }
-
-  public CarbonAwareSDKException(Throwable cause) {
-    super(cause);
-  }
-
-  public CarbonAwareSDKException(String message, Throwable cause) {
-    super(message, cause);
-  }
+  // TODO regex
+  @NotEmpty private String timerDuration;
+  @NotEmpty private String location;
+  @NotEmpty private String timestamp;
 }

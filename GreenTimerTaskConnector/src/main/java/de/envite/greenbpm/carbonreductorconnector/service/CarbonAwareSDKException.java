@@ -14,29 +14,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.envite.greenbpm.connector.service;
+package de.envite.greenbpm.carbonreductorconnector.service;
 
-public enum Locations {
-  EUROPE_NORTH("northeurope"),
-  EUROPE_WEST("westeurope"),
-  FRANCE_CENTRAL("francecentral"),
-  FRANCE_SOUTH("francesouth"),
-  GERMANY_NORTH("germanynorth"),
-  GERMANY_WEST_CENTRAL("germanywestcentral"),
-  UK_SOUTH("uksouth"),
-  UK_WEST("ukwest"),
-  SWITZERLAND_NORTH("switzerlandnorth"),
-  SWITZERLAND_WEST("switzerlandwest"),
-  SWEDEN_CENTRAL("swedencentral"),
-  NORWAY_EAST("norwayeast");
+import io.swagger.client.ApiException;
 
-  Locations(String regionname) {
-    this.regionname = regionname;
+public class CarbonAwareSDKException extends Exception {
+
+  public CarbonAwareSDKException(ApiException apiException) {
+    this(
+        "Error when calling the carbonawaresdk. Returned "
+            + apiException.getCode()
+            + " "
+            + apiException.getResponseBody(),
+        apiException);
   }
 
-  private String regionname;
+  public CarbonAwareSDKException() {
+    super();
+  }
 
-  public String regionname() {
-    return this.regionname;
+  public CarbonAwareSDKException(String message) {
+    super(message);
+  }
+
+  public CarbonAwareSDKException(Throwable cause) {
+    super(cause);
+  }
+
+  public CarbonAwareSDKException(String message, Throwable cause) {
+    super(message, cause);
   }
 }

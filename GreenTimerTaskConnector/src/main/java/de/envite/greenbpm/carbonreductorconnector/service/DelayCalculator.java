@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.envite.greenbpm.connector.service;
+package de.envite.greenbpm.carbonreductorconnector.service;
 
-import de.envite.greenbpm.connector.model.GreenEnergyInput;
-import de.envite.greenbpm.connector.model.GreenEnergyOutput;
+import de.envite.greenbpm.carbonreductorconnector.model.CarbonReductorInput;
+import de.envite.greenbpm.carbonreductorconnector.model.CarbonReductorOutput;
 import io.swagger.client.model.EmissionsData;
 import io.swagger.client.model.EmissionsDataDTO;
 import java.time.Duration;
@@ -42,7 +42,7 @@ public class DelayCalculator {
     this.service = service;
   }
 
-  public GreenEnergyOutput calculateDelay(GreenEnergyInput input) throws CarbonAwareSDKException {
+  public CarbonReductorOutput calculateDelay(CarbonReductorInput input) throws CarbonAwareSDKException {
     EmissionsData currentEmission =
         service.getCurrentEmission(Locations.valueOf(input.getLocation()));
     EmissionsDataDTO forecastedOptimalTime =
@@ -53,7 +53,7 @@ public class DelayCalculator {
     if (isDelayNecessary(input, currentEmission, forecastedOptimalTime)) {
       long optimalTime = forecastedOptimalTime.getTimestamp().toInstant().toEpochMilli();
       long delayedBy = optimalTime - OffsetDateTime.now(ZoneOffset.UTC).toInstant().toEpochMilli();
-      return GreenEnergyOutput.builder()
+      return CarbonReductorOutput.builder()
           .executionDelayed(true)
           .delayedBy(delayedBy)
           .originalCarbon(currentEmission.getRating())
@@ -62,7 +62,7 @@ public class DelayCalculator {
           .build();
     }
     // execution is optimal currently
-    return GreenEnergyOutput.builder()
+    return CarbonReductorOutput.builder()
         .executionDelayed(false)
         .delayedBy(0)
         .originalCarbon(currentEmission.getRating())
@@ -72,7 +72,7 @@ public class DelayCalculator {
   }
 
   private boolean isDelayNecessary(
-      GreenEnergyInput input,
+      CarbonReductorInput input,
       EmissionsData currentEmission,
       EmissionsDataDTO forecastedOptimalTime) {
     return isDelayStillRelevant(input.getTimestamp(), input.getTimerDuration())

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.envite.greenbpm.connector.service;
+package de.envite.greenbpm.carbonreductorconnector.service;
 
 import io.swagger.client.ApiClient;
 import io.swagger.client.ApiException;

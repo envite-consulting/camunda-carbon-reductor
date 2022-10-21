@@ -14,16 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.envite.greenbpm.connector.service;
+package de.envite.greenbpm.carbonreductorconnector.service;
 
-import static de.envite.greenbpm.connector.service.Locations.GERMANY_WEST_CENTRAL;
+import static de.envite.greenbpm.carbonreductorconnector.service.Locations.GERMANY_WEST_CENTRAL;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import de.envite.greenbpm.connector.model.GreenEnergyInput;
-import de.envite.greenbpm.connector.model.GreenEnergyOutput;
+import de.envite.greenbpm.carbonreductorconnector.model.CarbonReductorInput;
+import de.envite.greenbpm.carbonreductorconnector.model.CarbonReductorOutput;
 import io.swagger.client.model.EmissionsData;
 import io.swagger.client.model.EmissionsDataDTO;
 import java.time.Duration;
@@ -38,23 +38,23 @@ class DelayCalculatorTest {
   private static final String YYYY_MM_DD_T_HH_MM_SS_SSSX_ETC_UTC =
       "yyyy-MM-dd'T'HH:mm:ss.SSSX'[Etc/UTC]'";
 
-  private GreenEnergyInput greenEnergyInput_DelayedWorkerExecution;
-  private GreenEnergyInput greenEnergyInput_ImmediateWorkerExecution;
+  private CarbonReductorInput carbonReductorInput_DelayedWorkerExecution;
+  private CarbonReductorInput carbonReductorInput_ImmediateWorkerExecution;
   private EmissionsData emissionData;
 
   @BeforeEach
   void init() {
-    greenEnergyInput_DelayedWorkerExecution = new GreenEnergyInput();
-    greenEnergyInput_DelayedWorkerExecution.setTimerDuration("PT5M");
-    greenEnergyInput_DelayedWorkerExecution.setLocation(GERMANY_WEST_CENTRAL.name());
+    carbonReductorInput_DelayedWorkerExecution = new CarbonReductorInput();
+    carbonReductorInput_DelayedWorkerExecution.setTimerDuration("PT5M");
+    carbonReductorInput_DelayedWorkerExecution.setLocation(GERMANY_WEST_CENTRAL.name());
     OffsetDateTime timestampDelayed = OffsetDateTime.now(ZoneOffset.UTC).minusHours(1);
-    greenEnergyInput_DelayedWorkerExecution.setTimestamp(
+    carbonReductorInput_DelayedWorkerExecution.setTimestamp(
         timestampDelayed.format(DateTimeFormatter.ofPattern(YYYY_MM_DD_T_HH_MM_SS_SSSX_ETC_UTC)));
-    greenEnergyInput_ImmediateWorkerExecution = new GreenEnergyInput();
-    greenEnergyInput_ImmediateWorkerExecution.setTimerDuration("PT5M");
-    greenEnergyInput_ImmediateWorkerExecution.setLocation(GERMANY_WEST_CENTRAL.name());
+    carbonReductorInput_ImmediateWorkerExecution = new CarbonReductorInput();
+    carbonReductorInput_ImmediateWorkerExecution.setTimerDuration("PT5M");
+    carbonReductorInput_ImmediateWorkerExecution.setLocation(GERMANY_WEST_CENTRAL.name());
     OffsetDateTime timestampImmediate = OffsetDateTime.now(ZoneOffset.UTC).plusHours(1);
-    greenEnergyInput_ImmediateWorkerExecution.setTimestamp(
+    carbonReductorInput_ImmediateWorkerExecution.setTimestamp(
         timestampImmediate.format(DateTimeFormatter.ofPattern(YYYY_MM_DD_T_HH_MM_SS_SSSX_ETC_UTC)));
     emissionData = new EmissionsData().rating(500.1);
   }
@@ -67,14 +67,14 @@ class DelayCalculatorTest {
     when(service.getOptimalForecastUntil(any(), any())).thenReturn(emissionDataForecast);
 
     DelayCalculator delayCalculator = new DelayCalculator(service);
-    GreenEnergyOutput greenEnergyOutput =
-        delayCalculator.calculateDelay(greenEnergyInput_DelayedWorkerExecution);
+    CarbonReductorOutput carbonReductorOutput =
+        delayCalculator.calculateDelay(carbonReductorInput_DelayedWorkerExecution);
 
-    assertThat(greenEnergyOutput.isExecutionDelayed()).isFalse();
-    assertThat(greenEnergyOutput.getDelayedBy()).isZero();
-    assertThat(greenEnergyOutput.getActualCarbon()).isEqualTo(500.1);
-    assertThat(greenEnergyOutput.getOriginalCarbon()).isEqualTo(500.1);
-    assertThat(greenEnergyOutput.getSavedCarbon()).isZero();
+    assertThat(carbonReductorOutput.isExecutionDelayed()).isFalse();
+    assertThat(carbonReductorOutput.getDelayedBy()).isZero();
+    assertThat(carbonReductorOutput.getActualCarbon()).isEqualTo(500.1);
+    assertThat(carbonReductorOutput.getOriginalCarbon()).isEqualTo(500.1);
+    assertThat(carbonReductorOutput.getSavedCarbon()).isZero();
   }
 
   @Test
@@ -85,14 +85,14 @@ class DelayCalculatorTest {
     when(service.getOptimalForecastUntil(any(), any())).thenReturn(emissionDataForecast);
 
     DelayCalculator delayCalculator = new DelayCalculator(service);
-    GreenEnergyOutput greenEnergyOutput =
-        delayCalculator.calculateDelay(greenEnergyInput_ImmediateWorkerExecution);
+    CarbonReductorOutput carbonReductorOutput =
+        delayCalculator.calculateDelay(carbonReductorInput_ImmediateWorkerExecution);
 
-    assertThat(greenEnergyOutput.isExecutionDelayed()).isFalse();
-    assertThat(greenEnergyOutput.getDelayedBy()).isZero();
-    assertThat(greenEnergyOutput.getActualCarbon()).isEqualTo(500.1);
-    assertThat(greenEnergyOutput.getOriginalCarbon()).isEqualTo(500.1);
-    assertThat(greenEnergyOutput.getSavedCarbon()).isZero();
+    assertThat(carbonReductorOutput.isExecutionDelayed()).isFalse();
+    assertThat(carbonReductorOutput.getDelayedBy()).isZero();
+    assertThat(carbonReductorOutput.getActualCarbon()).isEqualTo(500.1);
+    assertThat(carbonReductorOutput.getOriginalCarbon()).isEqualTo(500.1);
+    assertThat(carbonReductorOutput.getSavedCarbon()).isZero();
   }
 
   @Test
@@ -106,15 +106,15 @@ class DelayCalculatorTest {
     when(service.getOptimalForecastUntil(any(), any())).thenReturn(emissionDataForecast);
 
     DelayCalculator delayCalculator = new DelayCalculator(service);
-    GreenEnergyOutput greenEnergyOutput =
-        delayCalculator.calculateDelay(greenEnergyInput_ImmediateWorkerExecution);
+    CarbonReductorOutput carbonReductorOutput =
+        delayCalculator.calculateDelay(carbonReductorInput_ImmediateWorkerExecution);
 
-    assertThat(greenEnergyOutput.isExecutionDelayed()).isTrue();
-    assertThat(greenEnergyOutput.getDelayedBy())
+    assertThat(carbonReductorOutput.isExecutionDelayed()).isTrue();
+    assertThat(carbonReductorOutput.getDelayedBy())
         .isGreaterThanOrEqualTo(Duration.ofMinutes(179).toMillis());
-    assertThat(greenEnergyOutput.getActualCarbon()).isEqualTo(200.6);
-    assertThat(greenEnergyOutput.getOriginalCarbon()).isEqualTo(500.1);
-    assertThat(greenEnergyOutput.getSavedCarbon()).isEqualTo(299.5);
+    assertThat(carbonReductorOutput.getActualCarbon()).isEqualTo(200.6);
+    assertThat(carbonReductorOutput.getOriginalCarbon()).isEqualTo(500.1);
+    assertThat(carbonReductorOutput.getSavedCarbon()).isEqualTo(299.5);
   }
 
   @Test
@@ -128,13 +128,13 @@ class DelayCalculatorTest {
     when(service.getOptimalForecastUntil(any(), any())).thenReturn(emissionDataForecast);
 
     DelayCalculator delayCalculator = new DelayCalculator(service);
-    GreenEnergyOutput greenEnergyOutput =
-        delayCalculator.calculateDelay(greenEnergyInput_DelayedWorkerExecution);
+    CarbonReductorOutput carbonReductorOutput =
+        delayCalculator.calculateDelay(carbonReductorInput_DelayedWorkerExecution);
 
-    assertThat(greenEnergyOutput.isExecutionDelayed()).isFalse();
-    assertThat(greenEnergyOutput.getDelayedBy()).isZero();
-    assertThat(greenEnergyOutput.getActualCarbon()).isEqualTo(500.1);
-    assertThat(greenEnergyOutput.getOriginalCarbon()).isEqualTo(500.1);
-    assertThat(greenEnergyOutput.getSavedCarbon()).isZero();
+    assertThat(carbonReductorOutput.isExecutionDelayed()).isFalse();
+    assertThat(carbonReductorOutput.getDelayedBy()).isZero();
+    assertThat(carbonReductorOutput.getActualCarbon()).isEqualTo(500.1);
+    assertThat(carbonReductorOutput.getOriginalCarbon()).isEqualTo(500.1);
+    assertThat(carbonReductorOutput.getSavedCarbon()).isZero();
   }
 }

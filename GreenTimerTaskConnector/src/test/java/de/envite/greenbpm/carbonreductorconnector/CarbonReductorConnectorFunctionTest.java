@@ -14,43 +14,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.envite.greenbpm.connector;
+package de.envite.greenbpm.carbonreductorconnector;
 
-import static de.envite.greenbpm.connector.service.Locations.NORWAY_EAST;
+import static de.envite.greenbpm.carbonreductorconnector.service.Locations.NORWAY_EAST;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import de.envite.greenbpm.connector.model.GreenEnergyInput;
-import de.envite.greenbpm.connector.model.GreenEnergyOutput;
-import de.envite.greenbpm.connector.service.DelayCalculator;
+import de.envite.greenbpm.carbonreductorconnector.model.CarbonReductorInput;
+import de.envite.greenbpm.carbonreductorconnector.model.CarbonReductorOutput;
+import de.envite.greenbpm.carbonreductorconnector.service.DelayCalculator;
 import io.camunda.connector.test.outbound.OutboundConnectorContextBuilder;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-class DelayForGreenEnergyFunctionTest {
+class CarbonReductorConnectorFunctionTest {
 
-  static GreenEnergyInput greenEnergyInput;
-  static GreenEnergyOutput greenEnergyOutput_NoDelay;
-  static GreenEnergyOutput greenEnergyOutput_WithDelay;
+  static CarbonReductorInput carbonReductorInput;
+  static CarbonReductorOutput carbonReductorOutput_NoDelay;
+  static CarbonReductorOutput carbonReductorOutput_WithDelay;
 
   @BeforeAll
   static void init() {
-    greenEnergyInput = new GreenEnergyInput();
-    greenEnergyInput.setTimerDuration("PT5M");
-    greenEnergyInput.setLocation(NORWAY_EAST.regionname());
-    greenEnergyInput.setTimestamp("2022-10-20T11:35:45.826Z[Etc/UTC]");
-    greenEnergyOutput_NoDelay =
-        GreenEnergyOutput.builder()
+    carbonReductorInput = new CarbonReductorInput();
+    carbonReductorInput.setTimerDuration("PT5M");
+    carbonReductorInput.setLocation(NORWAY_EAST.regionname());
+    carbonReductorInput.setTimestamp("2022-10-20T11:35:45.826Z[Etc/UTC]");
+    carbonReductorOutput_NoDelay =
+        CarbonReductorOutput.builder()
             .originalCarbon(500.0)
             .actualCarbon(500.0)
             .savedCarbon(0.0)
             .executionDelayed(false)
             .delayedBy(0)
             .build();
-    greenEnergyOutput_WithDelay =
-        GreenEnergyOutput.builder()
+    carbonReductorOutput_WithDelay =
+        CarbonReductorOutput.builder()
             .originalCarbon(500.0)
             .actualCarbon(250.0)
             .savedCarbon(250.0)
@@ -62,24 +62,24 @@ class DelayForGreenEnergyFunctionTest {
   @Test
   void shouldNotDelay() throws Exception {
     DelayCalculator delayCalculator = mock(DelayCalculator.class);
-    when(delayCalculator.calculateDelay(any())).thenReturn(greenEnergyOutput_NoDelay);
+    when(delayCalculator.calculateDelay(any())).thenReturn(carbonReductorOutput_NoDelay);
 
-    var function = new DelayForGreenEnergyFunction(delayCalculator);
-    var context = OutboundConnectorContextBuilder.create().variables(greenEnergyInput).build();
+    var function = new CarbonReductorConnectorFunction(delayCalculator);
+    var context = OutboundConnectorContextBuilder.create().variables(carbonReductorInput).build();
 
-    GreenEnergyOutput output = (GreenEnergyOutput) function.execute(context);
+    CarbonReductorOutput output = (CarbonReductorOutput) function.execute(context);
     assertThat(output).isNotNull();
   }
 
   @Test
   void shouldDelay() throws Exception {
     DelayCalculator delayCalculator = mock(DelayCalculator.class);
-    when(delayCalculator.calculateDelay(any())).thenReturn(greenEnergyOutput_WithDelay);
+    when(delayCalculator.calculateDelay(any())).thenReturn(carbonReductorOutput_WithDelay);
 
-    var function = new DelayForGreenEnergyFunction(delayCalculator);
-    var context = OutboundConnectorContextBuilder.create().variables(greenEnergyInput).build();
+    var function = new CarbonReductorConnectorFunction(delayCalculator);
+    var context = OutboundConnectorContextBuilder.create().variables(carbonReductorInput).build();
 
-    GreenEnergyOutput output = (GreenEnergyOutput) function.execute(context);
+    CarbonReductorOutput output = (CarbonReductorOutput) function.execute(context);
     assertThat(output).isNotNull();
   }
 }

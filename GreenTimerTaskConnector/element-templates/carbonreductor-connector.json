@@ -1,7 +1,7 @@
 {
     "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
-    "name": "DelayForGreenEnergy Connector",
-    "id": "de.envite.greenbpm.connectors.delayforgreenenergytask.v1",
+    "name": "Carbon Reductor Connector",
+    "id": "de.envite.greenbpm.carbonreductorconnector.carbonreductortask.v1",
     "description": "Delays the process execution until greener energy is available",
     "documentationRef": "http://localhost:8080/",
     "icon": {
@@ -30,7 +30,7 @@
     "properties": [
         {
             "type": "Hidden",
-            "value": "de.envite.greenbpm.connectors.delayforgreenenergytask:1",
+            "value": "de.envite.greenbpm.carbonreductorconnector.carbonreductortask:1",
             "binding": {
                 "type": "zeebe:taskDefinition:type"
             }
