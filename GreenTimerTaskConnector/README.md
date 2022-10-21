@@ -28,13 +28,21 @@ Test the API with `curl -s "http://localhost:8090/emissions/forecasts/current?lo
 
 Congratulations - the API is now running locally.
 
-# Run Connector
-```bash
-mvn clean package
-java -cp 'target/deployment/DelayForGreenEnergyConnector-1.0.0-SNAPSHOT.jar' io.camunda.connector.runtime.jobworker.Main
-```
+# Run Connector locally
 
-## Environment Variables
-* ZEEBE_ADDRESS (e.g. c8-carbon-hack-zeebe-gateway:26500)
-* ZEEBE_INSECURE (e.g. true)
-* CARBON_AWARE_SDK_BASEPATH (e.g. http://localhost:8090)
+Configure the application using [application.properties](/src/main/resources/application.properties) for:
+
+1. Camunda Cloud
+
+```properties
+zeebe.client.cloud.cluster-id=xxx
+zeebe.client.cloud.client-id=xxx
+zeebe.client.cloud.client-secret=xxx
+zeebe.client.cloud.region=dsm-1
+```
+2. local Camunda Instance
+
+```properties
+zeebe.client.broker.gateway-address=127.0.0.1:26500
+zeebe.client.security.plaintext=true
+```
