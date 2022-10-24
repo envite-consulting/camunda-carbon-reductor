@@ -27,6 +27,5 @@ jobs:
           java-version: ${{ matrix.java }}
           cache: 'maven'
       - name: Build with Maven Wrapper
-        run: ./mvnw verify -DskipTests=true
-        working-directory: GreenTimerTaskConnector
+        run: ./mvnw verify
 
