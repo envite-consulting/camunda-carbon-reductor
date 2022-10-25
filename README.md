@@ -36,7 +36,7 @@ Start the carbon aware SDK locally which acts as a proxy to the WattTime-API:
 1. Create Docker image:
 ```bash
 git clone https://github.com/Green-Software-Foundation/carbon-aware-sdk.git
-cd src/CarbonAware.WebApi/src
+cd src
 docker build -t carbon-aware-sdk-webapi -f CarbonAware.WebApi/src/Dockerfile .
 ```
 
@@ -59,7 +59,7 @@ Congratulations 🎉 - the API is now running locally.
 
 ## Run Connector locally.
 
-Configure the application using [application.properties](/src/main/resources/application.properties) for. 
+Configure the application using [application.properties](/src/main/resources/application.properties). 
 You can run the Connector locally connected either to a Camunda Cloud or local Camunda instance:
 
 1. Camunda Cloud
