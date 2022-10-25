@@ -36,7 +36,7 @@ Start the carbon aware SDK locally which acts as a proxy to the WattTime-API:
 1. Create Docker image:
 ```bash
 git clone https://github.com/Green-Software-Foundation/carbon-aware-sdk.git
-cd src
+cd carbon-aware-sdk/src
 docker build -t carbon-aware-sdk-webapi -f CarbonAware.WebApi/src/Dockerfile .
 ```
 
