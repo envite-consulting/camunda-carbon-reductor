@@ -60,7 +60,7 @@ public class DelayCalculator {
       EmissionsData currentEmission,
       EmissionsDataDTO forecastedOptimalTime) {
     return isDelayStillRelevant(input.getTimestamp(), input.getTimerDuration())
-        && isBetterEmissionsinFuture(currentEmission, forecastedOptimalTime);
+        && isCleanerEnergyInFuture(currentEmission, forecastedOptimalTime);
   }
 
   private boolean isDelayStillRelevant(String jobTimestampString, String durationString) {
@@ -72,8 +72,8 @@ public class DelayCalculator {
         .isAfter(OffsetDateTime.now(ZoneOffset.UTC)));
   }
 
-  private boolean isBetterEmissionsinFuture(
-      EmissionsData currentEmission, EmissionsDataDTO forecastedOptimalTime) {
+  private boolean isCleanerEnergyInFuture(
+    EmissionsData currentEmission, EmissionsDataDTO forecastedOptimalTime) {
     return currentEmission.getRating() > forecastedOptimalTime.getValue();
   }
 
