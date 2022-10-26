@@ -1,14 +1,16 @@
 # 🌱⏲ Green Timer Task Connector
 
-The Carbon Reductor Connector allows you to optimize your carbon emissions running your processes in a 
-specific timeframe by not breaking the defined SLAs.
+The Carbon Reductor Connector allows you to time shift your processes' carbon emissions when energy is clean while still fulfilling the requested SLAs.
 
 # Table of Contents
 
 * ✨ [Features](#features)
 * 🚀 [Getting Started](#getting-started)
+  * [Register to Camunda Platform 8 SaaS](#register-to-camunda-platform-8-saas)
+  * [Create a cluster and client](#create-a-cluster-and-client)
+  * [Import Process Model to Camunda Platform 8](#import-process-model-to-camunda-platform-8)
   * [Run Carbon Aware SDK Web API locally](#run-carbon-aware-sdk-web-api-locally)
-  * [Run Connector locally](#run-connector-locally)
+  * [Run Connector](#run-connector-locally)
 * 📚 [Releases](#releases)
 * 📆 [Publications](#publications)
 * 📨 [Contact](#contact)
@@ -29,6 +31,23 @@ The Carbon Reductor Connector defines the following inputs:
 
 # 🚀Getting Started
 
+## Register to Camunda Platform 8 SaaS
+
+If you don't have a Camunda Platform 8 account you can create a 30-day trial: https://accounts.cloud.camunda.io/signup
+
+## Create a Cluster and Client
+
+* Login to Camunda Platform 8: https://camunda.io/
+* Create a cluster
+* Register a new client in the section "API". Select all scopes if unsure.
+
+## Import Process Model to Camunda Platform 8
+
+* Open the Camunda Web Modeler
+* Import the process model `exampleprocess/CarbonHack22Process.bpmn`
+* Start a new instance
+* Switch to Camunda Operate to see the token waiting at the connector
+
 ## Run Carbon Aware SDK Web API locally
 
 Start the carbon aware SDK locally which acts as a proxy to the WattTime-API:
@@ -40,19 +59,19 @@ cd carbon-aware-sdk/src
 docker build -t carbon-aware-sdk-webapi -f CarbonAware.WebApi/src/Dockerfile .
 ```
 
-2. Run Docker image:  
+2. Run Docker image:
 
-Note: Replace `wattTimeUsername` and `wattTimePassword` with your individual credentials in the following command.
+Note: Replace `<myWattTimeUsername>` and `<myWattTimePassword>` with your individual credentials in the following command.
 
 ```bash
 docker run -it --rm -p 8090:80 \
     -e CarbonAwareVars__CarbonIntensityDataSource="WattTime" \
-    -e WattTimeClient__Username="<wattTimeUsername>" \
-    -e WattTimeClient__Password="<wattTimePassword>" \
+    -e WattTimeClient__Username="<myWattTimeUsername>" \
+    -e WattTimeClient__Password="<myWattTimePassword>" \
   carbon-aware-sdk-webapi
 ```
 
-Test the API with `curl -s "http://localhost:8090/emissions/forecasts/current?location=westus2"`. 
+Test the API with `curl -s "http://localhost:8090/emissions/forecasts/current?location=westus2"`.
 This should return a lengthy JSON response.
 
 Congratulations 🎉 - the API is now running locally.
@@ -61,9 +80,9 @@ Congratulations 🎉 - the API is now running locally.
 
 Configure the application using [application.yml](/src/main/resources/application.yml). 
 
-You can run the Connector locally connected either to a Camunda Platform 8 SaaS or Camunda Platform 8 Self-Managed
+You can run the Connector connected either to a Camunda Platform 8 SaaS or Camunda Platform 8 Self-Managed
 
-1. Camunda Platform 8 SaaS
+1. Camunda Platform 8 SaaS (Recommended)
 
 ```yml
 zeebe:
@@ -80,13 +99,21 @@ zeebe:
 ```yml
 zeebe:
   client:
-    cloud:
-      clientId: xxx
-      clusterId: xxx
-      clientSecret: xxx
-      region: dsm-1
     broker.gateway-address: 127.0.0.1:26500
     security.plaintext: true
+```
+
+Once the Connector is running you will see log entries like the following.
+
+In case of a time window with dirty energy:
+```
+Time shifting job 4503599628706752 by PT1M30S
+Completing previously time shifted job 4503599628706752
+```
+
+In case of a time window with clean energy:
+```
+Executing job 4503599628706759 immediately
 ```
 
 # 📚Releases
