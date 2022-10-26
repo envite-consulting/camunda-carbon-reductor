@@ -1,0 +1,7 @@
+zeebe:
+  client:
+    cloud:
+      clientId: xxx
+      clusterId: xxx
+      clientSecret: xxx
+      region: dsm-1
