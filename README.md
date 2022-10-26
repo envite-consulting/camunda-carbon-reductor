@@ -57,25 +57,36 @@ This should return a lengthy JSON response.
 
 Congratulations 🎉 - the API is now running locally.
 
-## Run Connector locally.
+## Run Connector locally
 
-Configure the application using [application.properties](/src/main/resources/application.properties). 
-You can run the Connector locally connected either to a Camunda Cloud or local Camunda instance:
+Configure the application using [application.yml](/src/main/resources/application.yml). 
 
-1. Camunda Cloud
+You can run the Connector locally connected either to a Camunda Platform 8 SaaS or Camunda Platform 8 Self-Managed
 
-```properties
-zeebe.client.cloud.cluster-id=xxx
-zeebe.client.cloud.client-id=xxx
-zeebe.client.cloud.client-secret=xxx
-zeebe.client.cloud.region=dsm-1
+1. Camunda Platform 8 SaaS
+
+```yml
+zeebe:
+  client:
+    cloud:
+      clientId: xxx
+      clusterId: xxx
+      clientSecret: xxx
+      region: dsm-1
 ```
 
-3. local Camunda Instance
+2. Camunda Platform 8 Self-Managed
 
-```properties
-zeebe.client.broker.gateway-address=127.0.0.1:26500
-zeebe.client.security.plaintext=true
+```yml
+zeebe:
+  client:
+    cloud:
+      clientId: xxx
+      clusterId: xxx
+      clientSecret: xxx
+      region: dsm-1
+    broker.gateway-address: 127.0.0.1:26500
+    security.plaintext: true
 ```
 
 # 📚Releases
