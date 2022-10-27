@@ -21,4 +21,8 @@ public class Duration extends ValueObject<String> {
         java.time.Duration duration = java.time.Duration.parse(this.getValue());
         return duration.toMillis();
     }
+
+    public int asDurationInMinutes() {
+        return (int) Math.ceil(Double.valueOf(asDuration()/1000) / 60);
+    }
 }

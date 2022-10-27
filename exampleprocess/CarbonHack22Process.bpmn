@@ -24,8 +24,15 @@
         <zeebe:taskDefinition type="de.envite.greenbpm.carbonreductorconnector.carbonreductortask:1" />
         <zeebe:ioMapping>
           <zeebe:input source="=now()" target="timestamp" />
-          <zeebe:input source="GERMANY_WEST_CENTRAL" target="location" />
-          <zeebe:input source="PT5M" target="timerDuration" />
+          <zeebe:input source="PT12H" target="timerDuration" />
+          <zeebe:input source="PT10M" target="remainingDuration" />
+          <zeebe:input source="germanywestcentral" target="location" />
+          <zeebe:input source="slaBasedConfiguration" target="slaBasedOrAbsoluteDuration" />
+          <zeebe:input source="=now()" target="milestone" />
+          <zeebe:input source="PT10M" target="remainingProcessDuration" />
+          <zeebe:input source="PT1H" target="maximumProcessDuration" />
+          <zeebe:input source="timeshiftWindowOnly" target="carbonReductorMode" />
+          <zeebe:input source="PT18H" target="timeshiftWindow" />
         </zeebe:ioMapping>
         <zeebe:taskHeaders>
           <zeebe:header key="resultExpression" value="={&#10;  &#34;wasExecutionDelayed&#34;: response.executionDelayed,&#10;  &#34;delayedByInMs&#34;: response.delayedBy,&#10;  &#34;originalCarbon&#34;: response.originalCarbon,&#10;  &#34;actualCarbon&#34;: response.actualCarbon,&#10;  &#34;savedCarbonPct&#34;: response.savedCarbon&#10;}" />

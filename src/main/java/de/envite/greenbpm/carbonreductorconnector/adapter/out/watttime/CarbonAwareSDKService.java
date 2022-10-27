@@ -40,9 +40,9 @@ public class CarbonAwareSDKService implements CarbonEmissionQuery {
   }
 
   @Override
-  public EmissionTimeframe getCurrentEmission(Location location, Duration duration) throws CarbonEmissionQueryException {
+  public EmissionTimeframe getCurrentEmission(Location location, Duration duration, Duration executiontime) throws CarbonEmissionQueryException {
     EmissionsData currentEmission = getEmission(location.getValue());
-    EmissionsDataDTO forecastedOptimalTime = getOptimalForecastUntil(location.getValue(), duration.asDate());
+    EmissionsDataDTO forecastedOptimalTime = getOptimalForecastUntil(location.getValue(), duration.asDate(), executiontime.asDurationInMinutes());
 
     return new EmissionTimeframe(
             new OptimalTime(OffsetDateTime.parse(forecastedOptimalTime.getTimestamp().toString())),
@@ -57,7 +57,7 @@ public class CarbonAwareSDKService implements CarbonEmissionQuery {
       emissionsDataForLocationByTimeWithHttpInfo =
           client.getEmissionsDataForLocationByTimeWithHttpInfo(
               location,
-              org.threeten.bp.OffsetDateTime.now(ZoneOffset.UTC).minusMinutes(10),
+              org.threeten.bp.OffsetDateTime.now(ZoneOffset.UTC).minusMinutes(1000),
               org.threeten.bp.OffsetDateTime.now(ZoneOffset.UTC).plusMinutes(5));
     } catch (ApiException e) {
       log.error(
@@ -69,13 +69,13 @@ public class CarbonAwareSDKService implements CarbonEmissionQuery {
     return emissionsDataForLocationByTimeWithHttpInfo.getData().get(0);
   }
 
-  private EmissionsDataDTO getOptimalForecastUntil(String location, OffsetDateTime until)
+  private EmissionsDataDTO getOptimalForecastUntil(String location, OffsetDateTime until, int windowsize)
       throws CarbonEmissionQueryException {
     ApiResponse<List<EmissionsForecastDTO>> currentForecastDataWithHttpInfo = null;
     try {
       currentForecastDataWithHttpInfo =
           client.getCurrentForecastDataWithHttpInfo(
-              List.of(location), null, org.threeten.bp.OffsetDateTime.parse(until.toString()), null);
+              List.of(location), null, org.threeten.bp.OffsetDateTime.parse(until.toString()), windowsize);
     } catch (ApiException e) {
       log.error(
           "Error when calling the CarbonAwareSDK for the optimalForecastUntil: {}",
