@@ -1,14 +1,16 @@
-package de.envite.greenbpm.carbonreductorconnector;
+package de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.envite.greenbpm.carbonreductorconnector.model.CarbonReductorInput;
-import de.envite.greenbpm.carbonreductorconnector.model.CarbonReductorOutput;
-import de.envite.greenbpm.carbonreductorconnector.service.DelayCalculator;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.CarbonReductorInput;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.CarbonReductorOutput;
+import de.envite.greenbpm.carbonreductorconnector.usecase.in.DelayCalculator;
 import io.camunda.connector.api.validation.ValidationProvider;
 import io.camunda.zeebe.client.api.response.ActivatedJob;
 import io.camunda.zeebe.client.api.worker.JobClient;
 import io.camunda.zeebe.spring.client.annotation.JobWorker;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -17,19 +19,13 @@ import java.util.ServiceLoader;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class CarbonReductorWorker {
 
-    private DelayCalculator delayCalculator;
+    private final DelayCalculator delayCalculator;
 
-    public CarbonReductorWorker() {
-        this(new DelayCalculator());
-    }
-
-    public CarbonReductorWorker(DelayCalculator delayCalculator) {
-        this.delayCalculator = delayCalculator;
-    }
-
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper()
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     private static final int RETRIES_MAGIC_VALUE = 999;
 

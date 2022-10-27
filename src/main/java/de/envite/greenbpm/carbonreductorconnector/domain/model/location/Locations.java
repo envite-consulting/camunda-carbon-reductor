@@ -1,4 +1,4 @@
-package de.envite.greenbpm.carbonreductorconnector.service;
+package de.envite.greenbpm.carbonreductorconnector.domain.model.location;
 
 public enum Locations {
   EUROPE_NORTH("northeurope"),
@@ -22,5 +22,9 @@ public enum Locations {
 
   public String regionname() {
     return this.regionname;
+  }
+
+  public Location asLocation() {
+    return new Location(this.regionname);
   }
 }

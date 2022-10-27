@@ -1,7 +1,8 @@
-package de.envite.greenbpm.carbonreductorconnector.model;
+package de.envite.greenbpm.carbonreductorconnector.domain.model;
+
+import lombok.Builder;
 
 import java.util.Objects;
-import lombok.Builder;
 
 @Builder
 public class CarbonReductorOutput {
