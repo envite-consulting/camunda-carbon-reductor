@@ -11,6 +11,7 @@ import de.envite.greenbpm.carbonreductorconnector.domain.model.CarbonReductorOut
 import de.envite.greenbpm.carbonreductorconnector.domain.model.ExeceutionTimestamp;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.location.Location;
 import de.envite.greenbpm.carbonreductorconnector.domain.service.DelayCalculatorService;
+import io.camunda.zeebe.client.ZeebeClient;
 import io.camunda.zeebe.client.api.ZeebeFuture;
 import io.camunda.zeebe.client.api.response.ActivatedJob;
 import io.camunda.zeebe.client.api.worker.JobClient;
@@ -50,8 +51,9 @@ class CarbonReductorWorkerTest {
   void shouldNotTimeShiftWhenEnergyIsClean() throws Exception {
     DelayCalculatorService delayCalculatorService = mock(DelayCalculatorService.class);
     when(delayCalculatorService.calculateDelay(any())).thenReturn(carbonReductorOutput_Clean);
+    ZeebeClient client = mock(ZeebeClient.class, RETURNS_DEEP_STUBS);
 
-    var worker = new CarbonReductorWorker(delayCalculatorService);
+    var worker = new CarbonReductorWorker(client, delayCalculatorService);
 
     ActivatedJob job = mock(ActivatedJob.class);
     when(job.getVariables()).thenReturn("{\n" +
@@ -59,11 +61,13 @@ class CarbonReductorWorkerTest {
             "              \"location\": \"norwayeast\",\n" +
             "              \"timestamp\": \"2022-10-20T11:35:45.826Z[Etc/UTC]\"\n" +
             "            }");
-    JobClient client = mock(JobClient.class, RETURNS_DEEP_STUBS);
-    when(job.getRetries()).thenReturn(3);
-    when(client.newCompleteCommand(job).send()).thenReturn(mock(ZeebeFuture.class));
-    worker.execute(client, job);
 
+    when(job.getRetries()).thenReturn(3);
+    when(client.newSetVariablesCommand(job.getElementInstanceKey()).variables(any(CarbonReductorOutput.class)).send()).thenReturn(mock(ZeebeFuture.class));
+    when(client.newCompleteCommand(job).send()).thenReturn(mock(ZeebeFuture.class));
+    worker.execute(job);
+
+    verify(client, times(2)).newSetVariablesCommand(anyLong());
     verify(client, times(2)).newCompleteCommand(job);
   }
 
@@ -71,8 +75,9 @@ class CarbonReductorWorkerTest {
   void shouldTimeShiftWhenEnergyIsDirty() throws Exception {
     DelayCalculatorService delayCalculatorService = mock(DelayCalculatorService.class);
     when(delayCalculatorService.calculateDelay(any())).thenReturn(carbonReductorOutput_Dirty);
+    ZeebeClient client = mock(ZeebeClient.class, RETURNS_DEEP_STUBS);
 
-    var worker = new CarbonReductorWorker(delayCalculatorService);
+    var worker = new CarbonReductorWorker(client, delayCalculatorService);
 
     ActivatedJob job = mock(ActivatedJob.class);
     when(job.getVariables()).thenReturn("{\n" +
@@ -80,28 +85,31 @@ class CarbonReductorWorkerTest {
             "              \"location\": \"norwayeast\",\n" +
             "              \"timestamp\": \"2022-10-20T11:35:45.826Z[Etc/UTC]\"\n" +
             "            }");
-    JobClient client = mock(JobClient.class, RETURNS_DEEP_STUBS);
     when(job.getRetries()).thenReturn(3);
+    when(client.newSetVariablesCommand(job.getElementInstanceKey()).variables(any(CarbonReductorOutput.class)).send()).thenReturn(mock(ZeebeFuture.class));
     when(client.newFailCommand(job).retries(999).retryBackoff(any(Duration.class)).send()).thenReturn(mock(ZeebeFuture.class));
-    worker.execute(client, job);
+    worker.execute(job);
 
+    verify(client, times(2)).newSetVariablesCommand(job.getElementInstanceKey());
     verify(client, times(2)).newFailCommand(job); //One interaction is already for the setup
   }
 
   @Test
   void shouldCompleteAfterTimeShift() throws Exception {
     DelayCalculatorService delayCalculatorService = mock(DelayCalculatorService.class);
+    ZeebeClient client = mock(ZeebeClient.class, RETURNS_DEEP_STUBS);
 
-    var worker = new CarbonReductorWorker(delayCalculatorService);
+    var worker = new CarbonReductorWorker(client, delayCalculatorService);
 
     ActivatedJob job = mock(ActivatedJob.class);
-    JobClient client = mock(JobClient.class, RETURNS_DEEP_STUBS);
 
     when(job.getRetries()).thenReturn(999);
+    when(client.newSetVariablesCommand(job.getElementInstanceKey()).variables(anyLong()).send()).thenReturn(mock(ZeebeFuture.class));
     when(client.newCompleteCommand(job).send()).thenReturn(mock(ZeebeFuture.class));
-    worker.execute(client, job);
+    worker.execute(job);
 
     verify(delayCalculatorService, never()).calculateDelay(any(CarbonReductorInput.class));
+    verify(client, times(1)).newSetVariablesCommand(job.getElementInstanceKey());
     verify(client, times(2)).newCompleteCommand(job);
   }
 }
