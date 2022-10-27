@@ -1,12 +1,16 @@
 package de.envite.greenbpm.carbonreductorconnector;
 
-import static de.envite.greenbpm.carbonreductorconnector.service.Locations.NORWAY_EAST;
+import static de.envite.greenbpm.carbonreductorconnector.TestDataGenerator.createCarbonReductorInput;
+import static de.envite.greenbpm.carbonreductorconnector.domain.model.location.Locations.NORWAY_EAST;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-import de.envite.greenbpm.carbonreductorconnector.model.CarbonReductorInput;
-import de.envite.greenbpm.carbonreductorconnector.model.CarbonReductorOutput;
-import de.envite.greenbpm.carbonreductorconnector.service.DelayCalculator;
+import de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.CarbonReductorWorker;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.CarbonReductorInput;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.CarbonReductorOutput;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.ExeceutionTimestamp;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.location.Location;
+import de.envite.greenbpm.carbonreductorconnector.domain.service.DelayCalculatorService;
 import io.camunda.zeebe.client.api.ZeebeFuture;
 import io.camunda.zeebe.client.api.response.ActivatedJob;
 import io.camunda.zeebe.client.api.worker.JobClient;
@@ -23,10 +27,7 @@ class CarbonReductorWorkerTest {
 
   @BeforeAll
   static void init() {
-    carbonReductorInput = new CarbonReductorInput();
-    carbonReductorInput.setTimerDuration("PT5M");
-    carbonReductorInput.setLocation(NORWAY_EAST.regionname());
-    carbonReductorInput.setTimestamp("2022-10-20T11:35:45.826Z[Etc/UTC]");
+    carbonReductorInput = createCarbonReductorInput();
     carbonReductorOutput_Clean =
         CarbonReductorOutput.builder()
             .originalCarbon(500.0)
@@ -47,10 +48,10 @@ class CarbonReductorWorkerTest {
 
   @Test
   void shouldNotTimeShiftWhenEnergyIsClean() throws Exception {
-    DelayCalculator delayCalculator = mock(DelayCalculator.class);
-    when(delayCalculator.calculateDelay(any())).thenReturn(carbonReductorOutput_Clean);
+    DelayCalculatorService delayCalculatorService = mock(DelayCalculatorService.class);
+    when(delayCalculatorService.calculateDelay(any())).thenReturn(carbonReductorOutput_Clean);
 
-    var worker = new CarbonReductorWorker(delayCalculator);
+    var worker = new CarbonReductorWorker(delayCalculatorService);
 
     ActivatedJob job = mock(ActivatedJob.class);
     when(job.getVariables()).thenReturn("{\n" +
@@ -68,10 +69,10 @@ class CarbonReductorWorkerTest {
 
   @Test
   void shouldTimeShiftWhenEnergyIsDirty() throws Exception {
-    DelayCalculator delayCalculator = mock(DelayCalculator.class);
-    when(delayCalculator.calculateDelay(any())).thenReturn(carbonReductorOutput_Dirty);
+    DelayCalculatorService delayCalculatorService = mock(DelayCalculatorService.class);
+    when(delayCalculatorService.calculateDelay(any())).thenReturn(carbonReductorOutput_Dirty);
 
-    var worker = new CarbonReductorWorker(delayCalculator);
+    var worker = new CarbonReductorWorker(delayCalculatorService);
 
     ActivatedJob job = mock(ActivatedJob.class);
     when(job.getVariables()).thenReturn("{\n" +
@@ -89,9 +90,9 @@ class CarbonReductorWorkerTest {
 
   @Test
   void shouldCompleteAfterTimeShift() throws Exception {
-    DelayCalculator delayCalculator = mock(DelayCalculator.class);
+    DelayCalculatorService delayCalculatorService = mock(DelayCalculatorService.class);
 
-    var worker = new CarbonReductorWorker(delayCalculator);
+    var worker = new CarbonReductorWorker(delayCalculatorService);
 
     ActivatedJob job = mock(ActivatedJob.class);
     JobClient client = mock(JobClient.class, RETURNS_DEEP_STUBS);
@@ -100,7 +101,7 @@ class CarbonReductorWorkerTest {
     when(client.newCompleteCommand(job).send()).thenReturn(mock(ZeebeFuture.class));
     worker.execute(client, job);
 
-    verify(delayCalculator, never()).calculateDelay(any(CarbonReductorInput.class));
+    verify(delayCalculatorService, never()).calculateDelay(any(CarbonReductorInput.class));
     verify(client, times(2)).newCompleteCommand(job);
   }
 }

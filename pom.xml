@@ -28,6 +28,7 @@
         <version.gson>2.9.1</version.gson>
         <version.gson-extras>1.0.0</version.gson-extras>
         <version.lombok>1.18.24</version.lombok>
+        <version.domainprimitives>0.1.0</version.domainprimitives>
 
         <version.swagger-core>2.0.0</version.swagger-core>
         <version.okhttp>2.7.5</version.okhttp>
@@ -62,6 +63,13 @@
             <artifactId>hibernate-validator</artifactId>
             <version>${version.hibernate-validator}</version>
         </dependency>
+
+        <dependency>
+            <groupId>io.github.domain-primitives</groupId>
+            <artifactId>domainprimitives-java</artifactId>
+            <version>${version.domainprimitives}</version>
+        </dependency>
+
         <!-- This dependency will be removed after camunda/zeebe#9859 is resolved. -->
         <dependency>
             <groupId>org.apache.commons</groupId>

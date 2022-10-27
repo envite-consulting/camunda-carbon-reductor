@@ -71,51 +71,51 @@
             "choices": [
                 {
                     "name": "Europe North",
-                    "value": "EUROPE_NORTH"
+                    "value": "northeurope"
                 },
                 {
                     "name": "Europe West",
-                    "value": "EUROPE_WEST"
+                    "value": "westeurope"
                 },
                 {
                     "name": "France Central",
-                    "value": "FRANCE_CENTRAL"
+                    "value": "francecentral"
                 },
                 {
                     "name": "France South",
-                    "value": "FRANCE_SOUTH"
+                    "value": "francesouth"
                 },
                 {
                     "name": "Germany North",
-                    "value": "GERMANY_NORTH"
+                    "value": "germanynorth"
                 },
                 {
                     "name": "Germany West Central",
-                    "value": "GERMANY_WEST_CENTRAL"
+                    "value": "germanywestcentral"
                 },
                 {
                     "name": "UK South",
-                    "value": "UK_SOUTH"
+                    "value": "uksouth"
                 },
                 {
                     "name": "UK West",
-                    "value": "UK_WEST"
+                    "value": "ukwest"
                 },
                 {
                     "name": "Switzerland North",
-                    "value": "SWITZERLAND_NORTH"
+                    "value": "switzerlandnorth"
                 },
                 {
                     "name": "Switzerland West",
-                    "value": "SWITZERLAND_WEST"
+                    "value": "switzerlandwest"
                 },
                 {
                     "name": "Sweden Central",
-                    "value": "SWEDEN_CENTRAL"
+                    "value": "swedencentral"
                 },
                 {
                     "name": "Norway East",
-                    "value": "NORWAY_EAST"
+                    "value": "norwayeast"
                 }
             ],
             "binding": {
