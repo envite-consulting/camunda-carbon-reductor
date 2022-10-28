@@ -5,35 +5,37 @@
       <bpmn:outgoing>Flow_0jcx6uy</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="Flow_0jcx6uy" sourceRef="StartEvent_1" targetRef="Activity_009zkke" />
-    <bpmn:sequenceFlow id="Flow_0992w8j" sourceRef="Activity_009zkke" targetRef="Activity_1jkq1nq" />
+    <bpmn:sequenceFlow id="Flow_0992w8j" sourceRef="Activity_009zkke" targetRef="Activity_0lfisrq" />
     <bpmn:endEvent id="Event_06yxblx" name="End">
       <bpmn:incoming>Flow_1mg7dpn</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_1mg7dpn" sourceRef="Activity_0yhm5s8" targetRef="Event_06yxblx" />
     <bpmn:manualTask id="Activity_0yhm5s8" name="someMoreWork">
-      <bpmn:incoming>Flow_00hi7ol</bpmn:incoming>
+      <bpmn:incoming>Flow_0mg46vj</bpmn:incoming>
       <bpmn:outgoing>Flow_1mg7dpn</bpmn:outgoing>
     </bpmn:manualTask>
     <bpmn:manualTask id="Activity_009zkke" name="someWork">
       <bpmn:incoming>Flow_0jcx6uy</bpmn:incoming>
       <bpmn:outgoing>Flow_0992w8j</bpmn:outgoing>
     </bpmn:manualTask>
-    <bpmn:sequenceFlow id="Flow_00hi7ol" sourceRef="Activity_1jkq1nq" targetRef="Activity_0yhm5s8" />
-    <bpmn:serviceTask id="Activity_1jkq1nq" name="timeshift to cleaner energy" zeebe:modelerTemplate="de.envite.greenbpm.carbonreductorconnector.carbonreductortask.v1" zeebe:modelerTemplateIcon="data:image/svg+xml,%3Csvg xmlns=&#39;http://www.w3.org/2000/svg&#39; viewBox=&#39;0 0 100 100&#39;%3E%3Ctext y=&#39;.9em&#39; font-size=&#39;90&#39;%3E🌱%3C/text%3E%3C/svg%3E">
+    <bpmn:sequenceFlow id="Flow_0mg46vj" sourceRef="Activity_0lfisrq" targetRef="Activity_0yhm5s8" />
+    <bpmn:serviceTask id="Activity_0lfisrq" name="time shift to clean energy" zeebe:modelerTemplate="de.envite.greenbpm.carbonreductorconnector.carbonreductortask.v1" zeebe:modelerTemplateIcon="data:image/svg+xml,%3Csvg xmlns=&#39;http://www.w3.org/2000/svg&#39; viewBox=&#39;0 0 100 100&#39;%3E%3Ctext y=&#39;.9em&#39; font-size=&#39;90&#39;%3E🌱%3C/text%3E%3C/svg%3E">
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="de.envite.greenbpm.carbonreductorconnector.carbonreductortask:1" />
         <zeebe:ioMapping>
-          <zeebe:input target="location" />
-          <zeebe:input target="carbonReductorMode" />
+          <zeebe:input source="slaBasedConfiguration" target="carbonReductorMode" />
           <zeebe:input source="=now()" target="milestone" />
           <zeebe:input source="PT6H" target="remainingProcessDuration" />
           <zeebe:input source="PT12H" target="maximumProcessDuration" />
-          <zeebe:input source="PT5M" target="timeshiftWindow" />
+          <zeebe:input source="PT5H" target="timeshiftWindow" />
+          <zeebe:input source="uksouth" target="location" />
         </zeebe:ioMapping>
-        <zeebe:taskHeaders />
+        <zeebe:taskHeaders>
+          <zeebe:header key="resultExpression" value="={&#10;  &#34;wasExecutionDelayed&#34;: response.executionDelayed,&#10;  &#34;delayedByInMs&#34;: response.delayedBy,&#10;  &#34;originalCarbon&#34;: response.originalCarbon,&#10;  &#34;actualCarbon&#34;: response.actualCarbon,&#10;  &#34;savedCarbonPct&#34;: response.savedCarbon,&#10;  &#34;reducedCarbon&#34;: response.reducedCarbon&#10;}" />
+        </zeebe:taskHeaders>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0992w8j</bpmn:incoming>
-      <bpmn:outgoing>Flow_00hi7ol</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0mg46vj</bpmn:outgoing>
     </bpmn:serviceTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -56,8 +58,8 @@
       <bpmndi:BPMNShape id="Activity_0jl9rz8_di" bpmnElement="Activity_009zkke">
         <dc:Bounds x="240" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0w3c5io_di" bpmnElement="Activity_1jkq1nq">
-        <dc:Bounds x="420" y="80" width="100" height="80" />
+      <bpmndi:BPMNShape id="Activity_1fnv86p_di" bpmnElement="Activity_0lfisrq">
+        <dc:Bounds x="410" y="80" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_0jcx6uy_di" bpmnElement="Flow_0jcx6uy">
@@ -66,14 +68,14 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0992w8j_di" bpmnElement="Flow_0992w8j">
         <di:waypoint x="340" y="120" />
-        <di:waypoint x="420" y="120" />
+        <di:waypoint x="410" y="120" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1mg7dpn_di" bpmnElement="Flow_1mg7dpn">
         <di:waypoint x="690" y="120" />
         <di:waypoint x="742" y="120" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_00hi7ol_di" bpmnElement="Flow_00hi7ol">
-        <di:waypoint x="520" y="120" />
+      <bpmndi:BPMNEdge id="Flow_0mg46vj_di" bpmnElement="Flow_0mg46vj">
+        <di:waypoint x="510" y="120" />
         <di:waypoint x="590" y="120" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>

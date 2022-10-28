@@ -114,10 +114,6 @@
                 {
                     "name": "SLA based configuration",
                     "value": "slaBasedConfiguration"
-                },
-                {
-                    "name": "timeshift window only",
-                    "value": "timeshiftWindowOnly"
                 }
             ],
             "binding": {
@@ -162,19 +158,6 @@
             "binding": {
                 "type": "zeebe:input",
                 "name": "maximumProcessDuration"
-            }
-        },
-        {
-            "label": "timeshift window",
-            "group": "timeshiftWindowConfiguration",
-            "id": "timeshift window",
-            "description": "The timer duration in ISO 8601",
-            "value": "PT5M",
-            "type": "String",
-            "feel": "optional",
-            "binding": {
-                "type": "zeebe:input",
-                "name": "timeshiftWindow"
             }
         },
         {
