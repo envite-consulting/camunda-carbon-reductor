@@ -18,6 +18,7 @@ public class CarbonReduction extends Aggregate {
     this.originalCarbon = originalCarbon;
     this.actualCarbon = actualCarbon;
     this.savedCarbon = savedCarbon;
+    this.validate();
   }
 
   @Override
@@ -27,5 +28,9 @@ public class CarbonReduction extends Aggregate {
     validateNotNull(actualCarbon, "actual Carbon");
     validateNotNull(savedCarbon, "saved Carbon");
     evaluateValidations();
+  }
+
+  public Carbon calculateReduction() {
+    return new Carbon(originalCarbon.getValue() - actualCarbon.getValue());
   }
 }

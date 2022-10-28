@@ -36,6 +36,7 @@ public class CarbonReductorVariableMapper {
         outputVariable.setActualCarbon(output.getActualCarbon().getValue());
         outputVariable.setOriginalCarbon(output.getOriginalCarbon().getValue());
         outputVariable.setSavedCarbon(output.getSavedCarbon().getValue());
+        outputVariable.setCarbonReduction(output.calculateReduction().getValue());
         return outputVariable;
     }
 }
