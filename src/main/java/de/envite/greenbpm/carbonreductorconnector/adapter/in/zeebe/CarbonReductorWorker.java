@@ -1,11 +1,11 @@
 package de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe;
 
 import de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.variable.CarbonReductorInputVariable;
+import de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.variable.CarbonReductorOutputVariable;
 import de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.variable.CarbonReductorVariableMapper;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.CarbonReductorConfiguration;
-import de.envite.greenbpm.carbonreductorconnector.domain.model.CarbonReductorOutput;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.CarbonReduction;
 import de.envite.greenbpm.carbonreductorconnector.usecase.in.DelayCalculator;
-import io.camunda.connector.api.validation.ValidationProvider;
 import io.camunda.zeebe.client.ZeebeClient;
 import io.camunda.zeebe.client.api.response.ActivatedJob;
 import io.camunda.zeebe.spring.client.annotation.JobWorker;
@@ -14,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
-import java.util.ServiceLoader;
 
 @Component
 @Slf4j
@@ -32,12 +31,12 @@ public class CarbonReductorWorker {
     public void execute(ActivatedJob job) throws Exception {
         if (timeShiftMustBeDetermined(job)) {
             CarbonReductorConfiguration carbonReductorConfiguration = getCarbonReductorInput(job);
-            CarbonReductorOutput carbonReductorOutput = delayCalculator.calculateDelay(carbonReductorConfiguration);
+            CarbonReduction carbonReductorOutput = delayCalculator.calculateDelay(carbonReductorConfiguration);
 
             writeOutputToProcessInstance(job, carbonReductorOutput);
 
-            if (carbonReductorOutput.isExecutionDelayed()) {
-                Duration duration = Duration.ofMillis(carbonReductorOutput.getDelayedBy());
+            if (carbonReductorOutput.getDelay().isExecutionDelayed()) {
+                Duration duration = Duration.ofMillis(carbonReductorOutput.getDelay().getDelayedBy());
                 log.info("Time shifting job {} by {}", job.getProcessInstanceKey(), duration);
                 failJobWithRetry(job, duration);
             } else {
@@ -72,24 +71,14 @@ public class CarbonReductorWorker {
                 });
     }
 
-    private void writeOutputToProcessInstance(ActivatedJob job, CarbonReductorOutput output) {
+    private void writeOutputToProcessInstance(ActivatedJob job, CarbonReduction output) {
+        CarbonReductorOutputVariable outputVariable = variableMapper.mapFromDomain(output);
         client.newSetVariablesCommand(job.getElementInstanceKey())
-                .variables(output)
+                .variables(outputVariable)
                 .send();
     }
 
     private boolean timeShiftMustBeDetermined(ActivatedJob job) {
         return job.getRetries() != RETRIES_MAGIC_VALUE;
-    }
-
-    private ValidationProvider getValidationProvider () {
-        return ServiceLoader.load(ValidationProvider.class)
-                .findFirst()
-                .orElseThrow(
-                        () ->
-                                new IllegalStateException(
-                                        "Please bind an implementation to "
-                                                + ValidationProvider.class.getName()
-                                                + " via SPI"));
     }
 }
