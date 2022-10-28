@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1e0e918" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.4.2" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.1.0">
+  <bpmn:collaboration id="Collaboration_ImageProcessing">
+    <bpmn:participant id="Participant_Nasa" name="Space Center Houston" processRef="NasaImageProcessing" />
+    <bpmn:participant id="Participant_MarsRover" name="Mars Rover" />
+    <bpmn:messageFlow id="Flow_07bc21p" sourceRef="Participant_MarsRover" targetRef="Event_TransmissionReceived" />
+  </bpmn:collaboration>
+  <bpmn:process id="NasaImageProcessing" name="NASA Image Processing" isExecutable="true">
+    <bpmn:startEvent id="Event_TransmissionReceived" name="Transmission received">
+      <bpmn:outgoing>Flow_03b5f3o</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:parallelGateway id="Gateway_SplitProcessing">
+      <bpmn:incoming>Flow_0x4j7xr</bpmn:incoming>
+      <bpmn:outgoing>Flow_0elx5ld</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0k12ehs</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1jgk57k</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:parallelGateway id="Gateway_JoinProcessing">
+      <bpmn:incoming>Flow_04sk3cq</bpmn:incoming>
+      <bpmn:incoming>Flow_1kfeua2</bpmn:incoming>
+      <bpmn:incoming>Flow_1dqrdrn</bpmn:incoming>
+      <bpmn:outgoing>Flow_05lrw3m</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:endEvent id="Event_TransmissionProcessed" name="Transmission processed">
+      <bpmn:incoming>Flow_05lrw3m</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:manualTask id="Activity_GeneratePreviewImage" name="Generate preview image">
+      <bpmn:incoming>Flow_03b5f3o</bpmn:incoming>
+      <bpmn:outgoing>Flow_14e4zmj</bpmn:outgoing>
+    </bpmn:manualTask>
+    <bpmn:manualTask id="Activity_Parallel2" name="Mosaic RDR&#10;processing">
+      <bpmn:incoming>Flow_0elx5ld</bpmn:incoming>
+      <bpmn:outgoing>Flow_04sk3cq</bpmn:outgoing>
+    </bpmn:manualTask>
+    <bpmn:manualTask id="Activity_Parallel3" name="...&#10;processing">
+      <bpmn:incoming>Flow_1jgk57k</bpmn:incoming>
+      <bpmn:outgoing>Flow_1dqrdrn</bpmn:outgoing>
+    </bpmn:manualTask>
+    <bpmn:manualTask id="Activity_Parallel1" name="Terrain processing">
+      <bpmn:incoming>Flow_0k12ehs</bpmn:incoming>
+      <bpmn:outgoing>Flow_1kfeua2</bpmn:outgoing>
+    </bpmn:manualTask>
+    <bpmn:serviceTask id="Activity_TimeShiftToCleanEnergy" name="Time shift to clean energy" zeebe:modelerTemplate="de.envite.greenbpm.carbonreductorconnector.carbonreductortask.v1" zeebe:modelerTemplateIcon="data:image/svg+xml,%3Csvg xmlns=&#39;http://www.w3.org/2000/svg&#39; viewBox=&#39;0 0 100 100&#39;%3E%3Ctext y=&#39;.9em&#39; font-size=&#39;90&#39;%3E🌱%3C/text%3E%3C/svg%3E">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="de.envite.greenbpm.carbonreductorconnector.carbonreductortask:1" />
+        <zeebe:ioMapping>
+          <zeebe:input source="slaBasedConfiguration" target="carbonReductorMode" />
+          <zeebe:input source="=now()" target="milestone" />
+          <zeebe:input source="PT6H" target="remainingProcessDuration" />
+          <zeebe:input source="PT12H" target="maximumProcessDuration" />
+          <zeebe:input source="PT5H" target="timeshiftWindow" />
+          <zeebe:input source="uksouth" target="location" />
+        </zeebe:ioMapping>
+        <zeebe:taskHeaders>
+          <zeebe:header key="resultExpression" value="={&#10;  &#34;wasExecutionDelayed&#34;: response.executionDelayed,&#10;  &#34;delayedByInMs&#34;: response.delayedBy,&#10;  &#34;originalCarbon&#34;: response.originalCarbon,&#10;  &#34;actualCarbon&#34;: response.actualCarbon,&#10;  &#34;savedCarbonPct&#34;: response.savedCarbon,&#10;  &#34;reducedCarbon&#34;: response.reducedCarbon&#10;}" />
+        </zeebe:taskHeaders>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_14e4zmj</bpmn:incoming>
+      <bpmn:outgoing>Flow_0x4j7xr</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_03b5f3o" sourceRef="Event_TransmissionReceived" targetRef="Activity_GeneratePreviewImage" />
+    <bpmn:sequenceFlow id="Flow_0x4j7xr" sourceRef="Activity_TimeShiftToCleanEnergy" targetRef="Gateway_SplitProcessing" />
+    <bpmn:sequenceFlow id="Flow_0elx5ld" sourceRef="Gateway_SplitProcessing" targetRef="Activity_Parallel2" />
+    <bpmn:sequenceFlow id="Flow_0k12ehs" sourceRef="Gateway_SplitProcessing" targetRef="Activity_Parallel1" />
+    <bpmn:sequenceFlow id="Flow_1jgk57k" sourceRef="Gateway_SplitProcessing" targetRef="Activity_Parallel3" />
+    <bpmn:sequenceFlow id="Flow_04sk3cq" sourceRef="Activity_Parallel2" targetRef="Gateway_JoinProcessing" />
+    <bpmn:sequenceFlow id="Flow_1kfeua2" sourceRef="Activity_Parallel1" targetRef="Gateway_JoinProcessing" />
+    <bpmn:sequenceFlow id="Flow_1dqrdrn" sourceRef="Activity_Parallel3" targetRef="Gateway_JoinProcessing" />
+    <bpmn:sequenceFlow id="Flow_05lrw3m" sourceRef="Gateway_JoinProcessing" targetRef="Event_TransmissionProcessed" />
+    <bpmn:sequenceFlow id="Flow_14e4zmj" sourceRef="Activity_GeneratePreviewImage" targetRef="Activity_TimeShiftToCleanEnergy" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_ImageProcessing">
+      <bpmndi:BPMNShape id="BPMNShape_1upsfvm" bpmnElement="Participant_MarsRover" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="300" height="60" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1wwaij0" bpmnElement="Participant_Nasa" isHorizontal="true">
+        <dc:Bounds x="160" y="240" width="930" height="380" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_10xl8ky" bpmnElement="Event_TransmissionReceived">
+        <dc:Bounds x="212" y="419" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="199" y="462" width="65" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_113k72g" bpmnElement="Gateway_SplitProcessing">
+        <dc:Bounds x="635" y="412" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1pkmt78" bpmnElement="Gateway_JoinProcessing">
+        <dc:Bounds x="915" y="412" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0gki1zt" bpmnElement="Event_TransmissionProcessed">
+        <dc:Bounds x="1032" y="419" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1018" y="462" width="65" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0acgyhs" bpmnElement="Activity_GeneratePreviewImage">
+        <dc:Bounds x="310" y="397" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1r61b42" bpmnElement="Activity_Parallel2">
+        <dc:Bounds x="750" y="397" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1c15h1z" bpmnElement="Activity_Parallel3">
+        <dc:Bounds x="750" y="517" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0a5ibdd" bpmnElement="Activity_Parallel1">
+        <dc:Bounds x="750" y="277" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1fnv86p_di" bpmnElement="Activity_TimeShiftToCleanEnergy">
+        <dc:Bounds x="470" y="397" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_0k6xa9l" bpmnElement="Flow_03b5f3o">
+        <di:waypoint x="248" y="437" />
+        <di:waypoint x="310" y="437" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0x4j7xr_di" bpmnElement="Flow_0x4j7xr">
+        <di:waypoint x="570" y="437" />
+        <di:waypoint x="635" y="437" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_1j2bbfk" bpmnElement="Flow_0elx5ld">
+        <di:waypoint x="685" y="437" />
+        <di:waypoint x="750" y="437" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_1awqito" bpmnElement="Flow_0k12ehs">
+        <di:waypoint x="660" y="412" />
+        <di:waypoint x="660" y="317" />
+        <di:waypoint x="750" y="317" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_1b0ncic" bpmnElement="Flow_1jgk57k">
+        <di:waypoint x="660" y="462" />
+        <di:waypoint x="660" y="557" />
+        <di:waypoint x="750" y="557" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_1t4m2za" bpmnElement="Flow_04sk3cq">
+        <di:waypoint x="850" y="437" />
+        <di:waypoint x="915" y="437" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_0b228ou" bpmnElement="Flow_1kfeua2">
+        <di:waypoint x="850" y="317" />
+        <di:waypoint x="940" y="317" />
+        <di:waypoint x="940" y="412" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_0eaj5or" bpmnElement="Flow_1dqrdrn">
+        <di:waypoint x="850" y="557" />
+        <di:waypoint x="940" y="557" />
+        <di:waypoint x="940" y="462" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_0vu72kg" bpmnElement="Flow_05lrw3m">
+        <di:waypoint x="965" y="437" />
+        <di:waypoint x="1032" y="437" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_17qxe6f" bpmnElement="Flow_14e4zmj">
+        <di:waypoint x="410" y="437" />
+        <di:waypoint x="470" y="437" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_0dgqr4w" bpmnElement="Flow_07bc21p">
+        <di:waypoint x="230" y="140" />
+        <di:waypoint x="230" y="419" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
