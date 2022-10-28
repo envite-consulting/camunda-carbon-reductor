@@ -32,13 +32,13 @@ public class DelayCalculatorService implements DelayCalculator {
             Duration timeshiftDuration = calculateTimeshiftWindowForSLA(input);
 
             try {
-                emissionTimeframe = carbonEmissionQuery.getCurrentEmission(input.getLocation(), timeshiftDuration, input.getRemainingProcessDuration());
+                emissionTimeframe = carbonEmissionQuery.getEmissionTimeframe(input.getLocation(), timeshiftDuration, input.getRemainingProcessDuration());
             } catch (CarbonEmissionQueryException e) {
                 throw new CarbonReductorException("Could not query API to get infos about future emissions", e);
             }
         } else {
             try {
-                emissionTimeframe = carbonEmissionQuery.getCurrentEmission(input.getLocation(), input.getTimeshiftWindow(), input.getRemainingProcessDuration());
+                emissionTimeframe = carbonEmissionQuery.getEmissionTimeframe(input.getLocation(), input.getTimeshiftWindow(), input.getRemainingProcessDuration());
             } catch (CarbonEmissionQueryException e) {
                 throw new CarbonReductorException("Could not query API to get infos about future emissions", e);
             }
