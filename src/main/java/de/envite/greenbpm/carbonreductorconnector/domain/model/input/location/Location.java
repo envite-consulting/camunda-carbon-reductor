@@ -1,4 +1,4 @@
-package de.envite.greenbpm.carbonreductorconnector.domain.model.location;
+package de.envite.greenbpm.carbonreductorconnector.domain.model.input.location;
 
 import io.github.domainprimitives.type.ValueObject;
 

@@ -1,8 +1,8 @@
 package de.envite.greenbpm.carbonreductorconnector.adapter.out.watttime;
 
-import de.envite.greenbpm.carbonreductorconnector.domain.model.Duration;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.input.Duration;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.EmissionTimeframe;
-import de.envite.greenbpm.carbonreductorconnector.domain.model.location.Location;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.input.location.Location;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.emissionframe.ForecastedValue;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.emissionframe.OptimalTime;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.emissionframe.Rating;

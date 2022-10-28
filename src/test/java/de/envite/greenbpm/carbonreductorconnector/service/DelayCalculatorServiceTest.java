@@ -2,7 +2,7 @@ package de.envite.greenbpm.carbonreductorconnector.service;
 
 import de.envite.greenbpm.carbonreductorconnector.TestDataGenerator;
 import de.envite.greenbpm.carbonreductorconnector.adapter.out.watttime.CarbonEmissionQueryException;
-import de.envite.greenbpm.carbonreductorconnector.domain.model.CarbonReductorInput;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.CarbonReductorConfiguration;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.CarbonReductorOutput;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.EmissionTimeframe;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.emissionframe.ForecastedValue;
@@ -33,11 +33,11 @@ class DelayCalculatorServiceTest {
     private static final String YYYY_MM_DD_T_HH_MM_SS_SSSX_ETC_UTC =
             "yyyy-MM-dd'T'HH:mm:ss.SSSX'[Etc/UTC]'";
 
-    private CarbonReductorInput delayedWorkerExecutionTimeshiftInput;
-    private CarbonReductorInput immediateWorkerExecutionTimeshiftInput;
-    private CarbonReductorInput timeshiftWindowIsExceededByRemainingDuration;
-    private CarbonReductorInput slaInput;
-    private CarbonReductorInput slaInputDelayed;
+    private CarbonReductorConfiguration delayedWorkerExecutionTimeshiftInput;
+    private CarbonReductorConfiguration immediateWorkerExecutionTimeshiftInput;
+    private CarbonReductorConfiguration timeshiftWindowIsExceededByRemainingDuration;
+    private CarbonReductorConfiguration slaInput;
+    private CarbonReductorConfiguration slaInputDelayed;
 
     @Mock
     private CarbonEmissionQuery carbonEmissionQuery;
@@ -156,7 +156,7 @@ class DelayCalculatorServiceTest {
         EmissionTimeframe emissionTimeframe = createBetterEmissionTimeframeIn3Hours();
 
         when(carbonEmissionQuery.getCurrentEmission(eq(slaInput.getLocation()),
-                any(de.envite.greenbpm.carbonreductorconnector.domain.model.Duration.class), eq(slaInput.getRemainingProcessDuration()))).thenReturn(emissionTimeframe);
+                any(de.envite.greenbpm.carbonreductorconnector.domain.model.input.Duration.class), eq(slaInput.getRemainingProcessDuration()))).thenReturn(emissionTimeframe);
 
         CarbonReductorOutput result = classUnderTest.calculateDelay(slaInput);
 
@@ -174,7 +174,7 @@ class DelayCalculatorServiceTest {
         EmissionTimeframe emissionTimeframe = createBetterEmissionTimeframeIn3Hours();
 
         when(carbonEmissionQuery.getCurrentEmission(eq(slaInputDelayed.getLocation()),
-                any(de.envite.greenbpm.carbonreductorconnector.domain.model.Duration.class), eq(slaInputDelayed.getRemainingProcessDuration()))).thenReturn(emissionTimeframe);
+                any(de.envite.greenbpm.carbonreductorconnector.domain.model.input.Duration.class), eq(slaInputDelayed.getRemainingProcessDuration()))).thenReturn(emissionTimeframe);
 
         CarbonReductorOutput result = classUnderTest.calculateDelay(slaInputDelayed);
 
@@ -191,7 +191,7 @@ class DelayCalculatorServiceTest {
         EmissionTimeframe emissionTimeframe = createEmissionTimeframeCurrentlyOptimal();
 
         when(carbonEmissionQuery.getCurrentEmission(eq(slaInput.getLocation()),
-                any(de.envite.greenbpm.carbonreductorconnector.domain.model.Duration.class), eq(slaInput.getRemainingProcessDuration()))).thenReturn(emissionTimeframe);
+                any(de.envite.greenbpm.carbonreductorconnector.domain.model.input.Duration.class), eq(slaInput.getRemainingProcessDuration()))).thenReturn(emissionTimeframe);
 
         CarbonReductorOutput result = classUnderTest.calculateDelay(slaInput);
 
