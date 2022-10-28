@@ -5,41 +5,35 @@
       <bpmn:outgoing>Flow_0jcx6uy</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="Flow_0jcx6uy" sourceRef="StartEvent_1" targetRef="Activity_009zkke" />
-    <bpmn:sequenceFlow id="Flow_0992w8j" sourceRef="Activity_009zkke" targetRef="Activity_05dzd7m" />
+    <bpmn:sequenceFlow id="Flow_0992w8j" sourceRef="Activity_009zkke" targetRef="Activity_1jkq1nq" />
     <bpmn:endEvent id="Event_06yxblx" name="End">
       <bpmn:incoming>Flow_1mg7dpn</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_1mg7dpn" sourceRef="Activity_0yhm5s8" targetRef="Event_06yxblx" />
     <bpmn:manualTask id="Activity_0yhm5s8" name="someMoreWork">
-      <bpmn:incoming>Flow_0rjy5k5</bpmn:incoming>
+      <bpmn:incoming>Flow_00hi7ol</bpmn:incoming>
       <bpmn:outgoing>Flow_1mg7dpn</bpmn:outgoing>
     </bpmn:manualTask>
     <bpmn:manualTask id="Activity_009zkke" name="someWork">
       <bpmn:incoming>Flow_0jcx6uy</bpmn:incoming>
       <bpmn:outgoing>Flow_0992w8j</bpmn:outgoing>
     </bpmn:manualTask>
-    <bpmn:sequenceFlow id="Flow_0rjy5k5" sourceRef="Activity_05dzd7m" targetRef="Activity_0yhm5s8" />
-    <bpmn:serviceTask id="Activity_05dzd7m" name="reduce carbon footprint" zeebe:modelerTemplate="de.envite.greenbpm.carbonreductorconnector.carbonreductortask.v1" zeebe:modelerTemplateIcon="data:image/svg+xml,%3C?xml version=&#39;1.0&#39; encoding=&#39;UTF-8&#39; standalone=&#39;no&#39;?%3E%3Csvg   id=&#39;Layer_1&#39;   data-name=&#39;Layer 1&#39;   viewBox=&#39;0 0 18 18&#39;   version=&#39;1.1&#39;   width=&#39;18&#39;   height=&#39;18&#39;   xmlns=&#39;http://www.w3.org/2000/svg&#39;   xmlns:svg=&#39;http://www.w3.org/2000/svg&#39;%3E  %3Cdefs     id=&#39;defs15&#39;%3E    %3Cstyle       id=&#39;style13&#39;%3E.cls-1%7Bfill:%236ccbb2;%7D%3C/style%3E  %3C/defs%3E  %3Cpath     class=&#39;cls-1&#39;     d=&#39;m 18,7.809001 v 2.382752 h -6.056946 l 4.282908,4.330289 -1.666612,1.684294 -4.282908,-4.329534 V 18 H 7.9197613 V 0 h 2.3566807 v 6.1231981 l 4.282908,-4.329534 1.666612,1.6850486 -4.282908,4.3302883 z&#39;     id=&#39;path17&#39;     style=&#39;stroke-width:0.0750137&#39; /%3E  %3Cpath     class=&#39;cls-1&#39;     d=&#39;M 1.653183,3.619762 6.9775365,9 1.653183,14.381747 0,12.711029 3.6711704,9 0,5.2889708 Z&#39;     id=&#39;path19&#39;     style=&#39;stroke-width:0.0750137&#39; /%3E%3C/svg%3E">
+    <bpmn:sequenceFlow id="Flow_00hi7ol" sourceRef="Activity_1jkq1nq" targetRef="Activity_0yhm5s8" />
+    <bpmn:serviceTask id="Activity_1jkq1nq" name="timeshift to cleaner energy" zeebe:modelerTemplate="de.envite.greenbpm.carbonreductorconnector.carbonreductortask.v1" zeebe:modelerTemplateIcon="data:image/svg+xml,%3Csvg xmlns=&#39;http://www.w3.org/2000/svg&#39; viewBox=&#39;0 0 100 100&#39;%3E%3Ctext y=&#39;.9em&#39; font-size=&#39;90&#39;%3E🌱%3C/text%3E%3C/svg%3E">
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="de.envite.greenbpm.carbonreductorconnector.carbonreductortask:1" />
         <zeebe:ioMapping>
-          <zeebe:input source="=now()" target="timestamp" />
-          <zeebe:input source="PT12H" target="timerDuration" />
-          <zeebe:input source="PT10M" target="remainingDuration" />
-          <zeebe:input source="germanywestcentral" target="location" />
-          <zeebe:input source="slaBasedConfiguration" target="slaBasedOrAbsoluteDuration" />
+          <zeebe:input target="location" />
+          <zeebe:input target="carbonReductorMode" />
           <zeebe:input source="=now()" target="milestone" />
-          <zeebe:input source="PT10M" target="remainingProcessDuration" />
-          <zeebe:input source="PT1H" target="maximumProcessDuration" />
-          <zeebe:input source="timeshiftWindowOnly" target="carbonReductorMode" />
-          <zeebe:input source="PT18H" target="timeshiftWindow" />
+          <zeebe:input source="PT6H" target="remainingProcessDuration" />
+          <zeebe:input source="PT12H" target="maximumProcessDuration" />
+          <zeebe:input source="PT5M" target="timeshiftWindow" />
         </zeebe:ioMapping>
-        <zeebe:taskHeaders>
-          <zeebe:header key="resultExpression" value="={&#10;  &#34;wasExecutionDelayed&#34;: response.executionDelayed,&#10;  &#34;delayedByInMs&#34;: response.delayedBy,&#10;  &#34;originalCarbon&#34;: response.originalCarbon,&#10;  &#34;actualCarbon&#34;: response.actualCarbon,&#10;  &#34;savedCarbonPct&#34;: response.savedCarbon&#10;}" />
-        </zeebe:taskHeaders>
+        <zeebe:taskHeaders />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0992w8j</bpmn:incoming>
-      <bpmn:outgoing>Flow_0rjy5k5</bpmn:outgoing>
+      <bpmn:outgoing>Flow_00hi7ol</bpmn:outgoing>
     </bpmn:serviceTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -62,8 +56,9 @@
       <bpmndi:BPMNShape id="Activity_0jl9rz8_di" bpmnElement="Activity_009zkke">
         <dc:Bounds x="240" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1tlyuzs_di" bpmnElement="Activity_05dzd7m">
-        <dc:Bounds x="410" y="80" width="100" height="80" />
+      <bpmndi:BPMNShape id="Activity_0w3c5io_di" bpmnElement="Activity_1jkq1nq">
+        <dc:Bounds x="420" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_0jcx6uy_di" bpmnElement="Flow_0jcx6uy">
         <di:waypoint x="188" y="120" />
@@ -71,14 +66,14 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0992w8j_di" bpmnElement="Flow_0992w8j">
         <di:waypoint x="340" y="120" />
-        <di:waypoint x="410" y="120" />
+        <di:waypoint x="420" y="120" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1mg7dpn_di" bpmnElement="Flow_1mg7dpn">
         <di:waypoint x="690" y="120" />
         <di:waypoint x="742" y="120" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0rjy5k5_di" bpmnElement="Flow_0rjy5k5">
-        <di:waypoint x="510" y="120" />
+      <bpmndi:BPMNEdge id="Flow_00hi7ol_di" bpmnElement="Flow_00hi7ol">
+        <di:waypoint x="520" y="120" />
         <di:waypoint x="590" y="120" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
