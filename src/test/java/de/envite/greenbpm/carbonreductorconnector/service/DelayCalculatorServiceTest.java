@@ -8,6 +8,7 @@ import de.envite.greenbpm.carbonreductorconnector.domain.model.EmissionTimeframe
 import de.envite.greenbpm.carbonreductorconnector.domain.model.emissionframe.ForecastedValue;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.emissionframe.OptimalTime;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.emissionframe.Rating;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.input.Timeshift;
 import de.envite.greenbpm.carbonreductorconnector.domain.service.CarbonReductorException;
 import de.envite.greenbpm.carbonreductorconnector.domain.service.DelayCalculatorService;
 import de.envite.greenbpm.carbonreductorconnector.usecase.out.CarbonEmissionQuery;
@@ -72,7 +73,7 @@ class DelayCalculatorServiceTest {
         EmissionTimeframe emissionTimeframe = createBetterEmissionTimeframeIn3Hours();
 
         when(carbonEmissionQuery.getEmissionTimeframe(delayedWorkerExecutionTimeshiftInput.getLocation(),
-                delayedWorkerExecutionTimeshiftInput.getTimeshiftWindow(), delayedWorkerExecutionTimeshiftInput.getRemainingProcessDuration())).thenReturn(emissionTimeframe);
+                delayedWorkerExecutionTimeshiftInput.getTimeshiftWindow(), delayedWorkerExecutionTimeshiftInput.getRemainingProcessTimeshift())).thenReturn(emissionTimeframe);
 
         CarbonReduction result = classUnderTest.calculateDelay(delayedWorkerExecutionTimeshiftInput);
 
@@ -89,7 +90,7 @@ class DelayCalculatorServiceTest {
         EmissionTimeframe emissionTimeframe = createEmissionTimeframeCurrentlyOptimal();
 
         when(carbonEmissionQuery.getEmissionTimeframe(immediateWorkerExecutionTimeshiftInput.getLocation(),
-                immediateWorkerExecutionTimeshiftInput.getTimeshiftWindow(), delayedWorkerExecutionTimeshiftInput.getRemainingProcessDuration())).thenReturn(emissionTimeframe);
+                immediateWorkerExecutionTimeshiftInput.getTimeshiftWindow(), delayedWorkerExecutionTimeshiftInput.getRemainingProcessTimeshift())).thenReturn(emissionTimeframe);
 
         CarbonReduction result = classUnderTest.calculateDelay(immediateWorkerExecutionTimeshiftInput);
 
@@ -106,7 +107,7 @@ class DelayCalculatorServiceTest {
         EmissionTimeframe emissionTimeframe = createBetterEmissionTimeframeIn3Hours();
 
         when(carbonEmissionQuery.getEmissionTimeframe(immediateWorkerExecutionTimeshiftInput.getLocation(),
-                immediateWorkerExecutionTimeshiftInput.getTimeshiftWindow(), delayedWorkerExecutionTimeshiftInput.getRemainingProcessDuration())).thenReturn(emissionTimeframe);
+                immediateWorkerExecutionTimeshiftInput.getTimeshiftWindow(), delayedWorkerExecutionTimeshiftInput.getRemainingProcessTimeshift())).thenReturn(emissionTimeframe);
 
         CarbonReduction result = classUnderTest.calculateDelay(immediateWorkerExecutionTimeshiftInput);
 
@@ -123,7 +124,7 @@ class DelayCalculatorServiceTest {
         EmissionTimeframe emissionTimeframe = createBetterEmissionTimeframeIn3Hours();
 
         when(carbonEmissionQuery.getEmissionTimeframe(delayedWorkerExecutionTimeshiftInput.getLocation(),
-                delayedWorkerExecutionTimeshiftInput.getTimeshiftWindow(), delayedWorkerExecutionTimeshiftInput.getRemainingProcessDuration())).thenReturn(emissionTimeframe);
+                delayedWorkerExecutionTimeshiftInput.getTimeshiftWindow(), delayedWorkerExecutionTimeshiftInput.getRemainingProcessTimeshift())).thenReturn(emissionTimeframe);
 
         CarbonReduction result = classUnderTest.calculateDelay(delayedWorkerExecutionTimeshiftInput);
 
@@ -140,7 +141,7 @@ class DelayCalculatorServiceTest {
         EmissionTimeframe emissionTimeframe = createBetterEmissionTimeframeIn3Hours();
 
         when(carbonEmissionQuery.getEmissionTimeframe(timeshiftWindowIsExceededByRemainingDuration.getLocation(),
-                timeshiftWindowIsExceededByRemainingDuration.getTimeshiftWindow(), timeshiftWindowIsExceededByRemainingDuration.getRemainingProcessDuration())).thenReturn(emissionTimeframe);
+                timeshiftWindowIsExceededByRemainingDuration.getTimeshiftWindow(), timeshiftWindowIsExceededByRemainingDuration.getRemainingProcessTimeshift())).thenReturn(emissionTimeframe);
 
         CarbonReduction result = classUnderTest.calculateDelay(timeshiftWindowIsExceededByRemainingDuration);
 
@@ -156,7 +157,7 @@ class DelayCalculatorServiceTest {
         EmissionTimeframe emissionTimeframe = createBetterEmissionTimeframeIn3Hours();
 
         when(carbonEmissionQuery.getEmissionTimeframe(eq(slaInput.getLocation()),
-                any(de.envite.greenbpm.carbonreductorconnector.domain.model.input.Duration.class), eq(slaInput.getRemainingProcessDuration()))).thenReturn(emissionTimeframe);
+                any(Timeshift.class), eq(slaInput.getRemainingProcessTimeshift()))).thenReturn(emissionTimeframe);
 
         CarbonReduction result = classUnderTest.calculateDelay(slaInput);
 
@@ -174,7 +175,7 @@ class DelayCalculatorServiceTest {
         EmissionTimeframe emissionTimeframe = createBetterEmissionTimeframeIn3Hours();
 
         when(carbonEmissionQuery.getEmissionTimeframe(eq(slaInputDelayed.getLocation()),
-                any(de.envite.greenbpm.carbonreductorconnector.domain.model.input.Duration.class), eq(slaInputDelayed.getRemainingProcessDuration()))).thenReturn(emissionTimeframe);
+                any(Timeshift.class), eq(slaInputDelayed.getRemainingProcessTimeshift()))).thenReturn(emissionTimeframe);
 
         CarbonReduction result = classUnderTest.calculateDelay(slaInputDelayed);
 
@@ -191,7 +192,7 @@ class DelayCalculatorServiceTest {
         EmissionTimeframe emissionTimeframe = createEmissionTimeframeCurrentlyOptimal();
 
         when(carbonEmissionQuery.getEmissionTimeframe(eq(slaInput.getLocation()),
-                any(de.envite.greenbpm.carbonreductorconnector.domain.model.input.Duration.class), eq(slaInput.getRemainingProcessDuration()))).thenReturn(emissionTimeframe);
+                any(Timeshift.class), eq(slaInput.getRemainingProcessTimeshift()))).thenReturn(emissionTimeframe);
 
         CarbonReduction result = classUnderTest.calculateDelay(slaInput);
 

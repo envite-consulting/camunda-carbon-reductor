@@ -4,7 +4,7 @@ import de.envite.greenbpm.carbonreductorconnector.adapter.out.watttime.CarbonEmi
 import de.envite.greenbpm.carbonreductorconnector.domain.model.CarbonReduction;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.EmissionTimeframe;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.CarbonReductorConfiguration;
-import de.envite.greenbpm.carbonreductorconnector.domain.model.input.Duration;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.input.Timeshift;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.output.Carbon;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.output.Delay;
 import de.envite.greenbpm.carbonreductorconnector.usecase.in.DelayCalculator;
@@ -29,16 +29,16 @@ public class DelayCalculatorService implements DelayCalculator {
         EmissionTimeframe emissionTimeframe;
         if (SLA_BASED_MODE.asCarbonReductorMode().equals(input.getCarbonReductorMode())) {
             // TODO negative duration does not make sense
-            Duration timeshiftDuration = calculateTimeshiftWindowForSLA(input);
+            Timeshift timeshiftTimeshift = calculateTimeshiftWindowForSLA(input);
 
             try {
-                emissionTimeframe = carbonEmissionQuery.getEmissionTimeframe(input.getLocation(), timeshiftDuration, input.getRemainingProcessDuration());
+                emissionTimeframe = carbonEmissionQuery.getEmissionTimeframe(input.getLocation(), timeshiftTimeshift, input.getRemainingProcessTimeshift());
             } catch (CarbonEmissionQueryException e) {
                 throw new CarbonReductorException("Could not query API to get infos about future emissions", e);
             }
         } else {
             try {
-                emissionTimeframe = carbonEmissionQuery.getEmissionTimeframe(input.getLocation(), input.getTimeshiftWindow(), input.getRemainingProcessDuration());
+                emissionTimeframe = carbonEmissionQuery.getEmissionTimeframe(input.getLocation(), input.getTimeshiftWindow(), input.getRemainingProcessTimeshift());
             } catch (CarbonEmissionQueryException e) {
                 throw new CarbonReductorException("Could not query API to get infos about future emissions", e);
             }
@@ -65,18 +65,18 @@ public class DelayCalculatorService implements DelayCalculator {
         );
     }
 
-    private Duration calculateTimeshiftWindowForSLA(CarbonReductorConfiguration input) {
+    private Timeshift calculateTimeshiftWindowForSLA(CarbonReductorConfiguration input) {
         // maximumProcessDuration - milestone - remainingDuration - now
         // (milestone + maximumDuration) - milestone - remaining - (now - milestone)
-        OffsetDateTime maximumDurationDateTime = input.getMilestone().asDate().plus(input.getMaximumProcessDuration().asDuration(), ChronoUnit.MILLIS);
+        OffsetDateTime maximumDurationDateTime = input.getMilestone().asDate().plus(input.getMaximumProcessTimeshift().getValue().toMillis(), ChronoUnit.MILLIS);
         long msSinceMilestone = OffsetDateTime.now(ZoneOffset.UTC).toInstant().toEpochMilli() - input.getMilestone().asDate().toInstant().toEpochMilli();
         java.time.Duration duration = java.time.Duration.ofMillis(
                 maximumDurationDateTime.minus(input.getMilestone().asDate().toInstant().toEpochMilli(), ChronoUnit.MILLIS)
-                        .minus(input.getRemainingProcessDuration().asDuration(), ChronoUnit.MILLIS)
+                        .minus(input.getRemainingProcessTimeshift().getValue().toMillis(), ChronoUnit.MILLIS)
                         .minus(msSinceMilestone, ChronoUnit.MILLIS).toInstant().toEpochMilli());
         if (duration.isNegative()) {
-            return input.getRemainingProcessDuration();
+            return input.getRemainingProcessTimeshift();
         }
-        return new Duration(duration.toString());
+        return new Timeshift(duration);
     }
 }

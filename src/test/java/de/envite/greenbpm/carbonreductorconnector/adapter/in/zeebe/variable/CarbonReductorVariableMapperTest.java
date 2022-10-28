@@ -22,9 +22,9 @@ class CarbonReductorVariableMapperTest {
         assertThat(result.getLocation().getValue()).isEqualTo(inputVariables.getLocation());
         assertThat(result.getCarbonReductorMode().getValue()).isEqualTo(inputVariables.getCarbonReductorMode());
         assertThat(result.getMilestone().getValue()).isEqualTo(inputVariables.getMilestone());
-        assertThat(result.getRemainingProcessDuration().getValue()).isEqualTo(inputVariables.getRemainingProcessDuration());
-        assertThat(result.getMaximumProcessDuration().getValue()).isEqualTo(inputVariables.getMaximumProcessDuration());
-        assertThat(result.getTimeshiftWindow().getValue()).isEqualTo(inputVariables.getTimeshiftWindow());
+        assertThat(result.getRemainingProcessTimeshift().getValue().toString()).isEqualTo(inputVariables.getRemainingProcessDuration());
+        assertThat(result.getMaximumProcessTimeshift().getValue().toString()).isEqualTo(inputVariables.getMaximumProcessDuration());
+        assertThat(result.getTimeshiftWindow().getValue().toString()).isEqualTo(inputVariables.getTimeshiftWindow());
     }
 
     @Test
