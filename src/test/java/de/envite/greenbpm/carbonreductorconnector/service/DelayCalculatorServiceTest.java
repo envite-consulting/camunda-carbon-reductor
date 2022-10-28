@@ -71,7 +71,7 @@ class DelayCalculatorServiceTest {
     void shouldCalculateNoDelayBecauseNoLongerRelevant() throws Exception {
         EmissionTimeframe emissionTimeframe = createBetterEmissionTimeframeIn3Hours();
 
-        when(carbonEmissionQuery.getCurrentEmission(delayedWorkerExecutionTimeshiftInput.getLocation(),
+        when(carbonEmissionQuery.getEmissionTimeframe(delayedWorkerExecutionTimeshiftInput.getLocation(),
                 delayedWorkerExecutionTimeshiftInput.getTimeshiftWindow(), delayedWorkerExecutionTimeshiftInput.getRemainingProcessDuration())).thenReturn(emissionTimeframe);
 
         CarbonReduction result = classUnderTest.calculateDelay(delayedWorkerExecutionTimeshiftInput);
@@ -88,7 +88,7 @@ class DelayCalculatorServiceTest {
     void shouldCalculateNoDelayBecauseEnergyIsOptimal() throws Exception {
         EmissionTimeframe emissionTimeframe = createEmissionTimeframeCurrentlyOptimal();
 
-        when(carbonEmissionQuery.getCurrentEmission(immediateWorkerExecutionTimeshiftInput.getLocation(),
+        when(carbonEmissionQuery.getEmissionTimeframe(immediateWorkerExecutionTimeshiftInput.getLocation(),
                 immediateWorkerExecutionTimeshiftInput.getTimeshiftWindow(), delayedWorkerExecutionTimeshiftInput.getRemainingProcessDuration())).thenReturn(emissionTimeframe);
 
         CarbonReduction result = classUnderTest.calculateDelay(immediateWorkerExecutionTimeshiftInput);
@@ -105,7 +105,7 @@ class DelayCalculatorServiceTest {
     void shouldCalculateDelayForGreenerEnergyIn3Hours() throws Exception {
         EmissionTimeframe emissionTimeframe = createBetterEmissionTimeframeIn3Hours();
 
-        when(carbonEmissionQuery.getCurrentEmission(immediateWorkerExecutionTimeshiftInput.getLocation(),
+        when(carbonEmissionQuery.getEmissionTimeframe(immediateWorkerExecutionTimeshiftInput.getLocation(),
                 immediateWorkerExecutionTimeshiftInput.getTimeshiftWindow(), delayedWorkerExecutionTimeshiftInput.getRemainingProcessDuration())).thenReturn(emissionTimeframe);
 
         CarbonReduction result = classUnderTest.calculateDelay(immediateWorkerExecutionTimeshiftInput);
@@ -122,7 +122,7 @@ class DelayCalculatorServiceTest {
     void shouldCalculateNoDelayForDelayedWorkerExecution() throws Exception {
         EmissionTimeframe emissionTimeframe = createBetterEmissionTimeframeIn3Hours();
 
-        when(carbonEmissionQuery.getCurrentEmission(delayedWorkerExecutionTimeshiftInput.getLocation(),
+        when(carbonEmissionQuery.getEmissionTimeframe(delayedWorkerExecutionTimeshiftInput.getLocation(),
                 delayedWorkerExecutionTimeshiftInput.getTimeshiftWindow(), delayedWorkerExecutionTimeshiftInput.getRemainingProcessDuration())).thenReturn(emissionTimeframe);
 
         CarbonReduction result = classUnderTest.calculateDelay(delayedWorkerExecutionTimeshiftInput);
@@ -139,7 +139,7 @@ class DelayCalculatorServiceTest {
     void shouldCalculateNoDelayForRemainingDurationLongerThanTimeWindow() throws Exception {
         EmissionTimeframe emissionTimeframe = createBetterEmissionTimeframeIn3Hours();
 
-        when(carbonEmissionQuery.getCurrentEmission(timeshiftWindowIsExceededByRemainingDuration.getLocation(),
+        when(carbonEmissionQuery.getEmissionTimeframe(timeshiftWindowIsExceededByRemainingDuration.getLocation(),
                 timeshiftWindowIsExceededByRemainingDuration.getTimeshiftWindow(), timeshiftWindowIsExceededByRemainingDuration.getRemainingProcessDuration())).thenReturn(emissionTimeframe);
 
         CarbonReduction result = classUnderTest.calculateDelay(timeshiftWindowIsExceededByRemainingDuration);
@@ -155,7 +155,7 @@ class DelayCalculatorServiceTest {
     void shouldCalculateDelayForSLA() throws CarbonReductorException, CarbonEmissionQueryException {
         EmissionTimeframe emissionTimeframe = createBetterEmissionTimeframeIn3Hours();
 
-        when(carbonEmissionQuery.getCurrentEmission(eq(slaInput.getLocation()),
+        when(carbonEmissionQuery.getEmissionTimeframe(eq(slaInput.getLocation()),
                 any(de.envite.greenbpm.carbonreductorconnector.domain.model.input.Duration.class), eq(slaInput.getRemainingProcessDuration()))).thenReturn(emissionTimeframe);
 
         CarbonReduction result = classUnderTest.calculateDelay(slaInput);
@@ -173,7 +173,7 @@ class DelayCalculatorServiceTest {
     void shouldCalculateNoDelayForSLABecauseProcessIsRunningVeryLong() throws CarbonReductorException, CarbonEmissionQueryException {
         EmissionTimeframe emissionTimeframe = createBetterEmissionTimeframeIn3Hours();
 
-        when(carbonEmissionQuery.getCurrentEmission(eq(slaInputDelayed.getLocation()),
+        when(carbonEmissionQuery.getEmissionTimeframe(eq(slaInputDelayed.getLocation()),
                 any(de.envite.greenbpm.carbonreductorconnector.domain.model.input.Duration.class), eq(slaInputDelayed.getRemainingProcessDuration()))).thenReturn(emissionTimeframe);
 
         CarbonReduction result = classUnderTest.calculateDelay(slaInputDelayed);
@@ -190,7 +190,7 @@ class DelayCalculatorServiceTest {
     void shouldCalculateNoDelayForSLABecauseEnergyIsOptimal() throws CarbonReductorException, CarbonEmissionQueryException {
         EmissionTimeframe emissionTimeframe = createEmissionTimeframeCurrentlyOptimal();
 
-        when(carbonEmissionQuery.getCurrentEmission(eq(slaInput.getLocation()),
+        when(carbonEmissionQuery.getEmissionTimeframe(eq(slaInput.getLocation()),
                 any(de.envite.greenbpm.carbonreductorconnector.domain.model.input.Duration.class), eq(slaInput.getRemainingProcessDuration()))).thenReturn(emissionTimeframe);
 
         CarbonReduction result = classUnderTest.calculateDelay(slaInput);

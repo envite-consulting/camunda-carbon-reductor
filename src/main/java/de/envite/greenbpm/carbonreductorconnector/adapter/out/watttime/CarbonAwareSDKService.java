@@ -1,22 +1,20 @@
 package de.envite.greenbpm.carbonreductorconnector.adapter.out.watttime;
 
-import de.envite.greenbpm.carbonreductorconnector.domain.model.input.Duration;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.EmissionTimeframe;
-import de.envite.greenbpm.carbonreductorconnector.domain.model.input.location.Location;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.emissionframe.ForecastedValue;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.emissionframe.OptimalTime;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.emissionframe.Rating;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.input.Duration;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.input.location.Location;
 import de.envite.greenbpm.carbonreductorconnector.usecase.out.CarbonEmissionQuery;
 import io.swagger.client.ApiClient;
 import io.swagger.client.ApiException;
 import io.swagger.client.ApiResponse;
 import io.swagger.client.api.CarbonAwareApi;
-import io.swagger.client.model.EmissionsData;
 import io.swagger.client.model.EmissionsDataDTO;
 import io.swagger.client.model.EmissionsForecastDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.threeten.bp.ZoneOffset;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -40,38 +38,21 @@ public class CarbonAwareSDKService implements CarbonEmissionQuery {
   }
 
   @Override
-  public EmissionTimeframe getCurrentEmission(Location location, Duration duration, Duration executiontime) throws CarbonEmissionQueryException {
-    EmissionsData currentEmission = getEmission(location.getValue());
-    EmissionsDataDTO forecastedOptimalTime = getOptimalForecastUntil(location.getValue(), duration.asDate(), executiontime.asDurationInMinutes());
+  public EmissionTimeframe getEmissionTimeframe(Location location, Duration duration, Duration executiontime) throws CarbonEmissionQueryException {
+    EmissionsForecastDTO emissionsForecast = getOptimalForecastUntil(location.getValue(), duration.asDate(), executiontime.asDurationInMinutes());
+    EmissionsDataDTO optimalDataPoint = emissionsForecast.getOptimalDataPoints().get(0);
+    EmissionsDataDTO currentEmission = emissionsForecast.getForecastData().get(0);
 
     return new EmissionTimeframe(
-            new OptimalTime(OffsetDateTime.parse(forecastedOptimalTime.getTimestamp().toString())),
-            new Rating(currentEmission.getRating()),
-            new ForecastedValue(forecastedOptimalTime.getValue())
+            new OptimalTime(OffsetDateTime.parse(optimalDataPoint.getTimestamp().toString())),
+            new Rating(currentEmission.getValue()),
+            new ForecastedValue(optimalDataPoint.getValue())
     );
   }
 
-  private EmissionsData getEmission(String location) throws CarbonEmissionQueryException {
-    ApiResponse<List<EmissionsData>> emissionsDataForLocationByTimeWithHttpInfo = null;
-    try {
-      emissionsDataForLocationByTimeWithHttpInfo =
-          client.getEmissionsDataForLocationByTimeWithHttpInfo(
-              location,
-              org.threeten.bp.OffsetDateTime.now(ZoneOffset.UTC).minusMinutes(1000),
-              org.threeten.bp.OffsetDateTime.now(ZoneOffset.UTC).plusMinutes(5));
-    } catch (ApiException e) {
-      log.error(
-          "Error when calling the CarbonAwareSDK for the currentEmission: {}",
-          e.getResponseBody(),
-          e);
-      throw new CarbonEmissionQueryException(e);
-    }
-    return emissionsDataForLocationByTimeWithHttpInfo.getData().get(0);
-  }
-
-  private EmissionsDataDTO getOptimalForecastUntil(String location, OffsetDateTime until, int windowsize)
+  private EmissionsForecastDTO getOptimalForecastUntil(String location, OffsetDateTime until, int windowsize)
       throws CarbonEmissionQueryException {
-    ApiResponse<List<EmissionsForecastDTO>> currentForecastDataWithHttpInfo = null;
+    ApiResponse<List<EmissionsForecastDTO>> currentForecastDataWithHttpInfo;
     try {
       currentForecastDataWithHttpInfo =
           client.getCurrentForecastDataWithHttpInfo(
@@ -83,6 +64,6 @@ public class CarbonAwareSDKService implements CarbonEmissionQuery {
           e);
       throw new CarbonEmissionQueryException(e);
     }
-    return currentForecastDataWithHttpInfo.getData().get(0).getOptimalDataPoints().get(0);
+    return currentForecastDataWithHttpInfo.getData().get(0);//.getOptimalDataPoints().get(0);
   }
 }

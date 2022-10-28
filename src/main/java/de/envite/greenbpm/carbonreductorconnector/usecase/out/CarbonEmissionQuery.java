@@ -7,5 +7,5 @@ import de.envite.greenbpm.carbonreductorconnector.domain.model.input.location.Lo
 
 public interface CarbonEmissionQuery {
 
-    EmissionTimeframe getCurrentEmission(Location location, Duration duration, Duration executiontime) throws CarbonEmissionQueryException;
+    EmissionTimeframe getEmissionTimeframe(Location location, Duration duration, Duration executiontime) throws CarbonEmissionQueryException;
 }
