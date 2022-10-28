@@ -1,4 +1,4 @@
-package de.envite.greenbpm.carbonreductorconnector.domain.model.carbonreductormode;
+package de.envite.greenbpm.carbonreductorconnector.domain.model.input.carbonreductormode;
 
 public enum CarbonReductorModes {
 

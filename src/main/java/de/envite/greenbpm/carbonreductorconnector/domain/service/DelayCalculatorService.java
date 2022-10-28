@@ -1,7 +1,10 @@
 package de.envite.greenbpm.carbonreductorconnector.domain.service;
 
 import de.envite.greenbpm.carbonreductorconnector.adapter.out.watttime.CarbonEmissionQueryException;
-import de.envite.greenbpm.carbonreductorconnector.domain.model.*;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.EmissionTimeframe;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.CarbonReductorConfiguration;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.input.Duration;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.CarbonReductorOutput;
 import de.envite.greenbpm.carbonreductorconnector.usecase.in.DelayCalculator;
 import de.envite.greenbpm.carbonreductorconnector.usecase.out.CarbonEmissionQuery;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +14,7 @@ import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.ZoneOffset;
 import org.threeten.bp.temporal.ChronoUnit;
 
-import static de.envite.greenbpm.carbonreductorconnector.domain.model.carbonreductormode.CarbonReductorModes.SLA_BASED_MODE;
+import static de.envite.greenbpm.carbonreductorconnector.domain.model.input.carbonreductormode.CarbonReductorModes.SLA_BASED_MODE;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -20,7 +23,7 @@ public class DelayCalculatorService implements DelayCalculator {
     private final CarbonEmissionQuery carbonEmissionQuery;
 
     @Override
-    public CarbonReductorOutput calculateDelay(CarbonReductorInput input) throws CarbonReductorException {
+    public CarbonReductorOutput calculateDelay(CarbonReductorConfiguration input) throws CarbonReductorException {
         EmissionTimeframe emissionTimeframe = null;
         if (SLA_BASED_MODE.asCarbonReductorMode().equals(input.getCarbonReductorMode())) {
             // TODO negative duration does not make sense
@@ -62,7 +65,7 @@ public class DelayCalculatorService implements DelayCalculator {
                 .build();
     }
 
-    private Duration calculateTimeshiftWindowForSLA(CarbonReductorInput input) {
+    private Duration calculateTimeshiftWindowForSLA(CarbonReductorConfiguration input) {
         // maximumProcessDuration - milestone - remainingDuration - now
         // (milestone + maximumDuration) - milestone - remaining - (now - milestone)
         OffsetDateTime maximumDurationDateTime = input.getMilestone().asDate().plus(input.getMaximumProcessDuration().asDuration(), ChronoUnit.MILLIS);

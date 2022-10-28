@@ -1,11 +1,8 @@
-package de.envite.greenbpm.carbonreductorconnector;
+package de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe;
 
-import static de.envite.greenbpm.carbonreductorconnector.TestDataGenerator.createSLABasedCarbonReductorInput;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
-
-import de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.CarbonReductorWorker;
-import de.envite.greenbpm.carbonreductorconnector.domain.model.CarbonReductorInput;
+import de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.variable.CarbonReductorInputVariable;
+import de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.variable.CarbonReductorVariableMapper;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.CarbonReductorConfiguration;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.CarbonReductorOutput;
 import de.envite.greenbpm.carbonreductorconnector.domain.service.DelayCalculatorService;
 import io.camunda.zeebe.client.ZeebeClient;
@@ -16,31 +13,38 @@ import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
 
+import static de.envite.greenbpm.carbonreductorconnector.TestDataGenerator.createInputVariables;
+import static de.envite.greenbpm.carbonreductorconnector.TestDataGenerator.createSLABasedCarbonReductorInput;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+
 class CarbonReductorWorkerTest {
 
-  static CarbonReductorInput carbonReductorInput;
+  static CarbonReductorConfiguration carbonReductorConfiguration;
   static CarbonReductorOutput carbonReductorOutput_Clean;
   static CarbonReductorOutput carbonReductorOutput_Dirty;
 
+  private final CarbonReductorVariableMapper variableMapper = new CarbonReductorVariableMapper();
+
   @BeforeAll
   static void init() {
-    carbonReductorInput = createSLABasedCarbonReductorInput();
+    carbonReductorConfiguration = createSLABasedCarbonReductorInput();
     carbonReductorOutput_Clean =
-        CarbonReductorOutput.builder()
-            .originalCarbon(500.0)
-            .actualCarbon(500.0)
-            .savedCarbon(0.0)
-            .executionDelayed(false)
-            .delayedBy(0)
-            .build();
+            CarbonReductorOutput.builder()
+                    .originalCarbon(500.0)
+                    .actualCarbon(500.0)
+                    .savedCarbon(0.0)
+                    .executionDelayed(false)
+                    .delayedBy(0)
+                    .build();
     carbonReductorOutput_Dirty =
-        CarbonReductorOutput.builder()
-            .originalCarbon(500.0)
-            .actualCarbon(250.0)
-            .savedCarbon(250.0)
-            .executionDelayed(true)
-            .delayedBy(3000)
-            .build();
+            CarbonReductorOutput.builder()
+                    .originalCarbon(500.0)
+                    .actualCarbon(250.0)
+                    .savedCarbon(250.0)
+                    .executionDelayed(true)
+                    .delayedBy(3000)
+                    .build();
   }
 
   @Test
@@ -49,16 +53,10 @@ class CarbonReductorWorkerTest {
     when(delayCalculatorService.calculateDelay(any())).thenReturn(carbonReductorOutput_Clean);
     ZeebeClient client = mock(ZeebeClient.class, RETURNS_DEEP_STUBS);
 
-    var worker = new CarbonReductorWorker(client, delayCalculatorService);
+    var worker = new CarbonReductorWorker(client, delayCalculatorService, variableMapper);
 
     ActivatedJob job = mock(ActivatedJob.class);
-    when(job.getVariables()).thenReturn("{\n" +
-            "              \"location\": \"norwayeast\",\n" +
-            "              \"carbonReductorMode\": \"timeshiftWindowOnly\",\n" +
-            "              \"milestone\": \"2022-10-20T11:35:45.826Z[Etc/UTC]\",\n" +
-            "               \"remainingProcessDuration\": \"PT10M\",\n" +
-            "               \"timeshiftWindow\": \"PT6H\"\n" +
-            "            }");
+    when(job.getVariablesAsType(CarbonReductorInputVariable.class)).thenReturn(createInputVariables());
 
     when(job.getRetries()).thenReturn(3);
     when(client.newSetVariablesCommand(job.getElementInstanceKey()).variables(any(CarbonReductorOutput.class)).send()).thenReturn(mock(ZeebeFuture.class));
@@ -75,16 +73,10 @@ class CarbonReductorWorkerTest {
     when(delayCalculatorService.calculateDelay(any())).thenReturn(carbonReductorOutput_Dirty);
     ZeebeClient client = mock(ZeebeClient.class, RETURNS_DEEP_STUBS);
 
-    var worker = new CarbonReductorWorker(client, delayCalculatorService);
+    var worker = new CarbonReductorWorker(client, delayCalculatorService, variableMapper);
 
     ActivatedJob job = mock(ActivatedJob.class);
-    when(job.getVariables()).thenReturn("{\n" +
-            "              \"location\": \"norwayeast\",\n" +
-            "              \"carbonReductorMode\": \"timeshiftWindowOnly\",\n" +
-            "              \"milestone\": \"2022-10-20T11:35:45.826Z[Etc/UTC]\",\n" +
-            "               \"remainingProcessDuration\": \"PT10M\",\n" +
-            "               \"timeshiftWindow\": \"PT6H\"\n" +
-            "            }");
+    when(job.getVariablesAsType(CarbonReductorInputVariable.class)).thenReturn(createInputVariables());
     when(job.getRetries()).thenReturn(3);
     when(client.newSetVariablesCommand(job.getElementInstanceKey()).variables(any(CarbonReductorOutput.class)).send()).thenReturn(mock(ZeebeFuture.class));
     when(client.newFailCommand(job).retries(999).retryBackoff(any(Duration.class)).send()).thenReturn(mock(ZeebeFuture.class));
@@ -99,7 +91,7 @@ class CarbonReductorWorkerTest {
     DelayCalculatorService delayCalculatorService = mock(DelayCalculatorService.class);
     ZeebeClient client = mock(ZeebeClient.class, RETURNS_DEEP_STUBS);
 
-    var worker = new CarbonReductorWorker(client, delayCalculatorService);
+    var worker = new CarbonReductorWorker(client, delayCalculatorService, variableMapper);
 
     ActivatedJob job = mock(ActivatedJob.class);
 
@@ -108,7 +100,7 @@ class CarbonReductorWorkerTest {
     when(client.newCompleteCommand(job).send()).thenReturn(mock(ZeebeFuture.class));
     worker.execute(job);
 
-    verify(delayCalculatorService, never()).calculateDelay(any(CarbonReductorInput.class));
+    verify(delayCalculatorService, never()).calculateDelay(any(CarbonReductorConfiguration.class));
     verify(client, times(1)).newSetVariablesCommand(job.getElementInstanceKey());
     verify(client, times(2)).newCompleteCommand(job);
   }

@@ -1,34 +1,33 @@
 package de.envite.greenbpm.carbonreductorconnector.domain.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import de.envite.greenbpm.carbonreductorconnector.domain.model.carbonreductormode.CarbonReductorMode;
-import de.envite.greenbpm.carbonreductorconnector.domain.model.location.Location;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.input.Duration;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.input.Milestone;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.input.carbonreductormode.CarbonReductorMode;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.input.location.Location;
 import io.github.domainprimitives.object.Aggregate;
 import lombok.Getter;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.ZoneOffset;
 import org.threeten.bp.temporal.ChronoUnit;
 
-import static de.envite.greenbpm.carbonreductorconnector.domain.model.carbonreductormode.CarbonReductorModes.TIMESHIFT_WINDOW_ONLY;
+import static de.envite.greenbpm.carbonreductorconnector.domain.model.input.carbonreductormode.CarbonReductorModes.TIMESHIFT_WINDOW_ONLY;
 
 @Getter
-public class CarbonReductorInput extends Aggregate {
+public class CarbonReductorConfiguration extends Aggregate {
 
     private final Location location;
     private final CarbonReductorMode carbonReductorMode;
-    private final ExecutionTimestamp milestone;
+    private final Milestone milestone;
     private final Duration remainingProcessDuration;
     private final Duration maximumProcessDuration;
     private final Duration timeshiftWindow;
 
-    @JsonCreator
-    public CarbonReductorInput(@JsonProperty("location") Location location,
-                               @JsonProperty("carbonReductorMode") CarbonReductorMode carbonReductorMode,
-                               @JsonProperty("milestone") ExecutionTimestamp milestone,
-                               @JsonProperty("remainingProcessDuration") Duration remainingProcessDuration,
-                               @JsonProperty("maximumProcessDuration") Duration maximumProcessDuration,
-                               @JsonProperty("timeshiftWindow") Duration timeshiftWindow) {
+    public CarbonReductorConfiguration(Location location,
+                                       CarbonReductorMode carbonReductorMode,
+                                       Milestone milestone,
+                                       Duration remainingProcessDuration,
+                                       Duration maximumProcessDuration,
+                                       Duration timeshiftWindow) {
         this.location = location;
         this.carbonReductorMode = carbonReductorMode;
         this.milestone = milestone;

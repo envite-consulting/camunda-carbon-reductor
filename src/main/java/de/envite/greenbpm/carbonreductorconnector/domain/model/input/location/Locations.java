@@ -1,4 +1,4 @@
-package de.envite.greenbpm.carbonreductorconnector.domain.model.location;
+package de.envite.greenbpm.carbonreductorconnector.domain.model.input.location;
 
 public enum Locations {
   EUROPE_NORTH("northeurope"),

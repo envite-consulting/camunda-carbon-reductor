@@ -1,58 +1,66 @@
 package de.envite.greenbpm.carbonreductorconnector;
 
-import de.envite.greenbpm.carbonreductorconnector.domain.model.CarbonReductorInput;
-import de.envite.greenbpm.carbonreductorconnector.domain.model.Duration;
-import de.envite.greenbpm.carbonreductorconnector.domain.model.ExecutionTimestamp;
-import de.envite.greenbpm.carbonreductorconnector.domain.model.carbonreductormode.CarbonReductorModes;
+import de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.variable.CarbonReductorInputVariable;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.CarbonReductorConfiguration;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.input.Duration;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.input.Milestone;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.input.carbonreductormode.CarbonReductorModes;
 
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
-
-import static de.envite.greenbpm.carbonreductorconnector.domain.model.location.Locations.NORWAY_EAST;
+import static de.envite.greenbpm.carbonreductorconnector.domain.model.input.location.Locations.NORWAY_EAST;
 import static java.time.OffsetDateTime.now;
 import static java.time.format.DateTimeFormatter.ofPattern;
+import static org.mockito.Mockito.when;
 
 public class TestDataGenerator {
 
-    public static CarbonReductorInput createTimeshiftWindowCarbonReductorInput() {
+    public static CarbonReductorConfiguration createTimeshiftWindowCarbonReductorInput() {
         return createTimeshiftWindowCarbonReductorInput("2022-10-20T11:35:45.826Z[Etc/UTC]");
     }
 
-    public static CarbonReductorInput createTimeshiftWindowCarbonReductorInput(String timestamp) {
-        return new CarbonReductorInput(
+    public static CarbonReductorConfiguration createTimeshiftWindowCarbonReductorInput(String timestamp) {
+        return new CarbonReductorConfiguration(
                 NORWAY_EAST.asLocation(),
                 CarbonReductorModes.TIMESHIFT_WINDOW_ONLY.asCarbonReductorMode(),
-                new ExecutionTimestamp(timestamp),
+                new Milestone(timestamp),
                 new Duration("PT5M"),
                 null,
                 new Duration("PT10M")
         );
     }
 
-    public static CarbonReductorInput createTimeshiftWindowIsExceededByRemainingDuration(String timestamp) {
-        return new CarbonReductorInput(
+    public static CarbonReductorConfiguration createTimeshiftWindowIsExceededByRemainingDuration(String timestamp) {
+        return new CarbonReductorConfiguration(
                 NORWAY_EAST.asLocation(),
                 CarbonReductorModes.TIMESHIFT_WINDOW_ONLY.asCarbonReductorMode(),
-                new ExecutionTimestamp(timestamp),
+                new Milestone(timestamp),
                 new Duration("PT1H"),
                 null,
                 new Duration("PT30M")
         );
     }
 
-    public static CarbonReductorInput createSLABasedCarbonReductorInput() {
+    public static CarbonReductorConfiguration createSLABasedCarbonReductorInput() {
         return createSLABasedCarbonReductorInput("2022-10-20T11:35:45.826Z[Etc/UTC]");
     }
 
-    public static CarbonReductorInput createSLABasedCarbonReductorInput(String timestamp) {
-        return new CarbonReductorInput(
+    public static CarbonReductorConfiguration createSLABasedCarbonReductorInput(String timestamp) {
+        return new CarbonReductorConfiguration(
                 NORWAY_EAST.asLocation(),
                 CarbonReductorModes.SLA_BASED_MODE.asCarbonReductorMode(),
-                new ExecutionTimestamp(timestamp),
+                new Milestone(timestamp),
                 new Duration("PT5H"),
                 new Duration("PT10H"),
                 null
         );
+    }
+
+    public static CarbonReductorInputVariable createInputVariables() {
+        CarbonReductorInputVariable inputVariable = new CarbonReductorInputVariable();
+        inputVariable.setLocation("norwayeast");
+        inputVariable.setCarbonReductorMode("timeshiftWindowOnly");
+        inputVariable.setMilestone("2022-10-20T11:35:45.826Z[Etc/UTC]");
+        inputVariable.setRemainingProcessDuration("PT10M");
+        inputVariable.setTimeshiftWindow("PT6H");
+        return inputVariable;
     }
 }
