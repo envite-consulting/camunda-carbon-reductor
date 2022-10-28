@@ -58,7 +58,7 @@ public class CarbonReductorWorker {
     private void completeJob(ActivatedJob job) {
         client.newCompleteCommand(job)
                 .send()
-                .exceptionally( throwable -> { throw new RuntimeException(String.format("Could not complete job %s", job), throwable); });
+                .exceptionally( throwable -> { throw new RuntimeException("Could not complete job %s".formatted(job), throwable); });
     }
 
     private void failJobWithRetry(ActivatedJob job, Duration duration) {
@@ -67,7 +67,7 @@ public class CarbonReductorWorker {
                 .retryBackoff(duration)
                 .send()
                 .exceptionally(throwable -> {
-                    throw new RuntimeException(String.format("Could not fail job %s", job), throwable);
+                    throw new RuntimeException("Could not fail job %s".formatted(job), throwable);
                 });
     }
 
