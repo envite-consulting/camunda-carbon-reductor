@@ -1,6 +1,6 @@
 package de.envite.greenbpm.carbonreductorconnector.domain.model;
 
-import de.envite.greenbpm.carbonreductorconnector.domain.model.input.Duration;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.input.Timeshift;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.input.Milestone;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.input.carbonreductormode.CarbonReductorMode;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.input.location.Location;
@@ -18,21 +18,21 @@ public class CarbonReductorConfiguration extends Aggregate {
     private final Location location;
     private final CarbonReductorMode carbonReductorMode;
     private final Milestone milestone;
-    private final Duration remainingProcessDuration;
-    private final Duration maximumProcessDuration;
-    private final Duration timeshiftWindow;
+    private final Timeshift remainingProcessTimeshift;
+    private final Timeshift maximumProcessTimeshift;
+    private final Timeshift timeshiftWindow;
 
     public CarbonReductorConfiguration(Location location,
                                        CarbonReductorMode carbonReductorMode,
                                        Milestone milestone,
-                                       Duration remainingProcessDuration,
-                                       Duration maximumProcessDuration,
-                                       Duration timeshiftWindow) {
+                                       Timeshift remainingProcessTimeshift,
+                                       Timeshift maximumProcessTimeshift,
+                                       Timeshift timeshiftWindow) {
         this.location = location;
         this.carbonReductorMode = carbonReductorMode;
         this.milestone = milestone;
-        this.remainingProcessDuration = remainingProcessDuration;
-        this.maximumProcessDuration = maximumProcessDuration;
+        this.remainingProcessTimeshift = remainingProcessTimeshift;
+        this.maximumProcessTimeshift = maximumProcessTimeshift;
         this.timeshiftWindow = timeshiftWindow;
         this.validate();
     }
@@ -42,7 +42,7 @@ public class CarbonReductorConfiguration extends Aggregate {
         validateNotNull(location, "Location");
         validateNotNull(carbonReductorMode, "CarbonReductorMode");
         validateNotNull(milestone, "Milestone");
-        validateNotNull(remainingProcessDuration, "Remaining Process Duration");
+        validateNotNull(remainingProcessTimeshift, "Remaining Process Duration");
         evaluateValidations();
     }
 
@@ -51,15 +51,15 @@ public class CarbonReductorConfiguration extends Aggregate {
 
         if (TIMESHIFT_WINDOW_ONLY.mode().equals(carbonReductorMode.getValue())) {
             return (milestoneTimestamp
-                    .plus(timeshiftWindow.asDuration(), ChronoUnit.MILLIS)
-                    .plus(remainingProcessDuration.asDuration(), ChronoUnit.MILLIS)
-                    .isAfter(OffsetDateTime.now(ZoneOffset.UTC).plus(remainingProcessDuration.asDuration(), ChronoUnit.MILLIS))
+                    .plus(timeshiftWindow.getValue().toMillis(), ChronoUnit.MILLIS)
+                    .plus(remainingProcessTimeshift.getValue().toMillis(), ChronoUnit.MILLIS)
+                    .isAfter(OffsetDateTime.now(ZoneOffset.UTC).plus(remainingProcessTimeshift.getValue().toMillis(), ChronoUnit.MILLIS))
                         &&
-                    (remainingProcessDuration.asDuration() < timeshiftWindow.asDuration()));
+                    (remainingProcessTimeshift.getValue().toMillis() < timeshiftWindow.getValue().toMillis()));
         }
         return (milestoneTimestamp
-                .plus(remainingProcessDuration.asDuration(), ChronoUnit.MILLIS)
-                .plus(maximumProcessDuration.asDuration(), ChronoUnit.MILLIS)
-                .isAfter(OffsetDateTime.now(ZoneOffset.UTC).plus(remainingProcessDuration.asDuration(), ChronoUnit.MILLIS)));
+                .plus(remainingProcessTimeshift.getValue().toMillis(), ChronoUnit.MILLIS)
+                .plus(maximumProcessTimeshift.getValue().toMillis(), ChronoUnit.MILLIS)
+                .isAfter(OffsetDateTime.now(ZoneOffset.UTC).plus(remainingProcessTimeshift.getValue().toMillis(), ChronoUnit.MILLIS)));
     }
 }

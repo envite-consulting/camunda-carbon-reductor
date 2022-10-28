@@ -3,7 +3,7 @@ package de.envite.greenbpm.carbonreductorconnector;
 import de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.variable.CarbonReductorInputVariable;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.CarbonReductorConfiguration;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.CarbonReduction;
-import de.envite.greenbpm.carbonreductorconnector.domain.model.input.Duration;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.input.Timeshift;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.input.Milestone;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.input.carbonreductormode.CarbonReductorModes;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.output.Carbon;
@@ -13,18 +13,14 @@ import static de.envite.greenbpm.carbonreductorconnector.domain.model.input.loca
 
 public class TestDataGenerator {
 
-    public static CarbonReductorConfiguration createTimeshiftWindowCarbonReductorInput() {
-        return createTimeshiftWindowCarbonReductorInput("2022-10-20T11:35:45.826Z[Etc/UTC]");
-    }
-
     public static CarbonReductorConfiguration createTimeshiftWindowCarbonReductorInput(String timestamp) {
         return new CarbonReductorConfiguration(
                 NORWAY_EAST.asLocation(),
                 CarbonReductorModes.TIMESHIFT_WINDOW_ONLY.asCarbonReductorMode(),
                 new Milestone(timestamp),
-                new Duration("PT5M"),
+                new Timeshift("PT5M"),
                 null,
-                new Duration("PT10M")
+                new Timeshift("PT10M")
         );
     }
 
@@ -33,9 +29,9 @@ public class TestDataGenerator {
                 NORWAY_EAST.asLocation(),
                 CarbonReductorModes.TIMESHIFT_WINDOW_ONLY.asCarbonReductorMode(),
                 new Milestone(timestamp),
-                new Duration("PT1H"),
+                new Timeshift("PT1H"),
                 null,
-                new Duration("PT30M")
+                new Timeshift("PT30M")
         );
     }
 
@@ -48,8 +44,8 @@ public class TestDataGenerator {
                 NORWAY_EAST.asLocation(),
                 CarbonReductorModes.SLA_BASED_MODE.asCarbonReductorMode(),
                 new Milestone(timestamp),
-                new Duration("PT5H"),
-                new Duration("PT10H"),
+                new Timeshift("PT5H"),
+                new Timeshift("PT10H"),
                 null
         );
     }
