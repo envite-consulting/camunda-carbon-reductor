@@ -9,6 +9,7 @@ public class CarbonReductorOutputVariable {
   private double originalCarbon;
   private double actualCarbon;
   private double savedCarbon;
+  private double carbonReduction;
   private long delayedBy;
 
 }

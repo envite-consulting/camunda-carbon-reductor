@@ -38,5 +38,6 @@ class CarbonReductorVariableMapperTest {
         assertThat(result.getActualCarbon()).isEqualTo(outputDDD.getActualCarbon().getValue());
         assertThat(result.getOriginalCarbon()).isEqualTo(outputDDD.getOriginalCarbon().getValue());
         assertThat(result.getSavedCarbon()).isEqualTo(outputDDD.getSavedCarbon().getValue());
+        assertThat(result.getCarbonReduction()).isEqualTo(outputDDD.calculateReduction().getValue());
     }
 }
