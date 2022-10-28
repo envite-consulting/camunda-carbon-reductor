@@ -2,14 +2,14 @@ package de.envite.greenbpm.carbonreductorconnector;
 
 import de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.variable.CarbonReductorInputVariable;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.CarbonReductorConfiguration;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.CarbonReduction;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.input.Duration;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.input.Milestone;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.input.carbonreductormode.CarbonReductorModes;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.output.Carbon;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.output.Delay;
 
 import static de.envite.greenbpm.carbonreductorconnector.domain.model.input.location.Locations.NORWAY_EAST;
-import static java.time.OffsetDateTime.now;
-import static java.time.format.DateTimeFormatter.ofPattern;
-import static org.mockito.Mockito.when;
 
 public class TestDataGenerator {
 
@@ -62,5 +62,14 @@ public class TestDataGenerator {
         inputVariable.setRemainingProcessDuration("PT10M");
         inputVariable.setTimeshiftWindow("PT6H");
         return inputVariable;
+    }
+
+    public static CarbonReduction createCarbonReductorOutput() {
+        return new CarbonReduction(
+                new Delay(true, 3),
+                new Carbon(1.0),
+                new Carbon(2.0),
+                new Carbon(3.0)
+        );
     }
 }

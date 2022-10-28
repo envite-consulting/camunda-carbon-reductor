@@ -3,7 +3,7 @@ package de.envite.greenbpm.carbonreductorconnector.service;
 import de.envite.greenbpm.carbonreductorconnector.TestDataGenerator;
 import de.envite.greenbpm.carbonreductorconnector.adapter.out.watttime.CarbonEmissionQueryException;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.CarbonReductorConfiguration;
-import de.envite.greenbpm.carbonreductorconnector.domain.model.CarbonReductorOutput;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.CarbonReduction;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.EmissionTimeframe;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.emissionframe.ForecastedValue;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.emissionframe.OptimalTime;
@@ -74,13 +74,13 @@ class DelayCalculatorServiceTest {
         when(carbonEmissionQuery.getCurrentEmission(delayedWorkerExecutionTimeshiftInput.getLocation(),
                 delayedWorkerExecutionTimeshiftInput.getTimeshiftWindow(), delayedWorkerExecutionTimeshiftInput.getRemainingProcessDuration())).thenReturn(emissionTimeframe);
 
-        CarbonReductorOutput result = classUnderTest.calculateDelay(delayedWorkerExecutionTimeshiftInput);
+        CarbonReduction result = classUnderTest.calculateDelay(delayedWorkerExecutionTimeshiftInput);
 
-        assertThat(result.isExecutionDelayed()).isFalse();
-        assertThat(result.getDelayedBy()).isZero();
-        assertThat(result.getActualCarbon()).isEqualTo(200.6);
-        assertThat(result.getOriginalCarbon()).isEqualTo(200.6);
-        assertThat(result.getSavedCarbon()).isZero();
+        assertThat(result.getDelay().isExecutionDelayed()).isFalse();
+        assertThat(result.getDelay().getDelayedBy()).isZero();
+        assertThat(result.getActualCarbon().getValue()).isEqualTo(200.6);
+        assertThat(result.getOriginalCarbon().getValue()).isEqualTo(200.6);
+        assertThat(result.getSavedCarbon().getValue()).isZero();
     }
 
     @Test
@@ -91,13 +91,13 @@ class DelayCalculatorServiceTest {
         when(carbonEmissionQuery.getCurrentEmission(immediateWorkerExecutionTimeshiftInput.getLocation(),
                 immediateWorkerExecutionTimeshiftInput.getTimeshiftWindow(), delayedWorkerExecutionTimeshiftInput.getRemainingProcessDuration())).thenReturn(emissionTimeframe);
 
-        CarbonReductorOutput result = classUnderTest.calculateDelay(immediateWorkerExecutionTimeshiftInput);
+        CarbonReduction result = classUnderTest.calculateDelay(immediateWorkerExecutionTimeshiftInput);
 
-        assertThat(result.isExecutionDelayed()).isFalse();
-        assertThat(result.getDelayedBy()).isZero();
-        assertThat(result.getActualCarbon()).isEqualTo(200.6);
-        assertThat(result.getOriginalCarbon()).isEqualTo(200.6);
-        assertThat(result.getSavedCarbon()).isZero();
+        assertThat(result.getDelay().isExecutionDelayed()).isFalse();
+        assertThat(result.getDelay().getDelayedBy()).isZero();
+        assertThat(result.getActualCarbon().getValue()).isEqualTo(200.6);
+        assertThat(result.getOriginalCarbon().getValue()).isEqualTo(200.6);
+        assertThat(result.getSavedCarbon().getValue()).isZero();
     }
 
     @Test
@@ -108,13 +108,13 @@ class DelayCalculatorServiceTest {
         when(carbonEmissionQuery.getCurrentEmission(immediateWorkerExecutionTimeshiftInput.getLocation(),
                 immediateWorkerExecutionTimeshiftInput.getTimeshiftWindow(), delayedWorkerExecutionTimeshiftInput.getRemainingProcessDuration())).thenReturn(emissionTimeframe);
 
-        CarbonReductorOutput result = classUnderTest.calculateDelay(immediateWorkerExecutionTimeshiftInput);
+        CarbonReduction result = classUnderTest.calculateDelay(immediateWorkerExecutionTimeshiftInput);
 
-        assertThat(result.isExecutionDelayed()).isTrue();
-        assertThat(result.getDelayedBy()).isGreaterThanOrEqualTo(Duration.ofMinutes(179).toMillis());
-        assertThat(result.getActualCarbon()).isEqualTo(0.0);
-        assertThat(result.getOriginalCarbon()).isEqualTo(200.6);
-        assertThat(result.getSavedCarbon()).isCloseTo(100.0, offset(0.1));
+        assertThat(result.getDelay().isExecutionDelayed()).isTrue();
+        assertThat(result.getDelay().getDelayedBy()).isGreaterThanOrEqualTo(Duration.ofMinutes(179).toMillis());
+        assertThat(result.getActualCarbon().getValue()).isEqualTo(0.0);
+        assertThat(result.getOriginalCarbon().getValue()).isEqualTo(200.6);
+        assertThat(result.getSavedCarbon().getValue()).isCloseTo(100.0, offset(0.1));
     }
 
     @Test
@@ -125,13 +125,13 @@ class DelayCalculatorServiceTest {
         when(carbonEmissionQuery.getCurrentEmission(delayedWorkerExecutionTimeshiftInput.getLocation(),
                 delayedWorkerExecutionTimeshiftInput.getTimeshiftWindow(), delayedWorkerExecutionTimeshiftInput.getRemainingProcessDuration())).thenReturn(emissionTimeframe);
 
-        CarbonReductorOutput result = classUnderTest.calculateDelay(delayedWorkerExecutionTimeshiftInput);
+        CarbonReduction result = classUnderTest.calculateDelay(delayedWorkerExecutionTimeshiftInput);
 
-        assertThat(result.isExecutionDelayed()).isFalse();
-        assertThat(result.getDelayedBy()).isZero();
-        assertThat(result.getActualCarbon()).isEqualTo(200.6);
-        assertThat(result.getOriginalCarbon()).isEqualTo(200.6);
-        assertThat(result.getSavedCarbon()).isZero();
+        assertThat(result.getDelay().isExecutionDelayed()).isFalse();
+        assertThat(result.getDelay().getDelayedBy()).isZero();
+        assertThat(result.getActualCarbon().getValue()).isEqualTo(200.6);
+        assertThat(result.getOriginalCarbon().getValue()).isEqualTo(200.6);
+        assertThat(result.getSavedCarbon().getValue()).isZero();
     }
 
     @Test
@@ -142,13 +142,13 @@ class DelayCalculatorServiceTest {
         when(carbonEmissionQuery.getCurrentEmission(timeshiftWindowIsExceededByRemainingDuration.getLocation(),
                 timeshiftWindowIsExceededByRemainingDuration.getTimeshiftWindow(), timeshiftWindowIsExceededByRemainingDuration.getRemainingProcessDuration())).thenReturn(emissionTimeframe);
 
-        CarbonReductorOutput result = classUnderTest.calculateDelay(timeshiftWindowIsExceededByRemainingDuration);
+        CarbonReduction result = classUnderTest.calculateDelay(timeshiftWindowIsExceededByRemainingDuration);
 
-        assertThat(result.isExecutionDelayed()).isFalse();
-        assertThat(result.getDelayedBy()).isZero();
-        assertThat(result.getActualCarbon()).isEqualTo(200.6);
-        assertThat(result.getOriginalCarbon()).isEqualTo(200.6);
-        assertThat(result.getSavedCarbon()).isZero();
+        assertThat(result.getDelay().isExecutionDelayed()).isFalse();
+        assertThat(result.getDelay().getDelayedBy()).isZero();
+        assertThat(result.getActualCarbon().getValue()).isEqualTo(200.6);
+        assertThat(result.getOriginalCarbon().getValue()).isEqualTo(200.6);
+        assertThat(result.getSavedCarbon().getValue()).isZero();
     }
 
     @Test
@@ -158,13 +158,13 @@ class DelayCalculatorServiceTest {
         when(carbonEmissionQuery.getCurrentEmission(eq(slaInput.getLocation()),
                 any(de.envite.greenbpm.carbonreductorconnector.domain.model.input.Duration.class), eq(slaInput.getRemainingProcessDuration()))).thenReturn(emissionTimeframe);
 
-        CarbonReductorOutput result = classUnderTest.calculateDelay(slaInput);
+        CarbonReduction result = classUnderTest.calculateDelay(slaInput);
 
-        assertThat(result.isExecutionDelayed()).isTrue();
-        assertThat(result.getDelayedBy()).isGreaterThanOrEqualTo(Duration.ofMinutes(179).toMillis());
-        assertThat(result.getActualCarbon()).isEqualTo(0.0);
-        assertThat(result.getOriginalCarbon()).isEqualTo(200.6);
-        assertThat(result.getSavedCarbon()).isCloseTo(100.0, offset(0.1));
+        assertThat(result.getDelay().isExecutionDelayed()).isTrue();
+        assertThat(result.getDelay().getDelayedBy()).isGreaterThanOrEqualTo(Duration.ofMinutes(179).toMillis());
+        assertThat(result.getActualCarbon().getValue()).isEqualTo(0.0);
+        assertThat(result.getOriginalCarbon().getValue()).isEqualTo(200.6);
+        assertThat(result.getSavedCarbon().getValue()).isCloseTo(100.0, offset(0.1));
     }
 
     // TODO
@@ -176,13 +176,13 @@ class DelayCalculatorServiceTest {
         when(carbonEmissionQuery.getCurrentEmission(eq(slaInputDelayed.getLocation()),
                 any(de.envite.greenbpm.carbonreductorconnector.domain.model.input.Duration.class), eq(slaInputDelayed.getRemainingProcessDuration()))).thenReturn(emissionTimeframe);
 
-        CarbonReductorOutput result = classUnderTest.calculateDelay(slaInputDelayed);
+        CarbonReduction result = classUnderTest.calculateDelay(slaInputDelayed);
 
-        assertThat(result.isExecutionDelayed()).isFalse();
-        assertThat(result.getDelayedBy()).isZero();
-        assertThat(result.getActualCarbon()).isEqualTo(200.6);
-        assertThat(result.getOriginalCarbon()).isEqualTo(200.6);
-        assertThat(result.getSavedCarbon()).isZero();
+        assertThat(result.getDelay().isExecutionDelayed()).isFalse();
+        assertThat(result.getDelay().getDelayedBy()).isZero();
+        assertThat(result.getActualCarbon().getValue()).isEqualTo(200.6);
+        assertThat(result.getOriginalCarbon().getValue()).isEqualTo(200.6);
+        assertThat(result.getSavedCarbon().getValue()).isZero();
     }
 
     @Test
@@ -193,13 +193,13 @@ class DelayCalculatorServiceTest {
         when(carbonEmissionQuery.getCurrentEmission(eq(slaInput.getLocation()),
                 any(de.envite.greenbpm.carbonreductorconnector.domain.model.input.Duration.class), eq(slaInput.getRemainingProcessDuration()))).thenReturn(emissionTimeframe);
 
-        CarbonReductorOutput result = classUnderTest.calculateDelay(slaInput);
+        CarbonReduction result = classUnderTest.calculateDelay(slaInput);
 
-        assertThat(result.isExecutionDelayed()).isFalse();
-        assertThat(result.getDelayedBy()).isZero();
-        assertThat(result.getActualCarbon()).isEqualTo(200.6);
-        assertThat(result.getOriginalCarbon()).isEqualTo(200.6);
-        assertThat(result.getSavedCarbon()).isZero();
+        assertThat(result.getDelay().isExecutionDelayed()).isFalse();
+        assertThat(result.getDelay().getDelayedBy()).isZero();
+        assertThat(result.getActualCarbon().getValue()).isEqualTo(200.6);
+        assertThat(result.getOriginalCarbon().getValue()).isEqualTo(200.6);
+        assertThat(result.getSavedCarbon().getValue()).isZero();
     }
 
     private static EmissionTimeframe createBetterEmissionTimeframeIn3Hours() {

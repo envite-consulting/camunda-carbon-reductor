@@ -1,10 +1,12 @@
 package de.envite.greenbpm.carbonreductorconnector.domain.service;
 
 import de.envite.greenbpm.carbonreductorconnector.adapter.out.watttime.CarbonEmissionQueryException;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.CarbonReduction;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.EmissionTimeframe;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.CarbonReductorConfiguration;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.input.Duration;
-import de.envite.greenbpm.carbonreductorconnector.domain.model.CarbonReductorOutput;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.output.Carbon;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.output.Delay;
 import de.envite.greenbpm.carbonreductorconnector.usecase.in.DelayCalculator;
 import de.envite.greenbpm.carbonreductorconnector.usecase.out.CarbonEmissionQuery;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +25,8 @@ public class DelayCalculatorService implements DelayCalculator {
     private final CarbonEmissionQuery carbonEmissionQuery;
 
     @Override
-    public CarbonReductorOutput calculateDelay(CarbonReductorConfiguration input) throws CarbonReductorException {
-        EmissionTimeframe emissionTimeframe = null;
+    public CarbonReduction calculateDelay(CarbonReductorConfiguration input) throws CarbonReductorException {
+        EmissionTimeframe emissionTimeframe;
         if (SLA_BASED_MODE.asCarbonReductorMode().equals(input.getCarbonReductorMode())) {
             // TODO negative duration does not make sense
             Duration timeshiftDuration = calculateTimeshiftWindowForSLA(input);
@@ -47,22 +49,20 @@ public class DelayCalculatorService implements DelayCalculator {
         if (isDelayNecessary) {
             final long optimalTime = emissionTimeframe.getOptimalTime().asOffsetDateTime().toInstant().toEpochMilli();
             final long delayedBy = optimalTime - OffsetDateTime.now(ZoneOffset.UTC).toInstant().toEpochMilli();
-            return CarbonReductorOutput.builder()
-                    .executionDelayed(true)
-                    .delayedBy(delayedBy)
-                    .originalCarbon(emissionTimeframe.getRating().getValue())
-                    .actualCarbon(emissionTimeframe.getForecastedValue().getValue())
-                    .savedCarbon(emissionTimeframe.calculateSavedCarbonPercentage())
-                    .build();
+            return new CarbonReduction(
+                    new Delay(true, delayedBy),
+                    new Carbon(emissionTimeframe.getRating().getValue()),
+                    new Carbon(emissionTimeframe.getForecastedValue().getValue()),
+                    new Carbon(emissionTimeframe.calculateSavedCarbonPercentage())
+                    );
         }
         // execution is optimal currently
-        return CarbonReductorOutput.builder()
-                .executionDelayed(false)
-                .delayedBy(0)
-                .originalCarbon(emissionTimeframe.getRating().getValue())
-                .actualCarbon(emissionTimeframe.getRating().getValue())
-                .savedCarbon(0.0)
-                .build();
+        return new CarbonReduction(
+                new Delay(false, 0),
+                new Carbon(emissionTimeframe.getRating().getValue()),
+                new Carbon(emissionTimeframe.getRating().getValue()),
+                new Carbon(0.0)
+        );
     }
 
     private Duration calculateTimeshiftWindowForSLA(CarbonReductorConfiguration input) {
