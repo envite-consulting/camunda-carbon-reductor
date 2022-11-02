@@ -1,20 +1,25 @@
-package de.envite.greenbpm.carbonreductorconnector.service;
+package de.envite.greenbpm.carbonreductorconnector.domain.service;
 
 import de.envite.greenbpm.carbonreductorconnector.TestDataGenerator;
 import de.envite.greenbpm.carbonreductorconnector.adapter.out.watttime.CarbonEmissionQueryException;
-import de.envite.greenbpm.carbonreductorconnector.domain.model.CarbonReductorConfiguration;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.CarbonReduction;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.CarbonReductorConfiguration;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.EmissionTimeframe;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.emissionframe.ForecastedValue;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.emissionframe.OptimalTime;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.emissionframe.Rating;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.input.Milestone;
 import de.envite.greenbpm.carbonreductorconnector.domain.model.input.Timeshift;
-import de.envite.greenbpm.carbonreductorconnector.domain.service.CarbonReductorException;
-import de.envite.greenbpm.carbonreductorconnector.domain.service.DelayCalculatorService;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.input.carbonreductormode.CarbonReductorModes;
+import de.envite.greenbpm.carbonreductorconnector.domain.model.input.location.Locations;
 import de.envite.greenbpm.carbonreductorconnector.usecase.out.CarbonEmissionQuery;
+import org.assertj.core.data.TemporalOffset;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.threeten.bp.Duration;
@@ -22,8 +27,13 @@ import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.ZoneOffset;
 import org.threeten.bp.format.DateTimeFormatter;
 
+import java.time.temporal.ChronoUnit;
+import java.util.stream.Stream;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.api.AssertionsForClassTypes.offset;
+import static org.junit.jupiter.api.Named.named;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -203,6 +213,14 @@ class DelayCalculatorServiceTest {
         assertThat(result.getSavedCarbon().getValue()).isZero();
     }
 
+    @ParameterizedTest(name = "{0}")
+    @DisplayName("should calculate delay duration for SLA")
+    @MethodSource("provideDelayDurationInput")
+    void shouldCalculateDelayDurationForSLA(CarbonReductorConfiguration configuration, Timeshift expected) {
+        Timeshift actual = classUnderTest.calculateTimeshiftWindowForSLA(configuration);
+        assertThat(actual.timeshiftFromNow()).isCloseTo(expected.timeshiftFromNow(), within(5, ChronoUnit.SECONDS));
+    }
+
     private static EmissionTimeframe createBetterEmissionTimeframeIn3Hours() {
         return new EmissionTimeframe(
                 new OptimalTime(java.time.OffsetDateTime.now().plusHours(3)),
@@ -216,6 +234,59 @@ class DelayCalculatorServiceTest {
                 new OptimalTime(java.time.OffsetDateTime.now(java.time.ZoneOffset.UTC)),
                 new Rating(200.6),
                 new ForecastedValue(200.6)
+        );
+    }
+
+    private static Stream<Arguments> provideDelayDurationInput() {
+        return Stream.of(
+                Arguments.of(named("Milestone now - time shift for 9 hours", new CarbonReductorConfiguration(
+                        Locations.SWEDEN_CENTRAL.asLocation(),
+                        CarbonReductorModes.SLA_BASED_MODE.asCarbonReductorMode(),
+                        new Milestone(OffsetDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern(YYYY_MM_DD_T_HH_MM_SS_SSSX_ETC_UTC))),
+                        new Timeshift(String.valueOf(Duration.ofHours(3))),
+                        new Timeshift(String.valueOf(Duration.ofHours(12))),
+                        null
+                )), new Timeshift(String.valueOf(Duration.ofHours(9)))),
+                Arguments.of(named("Milestone 3 hours ago - time shift for 6 hours", new CarbonReductorConfiguration(
+                        Locations.SWEDEN_CENTRAL.asLocation(),
+                        CarbonReductorModes.SLA_BASED_MODE.asCarbonReductorMode(),
+                        new Milestone(OffsetDateTime.now(ZoneOffset.UTC).minusHours(3).format(DateTimeFormatter.ofPattern(YYYY_MM_DD_T_HH_MM_SS_SSSX_ETC_UTC))),
+                        new Timeshift(String.valueOf(Duration.ofHours(3))),
+                        new Timeshift(String.valueOf(Duration.ofHours(12))),
+                        null
+                )), new Timeshift(String.valueOf(Duration.ofHours(6)))),
+                Arguments.of(named("Milestone 12 hours ago - do not time shift", new CarbonReductorConfiguration(
+                        Locations.SWEDEN_CENTRAL.asLocation(),
+                        CarbonReductorModes.SLA_BASED_MODE.asCarbonReductorMode(),
+                        new Milestone(OffsetDateTime.now(ZoneOffset.UTC).minusHours(12).format(DateTimeFormatter.ofPattern(YYYY_MM_DD_T_HH_MM_SS_SSSX_ETC_UTC))),
+                        new Timeshift(String.valueOf(Duration.ofHours(3))),
+                        new Timeshift(String.valueOf(Duration.ofHours(12))),
+                        null
+                )), new Timeshift(String.valueOf(Duration.ofHours(0)))),
+                Arguments.of(named("Milestone now - remainingTime & maxTimeshift equal - do not time shift", new CarbonReductorConfiguration(
+                        Locations.SWEDEN_CENTRAL.asLocation(),
+                        CarbonReductorModes.SLA_BASED_MODE.asCarbonReductorMode(),
+                        new Milestone(OffsetDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern(YYYY_MM_DD_T_HH_MM_SS_SSSX_ETC_UTC))),
+                        new Timeshift(String.valueOf(Duration.ofHours(12))),
+                        new Timeshift(String.valueOf(Duration.ofHours(12))),
+                        null
+                )), new Timeshift(String.valueOf(Duration.ofHours(0)))),
+                Arguments.of(named("Milestone now - remainingTime > maxTimeshift - do not time shift", new CarbonReductorConfiguration(
+                        Locations.SWEDEN_CENTRAL.asLocation(),
+                        CarbonReductorModes.SLA_BASED_MODE.asCarbonReductorMode(),
+                        new Milestone(OffsetDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern(YYYY_MM_DD_T_HH_MM_SS_SSSX_ETC_UTC))),
+                        new Timeshift(String.valueOf(Duration.ofHours(12))),
+                        new Timeshift(String.valueOf(Duration.ofHours(6))),
+                        null
+                )), new Timeshift(String.valueOf(Duration.ofHours(0)))),
+                Arguments.of(named("Milestone long ago - do not time shift", new CarbonReductorConfiguration(
+                        Locations.SWEDEN_CENTRAL.asLocation(),
+                        CarbonReductorModes.SLA_BASED_MODE.asCarbonReductorMode(),
+                        new Milestone(OffsetDateTime.now(ZoneOffset.UTC).minusHours(50).format(DateTimeFormatter.ofPattern(YYYY_MM_DD_T_HH_MM_SS_SSSX_ETC_UTC))),
+                        new Timeshift(String.valueOf(Duration.ofHours(3))),
+                        new Timeshift(String.valueOf(Duration.ofHours(12))),
+                        null
+                )), new Timeshift(String.valueOf(Duration.ofHours(0))))
         );
     }
 }

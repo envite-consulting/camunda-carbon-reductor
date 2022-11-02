@@ -16,6 +16,8 @@ import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.ZoneOffset;
 import org.threeten.bp.temporal.ChronoUnit;
 
+import java.time.Duration;
+
 import static de.envite.greenbpm.carbonreductorconnector.domain.model.input.carbonreductormode.CarbonReductorModes.SLA_BASED_MODE;
 
 @Slf4j
@@ -65,7 +67,7 @@ public class DelayCalculatorService implements DelayCalculator {
         );
     }
 
-    private Timeshift calculateTimeshiftWindowForSLA(CarbonReductorConfiguration input) {
+    protected Timeshift calculateTimeshiftWindowForSLA(CarbonReductorConfiguration input) {
         // maximumProcessDuration - milestone - remainingDuration - now
         // (milestone + maximumDuration) - milestone - remaining - (now - milestone)
         OffsetDateTime maximumDurationDateTime = input.getMilestone().asDate().plus(input.getMaximumProcessTimeshift().getValue().toMillis(), ChronoUnit.MILLIS);
@@ -75,7 +77,7 @@ public class DelayCalculatorService implements DelayCalculator {
                         .minus(input.getRemainingProcessTimeshift().getValue().toMillis(), ChronoUnit.MILLIS)
                         .minus(msSinceMilestone, ChronoUnit.MILLIS).toInstant().toEpochMilli());
         if (duration.isNegative()) {
-            return input.getRemainingProcessTimeshift();
+            return new Timeshift(Duration.ofMillis(0));
         }
         return new Timeshift(duration);
     }
