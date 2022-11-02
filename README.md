@@ -1,6 +1,8 @@
-# 🌱⏲ Green Timer Task Connector
+# 🌱Camunda Carbon Reductor
 
-The Carbon Reductor Connector allows you to time shift your processes' carbon emissions when energy is clean while still fulfilling the requested SLAs.
+The Camunda Carbon Reductor (CARE) allows you to time shift your processes' carbon emissions when energy is clean while still fulfilling the requested SLAs.
+
+Technically, it's implemented as a Camunda [Connector](https://docs.camunda.io/docs/components/connectors/introduction-to-connectors/) for Camunda Platform 8 (and can easily be ported to Camunda Platform 7).
 
 # Table of Contents
 
@@ -17,10 +19,10 @@ The Carbon Reductor Connector allows you to time shift your processes' carbon em
 
 # ✨Features
 
-The Carbon Reductor Connector consists on the one hand of an element-template that can be used in the process 
-model that connects to the connector function on the other hand. The Carbon Reductor Connector allows you to
+The Carbon Reductor Connector consists of an element-template that can be used in the process 
+model that connects to the connector function. The Carbon Reductor Connector allows you to
 optimize for lower carbon emissions by moving your process execution into a timeframe with the least amount 
-of carbon possible.
+of carbon possible while still fulfilling SLAs.
 
 The Carbon Reductor Connector defines the following inputs:
 
@@ -80,9 +82,7 @@ Congratulations 🎉 - the API is now running locally.
 
 Configure the application using [application.yml](/src/main/resources/application.yml). 
 
-You can run the Connector connected either to a Camunda Platform 8 SaaS or Camunda Platform 8 Self-Managed
-
-1. Camunda Platform 8 SaaS (Recommended)
+You can run the Connector and connect it to a Camunda Platform 8 SaaS cluster.
 
 ```yml
 zeebe:
@@ -94,7 +94,7 @@ zeebe:
       region: dsm-1
 ```
 
-2. Camunda Platform 8 Self-Managed
+If you're running Camunda Platform 8 Self-Managed then use the following configuration:
 
 ```yml
 zeebe:
@@ -108,6 +108,7 @@ Once the Connector is running you will see log entries like the following.
 In case of a time window with dirty energy:
 ```
 Time shifting job 4503599628706752 by PT1M30S
+...
 Completing previously time shifted job 4503599628706752
 ```
 
