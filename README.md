@@ -131,4 +131,5 @@ If you have any questions or ideas feel free to create an [issue](https://github
 
 This open source project is being developed by [envite consulting GmbH](https://envite.de).
 
-![envite consulting GmbH](envite.png)
+![envite consulting GmbH](envite-black.png#gh-light-mode-only)
+![envite consulting GmbH](envite-white.png#gh-dark-mode-only)
