@@ -26,9 +26,9 @@ of carbon possible while still fulfilling SLAs.
 
 The Carbon Reductor Connector defines the following inputs:
 
-- a correlation key (used to calculate the duration the process instance has been running)
-- a duration for the remainder of the process (the duration the remainder needs at most)
 - the location where the worker are running (e.g. Germany, UK, France, USA, etc.)
+- a milestone (a timestamp used to calculate the duration the process instance has been running)
+- a duration for the remainder of the process (the duration the remainder needs at most)
 - the maximum duration a process instance can take
 
 # 🚀Getting Started
@@ -46,7 +46,7 @@ If you don't have a Camunda Platform 8 account you can create a 30-day trial: ht
 ## Import Process Model to Camunda Platform 8
 
 * Open the Camunda Web Modeler
-* Import the process model `exampleprocess/CarbonHack22Process.bpmn`
+* Import the process model `exampleprocess/NasaImageProcessing.bpmn`
 * Start a new instance
 * Switch to Camunda Operate to see the token waiting at the connector
 
