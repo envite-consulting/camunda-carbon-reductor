@@ -3,7 +3,7 @@
     "name": "Carbon Reductor Connector",
     "id": "de.envite.greenbpm.carbonreductorconnector.carbonreductortask.v1",
     "description": "Reduces the carbon emissions caused by the process instance by shifting the work to a greener time window",
-    "documentationRef": "http://localhost:8080/",
+    "documentationRef": "https://github.com/envite-consulting/camunda-carbon-reductor",
     "icon": {
         "contents": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E\uD83C\uDF31%3C/text%3E%3C/svg%3E"
     },
@@ -108,7 +108,7 @@
             "label": "SLA based or absolute duration",
             "group": "commonConfiguration",
             "id": "carbonReductorMode",
-            "description": "defines how to calculate the time window for the timeshift - relative calculates the runtime of the process instance from the specified milestone - absolute uses the absolute value",
+            "description": "defines how to calculate the time window for the timeshift",
             "type": "Dropdown",
             "choices": [
                 {
