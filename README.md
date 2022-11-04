@@ -126,7 +126,7 @@ we have the ability to visualize our successes in [Camunda Optimize](https://cam
 For the [CarbonHack22](https://taikai.network/gsf/hackathons/carbonhack22/projects/cl9czuvwy65500401uzm9hfwbs9/idea) 
 we visualized the results for out example process and it looks like the following: [CarbonHack22 Dashboard](https://dsm-1.optimize.camunda.io/9f797e79-5066-47cc-bc67-cc7d0f22f96c/external/#/share/dashboard/0dae7a0c-decd-407f-b643-a00a31e1949b?filter=%5B%5D)
 
-<!-- TODO: Insert screenshot of Dashboard -->
+![CarbonHack22 Dashboard](CarbonHack22-Camunda-Optimize-Dashboard.png)
 
 # 📚Releases
 
