@@ -1,6 +1,6 @@
 # 🌱Camunda Carbon Reductor
 
-The Camunda Carbon Reductor (CARE) allows you to time shift your processes' carbon emissions when energy is clean while still fulfilling the requested SLAs.
+The Camunda Carbon Reductor allows you to time shift your processes' carbon emissions when energy is clean while still fulfilling the requested SLAs.
 
 Technically, it's implemented as a Camunda [Connector](https://docs.camunda.io/docs/components/connectors/introduction-to-connectors/) for Camunda Platform 8 (and can easily be ported to Camunda Platform 7).
 
@@ -134,7 +134,10 @@ Coming soon 🚀
 
 # 📆Publications
 
-Coming soon
+* 2022-11: [Project Pitch](https://taikai.network/gsf/hackathons/carbonhack22/projects/cl9czuvwy65500401uzm9hfwbs9/idea)  
+  Project pitch on Taikai as part of the [#CarbonHack22](https://greensoftware.foundation/articles/carbonhack22) hackathon
+* 2022-11: [Carbon Reduced Business Process Execution](https://youtu.be/sGW5MJoOxPk)  
+  2 Minute pitch on YouTube as part of the [#CarbonHack22](https://greensoftware.foundation/articles/carbonhack22) hackathon
 
 # 📨Contact
 
