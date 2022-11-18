@@ -1,0 +1,966 @@
+[
+	{
+		"id": "d0f97637-b963-4462-8d32-178486a32348",
+		"exportEntityType": "single_process_report",
+		"name": "KPI: Success Rate (Instances saved more than 10 % Carbon)",
+		"sourceIndexVersion": 9,
+		"collectionId": "a6a1a824-5c6e-4bbb-9d51-679932459765",
+		"data": {
+			"configuration": {
+				"color": "#1991c8",
+				"aggregationTypes": [
+					{
+						"type": "avg",
+						"value": null
+					}
+				],
+				"userTaskDurationTimes": [
+					"total"
+				],
+				"showInstanceCount": false,
+				"pointMarkers": true,
+				"precision": null,
+				"hideRelativeValue": false,
+				"hideAbsoluteValue": false,
+				"alwaysShowRelative": false,
+				"alwaysShowAbsolute": false,
+				"showGradientBars": true,
+				"xml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<bpmn:definitions xmlns:bpmn=\"http://www.omg.org/spec/BPMN/20100524/MODEL\" xmlns:bpmndi=\"http://www.omg.org/spec/BPMN/20100524/DI\" xmlns:dc=\"http://www.omg.org/spec/DD/20100524/DC\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:di=\"http://www.omg.org/spec/DD/20100524/DI\" xmlns:zeebe=\"http://camunda.org/schema/zeebe/1.0\" xmlns:modeler=\"http://camunda.org/schema/modeler/1.0\" id=\"Definitions_1e0e918\" targetNamespace=\"http://bpmn.io/schema/bpmn\" exporter=\"Camunda Modeler\" exporterVersion=\"5.4.1\" modeler:executionPlatform=\"Camunda Cloud\" modeler:executionPlatformVersion=\"8.1.0\">\n  <bpmn:collaboration id=\"CarbonHack22Process\">\n    <bpmn:participant id=\"Participant_Nasa\" name=\"Space Center Houston\" processRef=\"NasaImageProcessing\" />\n    <bpmn:participant id=\"Participant_MarsRover\" name=\"Mars Rover\" />\n    <bpmn:messageFlow id=\"Flow_07bc21p\" sourceRef=\"Participant_MarsRover\" targetRef=\"Event_TransmissionReceived\" />\n  </bpmn:collaboration>\n  <bpmn:process id=\"NasaImageProcessing\" name=\"NASA Image Processing\" isExecutable=\"true\">\n    <bpmn:startEvent id=\"Event_TransmissionReceived\" name=\"Transmission received\">\n      <bpmn:outgoing>Flow_03b5f3o</bpmn:outgoing>\n    </bpmn:startEvent>\n    <bpmn:parallelGateway id=\"Gateway_SplitProcessing\">\n      <bpmn:incoming>Flow_0x4j7xr</bpmn:incoming>\n      <bpmn:outgoing>Flow_0elx5ld</bpmn:outgoing>\n      <bpmn:outgoing>Flow_0k12ehs</bpmn:outgoing>\n      <bpmn:outgoing>Flow_1jgk57k</bpmn:outgoing>\n    </bpmn:parallelGateway>\n    <bpmn:parallelGateway id=\"Gateway_JoinProcessing\">\n      <bpmn:incoming>Flow_04sk3cq</bpmn:incoming>\n      <bpmn:incoming>Flow_1kfeua2</bpmn:incoming>\n      <bpmn:incoming>Flow_1dqrdrn</bpmn:incoming>\n      <bpmn:outgoing>Flow_05lrw3m</bpmn:outgoing>\n    </bpmn:parallelGateway>\n    <bpmn:endEvent id=\"Event_TransmissionProcessed\" name=\"Transmission processed\">\n      <bpmn:incoming>Flow_05lrw3m</bpmn:incoming>\n    </bpmn:endEvent>\n    <bpmn:manualTask id=\"Activity_GeneratePreviewImage\" name=\"Generate preview image\">\n      <bpmn:incoming>Flow_03b5f3o</bpmn:incoming>\n      <bpmn:outgoing>Flow_14e4zmj</bpmn:outgoing>\n    </bpmn:manualTask>\n    <bpmn:manualTask id=\"Activity_Parallel2\" name=\"Mosaic RDR&#10;processing\">\n      <bpmn:incoming>Flow_0elx5ld</bpmn:incoming>\n      <bpmn:outgoing>Flow_04sk3cq</bpmn:outgoing>\n    </bpmn:manualTask>\n    <bpmn:manualTask id=\"Activity_Parallel3\" name=\"...&#10;processing\">\n      <bpmn:incoming>Flow_1jgk57k</bpmn:incoming>\n      <bpmn:outgoing>Flow_1dqrdrn</bpmn:outgoing>\n    </bpmn:manualTask>\n    <bpmn:manualTask id=\"Activity_Parallel1\" name=\"Terrain processing\">\n      <bpmn:incoming>Flow_0k12ehs</bpmn:incoming>\n      <bpmn:outgoing>Flow_1kfeua2</bpmn:outgoing>\n    </bpmn:manualTask>\n    <bpmn:serviceTask id=\"Activity_TimeShiftToCleanEnergy\" name=\"Time shift to clean energy\" zeebe:modelerTemplate=\"de.envite.greenbpm.carbonreductorconnector.carbonreductortask.v1\" zeebe:modelerTemplateIcon=\"data:image/svg+xml,%3Csvg xmlns=&#39;http://www.w3.org/2000/svg&#39; viewBox=&#39;0 0 100 100&#39;%3E%3Ctext y=&#39;.9em&#39; font-size=&#39;90&#39;%3E🌱%3C/text%3E%3C/svg%3E\">\n      <bpmn:extensionElements>\n        <zeebe:taskDefinition type=\"de.envite.greenbpm.carbonreductorconnector.carbonreductortask:1\" />\n        <zeebe:ioMapping>\n          <zeebe:input source=\"slaBasedConfiguration\" target=\"carbonReductorMode\" />\n          <zeebe:input source=\"=now()\" target=\"milestone\" />\n          <zeebe:input source=\"PT12H\" target=\"maximumProcessDuration\" />\n          <zeebe:input source=\"PT5H\" target=\"timeshiftWindow\" />\n          <zeebe:input source=\"uksouth\" target=\"location\" />\n          <zeebe:input source=\"PT6M\" target=\"remainingProcessDuration\" />\n        </zeebe:ioMapping>\n        <zeebe:taskHeaders>\n          <zeebe:header key=\"resultExpression\" value=\"={&#10;  &#34;wasExecutionDelayed&#34;: response.executionDelayed,&#10;  &#34;delayedByInMs&#34;: response.delayedBy,&#10;  &#34;originalCarbon&#34;: response.originalCarbon,&#10;  &#34;actualCarbon&#34;: response.actualCarbon,&#10;  &#34;savedCarbonPct&#34;: response.savedCarbon,&#10;  &#34;reducedCarbon&#34;: response.reducedCarbon&#10;}\" />\n        </zeebe:taskHeaders>\n      </bpmn:extensionElements>\n      <bpmn:incoming>Flow_14e4zmj</bpmn:incoming>\n      <bpmn:outgoing>Flow_0x4j7xr</bpmn:outgoing>\n    </bpmn:serviceTask>\n    <bpmn:sequenceFlow id=\"Flow_03b5f3o\" sourceRef=\"Event_TransmissionReceived\" targetRef=\"Activity_GeneratePreviewImage\" />\n    <bpmn:sequenceFlow id=\"Flow_0x4j7xr\" sourceRef=\"Activity_TimeShiftToCleanEnergy\" targetRef=\"Gateway_SplitProcessing\" />\n    <bpmn:sequenceFlow id=\"Flow_0elx5ld\" sourceRef=\"Gateway_SplitProcessing\" targetRef=\"Activity_Parallel2\" />\n    <bpmn:sequenceFlow id=\"Flow_0k12ehs\" sourceRef=\"Gateway_SplitProcessing\" targetRef=\"Activity_Parallel1\" />\n    <bpmn:sequenceFlow id=\"Flow_1jgk57k\" sourceRef=\"Gateway_SplitProcessing\" targetRef=\"Activity_Parallel3\" />\n    <bpmn:sequenceFlow id=\"Flow_04sk3cq\" sourceRef=\"Activity_Parallel2\" targetRef=\"Gateway_JoinProcessing\" />\n    <bpmn:sequenceFlow id=\"Flow_1kfeua2\" sourceRef=\"Activity_Parallel1\" targetRef=\"Gateway_JoinProcessing\" />\n    <bpmn:sequenceFlow id=\"Flow_1dqrdrn\" sourceRef=\"Activity_Parallel3\" targetRef=\"Gateway_JoinProcessing\" />\n    <bpmn:sequenceFlow id=\"Flow_05lrw3m\" sourceRef=\"Gateway_JoinProcessing\" targetRef=\"Event_TransmissionProcessed\" />\n    <bpmn:sequenceFlow id=\"Flow_14e4zmj\" sourceRef=\"Activity_GeneratePreviewImage\" targetRef=\"Activity_TimeShiftToCleanEnergy\" />\n  </bpmn:process>\n  <bpmndi:BPMNDiagram id=\"BPMNDiagram_1\">\n    <bpmndi:BPMNPlane id=\"BPMNPlane_1\" bpmnElement=\"CarbonHack22Process\">\n      <bpmndi:BPMNShape id=\"BPMNShape_1wwaij0\" bpmnElement=\"Participant_Nasa\" isHorizontal=\"true\">\n        <dc:Bounds x=\"160\" y=\"240\" width=\"930\" height=\"380\" />\n        <bpmndi:BPMNLabel />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_10xl8ky\" bpmnElement=\"Event_TransmissionReceived\">\n        <dc:Bounds x=\"212\" y=\"419\" width=\"36\" height=\"36\" />\n        <bpmndi:BPMNLabel>\n          <dc:Bounds x=\"199\" y=\"462\" width=\"65\" height=\"27\" />\n        </bpmndi:BPMNLabel>\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_113k72g\" bpmnElement=\"Gateway_SplitProcessing\">\n        <dc:Bounds x=\"635\" y=\"412\" width=\"50\" height=\"50\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_1pkmt78\" bpmnElement=\"Gateway_JoinProcessing\">\n        <dc:Bounds x=\"915\" y=\"412\" width=\"50\" height=\"50\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_0gki1zt\" bpmnElement=\"Event_TransmissionProcessed\">\n        <dc:Bounds x=\"1032\" y=\"419\" width=\"36\" height=\"36\" />\n        <bpmndi:BPMNLabel>\n          <dc:Bounds x=\"1018\" y=\"462\" width=\"65\" height=\"27\" />\n        </bpmndi:BPMNLabel>\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_0acgyhs\" bpmnElement=\"Activity_GeneratePreviewImage\">\n        <dc:Bounds x=\"310\" y=\"397\" width=\"100\" height=\"80\" />\n        <bpmndi:BPMNLabel />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_1r61b42\" bpmnElement=\"Activity_Parallel2\">\n        <dc:Bounds x=\"750\" y=\"397\" width=\"100\" height=\"80\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_1c15h1z\" bpmnElement=\"Activity_Parallel3\">\n        <dc:Bounds x=\"750\" y=\"517\" width=\"100\" height=\"80\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_0a5ibdd\" bpmnElement=\"Activity_Parallel1\">\n        <dc:Bounds x=\"750\" y=\"277\" width=\"100\" height=\"80\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"Activity_1fnv86p_di\" bpmnElement=\"Activity_TimeShiftToCleanEnergy\">\n        <dc:Bounds x=\"470\" y=\"397\" width=\"100\" height=\"80\" />\n        <bpmndi:BPMNLabel />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_0k6xa9l\" bpmnElement=\"Flow_03b5f3o\">\n        <di:waypoint x=\"248\" y=\"437\" />\n        <di:waypoint x=\"310\" y=\"437\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"Flow_0x4j7xr_di\" bpmnElement=\"Flow_0x4j7xr\">\n        <di:waypoint x=\"570\" y=\"437\" />\n        <di:waypoint x=\"635\" y=\"437\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_1j2bbfk\" bpmnElement=\"Flow_0elx5ld\">\n        <di:waypoint x=\"685\" y=\"437\" />\n        <di:waypoint x=\"750\" y=\"437\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_1awqito\" bpmnElement=\"Flow_0k12ehs\">\n        <di:waypoint x=\"660\" y=\"412\" />\n        <di:waypoint x=\"660\" y=\"317\" />\n        <di:waypoint x=\"750\" y=\"317\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_1b0ncic\" bpmnElement=\"Flow_1jgk57k\">\n        <di:waypoint x=\"660\" y=\"462\" />\n        <di:waypoint x=\"660\" y=\"557\" />\n        <di:waypoint x=\"750\" y=\"557\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_1t4m2za\" bpmnElement=\"Flow_04sk3cq\">\n        <di:waypoint x=\"850\" y=\"437\" />\n        <di:waypoint x=\"915\" y=\"437\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_0b228ou\" bpmnElement=\"Flow_1kfeua2\">\n        <di:waypoint x=\"850\" y=\"317\" />\n        <di:waypoint x=\"940\" y=\"317\" />\n        <di:waypoint x=\"940\" y=\"412\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_0eaj5or\" bpmnElement=\"Flow_1dqrdrn\">\n        <di:waypoint x=\"850\" y=\"557\" />\n        <di:waypoint x=\"940\" y=\"557\" />\n        <di:waypoint x=\"940\" y=\"462\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_0vu72kg\" bpmnElement=\"Flow_05lrw3m\">\n        <di:waypoint x=\"965\" y=\"437\" />\n        <di:waypoint x=\"1032\" y=\"437\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_17qxe6f\" bpmnElement=\"Flow_14e4zmj\">\n        <di:waypoint x=\"410\" y=\"437\" />\n        <di:waypoint x=\"470\" y=\"437\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNShape id=\"BPMNShape_1upsfvm\" bpmnElement=\"Participant_MarsRover\" isHorizontal=\"true\">\n        <dc:Bounds x=\"160\" y=\"80\" width=\"300\" height=\"60\" />\n        <bpmndi:BPMNLabel />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_0dgqr4w\" bpmnElement=\"Flow_07bc21p\">\n        <di:waypoint x=\"230\" y=\"140\" />\n        <di:waypoint x=\"230\" y=\"419\" />\n      </bpmndi:BPMNEdge>\n    </bpmndi:BPMNPlane>\n  </bpmndi:BPMNDiagram>\n</bpmn:definitions>\n",
+				"tableColumns": {
+					"includeNewVariables": true,
+					"excludedColumns": [
+					],
+					"includedColumns": [
+					],
+					"columnOrder": [
+					]
+				},
+				"targetValue": {
+					"countChart": {
+						"isBelow": false,
+						"value": "100"
+					},
+					"durationProgress": {
+						"baseline": {
+							"unit": "hours",
+							"value": "0"
+						},
+						"target": {
+							"unit": "hours",
+							"value": "2",
+							"isBelow": false
+						}
+					},
+					"active": true,
+					"countProgress": {
+						"baseline": "0",
+						"target": "50",
+						"isBelow": false
+					},
+					"durationChart": {
+						"unit": "hours",
+						"isBelow": false,
+						"value": "2"
+					},
+					"isKpi": true
+				},
+				"heatmapTargetValue": {
+					"active": false,
+					"values": {
+					}
+				},
+				"groupByDateVariableUnit": "automatic",
+				"distributeByDateVariableUnit": "automatic",
+				"customBucket": {
+					"active": false,
+					"bucketSize": "10.0",
+					"bucketSizeUnit": "minute",
+					"baseline": "0.0",
+					"baselineUnit": "minute"
+				},
+				"distributeByCustomBucket": {
+					"active": false,
+					"bucketSize": "10.0",
+					"bucketSizeUnit": "minute",
+					"baseline": "0.0",
+					"baselineUnit": "minute"
+				},
+				"sorting": null,
+				"processPart": null,
+				"measureVisualizations": {
+					"frequency": "bar",
+					"duration": "line"
+				},
+				"stackedBar": false,
+				"logScale": false,
+				"yLabel": "",
+				"xLabel": ""
+			},
+			"definitions": [
+				{
+					"identifier": "definition",
+					"key": "NasaImageProcessing",
+					"name": "NASA Image Processing",
+					"displayName": "NASA Image Processing",
+					"versions": [
+						"all"
+					],
+					"tenantIds": [
+						null
+					]
+				}
+			],
+			"filter": [
+				{
+					"type": "multipleVariable",
+					"data": {
+						"data": [
+							{
+								"type": "Double",
+								"name": "savedCarbon",
+								"data": {
+									"operator": ">",
+									"values": [
+										"10"
+									]
+								}
+							}
+						]
+					},
+					"filterLevel": "instance",
+					"appliedTo": [
+						"definition"
+					]
+				}
+			],
+			"view": {
+				"entity": "processInstance",
+				"properties": [
+					"percentage"
+				]
+			},
+			"groupBy": {
+				"type": "none",
+				"value": null
+			},
+			"distributedBy": {
+				"type": "none",
+				"value": null
+			},
+			"visualization": "number",
+			"managementReport": false,
+			"userTaskReport": false
+		}
+	},
+	{
+		"id": "3522eda0-80c5-4a7d-a280-8667f7261f4f",
+		"exportEntityType": "single_process_report",
+		"name": "Saved Carbon per Camunda Carbon Reductor Execution",
+		"sourceIndexVersion": 9,
+		"collectionId": "a6a1a824-5c6e-4bbb-9d51-679932459765",
+		"data": {
+			"configuration": {
+				"color": "#00d0a3",
+				"aggregationTypes": [
+					{
+						"type": "avg",
+						"value": null
+					}
+				],
+				"userTaskDurationTimes": [
+					"total"
+				],
+				"showInstanceCount": false,
+				"pointMarkers": true,
+				"precision": null,
+				"hideRelativeValue": false,
+				"hideAbsoluteValue": false,
+				"alwaysShowRelative": false,
+				"alwaysShowAbsolute": false,
+				"showGradientBars": true,
+				"xml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<bpmn:definitions xmlns:bpmn=\"http://www.omg.org/spec/BPMN/20100524/MODEL\" xmlns:bpmndi=\"http://www.omg.org/spec/BPMN/20100524/DI\" xmlns:dc=\"http://www.omg.org/spec/DD/20100524/DC\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:di=\"http://www.omg.org/spec/DD/20100524/DI\" xmlns:zeebe=\"http://camunda.org/schema/zeebe/1.0\" xmlns:modeler=\"http://camunda.org/schema/modeler/1.0\" id=\"Definitions_1e0e918\" targetNamespace=\"http://bpmn.io/schema/bpmn\" exporter=\"Camunda Modeler\" exporterVersion=\"5.4.1\" modeler:executionPlatform=\"Camunda Cloud\" modeler:executionPlatformVersion=\"8.1.0\">\n  <bpmn:collaboration id=\"CarbonHack22Process\">\n    <bpmn:participant id=\"Participant_Nasa\" name=\"Space Center Houston\" processRef=\"NasaImageProcessing\" />\n    <bpmn:participant id=\"Participant_MarsRover\" name=\"Mars Rover\" />\n    <bpmn:messageFlow id=\"Flow_07bc21p\" sourceRef=\"Participant_MarsRover\" targetRef=\"Event_TransmissionReceived\" />\n  </bpmn:collaboration>\n  <bpmn:process id=\"NasaImageProcessing\" name=\"NASA Image Processing\" isExecutable=\"true\">\n    <bpmn:startEvent id=\"Event_TransmissionReceived\" name=\"Transmission received\">\n      <bpmn:outgoing>Flow_03b5f3o</bpmn:outgoing>\n    </bpmn:startEvent>\n    <bpmn:parallelGateway id=\"Gateway_SplitProcessing\">\n      <bpmn:incoming>Flow_0x4j7xr</bpmn:incoming>\n      <bpmn:outgoing>Flow_0elx5ld</bpmn:outgoing>\n      <bpmn:outgoing>Flow_0k12ehs</bpmn:outgoing>\n      <bpmn:outgoing>Flow_1jgk57k</bpmn:outgoing>\n    </bpmn:parallelGateway>\n    <bpmn:parallelGateway id=\"Gateway_JoinProcessing\">\n      <bpmn:incoming>Flow_04sk3cq</bpmn:incoming>\n      <bpmn:incoming>Flow_1kfeua2</bpmn:incoming>\n      <bpmn:incoming>Flow_1dqrdrn</bpmn:incoming>\n      <bpmn:outgoing>Flow_05lrw3m</bpmn:outgoing>\n    </bpmn:parallelGateway>\n    <bpmn:endEvent id=\"Event_TransmissionProcessed\" name=\"Transmission processed\">\n      <bpmn:incoming>Flow_05lrw3m</bpmn:incoming>\n    </bpmn:endEvent>\n    <bpmn:manualTask id=\"Activity_GeneratePreviewImage\" name=\"Generate preview image\">\n      <bpmn:incoming>Flow_03b5f3o</bpmn:incoming>\n      <bpmn:outgoing>Flow_14e4zmj</bpmn:outgoing>\n    </bpmn:manualTask>\n    <bpmn:manualTask id=\"Activity_Parallel2\" name=\"Mosaic RDR&#10;processing\">\n      <bpmn:incoming>Flow_0elx5ld</bpmn:incoming>\n      <bpmn:outgoing>Flow_04sk3cq</bpmn:outgoing>\n    </bpmn:manualTask>\n    <bpmn:manualTask id=\"Activity_Parallel3\" name=\"...&#10;processing\">\n      <bpmn:incoming>Flow_1jgk57k</bpmn:incoming>\n      <bpmn:outgoing>Flow_1dqrdrn</bpmn:outgoing>\n    </bpmn:manualTask>\n    <bpmn:manualTask id=\"Activity_Parallel1\" name=\"Terrain processing\">\n      <bpmn:incoming>Flow_0k12ehs</bpmn:incoming>\n      <bpmn:outgoing>Flow_1kfeua2</bpmn:outgoing>\n    </bpmn:manualTask>\n    <bpmn:serviceTask id=\"Activity_TimeShiftToCleanEnergy\" name=\"Time shift to clean energy\" zeebe:modelerTemplate=\"de.envite.greenbpm.carbonreductorconnector.carbonreductortask.v1\" zeebe:modelerTemplateIcon=\"data:image/svg+xml,%3Csvg xmlns=&#39;http://www.w3.org/2000/svg&#39; viewBox=&#39;0 0 100 100&#39;%3E%3Ctext y=&#39;.9em&#39; font-size=&#39;90&#39;%3E🌱%3C/text%3E%3C/svg%3E\">\n      <bpmn:extensionElements>\n        <zeebe:taskDefinition type=\"de.envite.greenbpm.carbonreductorconnector.carbonreductortask:1\" />\n        <zeebe:ioMapping>\n          <zeebe:input source=\"slaBasedConfiguration\" target=\"carbonReductorMode\" />\n          <zeebe:input source=\"=now()\" target=\"milestone\" />\n          <zeebe:input source=\"PT12H\" target=\"maximumProcessDuration\" />\n          <zeebe:input source=\"PT5H\" target=\"timeshiftWindow\" />\n          <zeebe:input source=\"swedencentral\" target=\"location\" />\n          <zeebe:input source=\"PT1H\" target=\"remainingProcessDuration\" />\n        </zeebe:ioMapping>\n        <zeebe:taskHeaders>\n          <zeebe:header key=\"resultExpression\" value=\"={&#10;  &#34;wasExecutionDelayed&#34;: response.executionDelayed,&#10;  &#34;delayedByInMs&#34;: response.delayedBy,&#10;  &#34;originalCarbon&#34;: response.originalCarbon,&#10;  &#34;actualCarbon&#34;: response.actualCarbon,&#10;  &#34;savedCarbonPct&#34;: response.savedCarbon,&#10;  &#34;reducedCarbon&#34;: response.reducedCarbon&#10;}\" />\n        </zeebe:taskHeaders>\n      </bpmn:extensionElements>\n      <bpmn:incoming>Flow_14e4zmj</bpmn:incoming>\n      <bpmn:outgoing>Flow_0x4j7xr</bpmn:outgoing>\n    </bpmn:serviceTask>\n    <bpmn:sequenceFlow id=\"Flow_03b5f3o\" sourceRef=\"Event_TransmissionReceived\" targetRef=\"Activity_GeneratePreviewImage\" />\n    <bpmn:sequenceFlow id=\"Flow_0x4j7xr\" sourceRef=\"Activity_TimeShiftToCleanEnergy\" targetRef=\"Gateway_SplitProcessing\" />\n    <bpmn:sequenceFlow id=\"Flow_0elx5ld\" sourceRef=\"Gateway_SplitProcessing\" targetRef=\"Activity_Parallel2\" />\n    <bpmn:sequenceFlow id=\"Flow_0k12ehs\" sourceRef=\"Gateway_SplitProcessing\" targetRef=\"Activity_Parallel1\" />\n    <bpmn:sequenceFlow id=\"Flow_1jgk57k\" sourceRef=\"Gateway_SplitProcessing\" targetRef=\"Activity_Parallel3\" />\n    <bpmn:sequenceFlow id=\"Flow_04sk3cq\" sourceRef=\"Activity_Parallel2\" targetRef=\"Gateway_JoinProcessing\" />\n    <bpmn:sequenceFlow id=\"Flow_1kfeua2\" sourceRef=\"Activity_Parallel1\" targetRef=\"Gateway_JoinProcessing\" />\n    <bpmn:sequenceFlow id=\"Flow_1dqrdrn\" sourceRef=\"Activity_Parallel3\" targetRef=\"Gateway_JoinProcessing\" />\n    <bpmn:sequenceFlow id=\"Flow_05lrw3m\" sourceRef=\"Gateway_JoinProcessing\" targetRef=\"Event_TransmissionProcessed\" />\n    <bpmn:sequenceFlow id=\"Flow_14e4zmj\" sourceRef=\"Activity_GeneratePreviewImage\" targetRef=\"Activity_TimeShiftToCleanEnergy\" />\n  </bpmn:process>\n  <bpmndi:BPMNDiagram id=\"BPMNDiagram_1\">\n    <bpmndi:BPMNPlane id=\"BPMNPlane_1\" bpmnElement=\"CarbonHack22Process\">\n      <bpmndi:BPMNShape id=\"BPMNShape_1wwaij0\" bpmnElement=\"Participant_Nasa\" isHorizontal=\"true\">\n        <dc:Bounds x=\"160\" y=\"240\" width=\"930\" height=\"380\" />\n        <bpmndi:BPMNLabel />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_10xl8ky\" bpmnElement=\"Event_TransmissionReceived\">\n        <dc:Bounds x=\"212\" y=\"419\" width=\"36\" height=\"36\" />\n        <bpmndi:BPMNLabel>\n          <dc:Bounds x=\"199\" y=\"462\" width=\"65\" height=\"27\" />\n        </bpmndi:BPMNLabel>\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_113k72g\" bpmnElement=\"Gateway_SplitProcessing\">\n        <dc:Bounds x=\"635\" y=\"412\" width=\"50\" height=\"50\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_1pkmt78\" bpmnElement=\"Gateway_JoinProcessing\">\n        <dc:Bounds x=\"915\" y=\"412\" width=\"50\" height=\"50\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_0gki1zt\" bpmnElement=\"Event_TransmissionProcessed\">\n        <dc:Bounds x=\"1032\" y=\"419\" width=\"36\" height=\"36\" />\n        <bpmndi:BPMNLabel>\n          <dc:Bounds x=\"1018\" y=\"462\" width=\"65\" height=\"27\" />\n        </bpmndi:BPMNLabel>\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_0acgyhs\" bpmnElement=\"Activity_GeneratePreviewImage\">\n        <dc:Bounds x=\"310\" y=\"397\" width=\"100\" height=\"80\" />\n        <bpmndi:BPMNLabel />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_1r61b42\" bpmnElement=\"Activity_Parallel2\">\n        <dc:Bounds x=\"750\" y=\"397\" width=\"100\" height=\"80\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_1c15h1z\" bpmnElement=\"Activity_Parallel3\">\n        <dc:Bounds x=\"750\" y=\"517\" width=\"100\" height=\"80\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_0a5ibdd\" bpmnElement=\"Activity_Parallel1\">\n        <dc:Bounds x=\"750\" y=\"277\" width=\"100\" height=\"80\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"Activity_1fnv86p_di\" bpmnElement=\"Activity_TimeShiftToCleanEnergy\">\n        <dc:Bounds x=\"470\" y=\"397\" width=\"100\" height=\"80\" />\n        <bpmndi:BPMNLabel />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_0k6xa9l\" bpmnElement=\"Flow_03b5f3o\">\n        <di:waypoint x=\"248\" y=\"437\" />\n        <di:waypoint x=\"310\" y=\"437\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"Flow_0x4j7xr_di\" bpmnElement=\"Flow_0x4j7xr\">\n        <di:waypoint x=\"570\" y=\"437\" />\n        <di:waypoint x=\"635\" y=\"437\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_1j2bbfk\" bpmnElement=\"Flow_0elx5ld\">\n        <di:waypoint x=\"685\" y=\"437\" />\n        <di:waypoint x=\"750\" y=\"437\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_1awqito\" bpmnElement=\"Flow_0k12ehs\">\n        <di:waypoint x=\"660\" y=\"412\" />\n        <di:waypoint x=\"660\" y=\"317\" />\n        <di:waypoint x=\"750\" y=\"317\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_1b0ncic\" bpmnElement=\"Flow_1jgk57k\">\n        <di:waypoint x=\"660\" y=\"462\" />\n        <di:waypoint x=\"660\" y=\"557\" />\n        <di:waypoint x=\"750\" y=\"557\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_1t4m2za\" bpmnElement=\"Flow_04sk3cq\">\n        <di:waypoint x=\"850\" y=\"437\" />\n        <di:waypoint x=\"915\" y=\"437\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_0b228ou\" bpmnElement=\"Flow_1kfeua2\">\n        <di:waypoint x=\"850\" y=\"317\" />\n        <di:waypoint x=\"940\" y=\"317\" />\n        <di:waypoint x=\"940\" y=\"412\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_0eaj5or\" bpmnElement=\"Flow_1dqrdrn\">\n        <di:waypoint x=\"850\" y=\"557\" />\n        <di:waypoint x=\"940\" y=\"557\" />\n        <di:waypoint x=\"940\" y=\"462\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_0vu72kg\" bpmnElement=\"Flow_05lrw3m\">\n        <di:waypoint x=\"965\" y=\"437\" />\n        <di:waypoint x=\"1032\" y=\"437\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_17qxe6f\" bpmnElement=\"Flow_14e4zmj\">\n        <di:waypoint x=\"410\" y=\"437\" />\n        <di:waypoint x=\"470\" y=\"437\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNShape id=\"BPMNShape_1upsfvm\" bpmnElement=\"Participant_MarsRover\" isHorizontal=\"true\">\n        <dc:Bounds x=\"160\" y=\"80\" width=\"300\" height=\"60\" />\n        <bpmndi:BPMNLabel />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_0dgqr4w\" bpmnElement=\"Flow_07bc21p\">\n        <di:waypoint x=\"230\" y=\"140\" />\n        <di:waypoint x=\"230\" y=\"419\" />\n      </bpmndi:BPMNEdge>\n    </bpmndi:BPMNPlane>\n  </bpmndi:BPMNDiagram>\n</bpmn:definitions>",
+				"tableColumns": {
+					"includeNewVariables": true,
+					"excludedColumns": [
+					],
+					"includedColumns": [
+					],
+					"columnOrder": [
+					]
+				},
+				"targetValue": {
+					"countChart": {
+						"isBelow": false,
+						"value": "100"
+					},
+					"durationProgress": {
+						"baseline": {
+							"unit": "hours",
+							"value": "0"
+						},
+						"target": {
+							"unit": "hours",
+							"value": "2",
+							"isBelow": false
+						}
+					},
+					"active": false,
+					"countProgress": {
+						"baseline": "0",
+						"target": "100",
+						"isBelow": false
+					},
+					"durationChart": {
+						"unit": "hours",
+						"isBelow": false,
+						"value": "2"
+					},
+					"isKpi": false
+				},
+				"heatmapTargetValue": {
+					"active": false,
+					"values": {
+					}
+				},
+				"groupByDateVariableUnit": "automatic",
+				"distributeByDateVariableUnit": "automatic",
+				"customBucket": {
+					"active": true,
+					"bucketSize": "4.75",
+					"bucketSizeUnit": "minute",
+					"baseline": "0.0",
+					"baselineUnit": "minute"
+				},
+				"distributeByCustomBucket": {
+					"active": false,
+					"bucketSize": "10.0",
+					"bucketSizeUnit": "minute",
+					"baseline": "0.0",
+					"baselineUnit": "minute"
+				},
+				"sorting": null,
+				"processPart": null,
+				"measureVisualizations": {
+					"frequency": "bar",
+					"duration": "line"
+				},
+				"stackedBar": false,
+				"logScale": false,
+				"yLabel": "Camunda Carbon Reductor Executions",
+				"xLabel": "Saved Carbon [%]"
+			},
+			"definitions": [
+				{
+					"identifier": "definition",
+					"key": "NasaImageProcessing",
+					"name": "NASA Image Processing",
+					"displayName": "NASA Image Processing",
+					"versions": [
+						"all"
+					],
+					"tenantIds": [
+						null
+					]
+				}
+			],
+			"filter": [
+				{
+					"type": "executedFlowNodes",
+					"data": {
+						"operator": "not in",
+						"values": [
+							"Event_TransmissionReceived",
+							"Gateway_SplitProcessing",
+							"Gateway_JoinProcessing",
+							"Event_TransmissionProcessed",
+							"Activity_GeneratePreviewImage",
+							"Activity_Parallel2",
+							"Activity_Parallel3",
+							"Activity_Parallel1"
+						]
+					},
+					"filterLevel": "view",
+					"appliedTo": [
+						"definition"
+					]
+				}
+			],
+			"view": {
+				"entity": "flowNode",
+				"properties": [
+					"frequency"
+				]
+			},
+			"groupBy": {
+				"type": "variable",
+				"value": {
+					"name": "savedCarbon",
+					"type": "Double"
+				}
+			},
+			"distributedBy": {
+				"type": "none",
+				"value": null
+			},
+			"visualization": "bar",
+			"managementReport": false,
+			"userTaskReport": false
+		}
+	},
+	{
+		"id": "3be18fd8-adaf-4b1a-a7fb-02f732829ba3",
+		"exportEntityType": "single_process_report",
+		"name": "Ø Saved Carbon [%]",
+		"sourceIndexVersion": 9,
+		"collectionId": "a6a1a824-5c6e-4bbb-9d51-679932459765",
+		"data": {
+			"configuration": {
+				"color": "#1991c8",
+				"aggregationTypes": [
+					{
+						"type": "avg",
+						"value": null
+					}
+				],
+				"userTaskDurationTimes": [
+					"total"
+				],
+				"showInstanceCount": false,
+				"pointMarkers": true,
+				"precision": 2,
+				"hideRelativeValue": false,
+				"hideAbsoluteValue": false,
+				"alwaysShowRelative": false,
+				"alwaysShowAbsolute": false,
+				"showGradientBars": true,
+				"xml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<bpmn:definitions xmlns:bpmn=\"http://www.omg.org/spec/BPMN/20100524/MODEL\" xmlns:bpmndi=\"http://www.omg.org/spec/BPMN/20100524/DI\" xmlns:dc=\"http://www.omg.org/spec/DD/20100524/DC\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:di=\"http://www.omg.org/spec/DD/20100524/DI\" xmlns:zeebe=\"http://camunda.org/schema/zeebe/1.0\" xmlns:modeler=\"http://camunda.org/schema/modeler/1.0\" id=\"Definitions_1e0e918\" targetNamespace=\"http://bpmn.io/schema/bpmn\" exporter=\"Camunda Modeler\" exporterVersion=\"5.4.1\" modeler:executionPlatform=\"Camunda Cloud\" modeler:executionPlatformVersion=\"8.1.0\">\n  <bpmn:collaboration id=\"CarbonHack22Process\">\n    <bpmn:participant id=\"Participant_Nasa\" name=\"Space Center Houston\" processRef=\"NasaImageProcessing\" />\n    <bpmn:participant id=\"Participant_MarsRover\" name=\"Mars Rover\" />\n    <bpmn:messageFlow id=\"Flow_07bc21p\" sourceRef=\"Participant_MarsRover\" targetRef=\"Event_TransmissionReceived\" />\n  </bpmn:collaboration>\n  <bpmn:process id=\"NasaImageProcessing\" name=\"NASA Image Processing\" isExecutable=\"true\">\n    <bpmn:startEvent id=\"Event_TransmissionReceived\" name=\"Transmission received\">\n      <bpmn:outgoing>Flow_03b5f3o</bpmn:outgoing>\n    </bpmn:startEvent>\n    <bpmn:parallelGateway id=\"Gateway_SplitProcessing\">\n      <bpmn:incoming>Flow_0x4j7xr</bpmn:incoming>\n      <bpmn:outgoing>Flow_0elx5ld</bpmn:outgoing>\n      <bpmn:outgoing>Flow_0k12ehs</bpmn:outgoing>\n      <bpmn:outgoing>Flow_1jgk57k</bpmn:outgoing>\n    </bpmn:parallelGateway>\n    <bpmn:parallelGateway id=\"Gateway_JoinProcessing\">\n      <bpmn:incoming>Flow_04sk3cq</bpmn:incoming>\n      <bpmn:incoming>Flow_1kfeua2</bpmn:incoming>\n      <bpmn:incoming>Flow_1dqrdrn</bpmn:incoming>\n      <bpmn:outgoing>Flow_05lrw3m</bpmn:outgoing>\n    </bpmn:parallelGateway>\n    <bpmn:endEvent id=\"Event_TransmissionProcessed\" name=\"Transmission processed\">\n      <bpmn:incoming>Flow_05lrw3m</bpmn:incoming>\n    </bpmn:endEvent>\n    <bpmn:manualTask id=\"Activity_GeneratePreviewImage\" name=\"Generate preview image\">\n      <bpmn:incoming>Flow_03b5f3o</bpmn:incoming>\n      <bpmn:outgoing>Flow_14e4zmj</bpmn:outgoing>\n    </bpmn:manualTask>\n    <bpmn:manualTask id=\"Activity_Parallel2\" name=\"Mosaic RDR&#10;processing\">\n      <bpmn:incoming>Flow_0elx5ld</bpmn:incoming>\n      <bpmn:outgoing>Flow_04sk3cq</bpmn:outgoing>\n    </bpmn:manualTask>\n    <bpmn:manualTask id=\"Activity_Parallel3\" name=\"...&#10;processing\">\n      <bpmn:incoming>Flow_1jgk57k</bpmn:incoming>\n      <bpmn:outgoing>Flow_1dqrdrn</bpmn:outgoing>\n    </bpmn:manualTask>\n    <bpmn:manualTask id=\"Activity_Parallel1\" name=\"Terrain processing\">\n      <bpmn:incoming>Flow_0k12ehs</bpmn:incoming>\n      <bpmn:outgoing>Flow_1kfeua2</bpmn:outgoing>\n    </bpmn:manualTask>\n    <bpmn:serviceTask id=\"Activity_TimeShiftToCleanEnergy\" name=\"Time shift to clean energy\" zeebe:modelerTemplate=\"de.envite.greenbpm.carbonreductorconnector.carbonreductortask.v1\" zeebe:modelerTemplateIcon=\"data:image/svg+xml,%3Csvg xmlns=&#39;http://www.w3.org/2000/svg&#39; viewBox=&#39;0 0 100 100&#39;%3E%3Ctext y=&#39;.9em&#39; font-size=&#39;90&#39;%3E🌱%3C/text%3E%3C/svg%3E\">\n      <bpmn:extensionElements>\n        <zeebe:taskDefinition type=\"de.envite.greenbpm.carbonreductorconnector.carbonreductortask:1\" />\n        <zeebe:ioMapping>\n          <zeebe:input source=\"slaBasedConfiguration\" target=\"carbonReductorMode\" />\n          <zeebe:input source=\"=now()\" target=\"milestone\" />\n          <zeebe:input source=\"PT12H\" target=\"maximumProcessDuration\" />\n          <zeebe:input source=\"PT5H\" target=\"timeshiftWindow\" />\n          <zeebe:input source=\"uksouth\" target=\"location\" />\n          <zeebe:input source=\"PT6M\" target=\"remainingProcessDuration\" />\n        </zeebe:ioMapping>\n        <zeebe:taskHeaders>\n          <zeebe:header key=\"resultExpression\" value=\"={&#10;  &#34;wasExecutionDelayed&#34;: response.executionDelayed,&#10;  &#34;delayedByInMs&#34;: response.delayedBy,&#10;  &#34;originalCarbon&#34;: response.originalCarbon,&#10;  &#34;actualCarbon&#34;: response.actualCarbon,&#10;  &#34;savedCarbonPct&#34;: response.savedCarbon,&#10;  &#34;reducedCarbon&#34;: response.reducedCarbon&#10;}\" />\n        </zeebe:taskHeaders>\n      </bpmn:extensionElements>\n      <bpmn:incoming>Flow_14e4zmj</bpmn:incoming>\n      <bpmn:outgoing>Flow_0x4j7xr</bpmn:outgoing>\n    </bpmn:serviceTask>\n    <bpmn:sequenceFlow id=\"Flow_03b5f3o\" sourceRef=\"Event_TransmissionReceived\" targetRef=\"Activity_GeneratePreviewImage\" />\n    <bpmn:sequenceFlow id=\"Flow_0x4j7xr\" sourceRef=\"Activity_TimeShiftToCleanEnergy\" targetRef=\"Gateway_SplitProcessing\" />\n    <bpmn:sequenceFlow id=\"Flow_0elx5ld\" sourceRef=\"Gateway_SplitProcessing\" targetRef=\"Activity_Parallel2\" />\n    <bpmn:sequenceFlow id=\"Flow_0k12ehs\" sourceRef=\"Gateway_SplitProcessing\" targetRef=\"Activity_Parallel1\" />\n    <bpmn:sequenceFlow id=\"Flow_1jgk57k\" sourceRef=\"Gateway_SplitProcessing\" targetRef=\"Activity_Parallel3\" />\n    <bpmn:sequenceFlow id=\"Flow_04sk3cq\" sourceRef=\"Activity_Parallel2\" targetRef=\"Gateway_JoinProcessing\" />\n    <bpmn:sequenceFlow id=\"Flow_1kfeua2\" sourceRef=\"Activity_Parallel1\" targetRef=\"Gateway_JoinProcessing\" />\n    <bpmn:sequenceFlow id=\"Flow_1dqrdrn\" sourceRef=\"Activity_Parallel3\" targetRef=\"Gateway_JoinProcessing\" />\n    <bpmn:sequenceFlow id=\"Flow_05lrw3m\" sourceRef=\"Gateway_JoinProcessing\" targetRef=\"Event_TransmissionProcessed\" />\n    <bpmn:sequenceFlow id=\"Flow_14e4zmj\" sourceRef=\"Activity_GeneratePreviewImage\" targetRef=\"Activity_TimeShiftToCleanEnergy\" />\n  </bpmn:process>\n  <bpmndi:BPMNDiagram id=\"BPMNDiagram_1\">\n    <bpmndi:BPMNPlane id=\"BPMNPlane_1\" bpmnElement=\"CarbonHack22Process\">\n      <bpmndi:BPMNShape id=\"BPMNShape_1wwaij0\" bpmnElement=\"Participant_Nasa\" isHorizontal=\"true\">\n        <dc:Bounds x=\"160\" y=\"240\" width=\"930\" height=\"380\" />\n        <bpmndi:BPMNLabel />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_10xl8ky\" bpmnElement=\"Event_TransmissionReceived\">\n        <dc:Bounds x=\"212\" y=\"419\" width=\"36\" height=\"36\" />\n        <bpmndi:BPMNLabel>\n          <dc:Bounds x=\"199\" y=\"462\" width=\"65\" height=\"27\" />\n        </bpmndi:BPMNLabel>\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_113k72g\" bpmnElement=\"Gateway_SplitProcessing\">\n        <dc:Bounds x=\"635\" y=\"412\" width=\"50\" height=\"50\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_1pkmt78\" bpmnElement=\"Gateway_JoinProcessing\">\n        <dc:Bounds x=\"915\" y=\"412\" width=\"50\" height=\"50\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_0gki1zt\" bpmnElement=\"Event_TransmissionProcessed\">\n        <dc:Bounds x=\"1032\" y=\"419\" width=\"36\" height=\"36\" />\n        <bpmndi:BPMNLabel>\n          <dc:Bounds x=\"1018\" y=\"462\" width=\"65\" height=\"27\" />\n        </bpmndi:BPMNLabel>\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_0acgyhs\" bpmnElement=\"Activity_GeneratePreviewImage\">\n        <dc:Bounds x=\"310\" y=\"397\" width=\"100\" height=\"80\" />\n        <bpmndi:BPMNLabel />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_1r61b42\" bpmnElement=\"Activity_Parallel2\">\n        <dc:Bounds x=\"750\" y=\"397\" width=\"100\" height=\"80\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_1c15h1z\" bpmnElement=\"Activity_Parallel3\">\n        <dc:Bounds x=\"750\" y=\"517\" width=\"100\" height=\"80\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_0a5ibdd\" bpmnElement=\"Activity_Parallel1\">\n        <dc:Bounds x=\"750\" y=\"277\" width=\"100\" height=\"80\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"Activity_1fnv86p_di\" bpmnElement=\"Activity_TimeShiftToCleanEnergy\">\n        <dc:Bounds x=\"470\" y=\"397\" width=\"100\" height=\"80\" />\n        <bpmndi:BPMNLabel />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_0k6xa9l\" bpmnElement=\"Flow_03b5f3o\">\n        <di:waypoint x=\"248\" y=\"437\" />\n        <di:waypoint x=\"310\" y=\"437\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"Flow_0x4j7xr_di\" bpmnElement=\"Flow_0x4j7xr\">\n        <di:waypoint x=\"570\" y=\"437\" />\n        <di:waypoint x=\"635\" y=\"437\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_1j2bbfk\" bpmnElement=\"Flow_0elx5ld\">\n        <di:waypoint x=\"685\" y=\"437\" />\n        <di:waypoint x=\"750\" y=\"437\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_1awqito\" bpmnElement=\"Flow_0k12ehs\">\n        <di:waypoint x=\"660\" y=\"412\" />\n        <di:waypoint x=\"660\" y=\"317\" />\n        <di:waypoint x=\"750\" y=\"317\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_1b0ncic\" bpmnElement=\"Flow_1jgk57k\">\n        <di:waypoint x=\"660\" y=\"462\" />\n        <di:waypoint x=\"660\" y=\"557\" />\n        <di:waypoint x=\"750\" y=\"557\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_1t4m2za\" bpmnElement=\"Flow_04sk3cq\">\n        <di:waypoint x=\"850\" y=\"437\" />\n        <di:waypoint x=\"915\" y=\"437\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_0b228ou\" bpmnElement=\"Flow_1kfeua2\">\n        <di:waypoint x=\"850\" y=\"317\" />\n        <di:waypoint x=\"940\" y=\"317\" />\n        <di:waypoint x=\"940\" y=\"412\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_0eaj5or\" bpmnElement=\"Flow_1dqrdrn\">\n        <di:waypoint x=\"850\" y=\"557\" />\n        <di:waypoint x=\"940\" y=\"557\" />\n        <di:waypoint x=\"940\" y=\"462\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_0vu72kg\" bpmnElement=\"Flow_05lrw3m\">\n        <di:waypoint x=\"965\" y=\"437\" />\n        <di:waypoint x=\"1032\" y=\"437\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_17qxe6f\" bpmnElement=\"Flow_14e4zmj\">\n        <di:waypoint x=\"410\" y=\"437\" />\n        <di:waypoint x=\"470\" y=\"437\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNShape id=\"BPMNShape_1upsfvm\" bpmnElement=\"Participant_MarsRover\" isHorizontal=\"true\">\n        <dc:Bounds x=\"160\" y=\"80\" width=\"300\" height=\"60\" />\n        <bpmndi:BPMNLabel />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_0dgqr4w\" bpmnElement=\"Flow_07bc21p\">\n        <di:waypoint x=\"230\" y=\"140\" />\n        <di:waypoint x=\"230\" y=\"419\" />\n      </bpmndi:BPMNEdge>\n    </bpmndi:BPMNPlane>\n  </bpmndi:BPMNDiagram>\n</bpmn:definitions>\n",
+				"tableColumns": {
+					"includeNewVariables": true,
+					"excludedColumns": [
+					],
+					"includedColumns": [
+					],
+					"columnOrder": [
+					]
+				},
+				"targetValue": {
+					"countChart": {
+						"isBelow": false,
+						"value": "100"
+					},
+					"durationProgress": {
+						"baseline": {
+							"unit": "hours",
+							"value": "0"
+						},
+						"target": {
+							"unit": "hours",
+							"value": "2",
+							"isBelow": false
+						}
+					},
+					"active": false,
+					"countProgress": {
+						"baseline": "0",
+						"target": "100",
+						"isBelow": false
+					},
+					"durationChart": {
+						"unit": "hours",
+						"isBelow": false,
+						"value": "2"
+					},
+					"isKpi": false
+				},
+				"heatmapTargetValue": {
+					"active": false,
+					"values": {
+					}
+				},
+				"groupByDateVariableUnit": "automatic",
+				"distributeByDateVariableUnit": "automatic",
+				"customBucket": {
+					"active": false,
+					"bucketSize": "10.0",
+					"bucketSizeUnit": "minute",
+					"baseline": "0.0",
+					"baselineUnit": "minute"
+				},
+				"distributeByCustomBucket": {
+					"active": false,
+					"bucketSize": "10.0",
+					"bucketSizeUnit": "minute",
+					"baseline": "0.0",
+					"baselineUnit": "minute"
+				},
+				"sorting": null,
+				"processPart": null,
+				"measureVisualizations": {
+					"frequency": "bar",
+					"duration": "line"
+				},
+				"stackedBar": false,
+				"logScale": false,
+				"yLabel": "",
+				"xLabel": "Keiner"
+			},
+			"definitions": [
+				{
+					"identifier": "definition",
+					"key": "NasaImageProcessing",
+					"name": "NASA Image Processing",
+					"displayName": "NASA Image Processing",
+					"versions": [
+						"all"
+					],
+					"tenantIds": [
+						null
+					]
+				}
+			],
+			"filter": [
+			],
+			"view": {
+				"entity": "variable",
+				"properties": [
+					{
+						"name": "savedCarbon",
+						"type": "Double"
+					}
+				]
+			},
+			"groupBy": {
+				"type": "none",
+				"value": null
+			},
+			"distributedBy": {
+				"type": "none",
+				"value": null
+			},
+			"visualization": "number",
+			"managementReport": false,
+			"userTaskReport": false
+		}
+	},
+	{
+		"id": "b153e0bf-2add-49dd-877c-c04590479300",
+		"exportEntityType": "single_process_report",
+		"name": "Flow Node Duration",
+		"sourceIndexVersion": 9,
+		"collectionId": "a6a1a824-5c6e-4bbb-9d51-679932459765",
+		"data": {
+			"configuration": {
+				"color": "#1991c8",
+				"aggregationTypes": [
+					{
+						"type": "avg",
+						"value": null
+					}
+				],
+				"userTaskDurationTimes": [
+					"total"
+				],
+				"showInstanceCount": false,
+				"pointMarkers": true,
+				"precision": null,
+				"hideRelativeValue": false,
+				"hideAbsoluteValue": false,
+				"alwaysShowRelative": false,
+				"alwaysShowAbsolute": false,
+				"showGradientBars": true,
+				"xml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<bpmn:definitions xmlns:bpmn=\"http://www.omg.org/spec/BPMN/20100524/MODEL\" xmlns:bpmndi=\"http://www.omg.org/spec/BPMN/20100524/DI\" xmlns:dc=\"http://www.omg.org/spec/DD/20100524/DC\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:di=\"http://www.omg.org/spec/DD/20100524/DI\" xmlns:zeebe=\"http://camunda.org/schema/zeebe/1.0\" xmlns:modeler=\"http://camunda.org/schema/modeler/1.0\" id=\"Definitions_1e0e918\" targetNamespace=\"http://bpmn.io/schema/bpmn\" exporter=\"Camunda Modeler\" exporterVersion=\"5.4.1\" modeler:executionPlatform=\"Camunda Cloud\" modeler:executionPlatformVersion=\"8.1.0\">\n  <bpmn:collaboration id=\"CarbonHack22Process\">\n    <bpmn:participant id=\"Participant_Nasa\" name=\"Space Center Houston\" processRef=\"NasaImageProcessing\" />\n    <bpmn:participant id=\"Participant_MarsRover\" name=\"Mars Rover\" />\n    <bpmn:messageFlow id=\"Flow_07bc21p\" sourceRef=\"Participant_MarsRover\" targetRef=\"Event_TransmissionReceived\" />\n  </bpmn:collaboration>\n  <bpmn:process id=\"NasaImageProcessing\" name=\"NASA Image Processing\" isExecutable=\"true\">\n    <bpmn:startEvent id=\"Event_TransmissionReceived\" name=\"Transmission received\">\n      <bpmn:outgoing>Flow_03b5f3o</bpmn:outgoing>\n    </bpmn:startEvent>\n    <bpmn:parallelGateway id=\"Gateway_SplitProcessing\">\n      <bpmn:incoming>Flow_0x4j7xr</bpmn:incoming>\n      <bpmn:outgoing>Flow_0elx5ld</bpmn:outgoing>\n      <bpmn:outgoing>Flow_0k12ehs</bpmn:outgoing>\n      <bpmn:outgoing>Flow_1jgk57k</bpmn:outgoing>\n    </bpmn:parallelGateway>\n    <bpmn:parallelGateway id=\"Gateway_JoinProcessing\">\n      <bpmn:incoming>Flow_04sk3cq</bpmn:incoming>\n      <bpmn:incoming>Flow_1kfeua2</bpmn:incoming>\n      <bpmn:incoming>Flow_1dqrdrn</bpmn:incoming>\n      <bpmn:outgoing>Flow_05lrw3m</bpmn:outgoing>\n    </bpmn:parallelGateway>\n    <bpmn:endEvent id=\"Event_TransmissionProcessed\" name=\"Transmission processed\">\n      <bpmn:incoming>Flow_05lrw3m</bpmn:incoming>\n    </bpmn:endEvent>\n    <bpmn:manualTask id=\"Activity_GeneratePreviewImage\" name=\"Generate preview image\">\n      <bpmn:incoming>Flow_03b5f3o</bpmn:incoming>\n      <bpmn:outgoing>Flow_14e4zmj</bpmn:outgoing>\n    </bpmn:manualTask>\n    <bpmn:manualTask id=\"Activity_Parallel2\" name=\"Mosaic RDR&#10;processing\">\n      <bpmn:incoming>Flow_0elx5ld</bpmn:incoming>\n      <bpmn:outgoing>Flow_04sk3cq</bpmn:outgoing>\n    </bpmn:manualTask>\n    <bpmn:manualTask id=\"Activity_Parallel3\" name=\"...&#10;processing\">\n      <bpmn:incoming>Flow_1jgk57k</bpmn:incoming>\n      <bpmn:outgoing>Flow_1dqrdrn</bpmn:outgoing>\n    </bpmn:manualTask>\n    <bpmn:manualTask id=\"Activity_Parallel1\" name=\"Terrain processing\">\n      <bpmn:incoming>Flow_0k12ehs</bpmn:incoming>\n      <bpmn:outgoing>Flow_1kfeua2</bpmn:outgoing>\n    </bpmn:manualTask>\n    <bpmn:serviceTask id=\"Activity_TimeShiftToCleanEnergy\" name=\"Time shift to clean energy\" zeebe:modelerTemplate=\"de.envite.greenbpm.carbonreductorconnector.carbonreductortask.v1\" zeebe:modelerTemplateIcon=\"data:image/svg+xml,%3Csvg xmlns=&#39;http://www.w3.org/2000/svg&#39; viewBox=&#39;0 0 100 100&#39;%3E%3Ctext y=&#39;.9em&#39; font-size=&#39;90&#39;%3E🌱%3C/text%3E%3C/svg%3E\">\n      <bpmn:extensionElements>\n        <zeebe:taskDefinition type=\"de.envite.greenbpm.carbonreductorconnector.carbonreductortask:1\" />\n        <zeebe:ioMapping>\n          <zeebe:input source=\"slaBasedConfiguration\" target=\"carbonReductorMode\" />\n          <zeebe:input source=\"=now()\" target=\"milestone\" />\n          <zeebe:input source=\"PT12H\" target=\"maximumProcessDuration\" />\n          <zeebe:input source=\"PT5H\" target=\"timeshiftWindow\" />\n          <zeebe:input source=\"uksouth\" target=\"location\" />\n          <zeebe:input source=\"PT6M\" target=\"remainingProcessDuration\" />\n        </zeebe:ioMapping>\n        <zeebe:taskHeaders>\n          <zeebe:header key=\"resultExpression\" value=\"={&#10;  &#34;wasExecutionDelayed&#34;: response.executionDelayed,&#10;  &#34;delayedByInMs&#34;: response.delayedBy,&#10;  &#34;originalCarbon&#34;: response.originalCarbon,&#10;  &#34;actualCarbon&#34;: response.actualCarbon,&#10;  &#34;savedCarbonPct&#34;: response.savedCarbon,&#10;  &#34;reducedCarbon&#34;: response.reducedCarbon&#10;}\" />\n        </zeebe:taskHeaders>\n      </bpmn:extensionElements>\n      <bpmn:incoming>Flow_14e4zmj</bpmn:incoming>\n      <bpmn:outgoing>Flow_0x4j7xr</bpmn:outgoing>\n    </bpmn:serviceTask>\n    <bpmn:sequenceFlow id=\"Flow_03b5f3o\" sourceRef=\"Event_TransmissionReceived\" targetRef=\"Activity_GeneratePreviewImage\" />\n    <bpmn:sequenceFlow id=\"Flow_0x4j7xr\" sourceRef=\"Activity_TimeShiftToCleanEnergy\" targetRef=\"Gateway_SplitProcessing\" />\n    <bpmn:sequenceFlow id=\"Flow_0elx5ld\" sourceRef=\"Gateway_SplitProcessing\" targetRef=\"Activity_Parallel2\" />\n    <bpmn:sequenceFlow id=\"Flow_0k12ehs\" sourceRef=\"Gateway_SplitProcessing\" targetRef=\"Activity_Parallel1\" />\n    <bpmn:sequenceFlow id=\"Flow_1jgk57k\" sourceRef=\"Gateway_SplitProcessing\" targetRef=\"Activity_Parallel3\" />\n    <bpmn:sequenceFlow id=\"Flow_04sk3cq\" sourceRef=\"Activity_Parallel2\" targetRef=\"Gateway_JoinProcessing\" />\n    <bpmn:sequenceFlow id=\"Flow_1kfeua2\" sourceRef=\"Activity_Parallel1\" targetRef=\"Gateway_JoinProcessing\" />\n    <bpmn:sequenceFlow id=\"Flow_1dqrdrn\" sourceRef=\"Activity_Parallel3\" targetRef=\"Gateway_JoinProcessing\" />\n    <bpmn:sequenceFlow id=\"Flow_05lrw3m\" sourceRef=\"Gateway_JoinProcessing\" targetRef=\"Event_TransmissionProcessed\" />\n    <bpmn:sequenceFlow id=\"Flow_14e4zmj\" sourceRef=\"Activity_GeneratePreviewImage\" targetRef=\"Activity_TimeShiftToCleanEnergy\" />\n  </bpmn:process>\n  <bpmndi:BPMNDiagram id=\"BPMNDiagram_1\">\n    <bpmndi:BPMNPlane id=\"BPMNPlane_1\" bpmnElement=\"CarbonHack22Process\">\n      <bpmndi:BPMNShape id=\"BPMNShape_1wwaij0\" bpmnElement=\"Participant_Nasa\" isHorizontal=\"true\">\n        <dc:Bounds x=\"160\" y=\"240\" width=\"930\" height=\"380\" />\n        <bpmndi:BPMNLabel />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_10xl8ky\" bpmnElement=\"Event_TransmissionReceived\">\n        <dc:Bounds x=\"212\" y=\"419\" width=\"36\" height=\"36\" />\n        <bpmndi:BPMNLabel>\n          <dc:Bounds x=\"199\" y=\"462\" width=\"65\" height=\"27\" />\n        </bpmndi:BPMNLabel>\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_113k72g\" bpmnElement=\"Gateway_SplitProcessing\">\n        <dc:Bounds x=\"635\" y=\"412\" width=\"50\" height=\"50\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_1pkmt78\" bpmnElement=\"Gateway_JoinProcessing\">\n        <dc:Bounds x=\"915\" y=\"412\" width=\"50\" height=\"50\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_0gki1zt\" bpmnElement=\"Event_TransmissionProcessed\">\n        <dc:Bounds x=\"1032\" y=\"419\" width=\"36\" height=\"36\" />\n        <bpmndi:BPMNLabel>\n          <dc:Bounds x=\"1018\" y=\"462\" width=\"65\" height=\"27\" />\n        </bpmndi:BPMNLabel>\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_0acgyhs\" bpmnElement=\"Activity_GeneratePreviewImage\">\n        <dc:Bounds x=\"310\" y=\"397\" width=\"100\" height=\"80\" />\n        <bpmndi:BPMNLabel />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_1r61b42\" bpmnElement=\"Activity_Parallel2\">\n        <dc:Bounds x=\"750\" y=\"397\" width=\"100\" height=\"80\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_1c15h1z\" bpmnElement=\"Activity_Parallel3\">\n        <dc:Bounds x=\"750\" y=\"517\" width=\"100\" height=\"80\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_0a5ibdd\" bpmnElement=\"Activity_Parallel1\">\n        <dc:Bounds x=\"750\" y=\"277\" width=\"100\" height=\"80\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"Activity_1fnv86p_di\" bpmnElement=\"Activity_TimeShiftToCleanEnergy\">\n        <dc:Bounds x=\"470\" y=\"397\" width=\"100\" height=\"80\" />\n        <bpmndi:BPMNLabel />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_0k6xa9l\" bpmnElement=\"Flow_03b5f3o\">\n        <di:waypoint x=\"248\" y=\"437\" />\n        <di:waypoint x=\"310\" y=\"437\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"Flow_0x4j7xr_di\" bpmnElement=\"Flow_0x4j7xr\">\n        <di:waypoint x=\"570\" y=\"437\" />\n        <di:waypoint x=\"635\" y=\"437\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_1j2bbfk\" bpmnElement=\"Flow_0elx5ld\">\n        <di:waypoint x=\"685\" y=\"437\" />\n        <di:waypoint x=\"750\" y=\"437\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_1awqito\" bpmnElement=\"Flow_0k12ehs\">\n        <di:waypoint x=\"660\" y=\"412\" />\n        <di:waypoint x=\"660\" y=\"317\" />\n        <di:waypoint x=\"750\" y=\"317\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_1b0ncic\" bpmnElement=\"Flow_1jgk57k\">\n        <di:waypoint x=\"660\" y=\"462\" />\n        <di:waypoint x=\"660\" y=\"557\" />\n        <di:waypoint x=\"750\" y=\"557\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_1t4m2za\" bpmnElement=\"Flow_04sk3cq\">\n        <di:waypoint x=\"850\" y=\"437\" />\n        <di:waypoint x=\"915\" y=\"437\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_0b228ou\" bpmnElement=\"Flow_1kfeua2\">\n        <di:waypoint x=\"850\" y=\"317\" />\n        <di:waypoint x=\"940\" y=\"317\" />\n        <di:waypoint x=\"940\" y=\"412\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_0eaj5or\" bpmnElement=\"Flow_1dqrdrn\">\n        <di:waypoint x=\"850\" y=\"557\" />\n        <di:waypoint x=\"940\" y=\"557\" />\n        <di:waypoint x=\"940\" y=\"462\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_0vu72kg\" bpmnElement=\"Flow_05lrw3m\">\n        <di:waypoint x=\"965\" y=\"437\" />\n        <di:waypoint x=\"1032\" y=\"437\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_17qxe6f\" bpmnElement=\"Flow_14e4zmj\">\n        <di:waypoint x=\"410\" y=\"437\" />\n        <di:waypoint x=\"470\" y=\"437\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNShape id=\"BPMNShape_1upsfvm\" bpmnElement=\"Participant_MarsRover\" isHorizontal=\"true\">\n        <dc:Bounds x=\"160\" y=\"80\" width=\"300\" height=\"60\" />\n        <bpmndi:BPMNLabel />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_0dgqr4w\" bpmnElement=\"Flow_07bc21p\">\n        <di:waypoint x=\"230\" y=\"140\" />\n        <di:waypoint x=\"230\" y=\"419\" />\n      </bpmndi:BPMNEdge>\n    </bpmndi:BPMNPlane>\n  </bpmndi:BPMNDiagram>\n</bpmn:definitions>\n",
+				"tableColumns": {
+					"includeNewVariables": true,
+					"excludedColumns": [
+					],
+					"includedColumns": [
+					],
+					"columnOrder": [
+					]
+				},
+				"targetValue": {
+					"countChart": {
+						"isBelow": false,
+						"value": "100"
+					},
+					"durationProgress": {
+						"baseline": {
+							"unit": "hours",
+							"value": "0"
+						},
+						"target": {
+							"unit": "hours",
+							"value": "2",
+							"isBelow": false
+						}
+					},
+					"active": false,
+					"countProgress": {
+						"baseline": "0",
+						"target": "100",
+						"isBelow": false
+					},
+					"durationChart": {
+						"unit": "hours",
+						"isBelow": false,
+						"value": "2"
+					},
+					"isKpi": false
+				},
+				"heatmapTargetValue": {
+					"active": false,
+					"values": {
+						"Activity_Parallel2": {
+							"unit": "millis",
+							"value": "30"
+						},
+						"Event_TransmissionProcessed": {
+							"unit": "millis",
+							"value": "1"
+						},
+						"Activity_Parallel1": {
+							"unit": "millis",
+							"value": "33"
+						},
+						"Gateway_SplitProcessing": {
+							"unit": "millis",
+							"value": "1"
+						},
+						"Activity_Parallel3": {
+							"unit": "millis",
+							"value": "35"
+						},
+						"Gateway_JoinProcessing": {
+							"unit": "millis",
+							"value": "1"
+						},
+						"Activity_TimeShiftToCleanEnergy": {
+							"unit": "hours",
+							"value": "3"
+						},
+						"Event_TransmissionReceived": {
+							"unit": "millis",
+							"value": "8"
+						},
+						"Activity_GeneratePreviewImage": {
+							"unit": "millis",
+							"value": "8"
+						}
+					}
+				},
+				"groupByDateVariableUnit": "automatic",
+				"distributeByDateVariableUnit": "automatic",
+				"customBucket": {
+					"active": false,
+					"bucketSize": "10.0",
+					"bucketSizeUnit": "minute",
+					"baseline": "0.0",
+					"baselineUnit": "minute"
+				},
+				"distributeByCustomBucket": {
+					"active": false,
+					"bucketSize": "10.0",
+					"bucketSizeUnit": "minute",
+					"baseline": "0.0",
+					"baselineUnit": "minute"
+				},
+				"sorting": null,
+				"processPart": null,
+				"measureVisualizations": {
+					"frequency": "bar",
+					"duration": "line"
+				},
+				"stackedBar": false,
+				"logScale": false,
+				"yLabel": "Prozessknoten Dauer",
+				"xLabel": "Prozessknoten"
+			},
+			"definitions": [
+				{
+					"identifier": "definition",
+					"key": "NasaImageProcessing",
+					"name": "NASA Image Processing",
+					"displayName": "NASA Image Processing",
+					"versions": [
+						"all"
+					],
+					"tenantIds": [
+						null
+					]
+				}
+			],
+			"filter": [
+			],
+			"view": {
+				"entity": "flowNode",
+				"properties": [
+					"duration"
+				]
+			},
+			"groupBy": {
+				"type": "flowNodes",
+				"value": null
+			},
+			"distributedBy": {
+				"type": "none",
+				"value": null
+			},
+			"visualization": "heat",
+			"managementReport": false,
+			"userTaskReport": false
+		}
+	},
+	{
+		"id": "bbd239c6-5029-4220-80f9-068e0128f91f",
+		"exportEntityType": "single_process_report",
+		"name": "Ø Carbon Reduction [gCO2/kWh]",
+		"sourceIndexVersion": 9,
+		"collectionId": "a6a1a824-5c6e-4bbb-9d51-679932459765",
+		"data": {
+			"configuration": {
+				"color": "#1991c8",
+				"aggregationTypes": [
+					{
+						"type": "avg",
+						"value": null
+					}
+				],
+				"userTaskDurationTimes": [
+					"total"
+				],
+				"showInstanceCount": false,
+				"pointMarkers": true,
+				"precision": 3,
+				"hideRelativeValue": false,
+				"hideAbsoluteValue": false,
+				"alwaysShowRelative": false,
+				"alwaysShowAbsolute": false,
+				"showGradientBars": true,
+				"xml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<bpmn:definitions xmlns:bpmn=\"http://www.omg.org/spec/BPMN/20100524/MODEL\" xmlns:bpmndi=\"http://www.omg.org/spec/BPMN/20100524/DI\" xmlns:dc=\"http://www.omg.org/spec/DD/20100524/DC\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:di=\"http://www.omg.org/spec/DD/20100524/DI\" xmlns:zeebe=\"http://camunda.org/schema/zeebe/1.0\" xmlns:modeler=\"http://camunda.org/schema/modeler/1.0\" id=\"Definitions_1e0e918\" targetNamespace=\"http://bpmn.io/schema/bpmn\" exporter=\"Camunda Modeler\" exporterVersion=\"5.4.1\" modeler:executionPlatform=\"Camunda Cloud\" modeler:executionPlatformVersion=\"8.1.0\">\n  <bpmn:collaboration id=\"CarbonHack22Process\">\n    <bpmn:participant id=\"Participant_Nasa\" name=\"Space Center Houston\" processRef=\"NasaImageProcessing\" />\n    <bpmn:participant id=\"Participant_MarsRover\" name=\"Mars Rover\" />\n    <bpmn:messageFlow id=\"Flow_07bc21p\" sourceRef=\"Participant_MarsRover\" targetRef=\"Event_TransmissionReceived\" />\n  </bpmn:collaboration>\n  <bpmn:process id=\"NasaImageProcessing\" name=\"NASA Image Processing\" isExecutable=\"true\">\n    <bpmn:startEvent id=\"Event_TransmissionReceived\" name=\"Transmission received\">\n      <bpmn:outgoing>Flow_03b5f3o</bpmn:outgoing>\n    </bpmn:startEvent>\n    <bpmn:parallelGateway id=\"Gateway_SplitProcessing\">\n      <bpmn:incoming>Flow_0x4j7xr</bpmn:incoming>\n      <bpmn:outgoing>Flow_0elx5ld</bpmn:outgoing>\n      <bpmn:outgoing>Flow_0k12ehs</bpmn:outgoing>\n      <bpmn:outgoing>Flow_1jgk57k</bpmn:outgoing>\n    </bpmn:parallelGateway>\n    <bpmn:parallelGateway id=\"Gateway_JoinProcessing\">\n      <bpmn:incoming>Flow_04sk3cq</bpmn:incoming>\n      <bpmn:incoming>Flow_1kfeua2</bpmn:incoming>\n      <bpmn:incoming>Flow_1dqrdrn</bpmn:incoming>\n      <bpmn:outgoing>Flow_05lrw3m</bpmn:outgoing>\n    </bpmn:parallelGateway>\n    <bpmn:endEvent id=\"Event_TransmissionProcessed\" name=\"Transmission processed\">\n      <bpmn:incoming>Flow_05lrw3m</bpmn:incoming>\n    </bpmn:endEvent>\n    <bpmn:manualTask id=\"Activity_GeneratePreviewImage\" name=\"Generate preview image\">\n      <bpmn:incoming>Flow_03b5f3o</bpmn:incoming>\n      <bpmn:outgoing>Flow_14e4zmj</bpmn:outgoing>\n    </bpmn:manualTask>\n    <bpmn:manualTask id=\"Activity_Parallel2\" name=\"Mosaic RDR&#10;processing\">\n      <bpmn:incoming>Flow_0elx5ld</bpmn:incoming>\n      <bpmn:outgoing>Flow_04sk3cq</bpmn:outgoing>\n    </bpmn:manualTask>\n    <bpmn:manualTask id=\"Activity_Parallel3\" name=\"...&#10;processing\">\n      <bpmn:incoming>Flow_1jgk57k</bpmn:incoming>\n      <bpmn:outgoing>Flow_1dqrdrn</bpmn:outgoing>\n    </bpmn:manualTask>\n    <bpmn:manualTask id=\"Activity_Parallel1\" name=\"Terrain processing\">\n      <bpmn:incoming>Flow_0k12ehs</bpmn:incoming>\n      <bpmn:outgoing>Flow_1kfeua2</bpmn:outgoing>\n    </bpmn:manualTask>\n    <bpmn:serviceTask id=\"Activity_TimeShiftToCleanEnergy\" name=\"Time shift to clean energy\" zeebe:modelerTemplate=\"de.envite.greenbpm.carbonreductorconnector.carbonreductortask.v1\" zeebe:modelerTemplateIcon=\"data:image/svg+xml,%3Csvg xmlns=&#39;http://www.w3.org/2000/svg&#39; viewBox=&#39;0 0 100 100&#39;%3E%3Ctext y=&#39;.9em&#39; font-size=&#39;90&#39;%3E🌱%3C/text%3E%3C/svg%3E\">\n      <bpmn:extensionElements>\n        <zeebe:taskDefinition type=\"de.envite.greenbpm.carbonreductorconnector.carbonreductortask:1\" />\n        <zeebe:ioMapping>\n          <zeebe:input source=\"slaBasedConfiguration\" target=\"carbonReductorMode\" />\n          <zeebe:input source=\"=now()\" target=\"milestone\" />\n          <zeebe:input source=\"PT12H\" target=\"maximumProcessDuration\" />\n          <zeebe:input source=\"PT5H\" target=\"timeshiftWindow\" />\n          <zeebe:input source=\"uksouth\" target=\"location\" />\n          <zeebe:input source=\"PT6M\" target=\"remainingProcessDuration\" />\n        </zeebe:ioMapping>\n        <zeebe:taskHeaders>\n          <zeebe:header key=\"resultExpression\" value=\"={&#10;  &#34;wasExecutionDelayed&#34;: response.executionDelayed,&#10;  &#34;delayedByInMs&#34;: response.delayedBy,&#10;  &#34;originalCarbon&#34;: response.originalCarbon,&#10;  &#34;actualCarbon&#34;: response.actualCarbon,&#10;  &#34;savedCarbonPct&#34;: response.savedCarbon,&#10;  &#34;reducedCarbon&#34;: response.reducedCarbon&#10;}\" />\n        </zeebe:taskHeaders>\n      </bpmn:extensionElements>\n      <bpmn:incoming>Flow_14e4zmj</bpmn:incoming>\n      <bpmn:outgoing>Flow_0x4j7xr</bpmn:outgoing>\n    </bpmn:serviceTask>\n    <bpmn:sequenceFlow id=\"Flow_03b5f3o\" sourceRef=\"Event_TransmissionReceived\" targetRef=\"Activity_GeneratePreviewImage\" />\n    <bpmn:sequenceFlow id=\"Flow_0x4j7xr\" sourceRef=\"Activity_TimeShiftToCleanEnergy\" targetRef=\"Gateway_SplitProcessing\" />\n    <bpmn:sequenceFlow id=\"Flow_0elx5ld\" sourceRef=\"Gateway_SplitProcessing\" targetRef=\"Activity_Parallel2\" />\n    <bpmn:sequenceFlow id=\"Flow_0k12ehs\" sourceRef=\"Gateway_SplitProcessing\" targetRef=\"Activity_Parallel1\" />\n    <bpmn:sequenceFlow id=\"Flow_1jgk57k\" sourceRef=\"Gateway_SplitProcessing\" targetRef=\"Activity_Parallel3\" />\n    <bpmn:sequenceFlow id=\"Flow_04sk3cq\" sourceRef=\"Activity_Parallel2\" targetRef=\"Gateway_JoinProcessing\" />\n    <bpmn:sequenceFlow id=\"Flow_1kfeua2\" sourceRef=\"Activity_Parallel1\" targetRef=\"Gateway_JoinProcessing\" />\n    <bpmn:sequenceFlow id=\"Flow_1dqrdrn\" sourceRef=\"Activity_Parallel3\" targetRef=\"Gateway_JoinProcessing\" />\n    <bpmn:sequenceFlow id=\"Flow_05lrw3m\" sourceRef=\"Gateway_JoinProcessing\" targetRef=\"Event_TransmissionProcessed\" />\n    <bpmn:sequenceFlow id=\"Flow_14e4zmj\" sourceRef=\"Activity_GeneratePreviewImage\" targetRef=\"Activity_TimeShiftToCleanEnergy\" />\n  </bpmn:process>\n  <bpmndi:BPMNDiagram id=\"BPMNDiagram_1\">\n    <bpmndi:BPMNPlane id=\"BPMNPlane_1\" bpmnElement=\"CarbonHack22Process\">\n      <bpmndi:BPMNShape id=\"BPMNShape_1wwaij0\" bpmnElement=\"Participant_Nasa\" isHorizontal=\"true\">\n        <dc:Bounds x=\"160\" y=\"240\" width=\"930\" height=\"380\" />\n        <bpmndi:BPMNLabel />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_10xl8ky\" bpmnElement=\"Event_TransmissionReceived\">\n        <dc:Bounds x=\"212\" y=\"419\" width=\"36\" height=\"36\" />\n        <bpmndi:BPMNLabel>\n          <dc:Bounds x=\"199\" y=\"462\" width=\"65\" height=\"27\" />\n        </bpmndi:BPMNLabel>\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_113k72g\" bpmnElement=\"Gateway_SplitProcessing\">\n        <dc:Bounds x=\"635\" y=\"412\" width=\"50\" height=\"50\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_1pkmt78\" bpmnElement=\"Gateway_JoinProcessing\">\n        <dc:Bounds x=\"915\" y=\"412\" width=\"50\" height=\"50\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_0gki1zt\" bpmnElement=\"Event_TransmissionProcessed\">\n        <dc:Bounds x=\"1032\" y=\"419\" width=\"36\" height=\"36\" />\n        <bpmndi:BPMNLabel>\n          <dc:Bounds x=\"1018\" y=\"462\" width=\"65\" height=\"27\" />\n        </bpmndi:BPMNLabel>\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_0acgyhs\" bpmnElement=\"Activity_GeneratePreviewImage\">\n        <dc:Bounds x=\"310\" y=\"397\" width=\"100\" height=\"80\" />\n        <bpmndi:BPMNLabel />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_1r61b42\" bpmnElement=\"Activity_Parallel2\">\n        <dc:Bounds x=\"750\" y=\"397\" width=\"100\" height=\"80\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_1c15h1z\" bpmnElement=\"Activity_Parallel3\">\n        <dc:Bounds x=\"750\" y=\"517\" width=\"100\" height=\"80\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_0a5ibdd\" bpmnElement=\"Activity_Parallel1\">\n        <dc:Bounds x=\"750\" y=\"277\" width=\"100\" height=\"80\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"Activity_1fnv86p_di\" bpmnElement=\"Activity_TimeShiftToCleanEnergy\">\n        <dc:Bounds x=\"470\" y=\"397\" width=\"100\" height=\"80\" />\n        <bpmndi:BPMNLabel />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_0k6xa9l\" bpmnElement=\"Flow_03b5f3o\">\n        <di:waypoint x=\"248\" y=\"437\" />\n        <di:waypoint x=\"310\" y=\"437\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"Flow_0x4j7xr_di\" bpmnElement=\"Flow_0x4j7xr\">\n        <di:waypoint x=\"570\" y=\"437\" />\n        <di:waypoint x=\"635\" y=\"437\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_1j2bbfk\" bpmnElement=\"Flow_0elx5ld\">\n        <di:waypoint x=\"685\" y=\"437\" />\n        <di:waypoint x=\"750\" y=\"437\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_1awqito\" bpmnElement=\"Flow_0k12ehs\">\n        <di:waypoint x=\"660\" y=\"412\" />\n        <di:waypoint x=\"660\" y=\"317\" />\n        <di:waypoint x=\"750\" y=\"317\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_1b0ncic\" bpmnElement=\"Flow_1jgk57k\">\n        <di:waypoint x=\"660\" y=\"462\" />\n        <di:waypoint x=\"660\" y=\"557\" />\n        <di:waypoint x=\"750\" y=\"557\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_1t4m2za\" bpmnElement=\"Flow_04sk3cq\">\n        <di:waypoint x=\"850\" y=\"437\" />\n        <di:waypoint x=\"915\" y=\"437\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_0b228ou\" bpmnElement=\"Flow_1kfeua2\">\n        <di:waypoint x=\"850\" y=\"317\" />\n        <di:waypoint x=\"940\" y=\"317\" />\n        <di:waypoint x=\"940\" y=\"412\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_0eaj5or\" bpmnElement=\"Flow_1dqrdrn\">\n        <di:waypoint x=\"850\" y=\"557\" />\n        <di:waypoint x=\"940\" y=\"557\" />\n        <di:waypoint x=\"940\" y=\"462\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_0vu72kg\" bpmnElement=\"Flow_05lrw3m\">\n        <di:waypoint x=\"965\" y=\"437\" />\n        <di:waypoint x=\"1032\" y=\"437\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_17qxe6f\" bpmnElement=\"Flow_14e4zmj\">\n        <di:waypoint x=\"410\" y=\"437\" />\n        <di:waypoint x=\"470\" y=\"437\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNShape id=\"BPMNShape_1upsfvm\" bpmnElement=\"Participant_MarsRover\" isHorizontal=\"true\">\n        <dc:Bounds x=\"160\" y=\"80\" width=\"300\" height=\"60\" />\n        <bpmndi:BPMNLabel />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_0dgqr4w\" bpmnElement=\"Flow_07bc21p\">\n        <di:waypoint x=\"230\" y=\"140\" />\n        <di:waypoint x=\"230\" y=\"419\" />\n      </bpmndi:BPMNEdge>\n    </bpmndi:BPMNPlane>\n  </bpmndi:BPMNDiagram>\n</bpmn:definitions>\n",
+				"tableColumns": {
+					"includeNewVariables": true,
+					"excludedColumns": [
+					],
+					"includedColumns": [
+					],
+					"columnOrder": [
+					]
+				},
+				"targetValue": {
+					"countChart": {
+						"isBelow": false,
+						"value": "100"
+					},
+					"durationProgress": {
+						"baseline": {
+							"unit": "hours",
+							"value": "0"
+						},
+						"target": {
+							"unit": "hours",
+							"value": "2",
+							"isBelow": false
+						}
+					},
+					"active": false,
+					"countProgress": {
+						"baseline": "0",
+						"target": "100",
+						"isBelow": false
+					},
+					"durationChart": {
+						"unit": "hours",
+						"isBelow": false,
+						"value": "2"
+					},
+					"isKpi": false
+				},
+				"heatmapTargetValue": {
+					"active": false,
+					"values": {
+					}
+				},
+				"groupByDateVariableUnit": "automatic",
+				"distributeByDateVariableUnit": "automatic",
+				"customBucket": {
+					"active": false,
+					"bucketSize": "10.0",
+					"bucketSizeUnit": "minute",
+					"baseline": "0.0",
+					"baselineUnit": "minute"
+				},
+				"distributeByCustomBucket": {
+					"active": false,
+					"bucketSize": "10.0",
+					"bucketSizeUnit": "minute",
+					"baseline": "0.0",
+					"baselineUnit": "minute"
+				},
+				"sorting": null,
+				"processPart": null,
+				"measureVisualizations": {
+					"frequency": "bar",
+					"duration": "line"
+				},
+				"stackedBar": false,
+				"logScale": false,
+				"yLabel": "",
+				"xLabel": "Keiner"
+			},
+			"definitions": [
+				{
+					"identifier": "definition",
+					"key": "NasaImageProcessing",
+					"name": "NASA Image Processing",
+					"displayName": "NASA Image Processing",
+					"versions": [
+						"all"
+					],
+					"tenantIds": [
+						null
+					]
+				}
+			],
+			"filter": [
+			],
+			"view": {
+				"entity": "variable",
+				"properties": [
+					{
+						"name": "carbonReduction",
+						"type": "Double"
+					}
+				]
+			},
+			"groupBy": {
+				"type": "none",
+				"value": null
+			},
+			"distributedBy": {
+				"type": "none",
+				"value": null
+			},
+			"visualization": "number",
+			"managementReport": false,
+			"userTaskReport": false
+		}
+	},
+	{
+		"id": "24ff44c8-8482-422d-aa6d-8cdc09b41a47",
+		"exportEntityType": "single_process_report",
+		"name": "Carbon reduction overall [gCO2/kWh]",
+		"sourceIndexVersion": 9,
+		"collectionId": "a6a1a824-5c6e-4bbb-9d51-679932459765",
+		"data": {
+			"configuration": {
+				"color": "#1991c8",
+				"aggregationTypes": [
+					{
+						"type": "sum",
+						"value": null
+					}
+				],
+				"userTaskDurationTimes": [
+					"total"
+				],
+				"showInstanceCount": false,
+				"pointMarkers": true,
+				"precision": 4,
+				"hideRelativeValue": false,
+				"hideAbsoluteValue": false,
+				"alwaysShowRelative": false,
+				"alwaysShowAbsolute": false,
+				"showGradientBars": true,
+				"xml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<bpmn:definitions xmlns:bpmn=\"http://www.omg.org/spec/BPMN/20100524/MODEL\" xmlns:bpmndi=\"http://www.omg.org/spec/BPMN/20100524/DI\" xmlns:dc=\"http://www.omg.org/spec/DD/20100524/DC\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:di=\"http://www.omg.org/spec/DD/20100524/DI\" xmlns:zeebe=\"http://camunda.org/schema/zeebe/1.0\" xmlns:modeler=\"http://camunda.org/schema/modeler/1.0\" id=\"Definitions_1e0e918\" targetNamespace=\"http://bpmn.io/schema/bpmn\" exporter=\"Camunda Modeler\" exporterVersion=\"5.4.1\" modeler:executionPlatform=\"Camunda Cloud\" modeler:executionPlatformVersion=\"8.1.0\">\n  <bpmn:collaboration id=\"CarbonHack22Process\">\n    <bpmn:participant id=\"Participant_Nasa\" name=\"Space Center Houston\" processRef=\"NasaImageProcessing\" />\n    <bpmn:participant id=\"Participant_MarsRover\" name=\"Mars Rover\" />\n    <bpmn:messageFlow id=\"Flow_07bc21p\" sourceRef=\"Participant_MarsRover\" targetRef=\"Event_TransmissionReceived\" />\n  </bpmn:collaboration>\n  <bpmn:process id=\"NasaImageProcessing\" name=\"NASA Image Processing\" isExecutable=\"true\">\n    <bpmn:startEvent id=\"Event_TransmissionReceived\" name=\"Transmission received\">\n      <bpmn:outgoing>Flow_03b5f3o</bpmn:outgoing>\n    </bpmn:startEvent>\n    <bpmn:parallelGateway id=\"Gateway_SplitProcessing\">\n      <bpmn:incoming>Flow_0x4j7xr</bpmn:incoming>\n      <bpmn:outgoing>Flow_0elx5ld</bpmn:outgoing>\n      <bpmn:outgoing>Flow_0k12ehs</bpmn:outgoing>\n      <bpmn:outgoing>Flow_1jgk57k</bpmn:outgoing>\n    </bpmn:parallelGateway>\n    <bpmn:parallelGateway id=\"Gateway_JoinProcessing\">\n      <bpmn:incoming>Flow_04sk3cq</bpmn:incoming>\n      <bpmn:incoming>Flow_1kfeua2</bpmn:incoming>\n      <bpmn:incoming>Flow_1dqrdrn</bpmn:incoming>\n      <bpmn:outgoing>Flow_05lrw3m</bpmn:outgoing>\n    </bpmn:parallelGateway>\n    <bpmn:endEvent id=\"Event_TransmissionProcessed\" name=\"Transmission processed\">\n      <bpmn:incoming>Flow_05lrw3m</bpmn:incoming>\n    </bpmn:endEvent>\n    <bpmn:manualTask id=\"Activity_GeneratePreviewImage\" name=\"Generate preview image\">\n      <bpmn:incoming>Flow_03b5f3o</bpmn:incoming>\n      <bpmn:outgoing>Flow_14e4zmj</bpmn:outgoing>\n    </bpmn:manualTask>\n    <bpmn:manualTask id=\"Activity_Parallel2\" name=\"Mosaic RDR&#10;processing\">\n      <bpmn:incoming>Flow_0elx5ld</bpmn:incoming>\n      <bpmn:outgoing>Flow_04sk3cq</bpmn:outgoing>\n    </bpmn:manualTask>\n    <bpmn:manualTask id=\"Activity_Parallel3\" name=\"...&#10;processing\">\n      <bpmn:incoming>Flow_1jgk57k</bpmn:incoming>\n      <bpmn:outgoing>Flow_1dqrdrn</bpmn:outgoing>\n    </bpmn:manualTask>\n    <bpmn:manualTask id=\"Activity_Parallel1\" name=\"Terrain processing\">\n      <bpmn:incoming>Flow_0k12ehs</bpmn:incoming>\n      <bpmn:outgoing>Flow_1kfeua2</bpmn:outgoing>\n    </bpmn:manualTask>\n    <bpmn:serviceTask id=\"Activity_TimeShiftToCleanEnergy\" name=\"Time shift to clean energy\" zeebe:modelerTemplate=\"de.envite.greenbpm.carbonreductorconnector.carbonreductortask.v1\" zeebe:modelerTemplateIcon=\"data:image/svg+xml,%3Csvg xmlns=&#39;http://www.w3.org/2000/svg&#39; viewBox=&#39;0 0 100 100&#39;%3E%3Ctext y=&#39;.9em&#39; font-size=&#39;90&#39;%3E🌱%3C/text%3E%3C/svg%3E\">\n      <bpmn:extensionElements>\n        <zeebe:taskDefinition type=\"de.envite.greenbpm.carbonreductorconnector.carbonreductortask:1\" />\n        <zeebe:ioMapping>\n          <zeebe:input source=\"slaBasedConfiguration\" target=\"carbonReductorMode\" />\n          <zeebe:input source=\"=now()\" target=\"milestone\" />\n          <zeebe:input source=\"PT12H\" target=\"maximumProcessDuration\" />\n          <zeebe:input source=\"PT5H\" target=\"timeshiftWindow\" />\n          <zeebe:input source=\"swedencentral\" target=\"location\" />\n          <zeebe:input source=\"PT1H\" target=\"remainingProcessDuration\" />\n        </zeebe:ioMapping>\n        <zeebe:taskHeaders>\n          <zeebe:header key=\"resultExpression\" value=\"={&#10;  &#34;wasExecutionDelayed&#34;: response.executionDelayed,&#10;  &#34;delayedByInMs&#34;: response.delayedBy,&#10;  &#34;originalCarbon&#34;: response.originalCarbon,&#10;  &#34;actualCarbon&#34;: response.actualCarbon,&#10;  &#34;savedCarbonPct&#34;: response.savedCarbon,&#10;  &#34;reducedCarbon&#34;: response.reducedCarbon&#10;}\" />\n        </zeebe:taskHeaders>\n      </bpmn:extensionElements>\n      <bpmn:incoming>Flow_14e4zmj</bpmn:incoming>\n      <bpmn:outgoing>Flow_0x4j7xr</bpmn:outgoing>\n    </bpmn:serviceTask>\n    <bpmn:sequenceFlow id=\"Flow_03b5f3o\" sourceRef=\"Event_TransmissionReceived\" targetRef=\"Activity_GeneratePreviewImage\" />\n    <bpmn:sequenceFlow id=\"Flow_0x4j7xr\" sourceRef=\"Activity_TimeShiftToCleanEnergy\" targetRef=\"Gateway_SplitProcessing\" />\n    <bpmn:sequenceFlow id=\"Flow_0elx5ld\" sourceRef=\"Gateway_SplitProcessing\" targetRef=\"Activity_Parallel2\" />\n    <bpmn:sequenceFlow id=\"Flow_0k12ehs\" sourceRef=\"Gateway_SplitProcessing\" targetRef=\"Activity_Parallel1\" />\n    <bpmn:sequenceFlow id=\"Flow_1jgk57k\" sourceRef=\"Gateway_SplitProcessing\" targetRef=\"Activity_Parallel3\" />\n    <bpmn:sequenceFlow id=\"Flow_04sk3cq\" sourceRef=\"Activity_Parallel2\" targetRef=\"Gateway_JoinProcessing\" />\n    <bpmn:sequenceFlow id=\"Flow_1kfeua2\" sourceRef=\"Activity_Parallel1\" targetRef=\"Gateway_JoinProcessing\" />\n    <bpmn:sequenceFlow id=\"Flow_1dqrdrn\" sourceRef=\"Activity_Parallel3\" targetRef=\"Gateway_JoinProcessing\" />\n    <bpmn:sequenceFlow id=\"Flow_05lrw3m\" sourceRef=\"Gateway_JoinProcessing\" targetRef=\"Event_TransmissionProcessed\" />\n    <bpmn:sequenceFlow id=\"Flow_14e4zmj\" sourceRef=\"Activity_GeneratePreviewImage\" targetRef=\"Activity_TimeShiftToCleanEnergy\" />\n  </bpmn:process>\n  <bpmndi:BPMNDiagram id=\"BPMNDiagram_1\">\n    <bpmndi:BPMNPlane id=\"BPMNPlane_1\" bpmnElement=\"CarbonHack22Process\">\n      <bpmndi:BPMNShape id=\"BPMNShape_1wwaij0\" bpmnElement=\"Participant_Nasa\" isHorizontal=\"true\">\n        <dc:Bounds x=\"160\" y=\"240\" width=\"930\" height=\"380\" />\n        <bpmndi:BPMNLabel />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_10xl8ky\" bpmnElement=\"Event_TransmissionReceived\">\n        <dc:Bounds x=\"212\" y=\"419\" width=\"36\" height=\"36\" />\n        <bpmndi:BPMNLabel>\n          <dc:Bounds x=\"199\" y=\"462\" width=\"65\" height=\"27\" />\n        </bpmndi:BPMNLabel>\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_113k72g\" bpmnElement=\"Gateway_SplitProcessing\">\n        <dc:Bounds x=\"635\" y=\"412\" width=\"50\" height=\"50\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_1pkmt78\" bpmnElement=\"Gateway_JoinProcessing\">\n        <dc:Bounds x=\"915\" y=\"412\" width=\"50\" height=\"50\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_0gki1zt\" bpmnElement=\"Event_TransmissionProcessed\">\n        <dc:Bounds x=\"1032\" y=\"419\" width=\"36\" height=\"36\" />\n        <bpmndi:BPMNLabel>\n          <dc:Bounds x=\"1018\" y=\"462\" width=\"65\" height=\"27\" />\n        </bpmndi:BPMNLabel>\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_0acgyhs\" bpmnElement=\"Activity_GeneratePreviewImage\">\n        <dc:Bounds x=\"310\" y=\"397\" width=\"100\" height=\"80\" />\n        <bpmndi:BPMNLabel />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_1r61b42\" bpmnElement=\"Activity_Parallel2\">\n        <dc:Bounds x=\"750\" y=\"397\" width=\"100\" height=\"80\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_1c15h1z\" bpmnElement=\"Activity_Parallel3\">\n        <dc:Bounds x=\"750\" y=\"517\" width=\"100\" height=\"80\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"BPMNShape_0a5ibdd\" bpmnElement=\"Activity_Parallel1\">\n        <dc:Bounds x=\"750\" y=\"277\" width=\"100\" height=\"80\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"Activity_1fnv86p_di\" bpmnElement=\"Activity_TimeShiftToCleanEnergy\">\n        <dc:Bounds x=\"470\" y=\"397\" width=\"100\" height=\"80\" />\n        <bpmndi:BPMNLabel />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_0k6xa9l\" bpmnElement=\"Flow_03b5f3o\">\n        <di:waypoint x=\"248\" y=\"437\" />\n        <di:waypoint x=\"310\" y=\"437\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"Flow_0x4j7xr_di\" bpmnElement=\"Flow_0x4j7xr\">\n        <di:waypoint x=\"570\" y=\"437\" />\n        <di:waypoint x=\"635\" y=\"437\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_1j2bbfk\" bpmnElement=\"Flow_0elx5ld\">\n        <di:waypoint x=\"685\" y=\"437\" />\n        <di:waypoint x=\"750\" y=\"437\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_1awqito\" bpmnElement=\"Flow_0k12ehs\">\n        <di:waypoint x=\"660\" y=\"412\" />\n        <di:waypoint x=\"660\" y=\"317\" />\n        <di:waypoint x=\"750\" y=\"317\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_1b0ncic\" bpmnElement=\"Flow_1jgk57k\">\n        <di:waypoint x=\"660\" y=\"462\" />\n        <di:waypoint x=\"660\" y=\"557\" />\n        <di:waypoint x=\"750\" y=\"557\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_1t4m2za\" bpmnElement=\"Flow_04sk3cq\">\n        <di:waypoint x=\"850\" y=\"437\" />\n        <di:waypoint x=\"915\" y=\"437\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_0b228ou\" bpmnElement=\"Flow_1kfeua2\">\n        <di:waypoint x=\"850\" y=\"317\" />\n        <di:waypoint x=\"940\" y=\"317\" />\n        <di:waypoint x=\"940\" y=\"412\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_0eaj5or\" bpmnElement=\"Flow_1dqrdrn\">\n        <di:waypoint x=\"850\" y=\"557\" />\n        <di:waypoint x=\"940\" y=\"557\" />\n        <di:waypoint x=\"940\" y=\"462\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_0vu72kg\" bpmnElement=\"Flow_05lrw3m\">\n        <di:waypoint x=\"965\" y=\"437\" />\n        <di:waypoint x=\"1032\" y=\"437\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_17qxe6f\" bpmnElement=\"Flow_14e4zmj\">\n        <di:waypoint x=\"410\" y=\"437\" />\n        <di:waypoint x=\"470\" y=\"437\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNShape id=\"BPMNShape_1upsfvm\" bpmnElement=\"Participant_MarsRover\" isHorizontal=\"true\">\n        <dc:Bounds x=\"160\" y=\"80\" width=\"300\" height=\"60\" />\n        <bpmndi:BPMNLabel />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNEdge id=\"BPMNEdge_0dgqr4w\" bpmnElement=\"Flow_07bc21p\">\n        <di:waypoint x=\"230\" y=\"140\" />\n        <di:waypoint x=\"230\" y=\"419\" />\n      </bpmndi:BPMNEdge>\n    </bpmndi:BPMNPlane>\n  </bpmndi:BPMNDiagram>\n</bpmn:definitions>",
+				"tableColumns": {
+					"includeNewVariables": true,
+					"excludedColumns": [
+					],
+					"includedColumns": [
+					],
+					"columnOrder": [
+					]
+				},
+				"targetValue": {
+					"countChart": {
+						"isBelow": false,
+						"value": "100"
+					},
+					"durationProgress": {
+						"baseline": {
+							"unit": "hours",
+							"value": "0"
+						},
+						"target": {
+							"unit": "hours",
+							"value": "2",
+							"isBelow": false
+						}
+					},
+					"active": false,
+					"countProgress": {
+						"baseline": "0",
+						"target": "100",
+						"isBelow": false
+					},
+					"durationChart": {
+						"unit": "hours",
+						"isBelow": false,
+						"value": "2"
+					},
+					"isKpi": false
+				},
+				"heatmapTargetValue": {
+					"active": false,
+					"values": {
+					}
+				},
+				"groupByDateVariableUnit": "automatic",
+				"distributeByDateVariableUnit": "automatic",
+				"customBucket": {
+					"active": false,
+					"bucketSize": "10.0",
+					"bucketSizeUnit": "minute",
+					"baseline": "0.0",
+					"baselineUnit": "minute"
+				},
+				"distributeByCustomBucket": {
+					"active": false,
+					"bucketSize": "10.0",
+					"bucketSizeUnit": "minute",
+					"baseline": "0.0",
+					"baselineUnit": "minute"
+				},
+				"sorting": null,
+				"processPart": null,
+				"measureVisualizations": {
+					"frequency": "bar",
+					"duration": "line"
+				},
+				"stackedBar": false,
+				"logScale": false,
+				"yLabel": "",
+				"xLabel": "Keiner"
+			},
+			"definitions": [
+				{
+					"identifier": "definition",
+					"key": "NasaImageProcessing",
+					"name": "NASA Image Processing",
+					"displayName": "NASA Image Processing",
+					"versions": [
+						"all"
+					],
+					"tenantIds": [
+						null
+					]
+				}
+			],
+			"filter": [
+			],
+			"view": {
+				"entity": "variable",
+				"properties": [
+					{
+						"name": "carbonReduction",
+						"type": "Double"
+					}
+				]
+			},
+			"groupBy": {
+				"type": "none",
+				"value": null
+			},
+			"distributedBy": {
+				"type": "none",
+				"value": null
+			},
+			"visualization": "number",
+			"managementReport": false,
+			"userTaskReport": false
+		}
+	},
+	{
+		"id": "de13c9f3-4704-4feb-b307-73f7ee80c606",
+		"exportEntityType": "dashboard",
+		"name": "Mars Image Processing",
+		"sourceIndexVersion": 6,
+		"reports": [
+			{
+				"id": "d0f97637-b963-4462-8d32-178486a32348",
+				"position": {
+					"x": 0,
+					"y": 0
+				},
+				"dimensions": {
+					"width": 12,
+					"height": 2
+				},
+				"configuration": null
+			},
+			{
+				"id": "3be18fd8-adaf-4b1a-a7fb-02f732829ba3",
+				"position": {
+					"x": 0,
+					"y": 2
+				},
+				"dimensions": {
+					"width": 4,
+					"height": 2
+				},
+				"configuration": null
+			},
+			{
+				"id": "b153e0bf-2add-49dd-877c-c04590479300",
+				"position": {
+					"x": 0,
+					"y": 4
+				},
+				"dimensions": {
+					"width": 8,
+					"height": 4
+				},
+				"configuration": null
+			},
+			{
+				"id": "24ff44c8-8482-422d-aa6d-8cdc09b41a47",
+				"position": {
+					"x": 12,
+					"y": 0
+				},
+				"dimensions": {
+					"width": 6,
+					"height": 2
+				},
+				"configuration": null
+			},
+			{
+				"id": "3522eda0-80c5-4a7d-a280-8667f7261f4f",
+				"position": {
+					"x": 8,
+					"y": 2
+				},
+				"dimensions": {
+					"width": 10,
+					"height": 6
+				},
+				"configuration": null
+			},
+			{
+				"id": "bbd239c6-5029-4220-80f9-068e0128f91f",
+				"position": {
+					"x": 4,
+					"y": 2
+				},
+				"dimensions": {
+					"width": 4,
+					"height": 2
+				},
+				"configuration": null
+			}
+		],
+		"availableFilters": [
+		],
+		"collectionId": "a6a1a824-5c6e-4bbb-9d51-679932459765"
+	}
+]
