@@ -124,9 +124,11 @@ Since Camunda Carbon Reductor stores the carbon savings as process variables,
 we have the ability to visualize our successes in [Camunda Optimize](https://camunda.com/de/platform/optimize/).
 
 For the [CarbonHack22](https://taikai.network/gsf/hackathons/carbonhack22/projects/cl9czuvwy65500401uzm9hfwbs9/idea) 
-we visualized the results for out example process and it looks like the following: [CarbonHack22 Dashboard](https://dsm-1.optimize.camunda.io/9f797e79-5066-47cc-bc67-cc7d0f22f96c/external/#/share/dashboard/0dae7a0c-decd-407f-b643-a00a31e1949b?filter=%5B%5D)
+we visualized the results for out example process and it looks like the following: 
 
-![CarbonHack22 Dashboard](CarbonHack22-Camunda-Optimize-Dashboard.png)
+![CarbonHack22 Dashboard](assets/CarbonHack22-Camunda-Optimize-Dashboard.png)
+
+The exported Dashboard Definition could be found [here](assets/optimize-dashboard-definition.json).
 
 # 📚Releases
 
@@ -145,5 +147,5 @@ If you have any questions or ideas feel free to create an [issue](https://github
 
 This open source project is being developed by [envite consulting GmbH](https://envite.de).
 
-![envite consulting GmbH](envite-black.png#gh-light-mode-only)
-![envite consulting GmbH](envite-white.png#gh-dark-mode-only)
+![envite consulting GmbH](assets/envite-black.png#gh-light-mode-only)
+![envite consulting GmbH](assets/envite-white.png#gh-dark-mode-only)
