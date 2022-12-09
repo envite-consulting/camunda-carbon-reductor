@@ -81,7 +81,7 @@ Congratulations 🎉 - the API is now running locally.
 
 ## Run Connector locally
 
-Configure the application using [application.yml](/src/main/resources/application.yml). 
+Configure the application using [application.yml](/application.yml). 
 
 You can run the Connector and connect it to a Camunda Platform 8 SaaS cluster.
 
