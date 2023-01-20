@@ -51,6 +51,17 @@ If you don't have a Camunda Platform 8 account you can create a 30-day trial: ht
 * Start a new instance
 * Switch to Camunda Operate to see the token waiting at the connector
 
+## Create a WattTime Account
+The Account can be created with a POST request ([watttime.org/api-documentation](https://www.watttime.org/api-documentation/#best-practices-for-api-usage)). With the visitor plan you are allowed to query information for the 
+CAISO_NORTH (California) region.
+```bash
+curl -X POST --location "https://api2.watttime.org/v2/register" \
+    -H "Content-Type: application/json" \
+    -d "{\"username\": \"<myWattTimeUsername>\",
+          \"password\": \"<myWattTimePassword>\",
+          \"email\": \"<myEmailAddress>\"}"
+```
+
 ## Run Carbon Aware SDK Web API locally
 
 Start the carbon aware SDK locally which acts as a proxy to the WattTime-API:
@@ -68,13 +79,15 @@ Note: Replace `<myWattTimeUsername>` and `<myWattTimePassword>` with your indivi
 
 ```bash
 docker run -it --rm -p 8090:80 \
-    -e CarbonAwareVars__CarbonIntensityDataSource="WattTime" \
-    -e WattTimeClient__Username="<myWattTimeUsername>" \
-    -e WattTimeClient__Password="<myWattTimePassword>" \
+    -e DataSources__EmissionsDataSource="WattTime" \
+    -e DataSources__ForecastDataSource="WattTime" \
+    -e DataSources__Configurations__WattTime__Type="WattTime" \
+    -e DataSources__Configurations__WattTime__Username="<myWattTimeUsername>" \
+    -e DataSources__Configurations__WattTime__Password="<myWattTimePassword>" \
   carbon-aware-sdk-webapi
 ```
 
-Test the API with `curl -s "http://localhost:8090/emissions/forecasts/current?location=westus2"`.
+Test the API with `curl -s "http://localhost:8090/emissions/forecasts/current?location=westus"`.
 This should return a lengthy JSON response.
 
 Congratulations 🎉 - the API is now running locally.
