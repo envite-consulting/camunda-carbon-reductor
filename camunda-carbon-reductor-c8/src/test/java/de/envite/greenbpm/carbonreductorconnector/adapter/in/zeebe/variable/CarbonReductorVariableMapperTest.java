@@ -1,7 +1,7 @@
 package de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.variable;
 
-import de.envite.greenbpm.core.domain.model.CarbonReduction;
-import de.envite.greenbpm.core.domain.model.CarbonReductorConfiguration;
+import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReduction;
+import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReductorConfiguration;
 import org.junit.jupiter.api.Test;
 
 import static de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.test.utils.TestDataGenerator.createCarbonReductorOutput;
