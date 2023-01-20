@@ -1,11 +1,11 @@
 package de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.variable;
 
-import de.envite.greenbpm.core.domain.model.CarbonReduction;
-import de.envite.greenbpm.core.domain.model.CarbonReductorConfiguration;
-import de.envite.greenbpm.core.domain.model.input.Milestone;
-import de.envite.greenbpm.core.domain.model.input.Timeshift;
-import de.envite.greenbpm.core.domain.model.input.carbonreductormode.CarbonReductorMode;
-import de.envite.greenbpm.core.domain.model.input.location.Location;
+import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReduction;
+import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReductorConfiguration;
+import de.envite.greenbpm.carbonreductor.core.domain.model.input.Milestone;
+import de.envite.greenbpm.carbonreductor.core.domain.model.input.Timeshift;
+import de.envite.greenbpm.carbonreductor.core.domain.model.input.carbonreductormode.CarbonReductorMode;
+import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Location;
 import org.springframework.stereotype.Component;
 
 @Component
