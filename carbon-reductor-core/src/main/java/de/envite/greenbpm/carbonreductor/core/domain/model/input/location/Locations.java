@@ -12,7 +12,8 @@ public enum Locations {
   SWITZERLAND_NORTH("switzerlandnorth"),
   SWITZERLAND_WEST("switzerlandwest"),
   SWEDEN_CENTRAL("swedencentral"),
-  NORWAY_EAST("norwayeast");
+  NORWAY_EAST("norwayeast"),
+  WEST_US("westus");
 
   Locations(String regionname) {
     this.regionname = regionname;
