@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+
+  carbon-aware-webapi:
+    image: enviteconsulting/carbon-aware-sdk-webapi:0.0.2
+    container_name: carbon-aware-webapi
+    environment:
+      - DataSources__EmissionsDataSource=WattTime
+      - DataSources__ForecastDataSource=WattTime
+      - DataSources__Configurations__WattTime__Type=WattTime
+      - DataSources__Configurations__WattTime__Username=<myWattTimeUsername>
+      - DataSources__Configurations__WattTime__Password=<myWattTimePassword>
+    healthcheck:
+      test: curl --fail 'http://localhost:80/emissions/forecasts/current?location=westus' || exit 1
+      interval: 5s
+      retries: 5
+      start_period: 3s
+      timeout: 2s
+    ports:
+      - "8090:80"
+
+  camunda-8-carbon-reductor-connector:
+    image: enviteconsulting/camunda-8-carbon-reductor-connector:0.0.1
+    build:
+      context: ../
+      dockerfile: camunda-carbon-reductor-c8/Dockerfile
+    container_name: camunda-8-carbon-reductor-connector
+    depends_on:
+      carbon-aware-webapi:
+        condition: service_healthy
+    environment:
+      - CLIENT_ID=<client_id>
+      - CLUSTER_ID=<cluster_id>
+      - CLIENT_SECRET=<client_secret>
+    ports:
+      - "8080:8080"

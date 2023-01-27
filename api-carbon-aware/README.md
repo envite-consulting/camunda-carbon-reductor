@@ -18,4 +18,23 @@ calculate the delay.
 
 ## Run Carbon Aware SDK Web API locally
 
-Read the [Getting Started Guide](../README.md#run-carbon-aware-sdk-web-api-locally) in the parent README.
+Start the carbon aware SDK locally which acts as a proxy to the WattTime-API:
+
+Run Docker image:
+
+Note: Replace `<myWattTimeUsername>` and `<myWattTimePassword>` with your individual credentials in the following command.
+
+```bash
+docker run -it --rm -p 8090:80 \
+    -e DataSources__EmissionsDataSource="WattTime" \
+    -e DataSources__ForecastDataSource="WattTime" \
+    -e DataSources__Configurations__WattTime__Type="WattTime" \
+    -e DataSources__Configurations__WattTime__Username="<myWattTimeUsername>" \
+    -e DataSources__Configurations__WattTime__Password="<myWattTimePassword>" \
+  enviteconsulting/carbon-aware-sdk-webapi
+```
+
+Test the API with `curl -s "http://localhost:8090/emissions/forecasts/current?location=westus"`.
+This should return a lengthy JSON response.
+
+Congratulations 🎉 - the API is now running locally.
