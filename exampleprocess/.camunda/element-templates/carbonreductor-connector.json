@@ -97,6 +97,10 @@
                 {
                     "name": "Norway East",
                     "value": "norwayeast"
+                },
+                {
+                    "name": "West US",
+                    "value": "westus"
                 }
             ],
             "binding": {
