@@ -1,7 +1,7 @@
 zeebe:
   client:
     cloud:
-      clientId: xxx
-      clusterId: xxx
-      clientSecret: xxx
+      clientId: ${CLIENT_ID}
+      clusterId: ${CLUSTER_ID}
+      clientSecret: ${CLIENT_SECRET}
       region: dsm-1

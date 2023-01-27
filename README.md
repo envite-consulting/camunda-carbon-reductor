@@ -8,11 +8,6 @@ Technically, it's implemented as a Camunda [Connector](https://docs.camunda.io/d
 
 * ✨ [Features](#features)
 * 🚀 [Getting Started](#getting-started)
-  * [Register to Camunda Platform 8 SaaS](#register-to-camunda-platform-8-saas)
-  * [Create a cluster and client](#create-a-cluster-and-client)
-  * [Import Process Model to Camunda Platform 8](#import-process-model-to-camunda-platform-8)
-  * [Run Carbon Aware SDK Web API locally](#run-carbon-aware-sdk-web-api-locally)
-  * [Run Connector](#run-connector-locally)
 * 📈 [Reporting Carbon Reduction via Camunda Optimize](#reporting-carbon-reduction-via-camunda-optimize)
 * 📚 [Releases](#releases)
 * 📆 [Publications](#publications)
@@ -34,102 +29,8 @@ The Carbon Reductor Connector defines the following inputs:
 
 # 🚀Getting Started
 
-## Register to Camunda Platform 8 SaaS
+To start the Camunda 8 Connector have a look at the specific [README](./camunda-carbon-reductor-c8/README.md).
 
-If you don't have a Camunda Platform 8 account you can create a 30-day trial: https://accounts.cloud.camunda.io/signup
-
-## Create a Cluster and Client
-
-* Login to Camunda Platform 8: https://camunda.io/
-* Create a cluster
-* Register a new client in the section "API". Select all scopes if unsure.
-
-## Import Process Model to Camunda Platform 8
-
-* Open the Camunda Web Modeler
-* Import the process model `exampleprocess/NasaImageProcessing.bpmn`
-* Start a new instance
-* Switch to Camunda Operate to see the token waiting at the connector
-
-## Create a WattTime Account
-The Account can be created with a POST request ([watttime.org/api-documentation](https://www.watttime.org/api-documentation/#best-practices-for-api-usage)). With the visitor plan you are allowed to query information for the 
-CAISO_NORTH (California) region.
-```bash
-curl -X POST --location "https://api2.watttime.org/v2/register" \
-    -H "Content-Type: application/json" \
-    -d "{\"username\": \"<myWattTimeUsername>\",
-          \"password\": \"<myWattTimePassword>\",
-          \"email\": \"<myEmailAddress>\"}"
-```
-
-## Run Carbon Aware SDK Web API locally
-
-Start the carbon aware SDK locally which acts as a proxy to the WattTime-API:
-
-1. Create Docker image:
-```bash
-git clone https://github.com/Green-Software-Foundation/carbon-aware-sdk.git
-cd carbon-aware-sdk/src
-docker build -t carbon-aware-sdk-webapi -f CarbonAware.WebApi/src/Dockerfile .
-```
-
-2. Run Docker image:
-
-Note: Replace `<myWattTimeUsername>` and `<myWattTimePassword>` with your individual credentials in the following command.
-
-```bash
-docker run -it --rm -p 8090:80 \
-    -e DataSources__EmissionsDataSource="WattTime" \
-    -e DataSources__ForecastDataSource="WattTime" \
-    -e DataSources__Configurations__WattTime__Type="WattTime" \
-    -e DataSources__Configurations__WattTime__Username="<myWattTimeUsername>" \
-    -e DataSources__Configurations__WattTime__Password="<myWattTimePassword>" \
-  carbon-aware-sdk-webapi
-```
-
-Test the API with `curl -s "http://localhost:8090/emissions/forecasts/current?location=westus"`.
-This should return a lengthy JSON response.
-
-Congratulations 🎉 - the API is now running locally.
-
-## Run Connector locally
-
-Configure the application using [application.yml](/application.yml). 
-
-You can run the Connector and connect it to a Camunda Platform 8 SaaS cluster.
-
-```yml
-zeebe:
-  client:
-    cloud:
-      clientId: xxx
-      clusterId: xxx
-      clientSecret: xxx
-      region: dsm-1
-```
-
-If you're running Camunda Platform 8 Self-Managed then use the following configuration:
-
-```yml
-zeebe:
-  client:
-    broker.gateway-address: 127.0.0.1:26500
-    security.plaintext: true
-```
-
-Once the Connector is running you will see log entries like the following.
-
-In case of a time window with dirty energy:
-```
-Time shifting job 4503599628706752 by PT1M30S
-...
-Completing previously time shifted job 4503599628706752
-```
-
-In case of a time window with clean energy:
-```
-Executing job 4503599628706759 immediately
-```
 
 # 📈Reporting Carbon Reduction via Camunda Optimize
 
