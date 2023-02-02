@@ -11,7 +11,7 @@ to collect the information used to calculate the delay.
 
 # 🗒️Notes
 
-We are planning to support multiple APIs to get the information need to
+We are planning to support multiple APIs to get the information needed to
 calculate the delay.
 
 # 🚀Getting Started
