@@ -20,6 +20,7 @@
         <camunda.spring-boot.version>7.18.0</camunda.spring-boot.version>
         <spring-boot.version>2.7.3</spring-boot.version>
         <version.spin>1.18.0</version.spin>
+        <version.jaxb>2.3.5</version.jaxb>
     </properties>
 
     <dependencyManagement>
@@ -61,6 +62,12 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${version.slf4j}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>${version.jaxb}</version>
         </dependency>
 
         <dependency>

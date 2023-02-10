@@ -170,8 +170,8 @@
       }
     },
     {
-      "label": "maximum process duration from milestone to finish",
-      "description": "the maximum duration the process is allowed to run as ISO 8601 duration",
+      "label": "execution delayed?",
+      "description": "has the execution been delayed?",
       "group": "outputMapping",
       "value": "executionDelayed",
       "type": "String",
@@ -181,8 +181,8 @@
       }
     },
     {
-      "label": "maximum process duration from milestone to finish",
-      "description": "the maximum duration the process is allowed to run as ISO 8601 duration",
+      "label": "amount of delay",
+      "description": "amount of delay",
       "group": "outputMapping",
       "value": "delayedBy",
       "type": "String",
@@ -192,8 +192,8 @@
       }
     },
     {
-      "label": "maximum process duration from milestone to finish",
-      "description": "the maximum duration the process is allowed to run as ISO 8601 duration",
+      "label": "original carbon",
+      "description": "carbon emission in gCO2/kWh if the execution is not delayed",
       "group": "outputMapping",
       "value": "originalCarbon",
       "type": "String",
@@ -203,8 +203,8 @@
       }
     },
     {
-      "label": "maximum process duration from milestone to finish",
-      "description": "the maximum duration the process is allowed to run as ISO 8601 duration",
+      "label": "actual carbon",
+      "description": "carbon emission in gCO2/kWh at the time of the delayed execution",
       "group": "outputMapping",
       "value": "actualCarbon",
       "type": "String",
@@ -214,8 +214,8 @@
       }
     },
     {
-      "label": "maximum process duration from milestone to finish",
-      "description": "the maximum duration the process is allowed to run as ISO 8601 duration",
+      "label": "saved carbon %",
+      "description": "the percentage of saved carbon",
       "group": "outputMapping",
       "value": "savedCarbon",
       "type": "String",
@@ -225,8 +225,8 @@
       }
     },
     {
-      "label": "maximum process duration from milestone to finish",
-      "description": "the maximum duration the process is allowed to run as ISO 8601 duration",
+      "label": "reduced Carbon",
+      "description": "the reduced carbon footprint in gCO2/kWh",
       "group": "outputMapping",
       "value": "reducedCarbon",
       "type": "String",
