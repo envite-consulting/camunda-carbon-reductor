@@ -21,6 +21,7 @@
         <spring-boot.version>2.7.3</spring-boot.version>
         <version.spin>1.18.0</version.spin>
         <version.jaxb>2.3.5</version.jaxb>
+        <version.joda-time>2.12.2</version.joda-time>
     </properties>
 
     <dependencyManagement>
@@ -68,6 +69,12 @@
             <groupId>com.sun.xml.bind</groupId>
             <artifactId>jaxb-impl</artifactId>
             <version>${version.jaxb}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>${version.joda-time}</version>
         </dependency>
 
         <dependency>

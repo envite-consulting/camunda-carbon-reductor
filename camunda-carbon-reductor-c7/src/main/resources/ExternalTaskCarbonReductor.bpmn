@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0yq0rie" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.7.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.18.0">
   <bpmn:process id="ExternalTaskCarbonReductorProcess" name="ExternalTaskCarbonReductorProcess" isExecutable="true">
+    <bpmn:extensionElements />
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>Flow_1qbpniq</bpmn:outgoing>
     </bpmn:startEvent>
@@ -14,17 +15,17 @@
       <bpmn:outgoing>Flow_1ulqdi1</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:sequenceFlow id="Flow_1lml8kc" sourceRef="C7_Carbon_Reductor" targetRef="Activity_0y4ndy2" />
-    <bpmn:serviceTask id="C7_Carbon_Reductor" name="Carbon Reductor" camunda:modelerTemplate="de.envite.greenbpm.carbonreductorconnector.CarbonReductor" camunda:type="external" camunda:topic="CarbonReductor">
+    <bpmn:serviceTask id="C7_Carbon_Reductor" name="Carbon Reductor" camunda:modelerTemplate="de.envite.greenbpm.carbonreductorconnector.CarbonReductor" camunda:asyncBefore="true" camunda:type="external" camunda:topic="CarbonReductor">
       <bpmn:extensionElements>
         <camunda:connector>
           <camunda:connectorId>de.envite.greenbpm.carbonreductorconnector.CarbonReductor</camunda:connectorId>
         </camunda:connector>
         <camunda:inputOutput>
-          <camunda:inputParameter name="milestone">${now()}</camunda:inputParameter>
           <camunda:inputParameter name="RemainingProcessDuration">PT6H</camunda:inputParameter>
           <camunda:inputParameter name="maximumProcessDuration">PT12H</camunda:inputParameter>
           <camunda:inputParameter name="location">westus</camunda:inputParameter>
           <camunda:inputParameter name="carbonReductorMode">slaBasedConfiguration</camunda:inputParameter>
+          <camunda:inputParameter name="milestone">${dateTime()}</camunda:inputParameter>
           <camunda:outputParameter name="executionDelayed1">${executionDelayed}</camunda:outputParameter>
           <camunda:outputParameter name="delayedBy1">${delayedBy}</camunda:outputParameter>
           <camunda:outputParameter name="originalCarbon1">${originalCarbon}</camunda:outputParameter>
