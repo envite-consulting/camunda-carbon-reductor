@@ -1,0 +1,139 @@
+{
+  "$schema": "https://unpkg.com/@camunda/element-templates-json-schema/resources/schema.json",
+  "name": "Carbon Reductor Connector",
+  "id": "de.envite.greenbpm.carbonreductorconnector.CarbonReductor",
+  "icon": {
+    "contents": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E\uD83C\uDF31%3C/text%3E%3C/svg%3E"
+  },
+  "appliesTo": [
+    "bpmn:ServiceTask"
+  ],
+  "properties": [
+    {
+      "binding": {
+        "name": "camunda:type",
+        "type": "property"
+      },
+      "type": "Hidden",
+      "value": "external"
+    },
+    {
+      "binding": {
+        "name": "camunda:topic",
+        "type": "property"
+      },
+      "type": "Hidden",
+      "value": "c7CarbonReductor"
+    },
+    {
+      "label": "location",
+      "id": "location",
+      "description": "The location where the process is running",
+      "type": "Dropdown",
+      "choices": [
+        {
+          "name": "Europe North",
+          "value": "northeurope"
+        },
+        {
+          "name": "Europe West",
+          "value": "westeurope"
+        },
+        {
+          "name": "France Central",
+          "value": "francecentral"
+        },
+        {
+          "name": "France South",
+          "value": "francesouth"
+        },
+        {
+          "name": "Germany North",
+          "value": "germanynorth"
+        },
+        {
+          "name": "Germany West Central",
+          "value": "germanywestcentral"
+        },
+        {
+          "name": "UK South",
+          "value": "uksouth"
+        },
+        {
+          "name": "UK West",
+          "value": "ukwest"
+        },
+        {
+          "name": "Switzerland North",
+          "value": "switzerlandnorth"
+        },
+        {
+          "name": "Switzerland West",
+          "value": "switzerlandwest"
+        },
+        {
+          "name": "Sweden Central",
+          "value": "swedencentral"
+        },
+        {
+          "name": "Norway East",
+          "value": "norwayeast"
+        }
+      ],
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "location"
+      }
+    },
+    {
+      "label": "SLA based or absolute duration",
+      "id": "carbonReductorMode",
+      "description": "defines how to calculate the time window for the timeshift",
+      "type": "Dropdown",
+      "choices": [
+        {
+          "name": "SLA based configuration",
+          "value": "slaBasedConfiguration"
+        }
+      ],
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "carbonReductorMode"
+      }
+    },
+    {
+      "label": "milestone",
+      "id": "milestone",
+      "description": "timestamp of the chosen milestone",
+      "value": "=now()",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "milestone"
+      }
+    },
+    {
+      "label": "duration of remaining process tasks",
+      "id": "remainingProcessDuration",
+      "description": "the duration of the remaining tasks after the Carbon Reductor as ISO 8601 duration",
+      "value": "PT6H",
+      "type": "String",
+      "feel": "optional",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "RemainingProcessDuration"
+      }
+    },
+    {
+      "label": "maximum process duration from milestone to finish",
+      "id": "maximumProcessDuration",
+      "description": "the maximum duration the process is allowed to run as ISO 8601 duration",
+      "value": "PT12H",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "maximumProcessDuration"
+      }
+    }
+  ]
+}
