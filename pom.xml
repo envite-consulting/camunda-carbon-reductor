@@ -13,6 +13,7 @@
         <module>api-carbon-aware</module>
         <module>carbon-reductor-core</module>
         <module>camunda-carbon-reductor-c8</module>
+        <module>camunda-carbon-reductor-c7</module>
     </modules>
 
     <parent>
