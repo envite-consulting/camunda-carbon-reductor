@@ -21,6 +21,7 @@ class CarbonReductorVariableMapperTest {
         variables.put("carbonReductorMode", "test");
         variables.put("milestone", "2022-10-20T11:35:45.826Z[Etc/UTC]");
         variables.put("maximumProcessDuration", "PT10M");
+        variables.put("remainingProcessDuration", "PT6H");
 
         CarbonReductorConfiguration result = classUnderTest.mapToDomain(variables);
 
@@ -28,8 +29,8 @@ class CarbonReductorVariableMapperTest {
         softAssertions.assertThat(result.getLocation().getValue()).isEqualTo(variables.get("location"));
         softAssertions.assertThat(result.getCarbonReductorMode().getValue()).isEqualTo(variables.get("carbonReductorMode"));
         softAssertions.assertThat(result.getMilestone().getValue()).isEqualTo(variables.get("milestone"));
-        softAssertions.assertThat(result.getMaximumProcessTimeshift().getValue()).isEqualTo(variables.get("maximumProcessDuration"));
-        softAssertions.assertThat(result.getRemainingProcessTimeshift()).isNull();
+        softAssertions.assertThat(result.getMaximumProcessTimeshift().getValue().toString()).isEqualTo(variables.get("maximumProcessDuration"));
+        softAssertions.assertThat(result.getRemainingProcessTimeshift().getValue().toString()).isEqualTo(variables.get("remainingProcessDuration"));
         softAssertions.assertThat(result.getTimeshiftWindow()).isNull();
         softAssertions.assertAll();
     }

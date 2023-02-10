@@ -154,7 +154,7 @@
       "feel": "optional",
       "binding": {
         "type": "camunda:inputParameter",
-        "name": "RemainingProcessDuration"
+        "name": "remainingProcessDuration"
       }
     },
     {
