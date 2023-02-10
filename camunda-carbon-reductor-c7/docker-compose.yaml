@@ -7,7 +7,7 @@ services:
     environment:
       - DataSources__EmissionsDataSource=WattTime
       - DataSources__ForecastDataSource=WattTime
-      - DataSources__Configurations__WattTime__Type=<WattTime>
+      - DataSources__Configurations__WattTime__Type=WattTime
       - DataSources__Configurations__WattTime__Username=<myWattTimeUsername>
       - DataSources__Configurations__WattTime__Password=<myWattTimePassword>
     healthcheck:
