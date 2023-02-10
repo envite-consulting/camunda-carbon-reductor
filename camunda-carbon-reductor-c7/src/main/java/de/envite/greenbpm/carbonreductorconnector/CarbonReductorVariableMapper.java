@@ -18,9 +18,9 @@ class CarbonReductorVariableMapper {
                 new Location((String) allVariables.get("location")),
                 new CarbonReductorMode((String) allVariables.get("carbonReductorMode")),
                 new Milestone((String) allVariables.get("milestone")),
-                null,
+                null, // Will become relevant in the future
                 mapIfNotNull((String) allVariables.get("maximumProcessDuration")),
-                null
+                null // Will become relevant in the future
         );
     }
 
