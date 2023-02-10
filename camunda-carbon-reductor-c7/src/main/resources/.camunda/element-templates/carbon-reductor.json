@@ -8,6 +8,20 @@
   "appliesTo": [
     "bpmn:ServiceTask"
   ],
+  "groups": [
+    {
+      "id": "asynchronous-continuation",
+      "label": "Asynchronous Continuation"
+    },
+    {
+      "id": "carbonreductor",
+      "label": "Carbon Reductor"
+    },
+    {
+      "id": "outputMapping",
+      "label": "Output Mapping"
+    }
+  ],
   "properties": [
     {
       "binding": {
@@ -23,12 +37,23 @@
         "type": "property"
       },
       "type": "Hidden",
-      "value": "c7CarbonReductor"
+      "value": "CarbonReductor"
+    },
+    {
+      "label": "Before",
+      "type": "Boolean",
+      "value": true,
+      "group": "asynchronous-continuation",
+      "binding": {
+        "type": "property",
+        "name": "camunda:asyncBefore"
+      }
     },
     {
       "label": "location",
       "id": "location",
       "description": "The location where the process is running",
+      "group": "carbonreductor",
       "type": "Dropdown",
       "choices": [
         {
@@ -78,6 +103,10 @@
         {
           "name": "Norway East",
           "value": "norwayeast"
+        },
+        {
+          "name": "West US",
+          "value": "westus"
         }
       ],
       "binding": {
@@ -89,6 +118,7 @@
       "label": "SLA based or absolute duration",
       "id": "carbonReductorMode",
       "description": "defines how to calculate the time window for the timeshift",
+      "group": "carbonreductor",
       "type": "Dropdown",
       "choices": [
         {
@@ -98,6 +128,7 @@
       ],
       "binding": {
         "type": "camunda:inputParameter",
+        "group": "carbonreductor",
         "name": "carbonReductorMode"
       }
     },
@@ -105,7 +136,8 @@
       "label": "milestone",
       "id": "milestone",
       "description": "timestamp of the chosen milestone",
-      "value": "=now()",
+      "group": "carbonreductor",
+      "value": "${now()}",
       "type": "String",
       "binding": {
         "type": "camunda:inputParameter",
@@ -116,6 +148,7 @@
       "label": "duration of remaining process tasks",
       "id": "remainingProcessDuration",
       "description": "the duration of the remaining tasks after the Carbon Reductor as ISO 8601 duration",
+      "group": "carbonreductor",
       "value": "PT6H",
       "type": "String",
       "feel": "optional",
@@ -128,11 +161,78 @@
       "label": "maximum process duration from milestone to finish",
       "id": "maximumProcessDuration",
       "description": "the maximum duration the process is allowed to run as ISO 8601 duration",
+      "group": "carbonreductor",
       "value": "PT12H",
       "type": "String",
       "binding": {
         "type": "camunda:inputParameter",
         "name": "maximumProcessDuration"
+      }
+    },
+    {
+      "label": "maximum process duration from milestone to finish",
+      "description": "the maximum duration the process is allowed to run as ISO 8601 duration",
+      "group": "outputMapping",
+      "value": "executionDelayed",
+      "type": "String",
+      "binding": {
+        "type": "camunda:outputParameter",
+        "source": "${executionDelayed}"
+      }
+    },
+    {
+      "label": "maximum process duration from milestone to finish",
+      "description": "the maximum duration the process is allowed to run as ISO 8601 duration",
+      "group": "outputMapping",
+      "value": "delayedBy",
+      "type": "String",
+      "binding": {
+        "type": "camunda:outputParameter",
+        "source": "${delayedBy}"
+      }
+    },
+    {
+      "label": "maximum process duration from milestone to finish",
+      "description": "the maximum duration the process is allowed to run as ISO 8601 duration",
+      "group": "outputMapping",
+      "value": "originalCarbon",
+      "type": "String",
+      "binding": {
+        "type": "camunda:outputParameter",
+        "source": "${originalCarbon}"
+      }
+    },
+    {
+      "label": "maximum process duration from milestone to finish",
+      "description": "the maximum duration the process is allowed to run as ISO 8601 duration",
+      "group": "outputMapping",
+      "value": "actualCarbon",
+      "type": "String",
+      "binding": {
+        "type": "camunda:outputParameter",
+        "source": "${actualCarbon}"
+      }
+    },
+    {
+      "label": "maximum process duration from milestone to finish",
+      "description": "the maximum duration the process is allowed to run as ISO 8601 duration",
+      "group": "outputMapping",
+      "value": "savedCarbon",
+      "type": "String",
+      "binding": {
+        "type": "camunda:outputParameter",
+        "source": "${savedCarbon}"
+      }
+    },
+    {
+      "label": "maximum process duration from milestone to finish",
+      "description": "the maximum duration the process is allowed to run as ISO 8601 duration",
+      "group": "outputMapping",
+      "value": "reducedCarbon",
+      "type": "String",
+      "binding": {
+        "type": "camunda:outputParameter",
+        "source": "${reducedCarbon}"
       }
     }
   ]
