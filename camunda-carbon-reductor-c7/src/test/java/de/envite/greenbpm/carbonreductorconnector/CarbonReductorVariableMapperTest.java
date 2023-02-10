@@ -5,6 +5,7 @@ import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReductorConfigu
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Carbon;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Delay;
 import org.assertj.core.api.SoftAssertions;
+import org.joda.time.DateTime;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -19,7 +20,7 @@ class CarbonReductorVariableMapperTest {
         Map<String, Object> variables = new HashMap<>();
         variables.put("location", "here");
         variables.put("carbonReductorMode", "test");
-        variables.put("milestone", "2022-10-20T11:35:45.826Z[Etc/UTC]");
+        variables.put("milestone", DateTime.parse("2023-02-10T15:48:10.285+01:00"));
         variables.put("maximumProcessDuration", "PT10M");
         variables.put("remainingProcessDuration", "PT6H");
 
@@ -28,7 +29,7 @@ class CarbonReductorVariableMapperTest {
         SoftAssertions softAssertions = new SoftAssertions();
         softAssertions.assertThat(result.getLocation().getValue()).isEqualTo(variables.get("location"));
         softAssertions.assertThat(result.getCarbonReductorMode().getValue()).isEqualTo(variables.get("carbonReductorMode"));
-        softAssertions.assertThat(result.getMilestone().getValue()).isEqualTo(variables.get("milestone"));
+        softAssertions.assertThat(result.getMilestone().getValue()).isEqualTo("2023-02-10T14:48:10.285Z[Etc/UTC]");
         softAssertions.assertThat(result.getMaximumProcessTimeshift().getValue().toString()).isEqualTo(variables.get("maximumProcessDuration"));
         softAssertions.assertThat(result.getRemainingProcessTimeshift().getValue().toString()).isEqualTo(variables.get("remainingProcessDuration"));
         softAssertions.assertThat(result.getTimeshiftWindow()).isNull();
