@@ -1,0 +1,7 @@
+camunda.bpm:
+  default-serialization-format: application/json
+  metrics.enabled: false
+  client:
+    base-url: ${BASE_URL}
+    async-response-timeout: ${ASYNC_RESPONSE_TIMEOUT}
+    worker-id: ${WORKER_ID}

@@ -1,0 +1,38 @@
+version: "3.9"
+services:
+
+  carbon-aware-webapi:
+    image: enviteconsulting/carbon-aware-sdk-webapi:0.0.2
+    container_name: carbon-aware-webapi
+    environment:
+      - DataSources__EmissionsDataSource=WattTime
+      - DataSources__ForecastDataSource=WattTime
+      - DataSources__Configurations__WattTime__Type=<WattTime>
+      - DataSources__Configurations__WattTime__Username=<myWattTimeUsername>
+      - DataSources__Configurations__WattTime__Password=<myWattTimePassword>
+    healthcheck:
+      test: curl --fail 'http://localhost:80/emissions/forecasts/current?location=westus' || exit 1
+      interval: 5s
+      retries: 5
+      start_period: 3s
+      timeout: 2s
+    ports:
+      - "8090:80"
+
+  camunda-7-carbon-reductor-connector:
+    image: enviteconsulting/camunda-7-carbon-reductor-connector:0.0.1
+    build:
+      context: ../
+      dockerfile: camunda-carbon-reductor-c7/Dockerfile
+    container_name: camunda-7-carbon-reductor-connector
+    depends_on:
+      carbon-aware-webapi:
+        condition: service_healthy
+    environment:
+      - BASE_URL=<base-url>
+      - ASYNC_RESPONSE_TIMEOUT=<ASYNC_RESPONSE_TIMEOUT>
+      - WORKER_ID=<worker-id>
+    ports:
+      - "8080:8080"
+
+  # TODO: Add example process engine with example process model
