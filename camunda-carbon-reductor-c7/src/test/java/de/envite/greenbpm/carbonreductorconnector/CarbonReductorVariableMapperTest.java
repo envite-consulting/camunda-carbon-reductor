@@ -44,8 +44,9 @@ class CarbonReductorVariableMapperTest {
                 new Carbon(2.0),
                 new Carbon(3.0)
         );
+        Map<String, Object> variables = Map.of("milestone", DateTime.parse("2023-02-10T15:48:10.285+01:00"));
 
-        Map<String, Object> result = classUnderTest.mapFromDomain(carbonReduction);
+        Map<String, Object> result = classUnderTest.mapFromDomain(carbonReduction, variables);
         SoftAssertions softAssertions = new SoftAssertions();
         softAssertions.assertThat(result.get("executionDelayed")).isEqualTo(carbonReduction.getDelay().isExecutionDelayed());
         softAssertions.assertThat(result.get("originalCarbon")).isEqualTo(carbonReduction.getOriginalCarbon().getValue());
@@ -53,6 +54,7 @@ class CarbonReductorVariableMapperTest {
         softAssertions.assertThat(result.get("savedCarbon")).isEqualTo(carbonReduction.getSavedCarbon().getValue());
         softAssertions.assertThat(result.get("carbonReduction")).isEqualTo(carbonReduction.calculateReduction().getValue());
         softAssertions.assertThat(result.get("delayedBy")).isEqualTo(carbonReduction.getDelay().getDelayedBy());
+        softAssertions.assertThat(result.get("milestone")).isEqualTo("2023-02-10T14:48:10.285Z[Etc/UTC]");
         softAssertions.assertAll();
     }
 }

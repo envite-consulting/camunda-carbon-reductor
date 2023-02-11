@@ -50,7 +50,7 @@ public class CarbonReductorTaskHandler implements ExternalTaskHandler {
     }
 
     private void delayOrExecute(ExternalTask externalTask, ExternalTaskService externalTaskService, CarbonReduction carbonReductorOutput) {
-        Map<String, Object> outputVariables = carbonReductorVariableMapper.mapFromDomain(carbonReductorOutput);
+        Map<String, Object> outputVariables = carbonReductorVariableMapper.mapFromDomain(carbonReductorOutput, externalTask.getAllVariables());
 
         if (carbonReductorOutput.getDelay().isExecutionDelayed()) {
             Duration duration = Duration.ofMillis(carbonReductorOutput.getDelay().getDelayedBy());
