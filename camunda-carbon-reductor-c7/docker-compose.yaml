@@ -28,11 +28,23 @@ services:
     depends_on:
       carbon-aware-webapi:
         condition: service_healthy
+      carbon-reductor-c7-example-workflow:
+        condition: service_healthy
     environment:
-      - BASE_URL=<base-url>
-      - ASYNC_RESPONSE_TIMEOUT=<ASYNC_RESPONSE_TIMEOUT>
-      - WORKER_ID=<worker-id>
+      - BASE_URL=http://carbon-reductor-c7-example-workflow:7777/engine-rest
+      - ASYNC_RESPONSE_TIMEOUT=10000
+      - WORKER_ID=carbonReductorWorker-1
     ports:
       - "8080:8080"
 
-  # TODO: Add example process engine with example process model
+  carbon-reductor-c7-example-workflow:
+    image: enviteconsulting/carbon-reductor-c7-example-workflow:0.0.1
+    container_name: carbon-reductor-c7-example-workflow
+    healthcheck:
+      test: curl --fail 'http://localhost:7777/engine-rest/engine' || exit 1
+      interval: 5s
+      retries: 5
+      start_period: 3s
+      timeout: 2s
+    ports:
+      - "7777:7777"
