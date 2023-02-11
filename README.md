@@ -8,6 +8,8 @@ Technically, it's implemented as a Camunda [Connector](https://docs.camunda.io/d
 
 * ✨ [Features](#features)
 * 🚀 [Getting Started](#getting-started)
+  * [Camunda 8](#camunda-8)
+  * [Camunda 7](#camunda-7)
 * 📈 [Reporting Carbon Reduction via Camunda Optimize](#reporting-carbon-reduction-via-camunda-optimize)
 * 📚 [Releases](#releases)
 * 📆 [Publications](#publications)
@@ -29,8 +31,15 @@ The Carbon Reductor Connector defines the following inputs:
 
 # 🚀Getting Started
 
+We provide the Carbon Reductor for Camunda Platform 7 and 8:
+
+## Camunda 8
+
 To start the Camunda 8 Connector have a look at the specific [README](./camunda-carbon-reductor-c8/README.md).
 
+## Camunda 7
+
+To start the Camunda 7 External Task Worker have a look at the specific [README](./camunda-carbon-reductor-c7/README.md).
 
 # 📈Reporting Carbon Reduction via Camunda Optimize
 
