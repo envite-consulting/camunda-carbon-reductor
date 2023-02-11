@@ -43,7 +43,7 @@ class CarbonReductorVariableMapper {
         return new Timeshift(input);
     }
 
-    public Map<String, Object> mapFromDomain(CarbonReduction output) {
+    public Map<String, Object> mapFromDomain(CarbonReduction output, Map<String, Object> allVariables) {
         Map<String, Object> variables = new HashMap<>();
         variables.put("executionDelayed", output.getDelay().isExecutionDelayed());
         variables.put("originalCarbon", output.getOriginalCarbon().getValue());
@@ -51,6 +51,8 @@ class CarbonReductorVariableMapper {
         variables.put("savedCarbon", output.getSavedCarbon().getValue());
         variables.put("carbonReduction", output.calculateReduction().getValue());
         variables.put("delayedBy", output.getDelay().getDelayedBy());
+        // Override milestone variable because joda time is not a primitive object ..
+        variables.put("milestone", getDateTime(allVariables));
         return variables;
     }
 }
