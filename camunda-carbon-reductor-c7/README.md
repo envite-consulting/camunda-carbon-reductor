@@ -1,6 +1,6 @@
 # 🌱Camunda Carbon Reductor - Camunda 7
 
-Camunda 7 [External Task Worker](https://docs.camunda.org/manual/7.18/user-guide/process-engine/external-tasks/) adapter implementation of the Carbon Redcutor.
+Camunda 7 [External Task Worker](https://docs.camunda.org/manual/7.18/user-guide/process-engine/external-tasks/) adapter implementation of the Carbon Reductor.
 Provides also a Service Task Template for configuration ([carbon-reductor.json](../exampleprocess/c7/.camunda/element-templates/carbon-reductor.json))
 
 # Table of Contents
@@ -10,13 +10,6 @@ Provides also a Service Task Template for configuration ([carbon-reductor.json](
     * [Run Connector locally](#run-the-external-task-worker-locally)
 
 # 🚀Getting Started
-
-Add the WattTime credentials as well as the Camunda SaaS one in the
-[docker-compose File](./docker-compose.yaml) and start the
-docker container by running `docker-compose up`.
-
-The docker-compose contains and example Camunda Platform 7 Engine.
-You can start the example process manually via the Camunda [Tasklist](http://localhost:7777/camunda/app/tasklist/), login as user with **username** `admin` and **password** `pw`.
 
 ## Create a WattTime Account
 The Account can be created with a POST request ([watttime.org/api-documentation](https://www.watttime.org/api-documentation/#best-practices-for-api-usage)). With the visitor plan you are allowed to query information for the
@@ -29,6 +22,15 @@ curl -X POST --location "https://api2.watttime.org/v2/register" \
           \"password\": \"<myWattTimePassword>\",
           \"email\": \"<myEmailAddress>\"}"
 ```
+
+## Start Camunda Carbon Reductor
+Add the WattTime credentials in the
+[docker-compose File](./docker-compose.yaml) and start the
+docker container by running `docker-compose up`.
+
+The docker-compose contains an example Camunda Platform 7 Engine.
+You can start the example process manually via the Camunda [Tasklist](http://localhost:7777/camunda/app/tasklist/), login as user with **username** `admin` and **password** `pw`.
+
 
 ## Run the External Task Worker locally
 
