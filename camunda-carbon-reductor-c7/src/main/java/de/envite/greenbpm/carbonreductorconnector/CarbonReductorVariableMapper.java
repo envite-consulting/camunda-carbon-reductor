@@ -49,7 +49,7 @@ class CarbonReductorVariableMapper {
         variables.put("originalCarbon", output.getOriginalCarbon().getValue());
         variables.put("actualCarbon", output.getActualCarbon().getValue());
         variables.put("savedCarbon", output.getSavedCarbon().getValue());
-        variables.put("carbonReduction", output.calculateReduction().getValue());
+        variables.put("reducedCarbon", output.calculateReduction().getValue());
         variables.put("delayedBy", output.getDelay().getDelayedBy());
         // Override milestone variable because joda time is not a primitive object ..
         variables.put("milestone", getDateTime(allVariables));

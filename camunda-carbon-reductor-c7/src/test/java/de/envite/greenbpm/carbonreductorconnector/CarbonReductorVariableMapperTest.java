@@ -52,7 +52,7 @@ class CarbonReductorVariableMapperTest {
         softAssertions.assertThat(result.get("originalCarbon")).isEqualTo(carbonReduction.getOriginalCarbon().getValue());
         softAssertions.assertThat(result.get("actualCarbon")).isEqualTo(carbonReduction.getActualCarbon().getValue());
         softAssertions.assertThat(result.get("savedCarbon")).isEqualTo(carbonReduction.getSavedCarbon().getValue());
-        softAssertions.assertThat(result.get("carbonReduction")).isEqualTo(carbonReduction.calculateReduction().getValue());
+        softAssertions.assertThat(result.get("reducedCarbon")).isEqualTo(carbonReduction.calculateReduction().getValue());
         softAssertions.assertThat(result.get("delayedBy")).isEqualTo(carbonReduction.getDelay().getDelayedBy());
         softAssertions.assertThat(result.get("milestone")).isEqualTo("2023-02-10T14:48:10.285Z[Etc/UTC]");
         softAssertions.assertAll();
