@@ -18,6 +18,9 @@ import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.List;
 
+import static java.util.Optional.of;
+import static java.util.Optional.ofNullable;
+
 @Slf4j
 @Service
 public class CarbonAwareSDKService implements CarbonEmissionQuery {
@@ -39,8 +42,12 @@ public class CarbonAwareSDKService implements CarbonEmissionQuery {
   @Override
   public EmissionTimeframe getEmissionTimeframe(Location location, Timeshift timeshift, Timeshift executiontime) throws CarbonEmissionQueryException {
     EmissionsForecastDTO emissionsForecast = getOptimalForecastUntil(location.getValue(), timeshift.timeshiftFromNow(), executiontime.getValue());
-    EmissionsDataDTO optimalDataPoint = emissionsForecast.getOptimalDataPoints().get(0);
-    EmissionsDataDTO currentEmission = emissionsForecast.getForecastData().get(0);
+    EmissionsDataDTO optimalDataPoint = of(emissionsForecast)
+            .map(EmissionsForecastDTO::getOptimalDataPoints)
+            .map(d -> d.get(0)).orElseThrow(() -> new CarbonEmissionQueryException("API does not provide any optimal data points"));
+    EmissionsDataDTO currentEmission = of(emissionsForecast)
+            .map(EmissionsForecastDTO::getForecastData)
+            .map(d -> d.get(0)).orElseThrow(() -> new CarbonEmissionQueryException("API does not provide any forecast data"));
 
     return new EmissionTimeframe(
             new OptimalTime(OffsetDateTime.parse(optimalDataPoint.getTimestamp().toString())),
@@ -57,10 +64,12 @@ public class CarbonAwareSDKService implements CarbonEmissionQuery {
               client.getCurrentForecastDataWithHttpInfo(
                       List.of(location), null, org.threeten.bp.OffsetDateTime.parse(until.toString()), windowsizeInMin);
     } catch (Exception e) {
-      log.error(
-              "Error when calling the API for the optimalForecastUntil", e);
+      log.error("Error when calling the API for the optimalForecastUntil", e);
       throw new CarbonEmissionQueryException(e);
     }
-    return currentForecastDataWithHttpInfo.getData().get(0);//.getOptimalDataPoints().get(0);
+    return ofNullable(currentForecastDataWithHttpInfo)
+            .map(ApiResponse::getData)
+            .map(d -> d.get(0))
+            .orElseThrow(() -> new CarbonEmissionQueryException("API provided no data"));
   }
 }
