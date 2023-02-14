@@ -11,6 +11,7 @@ implementation of the Carbon Redcutor.
   * [Import Process Model to Camunda Platform 8](#import-process-model-to-camunda-platform-8)
   * [Create a WattTime Account](#create-a-watttime-account)
   * [Run Connector locally](#run-connector-locally)
+  * [Building the Docker containers](#building-the-docker-containers)
 
 # 🗒️Notes
 
@@ -88,4 +89,17 @@ Completing previously time shifted job 4503599628706752
 In case of a time window with clean energy:
 ```
 Executing job 4503599628706759 immediately
+```
+
+## Building the Docker containers
+
+To build the containers locally, you simply need to build them via the
+`docker-compose` file to keep the parent module scope:
+
+```bash
+# Build all containers
+docker-compose build
+
+# Build specific container 
+docker-compose build <service-name; e.g. camunda-8-carbon-reductor-connector>
 ```

@@ -8,6 +8,7 @@ Provides also a Service Task Template for configuration ([carbon-reductor.json](
 * 🚀 [Getting Started](#getting-started)
     * [Create a WattTime Account](#create-a-watttime-account)
     * [Run Connector locally](#run-the-external-task-worker-locally)
+    * [Building the Docker containers](#building-the-docker-containers)
 
 # 🚀Getting Started
 
@@ -45,4 +46,17 @@ camunda.bpm:
     async-response-timeout: <async_response_timeout>
     worker-id: <worker_id>
 
+```
+
+## Building the Docker containers
+
+To build the containers locally, you simply need to build them via the
+`docker-compose` file to keep the parent module scope:
+
+```bash
+# Build all containers
+docker-compose build
+
+# Build specific container 
+docker-compose build <service-name; e.g. camunda-7-carbon-reductor-connector>
 ```
