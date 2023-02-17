@@ -2,7 +2,7 @@
 
 The Camunda Carbon Reductor allows you to time shift your processes' carbon emissions when energy is clean while still fulfilling the requested SLAs.
 
-Technically, it's implemented as a Camunda [Connector](https://docs.camunda.io/docs/components/connectors/introduction-to-connectors/) for Camunda Platform 8 (and can easily be ported to Camunda Platform 7).
+Technically, it's implemented as a Camunda [Connector](https://docs.camunda.io/docs/components/connectors/introduction-to-connectors/) for Camunda Platform 8 and as an [External Task Worker](https://docs.camunda.org/manual/latest/user-guide/process-engine/external-tasks/) for Camunda Platform 7.
 
 # Table of Contents
 
