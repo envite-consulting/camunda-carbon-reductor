@@ -22,22 +22,6 @@
         <!-- telemetry configuration -->
         <property name="telemetryReporterActivate" value="false" />
 
-        <!--<property name="idGenerator" ref="uuidGenerator" />-->
-
-        <!-- engine plugins -->
-        <property name="processEnginePlugins">
-            <list>
-<!--                <ref bean="connectProcessEnginePlugin" />-->
-<!--                <ref bean="spinProcessEnginePlugin" />-->
-            </list>
-        </property>
-
     </bean>
-
-    <!--<bean id="uuidGenerator" class="org.camunda.bpm.engine.impl.persistence.StrongUuidGenerator" />-->
-
-    <!-- engine plugin beans -->
-<!--    <bean id="connectProcessEnginePlugin" class="org.camunda.connect.plugin.impl.ConnectProcessEnginePlugin" />-->
-<!--    <bean id="spinProcessEnginePlugin" class="org.camunda.spin.plugin.impl.SpinProcessEnginePlugin" />-->
 
 </beans>
