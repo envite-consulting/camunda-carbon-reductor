@@ -17,12 +17,12 @@
           <camunda:inputParameter name="carbonReductorMode">slaBasedConfiguration</camunda:inputParameter>
           <camunda:inputParameter name="location">westeurope</camunda:inputParameter>
           <camunda:inputParameter name="milestone">${dateTime()}</camunda:inputParameter>
-<!--           <camunda:outputParameter name="originalCarbon">${originalCarbon}</camunda:outputParameter>
-          <camunda:outputParameter name="actualCarbon">${actualCarbon}</camunda:outputParameter>
-          <camunda:outputParameter name="savedCarbon">${savedCarbon}</camunda:outputParameter>
-          <camunda:outputParameter name="reducedCarbon">${reducedCarbon}</camunda:outputParameter>
-          <camunda:outputParameter name="executionDelayed">${executionDelayed}</camunda:outputParameter>
-          <camunda:outputParameter name="delayedBy">${delayedBy}</camunda:outputParameter> -->
+          <camunda:outputParameter name="executionDelayedMapped">${executionDelayed}</camunda:outputParameter>
+          <camunda:outputParameter name="delayedByMapped">${delayedBy}</camunda:outputParameter>
+          <camunda:outputParameter name="originalCarbonMapped">${originalCarbon}</camunda:outputParameter>
+          <camunda:outputParameter name="actualCarbonMapped">${actualCarbon}</camunda:outputParameter>
+          <camunda:outputParameter name="savedCarbonMapped">${savedCarbon}</camunda:outputParameter>
+          <camunda:outputParameter name="reducedCarbonMapped">${reducedCarbon}</camunda:outputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0btim44</bpmn:incoming>

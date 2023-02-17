@@ -31,7 +31,20 @@ class ElementTemplateTest {
         // input variables
         assertThat(processInstance).hasVariables("remainingProcessDuration", "maximumProcessDuration", "carbonReductorMode", "location", "milestone");
         // output variables
-        assertThat(processInstance).hasVariables("originalCarbon", "actualCarbon", "savedCarbon", "reducedCarbon", "executionDelayed", "delayedBy");
+        assertThat(processInstance).hasVariables(
+                "originalCarbonMapped",
+                "actualCarbonMapped",
+                "savedCarbonMapped",
+                "reducedCarbonMapped",
+                "executionDelayedMapped",
+                "delayedByMapped");
+        assertThat(processInstance).hasVariables(
+                "originalCarbon",
+                "actualCarbon",
+                "savedCarbon",
+                "reducedCarbon",
+                "executionDelayed",
+                "delayedBy");
         assertThat(processInstance).isEnded();
     }
 }
