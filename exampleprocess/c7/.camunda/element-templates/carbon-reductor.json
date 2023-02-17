@@ -137,7 +137,7 @@
       "id": "milestone",
       "description": "timestamp of the chosen milestone",
       "group": "carbonreductor",
-      "value": "${now()}",
+      "value": "${dateTime()}",
       "type": "String",
       "binding": {
         "type": "camunda:inputParameter",
