@@ -55,7 +55,28 @@ The exported Dashboard Definition could be found [here](assets/optimize-dashboar
 
 # 📚Releases
 
-Coming soon 🚀
+The list of [releases](https://github.com/envite-consulting/camunda-carbon-reductor/releases) contains a detailed changelog.
+
+We use [Semantic Versioning](https://semver.org/).
+
+The following compatibility matrix shows the officially supported Camunda versions for each release.
+Other combinations might also work but have not been tested.
+
+| Release | Camunda Platform 8 | Camunda Platform 7 |
+|---------|--------------------|--------------------|
+| 1.0.0   | 8.1.0              | 7.18.0             |
+
+<details>
+<summary>Click to see older releases</summary>
+
+| Release | Camunda Platform 8 | Camunda Platform 7 |
+|---------|--------------------|--------------------|
+| 1.0.0   | 8.1.0              | 7.18.0             |
+</details>
+
+Download of Releases:
+* [GitHub Artifacts](https://github.com/envite-consulting/camunda-carbon-reductor/releases)
+
 
 # 📆Publications
 
