@@ -10,47 +10,43 @@
   ],
   "groups": [
     {
-      "id": "asynchronous-continuation",
-      "label": "Asynchronous Continuation"
-    },
-    {
       "id": "carbonreductor",
       "label": "Carbon Reductor"
     },
     {
       "id": "outputMapping",
       "label": "Output Mapping"
+    },
+    {
+      "id": "implementation",
+      "label": "Implementation"
     }
   ],
   "properties": [
     {
+      "label": "Type",
+      "group": "implementation",
+      "type": "String",
+      "editable": false,
+      "value": "External",
       "binding": {
         "name": "camunda:type",
         "type": "property"
-      },
-      "type": "Hidden",
-      "value": "external"
-    },
-    {
-      "binding": {
-        "name": "camunda:topic",
-        "type": "property"
-      },
-      "type": "Hidden",
-      "value": "CarbonReductor"
-    },
-    {
-      "label": "Before",
-      "type": "Boolean",
-      "value": true,
-      "group": "asynchronous-continuation",
-      "binding": {
-        "type": "property",
-        "name": "camunda:asyncBefore"
       }
     },
     {
-      "label": "location",
+      "label": "Topic",
+      "group": "implementation",
+      "type": "String",
+      "editable": false,
+      "value": "CarbonReductor",
+      "binding": {
+        "name": "camunda:topic",
+        "type": "property"
+      }
+    },
+    {
+      "label": "Location",
       "id": "location",
       "description": "The location where the process is running",
       "group": "carbonreductor",
@@ -117,7 +113,7 @@
     {
       "label": "SLA based or absolute duration",
       "id": "carbonReductorMode",
-      "description": "defines how to calculate the time window for the timeshift",
+      "description": "Defines how to calculate the time window for the timeshift",
       "group": "carbonreductor",
       "type": "Dropdown",
       "choices": [
@@ -133,21 +129,9 @@
       }
     },
     {
-      "label": "milestone",
-      "id": "milestone",
-      "description": "timestamp of the chosen milestone",
-      "group": "carbonreductor",
-      "value": "${dateTime()}",
-      "type": "String",
-      "binding": {
-        "type": "camunda:inputParameter",
-        "name": "milestone"
-      }
-    },
-    {
-      "label": "duration of remaining process tasks",
+      "label": "Duration of remaining process tasks",
       "id": "remainingProcessDuration",
-      "description": "the duration of the remaining tasks after the Carbon Reductor as ISO 8601 duration",
+      "description": "The duration (ISO 8601 format) of the remaining tasks after the Carbon Reductor",
       "group": "carbonreductor",
       "value": "PT6H",
       "type": "String",
@@ -158,9 +142,9 @@
       }
     },
     {
-      "label": "maximum process duration from milestone to finish",
+      "label": "Maximum process duration from milestone to finish",
       "id": "maximumProcessDuration",
-      "description": "the maximum duration the process is allowed to run as ISO 8601 duration",
+      "description": "The maximum duration (ISO 8601 format) the process is allowed to run",
       "group": "carbonreductor",
       "value": "PT12H",
       "type": "String",
@@ -170,8 +154,20 @@
       }
     },
     {
-      "label": "execution delayed?",
-      "description": "has the execution been delayed?",
+      "label": "Milestone",
+      "id": "milestone",
+      "description": "Timestamp of the chosen milestone. The milestone builds the starting point for the SLA based duration calculation: milestone + max. process duration = latest process completion date",
+      "group": "carbonreductor",
+      "value": "${dateTime()}",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "milestone"
+      }
+    },
+    {
+      "label": "Execution delayed?",
+      "description": "Has the execution been delayed?",
       "group": "outputMapping",
       "value": "executionDelayed",
       "type": "String",
@@ -181,8 +177,8 @@
       }
     },
     {
-      "label": "amount of delay",
-      "description": "amount of delay",
+      "label": "Amount of delay",
+      "description": "Amount of delay",
       "group": "outputMapping",
       "value": "delayedBy",
       "type": "String",
@@ -192,8 +188,8 @@
       }
     },
     {
-      "label": "original carbon",
-      "description": "carbon emission in gCO2/kWh if the execution is not delayed",
+      "label": "Original carbon",
+      "description": "Carbon emission in gCO2/kWh if the execution is not delayed",
       "group": "outputMapping",
       "value": "originalCarbon",
       "type": "String",
@@ -203,8 +199,8 @@
       }
     },
     {
-      "label": "actual carbon",
-      "description": "carbon emission in gCO2/kWh at the time of the delayed execution",
+      "label": "Actual carbon",
+      "description": "Carbon emission in gCO2/kWh at the time of the delayed execution",
       "group": "outputMapping",
       "value": "actualCarbon",
       "type": "String",
@@ -214,8 +210,8 @@
       }
     },
     {
-      "label": "saved carbon %",
-      "description": "the percentage of saved carbon",
+      "label": "Saved carbon %",
+      "description": "The percentage of saved carbon",
       "group": "outputMapping",
       "value": "savedCarbon",
       "type": "String",
@@ -225,8 +221,8 @@
       }
     },
     {
-      "label": "reduced Carbon",
-      "description": "the reduced carbon footprint in gCO2/kWh",
+      "label": "Reduced Carbon",
+      "description": "The reduced carbon footprint in gCO2/kWh",
       "group": "outputMapping",
       "value": "reducedCarbon",
       "type": "String",

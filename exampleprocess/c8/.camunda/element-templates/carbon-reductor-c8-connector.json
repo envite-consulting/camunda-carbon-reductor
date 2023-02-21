@@ -28,7 +28,7 @@
         },
         {
             "id": "timeshiftWindowConfiguration",
-            "label": "timeshift window configuration"
+            "label": "Timeshift window configuration"
         },
         {
             "id": "outputMapping",
@@ -44,7 +44,7 @@
             }
         },
         {
-            "label": "location",
+            "label": "Location",
             "group": "commonConfiguration",
             "id": "location",
             "description": "The location where the process is running",
@@ -112,7 +112,7 @@
             "label": "SLA based or absolute duration",
             "group": "commonConfiguration",
             "id": "carbonReductorMode",
-            "description": "defines how to calculate the time window for the timeshift",
+            "description": "Defines how to calculate the time window for the timeshift",
             "type": "Dropdown",
             "choices": [
                 {
@@ -126,23 +126,10 @@
             }
         },
         {
-            "label": "milestone",
-            "group": "commonConfiguration",
-            "id": "milestone",
-            "description": "timestamp of the chosen milestone",
-            "value": "=now()",
-            "type": "String",
-            "feel": "optional",
-            "binding": {
-                "type": "zeebe:input",
-                "name": "milestone"
-            }
-        },
-        {
-            "label": "duration of remaining process tasks",
+            "label": "Duration of remaining process tasks",
             "group": "commonConfiguration",
             "id": "remainingProcessDuration",
-            "description": "the duration of the remaining tasks after the Carbon Reductor as ISO 8601 duration",
+            "description": "The duration of the remaining tasks after the Carbon Reductor as ISO 8601 duration",
             "value": "PT6H",
             "type": "String",
             "feel": "optional",
@@ -152,16 +139,29 @@
             }
         },
         {
-            "label": "maximum process duration from milestone to finish",
+            "label": "Maximum process duration from milestone to finish",
             "group": "slaBasedConfiguration",
             "id": "maximumProcessDuration",
-            "description": "the maximum duration the process is allowed to run as ISO 8601 duration",
+            "description": "The maximum duration the process is allowed to run as ISO 8601 duration",
             "value": "PT12H",
             "type": "String",
             "feel": "optional",
             "binding": {
                 "type": "zeebe:input",
                 "name": "maximumProcessDuration"
+            }
+        },
+        {
+            "label": "Milestone",
+            "group": "commonConfiguration",
+            "id": "milestone",
+            "description": "Timestamp of the chosen milestone. The milestone builds the starting point for the SLA based duration calculation: milestone + max. process duration = latest process completion date",
+            "value": "=now()",
+            "type": "String",
+            "feel": "optional",
+            "binding": {
+                "type": "zeebe:input",
+                "name": "milestone"
             }
         },
         {

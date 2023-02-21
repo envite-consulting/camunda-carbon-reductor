@@ -12,6 +12,8 @@ implementation of the Carbon Redcutor.
   * [Create a WattTime Account](#create-a-watttime-account)
   * [Run Connector locally](#run-connector-locally)
   * [Building the Docker containers](#building-the-docker-containers)
+  * [Adding the element template to the modeler](#adding-the-element-template-to-the-modeler)
+  * [Configuring the element template](#configuring-the-element-template)
 
 # 🗒️Notes
 
@@ -54,7 +56,7 @@ curl -X POST --location "https://api2.watttime.org/v2/register" \
 
 ## Run Connector locally
 
-Configure the application using [application.yml](/application.yml).
+Configure the application using [application.yml](./src/main/resources/application.yml).
 
 You can run the Connector and connect it to a Camunda Platform 8 SaaS cluster.
 
@@ -103,3 +105,20 @@ docker-compose build
 # Build specific container 
 docker-compose build <service-name; e.g. camunda-8-carbon-reductor-connector>
 ```
+
+## Adding the element template to the modeler
+
+Element templates are JSON files. To integrate them into Camunda
+Modeler you need to add them to the `resources/element-templates`
+directory of your Modeler. Have a look at the [Camunda Docs](https://docs.camunda.io/docs/components/modeler/desktop-modeler/element-templates/configuring-templates/#example-setup) for
+a detailed explanation.
+
+The Camunda Carbon Reductor Camunda 8 can be downloaded from the
+release page or the newest version from [here](../exampleprocess/c8/.camunda/element-templates/carbon-reductor-c8-connector.json).
+
+## Configuring the element template
+
+To configure the template task just open the properties panel and adjust the default values.  
+All options should be self-explaining. If not, open a PR to improve the descriptions.
+
+The OutMapping could be configured to your own needs. So feel free to rename the resulting variables.
