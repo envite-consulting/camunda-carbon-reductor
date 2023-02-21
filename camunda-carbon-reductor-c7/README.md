@@ -1,14 +1,16 @@
 # 🌱Camunda Carbon Reductor - Camunda 7
 
 Camunda 7 [External Task Worker](https://docs.camunda.org/manual/7.18/user-guide/process-engine/external-tasks/) adapter implementation of the Carbon Reductor.
-Provides also a Service Task Template for configuration ([carbon-reductor.json](../exampleprocess/c7/.camunda/element-templates/carbon-reductor.json))
+Provides also a Service Task Template for configuration ([carbon-reductor.json](../exampleprocess/c7/.camunda/element-templates/carbon-reductor-c7-template.json))
 
-# Table of Contents
 
-* 🚀 [Getting Started](#getting-started)
-    * [Create a WattTime Account](#create-a-watttime-account)
-    * [Run Connector locally](#run-the-external-task-worker-locally)
-    * [Building the Docker containers](#building-the-docker-containers)
+* [🚀Getting Started](#getting-started)
+  * [Create a WattTime Account](#create-a-watttime-account)
+  * [Start Camunda Carbon Reductor](#start-camunda-carbon-reductor)
+  * [Run the External Task Worker locally](#run-the-external-task-worker-locally)
+  * [Building the Docker containers](#building-the-docker-containers)
+  * [Adding the element template to the modeler](#adding-the-element-template-to-the-modeler)
+  * [Configuring the element template](#configuring-the-element-template)
 
 # 🚀Getting Started
 
@@ -31,7 +33,6 @@ docker container by running `docker-compose up`.
 
 The docker-compose contains an example Camunda Platform 7 Engine.
 You can start the example process manually via the Camunda [Tasklist](http://localhost:7777/camunda/app/tasklist/), login as user with **username** `admin` and **password** `pw`.
-
 
 ## Run the External Task Worker locally
 
@@ -60,3 +61,21 @@ docker-compose build
 # Build specific container 
 docker-compose build <service-name; e.g. camunda-7-carbon-reductor-connector>
 ```
+
+## Adding the element template to the modeler
+
+Element templates are JSON files. To integrate them into Camunda 
+Modeler you need to add them to the `resources/element-templates` 
+directory of your Modeler. Have a look at the [Camunda Docs](https://docs.camunda.io/docs/components/modeler/desktop-modeler/element-templates/configuring-templates/#example-setup) for 
+a detailed explanation.
+
+The Camunda Carbon Reductor Camunda 7 can be downloaded from the 
+release page or the newest version from [here](../exampleprocess/c7/.camunda/element-templates/carbon-reductor-c7-template.json).
+
+## Configuring the element template
+
+To configure the template task just open the properties panel and adjust the default values.  
+All options should be self-explaining. If not, open a PR to improve the descriptions.
+
+The OutMapping could be configured to your own needs. So feel free to rename the resulting variables.
+
