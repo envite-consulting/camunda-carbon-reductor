@@ -11,6 +11,7 @@ import org.camunda.bpm.client.spring.annotation.ExternalTaskSubscription;
 import org.camunda.bpm.client.task.ExternalTask;
 import org.camunda.bpm.client.task.ExternalTaskHandler;
 import org.camunda.bpm.client.task.ExternalTaskService;
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
@@ -26,6 +27,7 @@ public class CarbonReductorTaskHandler implements ExternalTaskHandler {
 
     private final DelayCalculator delayCalculator;
     private final CarbonReductorVariableMapper carbonReductorVariableMapper;
+    private final PPMService ppmService;
 
     @Override
     public void execute(ExternalTask externalTask, ExternalTaskService externalTaskService) {
@@ -37,7 +39,13 @@ public class CarbonReductorTaskHandler implements ExternalTaskHandler {
             return;
         }
 
-        CarbonReductorConfiguration carbonReductorConfiguration = carbonReductorVariableMapper.mapToDomain(externalTask.getAllVariables());
+        Map<String, Object> variables = externalTask.getAllVariables();
+        try {
+            variables.put("milestone", ppmService.getRemainingDurationPrediction());
+        } catch (Exception e){
+            log.error("Could not predict remain time via PPM", e);
+        }
+        CarbonReductorConfiguration carbonReductorConfiguration = carbonReductorVariableMapper.mapToDomain(variables);
 
         try {
             CarbonReduction carbonReductorOutput = delayCalculator.calculateDelay(carbonReductorConfiguration);
