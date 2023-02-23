@@ -170,6 +170,7 @@
             "type": "Text",
             "group": "outputMapping",
             "feel": "required",
+            "value": "{\n  \"wasExecutionDelayed\": response.executionDelayed,\n  \"delayedByInMs\": response.delayedBy,\n  \"originalCarbon\": response.originalCarbon,\n  \"actualCarbon\": response.actualCarbon,\n  \"savedCarbonPct\": response.savedCarbon,\n  \"reducedCarbon\": response.reducedCarbon\n}",
             "binding": {
                 "type": "zeebe:taskHeader",
                 "key": "resultExpression"
