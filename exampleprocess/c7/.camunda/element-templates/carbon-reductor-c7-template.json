@@ -2,6 +2,8 @@
   "$schema": "https://unpkg.com/@camunda/element-templates-json-schema/resources/schema.json",
   "name": "Carbon Reductor Connector",
   "id": "de.envite.greenbpm.carbonreductorconnector.CarbonReductor",
+  "description": "Reduces the carbon emissions caused by the process instance by shifting the work to a greener time window",
+  "documentationRef": "https://github.com/envite-consulting/camunda-carbon-reductor",
   "icon": {
     "contents": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E\uD83C\uDF31%3C/text%3E%3C/svg%3E"
   },
