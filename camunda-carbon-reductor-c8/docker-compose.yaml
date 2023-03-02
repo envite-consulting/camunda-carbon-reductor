@@ -20,7 +20,7 @@ services:
       - "8090:80"
 
   camunda-8-carbon-reductor-connector:
-    image: enviteconsulting/camunda-8-carbon-reductor-connector:0.0.1
+    image: enviteconsulting/camunda-8-carbon-reductor-connector:0.0.2
     build:
       context: ../
       dockerfile: camunda-carbon-reductor-c8/Dockerfile
@@ -32,5 +32,8 @@ services:
       - CLIENT_ID=<client_id>
       - CLUSTER_ID=<cluster_id>
       - CLIENT_SECRET=<client_secret>
+      - CLIENT_REGION=<client_region>
+      # To override the URL of the carbon api you could use the following variable
+      # - CARBON_AWARE_BASEPATH=http://carbon-aware-webapi:8090
     ports:
       - "8080:8080"
