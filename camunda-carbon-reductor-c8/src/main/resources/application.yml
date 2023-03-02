@@ -4,4 +4,4 @@ zeebe:
       clientId: ${CLIENT_ID}
       clusterId: ${CLUSTER_ID}
       clientSecret: ${CLIENT_SECRET}
-      region: dsm-1
+      region: ${CLIENT_REGION}
