@@ -84,6 +84,9 @@ Download of Releases:
   Project pitch on Taikai as part of the [#CarbonHack22](https://greensoftware.foundation/articles/carbonhack22) hackathon
 * 2022-11: [Carbon Reduced Business Process Execution](https://youtu.be/sGW5MJoOxPk)  
   2 Minute pitch on YouTube as part of the [#CarbonHack22](https://greensoftware.foundation/articles/carbonhack22) hackathon
+* 2023-02: Hehnle, Philipp; Behrendt, Maximilian; Weinbrecht, Luc (20.2023): Digitale Geschäftsprozesse klimabewusst ausführen. In: Uwe Friedrichsen (Hg.): IT Spektrum. Green IT, S. 16–19.
+
+If you are interested in our work and want to get to know more, feel free to reach out to us.
 
 # 📨Contact
 
