@@ -6,7 +6,7 @@
     <parent>
         <groupId>de.envite.greenbpm</groupId>
         <artifactId>CarbonReductorConnector</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.1</version>
     </parent>
 
     <groupId>de.envite.greenbpm.carbonreductorconnector</groupId>
