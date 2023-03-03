@@ -4,9 +4,9 @@ name: Continuous Integration
 
 on:
   push:
-    branches: [ '**' ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -28,4 +28,3 @@ jobs:
           cache: 'maven'
       - name: Build with Maven Wrapper
         run: ./mvnw verify
-
