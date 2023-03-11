@@ -1,7 +1,7 @@
 package de.envite.greenbpm.carbonreductor.core.domain.service;
 
 import de.envite.greenbpm.carbonreductor.core.TestDataGenerator;
-import de.envite.greenbpm.carbonreductor.core.adapter.watttime.CarbonEmissionQueryException;
+import de.envite.greenbpm.carbonreductor.core.adapter.watttime.exception.CarbonEmissionQueryException;
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReduction;
 import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.ForecastedValue;
 import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.OptimalTime;

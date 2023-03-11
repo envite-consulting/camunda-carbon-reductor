@@ -1,0 +1,3 @@
+carbon-reductor:
+    carbon-aware-api:
+      base-path: "http://localhost:8090"
