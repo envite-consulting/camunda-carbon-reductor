@@ -20,4 +20,8 @@ public class Timeshift extends ValueObject<Duration> {
     public OffsetDateTime timeshiftFromNow() {
         return OffsetDateTime.now(ZoneOffset.UTC).plus(getValue());
     }
+
+    public int inMinutes() {
+        return (int) (getValue().getSeconds() / 60);
+    }
 }

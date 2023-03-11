@@ -4,9 +4,11 @@ import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.Forecas
 import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.OptimalTime;
 import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.Rating;
 import io.github.domainprimitives.object.Aggregate;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
+@EqualsAndHashCode(callSuper = false)
 public class EmissionTimeframe extends Aggregate {
 
     private final OptimalTime optimalTime;
