@@ -1,3 +1,7 @@
 carbon-reductor:
     carbon-aware-api:
       base-path: "http://localhost:8090"
+    caching:
+      emission-timeframe:
+        expiration-time: 30000
+        cache-size: 20

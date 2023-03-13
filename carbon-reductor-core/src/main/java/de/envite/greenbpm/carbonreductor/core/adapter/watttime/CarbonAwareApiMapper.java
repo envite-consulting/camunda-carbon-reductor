@@ -14,7 +14,7 @@ import java.util.Optional;
 import static java.util.Optional.of;
 
 @Component
-class CarbonAwareApiMapper {
+public class CarbonAwareApiMapper {
 
   public EmissionTimeframe mapToDomain(EmissionsForecastDTO emissionsForecast) {
     Optional<EmissionsDataDTO> optimalDataPoint = of(emissionsForecast)
