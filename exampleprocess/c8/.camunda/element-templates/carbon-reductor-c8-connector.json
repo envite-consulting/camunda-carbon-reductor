@@ -33,6 +33,10 @@
         {
             "id": "outputMapping",
             "label": "Output Mapping"
+        },
+        {
+            "id": "advancedSettings",
+            "label": "Advanced Settings"
         }
     ],
     "properties": [
@@ -174,6 +178,16 @@
             "binding": {
                 "type": "zeebe:taskHeader",
                 "key": "resultExpression"
+            }
+        },
+        {
+            "label": "Retries",
+            "group": "advancedSettings",
+            "type": "String",
+            "editable": true,
+            "value": "PT5S,PT15S",
+            "binding": {
+                "type": "zeebe:taskDefinition:retries"
             }
         }
     ]

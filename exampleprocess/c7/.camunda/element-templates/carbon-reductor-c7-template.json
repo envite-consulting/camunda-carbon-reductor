@@ -22,6 +22,10 @@
     {
       "id": "implementation",
       "label": "Implementation"
+    },
+    {
+      "id": "advancedSettings",
+      "label": "Advanced Settings"
     }
   ],
   "properties": [
@@ -231,6 +235,17 @@
       "binding": {
         "type": "camunda:outputParameter",
         "source": "${reducedCarbon}"
+      }
+    },
+    {
+      "label": "Retry time cycle",
+      "group": "advancedSettings",
+      "type": "String",
+      "editable": true,
+      "value": "PT5S,PT15S",
+      "binding": {
+        "name": "camunda:failedJobRetryTimeCycle",
+        "type": "property"
       }
     }
   ]
