@@ -1,3 +1,4 @@
 carbon-reductor:
     carbon-aware-api:
+      # TODO: Remove CARBON_AWARE_BASEPATH env variable in next major release
       base-path: ${CARBON_AWARE_BASEPATH:http://localhost:8090}
