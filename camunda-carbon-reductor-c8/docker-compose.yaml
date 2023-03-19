@@ -34,6 +34,6 @@ services:
       - CLIENT_SECRET=<client_secret>
       - CLIENT_REGION=<client_region>
       # To override the URL of the carbon api you could use the following variable
-      # - CARBON_AWARE_BASEPATH=http://carbon-aware-webapi:8090
+      # - CARBON-REDUCTOR_CARBON-AWARE-API_BASE-PATH=http://carbon-aware-webapi:8090
     ports:
       - "8080:8080"
