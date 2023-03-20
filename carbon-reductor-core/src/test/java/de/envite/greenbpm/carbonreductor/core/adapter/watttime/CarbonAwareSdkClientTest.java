@@ -4,6 +4,7 @@ package de.envite.greenbpm.carbonreductor.core.adapter.watttime;
 import de.envite.greenbpm.carbonreductor.api.carbon.aware.ApiResponse;
 import de.envite.greenbpm.carbonreductor.api.carbon.aware.CarbonAwareApi;
 import de.envite.greenbpm.carbonreductor.api.carbon.aware.model.EmissionsForecastDTO;
+import de.envite.greenbpm.carbonreductor.core.adapter.watttime.exception.CarbonEmissionQueryException;
 import de.envite.greenbpm.carbonreductor.core.domain.model.EmissionTimeframe;
 import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.ForecastedValue;
 import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.OptimalTime;
@@ -19,6 +20,7 @@ import org.mockito.junit.jupiter.MockitoSettings;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
 @MockitoSettings
@@ -67,12 +69,23 @@ class CarbonAwareSdkClientTest {
     }
 
     @Test
-    void should_throw_if_no_element_in_list_response() {
+    void should_throw_if_no_element_in_list_response() throws Exception {
+        ApiResponse<List<EmissionsForecastDTO>> apiResponse = new ApiResponse<>(200, null, List.of());
+        when(carbonAwareApiMock.getCurrentForecastDataWithHttpInfo(any(), isNull(), any(), any()))
+                .thenReturn(apiResponse);
 
+        assertThatThrownBy(() -> classUnderTest.getEmissionTimeframe(Data.location, Data.timeshift, Data.executiontime))
+                .isExactlyInstanceOf(CarbonEmissionQueryException.class)
+                        .hasMessage("API provided no data");
     }
 
     @Test
-    void should_catch_and_log_error() {
+    void should_catch_exception_on_call_fail() throws Exception {
+        when(carbonAwareApiMock.getCurrentForecastDataWithHttpInfo(any(), isNull(), any(), any()))
+                .thenThrow(RuntimeException.class);
 
+        assertThatThrownBy(() -> classUnderTest.getEmissionTimeframe(Data.location, Data.timeshift, Data.executiontime))
+                .isExactlyInstanceOf(CarbonEmissionQueryException.class)
+                .hasMessage(RuntimeException.class.getName());
     }
 }
