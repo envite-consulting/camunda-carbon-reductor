@@ -45,6 +45,7 @@ public class CarbonAwareSdkClient implements CarbonEmissionQuery {
     }
     return ofNullable(currentForecastDataWithHttpInfo)
             .map(ApiResponse::getData)
+            .filter(d -> !d.isEmpty())
             .map(d -> d.get(0))
             .orElseThrow(() -> new CarbonEmissionQueryException("API provided no data"));
   }

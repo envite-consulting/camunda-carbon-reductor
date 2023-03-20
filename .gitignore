@@ -26,3 +26,5 @@ target/
 .classpath
 .settings
 .project
+
+.java-version
