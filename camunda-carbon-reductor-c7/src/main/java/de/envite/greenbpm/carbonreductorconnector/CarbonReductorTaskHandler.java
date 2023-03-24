@@ -16,15 +16,13 @@ import org.springframework.stereotype.Component;
 import java.time.Duration;
 import java.util.Map;
 
-import static java.time.temporal.ChronoUnit.MILLIS;
-
 @Component
 @Slf4j
 @RequiredArgsConstructor
 @ExternalTaskSubscription(topicName = "CarbonReductor")
 public class CarbonReductorTaskHandler implements ExternalTaskHandler {
 
-    public static final int RETRIES_MAGIC_NUMBER = 999;
+    static final int RETRIES_MAGIC_NUMBER = 999;
 
     private final DelayCalculator delayCalculator;
     private final CarbonReductorVariableMapper carbonReductorVariableMapper;
@@ -69,7 +67,7 @@ public class CarbonReductorTaskHandler implements ExternalTaskHandler {
                 "Time shifting execution",
                 "Time shifting execution due for a lower carbon footprint",
                 RETRIES_MAGIC_NUMBER,
-                duration.get(MILLIS),
+                duration.toMillis(),
                 variableMap,
                 null);
     }

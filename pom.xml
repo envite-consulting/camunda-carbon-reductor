@@ -46,6 +46,7 @@
         <version.hibernate-validator>8.0.0.Final</version.hibernate-validator>
         <version.jakarta.validation-api>3.0.2</version.jakarta.validation-api>
         <version.spring-zeebe-starter>8.1.0</version.spring-zeebe-starter>
+        <version.org.jacoco>0.8.8</version.org.jacoco>
     </properties>
 
 </project>
