@@ -11,6 +11,7 @@ Provides also a Service Task Template for configuration ([carbon-reductor.json](
   * [Building the Docker containers](#building-the-docker-containers)
   * [Adding the element template to the modeler](#adding-the-element-template-to-the-modeler)
   * [Configuring the element template](#configuring-the-element-template)
+* [🖐🏼 Manual Override](#-manual-override)
 
 # 🚀Getting Started
 
@@ -79,3 +80,9 @@ All options should be self-explaining. If not, open a PR to improve the descript
 
 The OutMapping could be configured to your own needs. So feel free to rename the resulting variables.
 
+# 🖐🏼 Manual Override
+
+To manually override the postponement of the carbon reductor you could add a [conditional boundary event](https://docs.camunda.org/manual/latest/reference/bpmn20/events/conditional-events/) to 
+it as shown in the following image. 
+
+![Manual Override via Conditional Boundary Event](../docs/manual-override/manual-override-c7.png)

@@ -14,6 +14,7 @@ implementation of the Carbon Redcutor.
   * [Building the Docker containers](#building-the-docker-containers)
   * [Adding the element template to the modeler](#adding-the-element-template-to-the-modeler)
   * [Configuring the element template](#configuring-the-element-template)
+* [🖐🏼 Manual Override](#-manual-override)
 
 # 🗒️Notes
 
@@ -122,3 +123,11 @@ To configure the template task just open the properties panel and adjust the def
 All options should be self-explaining. If not, open a PR to improve the descriptions.
 
 The OutMapping could be configured to your own needs. So feel free to rename the resulting variables.
+
+# 🖐🏼 Manual Override
+
+To manually override the postponement of the carbon reductor you could add a [conditional boundary event (interrupting)](https://docs.camunda.org/manual/latest/reference/bpmn20/events/conditional-events/) to
+it. Due to the fact that the conditional boundary event is not supported yet, you need to fall back to a 
+[message boundary event (interrupting)](https://docs.camunda.org/manual/latest/reference/bpmn20/events/message-events/) as shown in the following image.
+
+![Manual Override via Conditional Boundary Event](../docs/manual-override/manual-override-c8.png)
