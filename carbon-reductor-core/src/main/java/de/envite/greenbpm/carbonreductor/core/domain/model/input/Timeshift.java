@@ -17,6 +17,7 @@ public class Timeshift extends ValueObject<Duration> {
         this(Duration.parse(value));
     }
 
+    // TODO: Move to Service and inject clock
     public OffsetDateTime timeshiftFromNow() {
         return OffsetDateTime.now(ZoneOffset.UTC).plus(getValue());
     }
