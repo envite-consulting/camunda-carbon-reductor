@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0yq0rie" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.9.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.18.0">
+  <bpmn:error id="Error_Error_1_2bs56tq" name="error-name" errorCode="error-code" camunda:errorMessage="error-message" />
+  <bpmn:collaboration id="Collaboration_0x5a4fi">
+    <bpmn:participant id="Participant_10ugjgd" name="Space Center Houston" processRef="ExternalTaskCarbonReductorProcess" />
+    <bpmn:participant id="Participant_0vbyp1m" name="Mars Rover" />
+    <bpmn:messageFlow id="Flow_0s62e7k" sourceRef="Participant_0vbyp1m" targetRef="StartEvent_1" />
+    <bpmn:group id="Group_0duyzjx" categoryValueRef="CategoryValue_1rfem0e" />
+  </bpmn:collaboration>
+  <bpmn:category id="Category_0t7znfq">
+    <bpmn:categoryValue id="CategoryValue_1rfem0e" value="carbon intense calculation" />
+  </bpmn:category>
+  <bpmn:process id="ExternalTaskCarbonReductorProcess" name="ExternalTaskCarbonReductorProcess" isExecutable="true">
+    <bpmn:extensionElements />
+    <bpmn:startEvent id="StartEvent_1" name="Transmission received">
+      <bpmn:outgoing>Flow_1qbpniq</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_08uxymq" />
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1qbpniq" sourceRef="StartEvent_1" targetRef="Activity_086w9l6" />
+    <bpmn:sequenceFlow id="Flow_1b5kjzg" sourceRef="C7_Carbon_Reductor" targetRef="Gateway_071xtyi" />
+    <bpmn:sequenceFlow id="Flow_1s05i46" sourceRef="Gateway_0o2pbs2" targetRef="Event_1rxtt6s" />
+    <bpmn:sequenceFlow id="Flow_0qt80tk" sourceRef="Gateway_071xtyi" targetRef="Activity_1uf6jh2" />
+    <bpmn:sequenceFlow id="Flow_00c0nex" sourceRef="Activity_1uf6jh2" targetRef="Gateway_0o2pbs2" />
+    <bpmn:sequenceFlow id="Flow_12tex0g" sourceRef="Gateway_071xtyi" targetRef="Activity_0yalwql" />
+    <bpmn:sequenceFlow id="Flow_05e4do5" sourceRef="Activity_0yalwql" targetRef="Gateway_0o2pbs2" />
+    <bpmn:sequenceFlow id="Flow_172tapj" sourceRef="Gateway_071xtyi" targetRef="Activity_0rue97d" />
+    <bpmn:sequenceFlow id="Flow_1kjlb22" sourceRef="Activity_0rue97d" targetRef="Gateway_0o2pbs2" />
+    <bpmn:sequenceFlow id="Flow_0z16noo" sourceRef="Activity_086w9l6" targetRef="C7_Carbon_Reductor" />
+    <bpmn:serviceTask id="C7_Carbon_Reductor" name="Carbon Reductor" camunda:modelerTemplate="de.envite.greenbpm.carbonreductorconnector.CarbonReductor" camunda:asyncBefore="true" camunda:type="external" camunda:topic="CarbonReductor">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:connectorId>de.envite.greenbpm.carbonreductorconnector.CarbonReductor</camunda:connectorId>
+        </camunda:connector>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="RemainingProcessDuration">PT6H</camunda:inputParameter>
+          <camunda:inputParameter name="maximumProcessDuration">PT12H</camunda:inputParameter>
+          <camunda:inputParameter name="location">westus</camunda:inputParameter>
+          <camunda:inputParameter name="carbonReductorMode">slaBasedConfiguration</camunda:inputParameter>
+          <camunda:inputParameter name="milestone">${dateTime()}</camunda:inputParameter>
+          <camunda:outputParameter name="executionDelayed1">${executionDelayed}</camunda:outputParameter>
+          <camunda:outputParameter name="delayedBy1">${delayedBy}</camunda:outputParameter>
+          <camunda:outputParameter name="originalCarbon1">${originalCarbon}</camunda:outputParameter>
+          <camunda:outputParameter name="actualCarbon1">${actualCarbon}</camunda:outputParameter>
+          <camunda:outputParameter name="savedCarbon1">${savedCarbon}</camunda:outputParameter>
+          <camunda:outputParameter name="reducedCarbon1">${reducedCarbon}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0z16noo</bpmn:incoming>
+      <bpmn:outgoing>Flow_1b5kjzg</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_086w9l6" name="Generate preview image" camunda:expression="${true}">
+      <bpmn:incoming>Flow_1qbpniq</bpmn:incoming>
+      <bpmn:outgoing>Flow_0z16noo</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:parallelGateway id="Gateway_0o2pbs2">
+      <bpmn:incoming>Flow_00c0nex</bpmn:incoming>
+      <bpmn:incoming>Flow_05e4do5</bpmn:incoming>
+      <bpmn:incoming>Flow_1kjlb22</bpmn:incoming>
+      <bpmn:outgoing>Flow_1s05i46</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:parallelGateway id="Gateway_071xtyi">
+      <bpmn:incoming>Flow_1b5kjzg</bpmn:incoming>
+      <bpmn:outgoing>Flow_0qt80tk</bpmn:outgoing>
+      <bpmn:outgoing>Flow_12tex0g</bpmn:outgoing>
+      <bpmn:outgoing>Flow_172tapj</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:serviceTask id="Activity_0rue97d" name="Terrain processing" camunda:expression="${true}">
+      <bpmn:incoming>Flow_172tapj</bpmn:incoming>
+      <bpmn:outgoing>Flow_1kjlb22</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_0yalwql" name="Mosaic RDR&#10;processing" camunda:expression="${true}">
+      <bpmn:incoming>Flow_12tex0g</bpmn:incoming>
+      <bpmn:outgoing>Flow_05e4do5</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_1uf6jh2" name="...&#10;processing" camunda:expression="${true}">
+      <bpmn:incoming>Flow_0qt80tk</bpmn:incoming>
+      <bpmn:outgoing>Flow_00c0nex</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_1rxtt6s" name="Transmission processed">
+      <bpmn:incoming>Flow_1s05i46</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0x5a4fi">
+      <bpmndi:BPMNShape id="Participant_10ugjgd_di" bpmnElement="Participant_10ugjgd" isHorizontal="true">
+        <dc:Bounds x="179" y="197" width="878" height="440" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0o7i2qi_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="229" y="419" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="215" y="462" width="65" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_03bhn3u" bpmnElement="Event_1rxtt6s">
+        <dc:Bounds x="982" y="419" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="968" y="462" width="65" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1rfvlsb" bpmnElement="Activity_1uf6jh2">
+        <dc:Bounds x="720" y="510" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_06njh3k" bpmnElement="Activity_0yalwql">
+        <dc:Bounds x="720" y="397" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1p163yc" bpmnElement="Activity_0rue97d">
+        <dc:Bounds x="720" y="280" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1mbhzpi" bpmnElement="Gateway_071xtyi">
+        <dc:Bounds x="615" y="412" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1qgctjg" bpmnElement="Gateway_0o2pbs2">
+        <dc:Bounds x="875" y="412" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0xvjtgv" bpmnElement="C7_Carbon_Reductor">
+        <dc:Bounds x="480" y="397" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1rq67iy_di" bpmnElement="Activity_086w9l6">
+        <dc:Bounds x="330" y="397" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_0abgev2" bpmnElement="Flow_1qbpniq">
+        <di:waypoint x="265" y="437" />
+        <di:waypoint x="330" y="437" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_1howr2i" bpmnElement="Flow_1b5kjzg">
+        <di:waypoint x="580" y="437" />
+        <di:waypoint x="615" y="437" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_09wrint" bpmnElement="Flow_1s05i46">
+        <di:waypoint x="925" y="437" />
+        <di:waypoint x="982" y="437" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_0baf3ow" bpmnElement="Flow_0qt80tk">
+        <di:waypoint x="640" y="462" />
+        <di:waypoint x="640" y="550" />
+        <di:waypoint x="720" y="550" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_0mxeyga" bpmnElement="Flow_00c0nex">
+        <di:waypoint x="820" y="550" />
+        <di:waypoint x="900" y="550" />
+        <di:waypoint x="900" y="462" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_1hx1b5t" bpmnElement="Flow_12tex0g">
+        <di:waypoint x="665" y="437" />
+        <di:waypoint x="720" y="437" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_1gustvv" bpmnElement="Flow_05e4do5">
+        <di:waypoint x="820" y="437" />
+        <di:waypoint x="875" y="437" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_1f56l10" bpmnElement="Flow_172tapj">
+        <di:waypoint x="640" y="412" />
+        <di:waypoint x="640" y="320" />
+        <di:waypoint x="720" y="320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_1kiilcd" bpmnElement="Flow_1kjlb22">
+        <di:waypoint x="820" y="320" />
+        <di:waypoint x="900" y="320" />
+        <di:waypoint x="900" y="412" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0z16noo_di" bpmnElement="Flow_0z16noo">
+        <di:waypoint x="430" y="437" />
+        <di:waypoint x="480" y="437" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Participant_1nr68qr_di" bpmnElement="Participant_0vbyp1m" isHorizontal="true">
+        <dc:Bounds x="179" y="77" width="301" height="60" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1sq7jgj" bpmnElement="Group_0duyzjx" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
+        <dc:Bounds x="690" y="230" width="160" height="380" />
+        <bpmndi:BPMNLabel color:color="#831311">
+          <dc:Bounds x="734" y="237" width="73" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0s62e7k_di" bpmnElement="Flow_0s62e7k">
+        <di:waypoint x="247" y="137" />
+        <di:waypoint x="247" y="419" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

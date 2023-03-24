@@ -1,44 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1e0e918" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.4.2" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.1.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1e0e918" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.9.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.1.0">
   <bpmn:collaboration id="Collaboration_ImageProcessing">
     <bpmn:participant id="Participant_Nasa" name="Space Center Houston" processRef="NasaImageProcessing" />
     <bpmn:participant id="Participant_MarsRover" name="Mars Rover" />
     <bpmn:messageFlow id="Flow_07bc21p" sourceRef="Participant_MarsRover" targetRef="Event_TransmissionReceived" />
+    <bpmn:group id="Group_0po4wgt" categoryValueRef="CategoryValue_1da1h2t" />
   </bpmn:collaboration>
   <bpmn:process id="NasaImageProcessing" name="NASA Image Processing" isExecutable="true">
     <bpmn:startEvent id="Event_TransmissionReceived" name="Transmission received">
       <bpmn:outgoing>Flow_03b5f3o</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:parallelGateway id="Gateway_SplitProcessing">
-      <bpmn:incoming>Flow_0x4j7xr</bpmn:incoming>
-      <bpmn:outgoing>Flow_0elx5ld</bpmn:outgoing>
-      <bpmn:outgoing>Flow_0k12ehs</bpmn:outgoing>
-      <bpmn:outgoing>Flow_1jgk57k</bpmn:outgoing>
-    </bpmn:parallelGateway>
-    <bpmn:parallelGateway id="Gateway_JoinProcessing">
-      <bpmn:incoming>Flow_04sk3cq</bpmn:incoming>
-      <bpmn:incoming>Flow_1kfeua2</bpmn:incoming>
-      <bpmn:incoming>Flow_1dqrdrn</bpmn:incoming>
-      <bpmn:outgoing>Flow_05lrw3m</bpmn:outgoing>
-    </bpmn:parallelGateway>
-    <bpmn:endEvent id="Event_TransmissionProcessed" name="Transmission processed">
-      <bpmn:incoming>Flow_05lrw3m</bpmn:incoming>
-    </bpmn:endEvent>
     <bpmn:manualTask id="Activity_GeneratePreviewImage" name="Generate preview image">
       <bpmn:incoming>Flow_03b5f3o</bpmn:incoming>
       <bpmn:outgoing>Flow_14e4zmj</bpmn:outgoing>
-    </bpmn:manualTask>
-    <bpmn:manualTask id="Activity_Parallel2" name="Mosaic RDR&#10;processing">
-      <bpmn:incoming>Flow_0elx5ld</bpmn:incoming>
-      <bpmn:outgoing>Flow_04sk3cq</bpmn:outgoing>
-    </bpmn:manualTask>
-    <bpmn:manualTask id="Activity_Parallel3" name="...&#10;processing">
-      <bpmn:incoming>Flow_1jgk57k</bpmn:incoming>
-      <bpmn:outgoing>Flow_1dqrdrn</bpmn:outgoing>
-    </bpmn:manualTask>
-    <bpmn:manualTask id="Activity_Parallel1" name="Terrain processing">
-      <bpmn:incoming>Flow_0k12ehs</bpmn:incoming>
-      <bpmn:outgoing>Flow_1kfeua2</bpmn:outgoing>
     </bpmn:manualTask>
     <bpmn:serviceTask id="Activity_TimeShiftToCleanEnergy" name="Time shift to clean energy" zeebe:modelerTemplate="de.envite.greenbpm.carbonreductorconnector.carbonreductortask.v1" zeebe:modelerTemplateIcon="data:image/svg+xml,%3Csvg xmlns=&#39;http://www.w3.org/2000/svg&#39; viewBox=&#39;0 0 100 100&#39;%3E%3Ctext y=&#39;.9em&#39; font-size=&#39;90&#39;%3E🌱%3C/text%3E%3C/svg%3E">
       <bpmn:extensionElements>
@@ -68,15 +42,41 @@
     <bpmn:sequenceFlow id="Flow_1dqrdrn" sourceRef="Activity_Parallel3" targetRef="Gateway_JoinProcessing" />
     <bpmn:sequenceFlow id="Flow_05lrw3m" sourceRef="Gateway_JoinProcessing" targetRef="Event_TransmissionProcessed" />
     <bpmn:sequenceFlow id="Flow_14e4zmj" sourceRef="Activity_GeneratePreviewImage" targetRef="Activity_TimeShiftToCleanEnergy" />
+    <bpmn:manualTask id="Activity_Parallel1" name="Terrain processing">
+      <bpmn:incoming>Flow_0k12ehs</bpmn:incoming>
+      <bpmn:outgoing>Flow_1kfeua2</bpmn:outgoing>
+    </bpmn:manualTask>
+    <bpmn:manualTask id="Activity_Parallel3" name="...&#10;processing">
+      <bpmn:incoming>Flow_1jgk57k</bpmn:incoming>
+      <bpmn:outgoing>Flow_1dqrdrn</bpmn:outgoing>
+    </bpmn:manualTask>
+    <bpmn:manualTask id="Activity_Parallel2" name="Mosaic RDR&#10;processing">
+      <bpmn:incoming>Flow_0elx5ld</bpmn:incoming>
+      <bpmn:outgoing>Flow_04sk3cq</bpmn:outgoing>
+    </bpmn:manualTask>
+    <bpmn:endEvent id="Event_TransmissionProcessed" name="Transmission processed">
+      <bpmn:incoming>Flow_05lrw3m</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:parallelGateway id="Gateway_JoinProcessing">
+      <bpmn:incoming>Flow_04sk3cq</bpmn:incoming>
+      <bpmn:incoming>Flow_1kfeua2</bpmn:incoming>
+      <bpmn:incoming>Flow_1dqrdrn</bpmn:incoming>
+      <bpmn:outgoing>Flow_05lrw3m</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:parallelGateway id="Gateway_SplitProcessing">
+      <bpmn:incoming>Flow_0x4j7xr</bpmn:incoming>
+      <bpmn:outgoing>Flow_0elx5ld</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0k12ehs</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1jgk57k</bpmn:outgoing>
+    </bpmn:parallelGateway>
   </bpmn:process>
+  <bpmn:category id="Category_11w85be">
+    <bpmn:categoryValue id="CategoryValue_1da1h2t" value="carbon intense calculation" />
+  </bpmn:category>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_ImageProcessing">
-      <bpmndi:BPMNShape id="BPMNShape_1upsfvm" bpmnElement="Participant_MarsRover" isHorizontal="true">
-        <dc:Bounds x="160" y="80" width="300" height="60" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_1wwaij0" bpmnElement="Participant_Nasa" isHorizontal="true">
-        <dc:Bounds x="160" y="240" width="930" height="380" />
+        <dc:Bounds x="160" y="210" width="930" height="430" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_10xl8ky" bpmnElement="Event_TransmissionReceived">
@@ -158,6 +158,16 @@
         <di:waypoint x="410" y="437" />
         <di:waypoint x="470" y="437" />
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_1upsfvm" bpmnElement="Participant_MarsRover" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="300" height="60" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Group_0po4wgt_di" bpmnElement="Group_0po4wgt" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
+        <dc:Bounds x="720" y="230" width="160" height="390" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="764" y="237" width="73" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="BPMNEdge_0dgqr4w" bpmnElement="Flow_07bc21p">
         <di:waypoint x="230" y="140" />
         <di:waypoint x="230" y="419" />
