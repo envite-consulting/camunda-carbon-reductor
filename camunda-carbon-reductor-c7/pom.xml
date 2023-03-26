@@ -20,7 +20,7 @@
         <camunda.spring-boot.version>7.18.0</camunda.spring-boot.version>
         <spring-boot.version>2.7.3</spring-boot.version>
         <version.spin>1.18.0</version.spin>
-        <version.jaxb>2.3.5</version.jaxb>
+        <version.jaxb>4.0.2</version.jaxb>
         <version.joda-time>2.12.2</version.joda-time>
     </properties>
 
