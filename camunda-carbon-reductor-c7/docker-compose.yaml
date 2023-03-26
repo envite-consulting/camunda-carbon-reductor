@@ -34,6 +34,7 @@ services:
       - BASE_URL=http://carbon-reductor-c7-example-workflow:7777/engine-rest
       - ASYNC_RESPONSE_TIMEOUT=10000
       - WORKER_ID=carbonReductorWorker-1
+      # To override the URL of the carbon api you could use the following variable
       - CARBON-REDUCTOR_CARBON-AWARE-API_BASE-PATH=http://carbon-aware-webapi:80
     ports:
       - "8080:8080"
