@@ -84,6 +84,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-reflect</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>${version.junit-jupiter}</version>
@@ -106,6 +111,16 @@
             <artifactId>camunda-bpm-spring-boot-starter-test</artifactId>
             <version>${camunda.spring-boot.version}</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.mockito</groupId>
+                    <artifactId>mockito-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.mockito</groupId>
+                    <artifactId>mockito-junit-jupiter</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.camunda.bpm</groupId>
@@ -118,9 +133,17 @@
             <artifactId>h2</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>io.mockk</groupId>
+            <artifactId>mockk-jvm</artifactId>
+            <version>${version.mockk}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
+        <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
+        <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -170,15 +193,32 @@
                                 </rule>
                             </rules>
                             <excludes>
-                                <exclude>**/CamundaConnectorApplication.class</exclude>
-                                <exclude>de/envite/greenbpm/carbonreductor/core/usecase/*</exclude>
-                                <exclude>de/envite/greenbpm/carbonreductor/core/technology/*</exclude>
-                                <exclude>**/config/*</exclude>
-                                <exclude>de/envite/greenbpm/carbonreductor/**/*Exception*</exclude>
+                                <exclude>**/CamundaConnectorApplicationKt.*</exclude>
+                                <exclude>**/CamundaConnectorApplication.*</exclude>
+                                <exclude>de/envite/greenbpm/carbonreductorconnector/utils/LoggingKt.*</exclude>
                             </excludes>
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-maven-plugin</artifactId>
+                <configuration>
+                    <args>
+                        <arg>-Xjsr305=strict</arg>
+                    </args>
+                    <compilerPlugins>
+                        <plugin>spring</plugin>
+                    </compilerPlugins>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.jetbrains.kotlin</groupId>
+                        <artifactId>kotlin-maven-allopen</artifactId>
+                        <version>${kotlin.version}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
