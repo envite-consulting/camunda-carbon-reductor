@@ -27,10 +27,6 @@
             "label": "SLA based configuration"
         },
         {
-            "id": "timeshiftWindowConfiguration",
-            "label": "Timeshift window configuration"
-        },
-        {
             "id": "outputMapping",
             "label": "Output Mapping"
         }
