@@ -67,14 +67,13 @@ public class DelayCalculatorService implements DelayCalculator {
     }
 
     Timeshift calculateTimeshiftWindowForSLA(CarbonReductorConfiguration input) {
-        // maximumProcessDuration - milestone - remainingDuration - now
+        // lastPossibletEndDateTime - remainingDuration - now
         // (milestone + maximumDuration) - milestone - remaining - (now - milestone)
-        OffsetDateTime maximumDurationDateTime = input.getMilestone().asDate().plus(input.getMaximumProcessTimeshift().getValue().toMillis(), ChronoUnit.MILLIS);
-        long msSinceMilestone = OffsetDateTime.now(ZoneOffset.UTC).toInstant().toEpochMilli() - input.getMilestone().asDate().toInstant().toEpochMilli();
+		OffsetDateTime lastPossibletEndDateTime = input.getMilestone().asDate().plus(input.getMaximumProcessTimeshift().getValue().toMillis(), ChronoUnit.MILLIS);
         java.time.Duration duration = java.time.Duration.ofMillis(
-                maximumDurationDateTime.minus(input.getMilestone().asDate().toInstant().toEpochMilli(), ChronoUnit.MILLIS)
+                lastPossibletEndDateTime
                         .minus(input.getRemainingProcessTimeshift().getValue().toMillis(), ChronoUnit.MILLIS)
-                        .minus(msSinceMilestone, ChronoUnit.MILLIS).toInstant().toEpochMilli());
+                        .minus(OffsetDateTime.now(ZoneOffset.UTC).toInstant().toEpochMilli(), ChronoUnit.MILLIS).toInstant().toEpochMilli());
         if (duration.isNegative()) {
             return new Timeshift(Duration.ofMillis(0));
         }
