@@ -152,6 +152,27 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>ch.acanda.maven</groupId>
+                <artifactId>spring-banner-plugin</artifactId>
+                <version>${version.spring-banner-plugin}</version>
+                <executions>
+                    <execution>
+                        <id>generate-spring-banner</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <text>${project.artifactId}</text>
+                    <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+                    <includeInfo>true</includeInfo>
+                    <info>Version: ${project.version}</info>
+                    <color>green</color>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>
