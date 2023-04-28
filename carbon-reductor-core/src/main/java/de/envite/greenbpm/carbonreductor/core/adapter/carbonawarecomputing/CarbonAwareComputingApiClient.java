@@ -31,8 +31,12 @@ public class CarbonAwareComputingApiClient implements CarbonEmissionQuery {
             throws CarbonEmissionQueryException {
         final int windowSizeMinutes = 5;
         List<EmissionsForecastInner> emissionsForecast = null;
+        final String mappedLocation = locationMapper.mapLocation(location);
+        if (mappedLocation == null) {
+            throw new CarbonEmissionQueryException("The location is not know yet.");
+        }
+
         try {
-            final String mappedLocation = locationMapper.mapLocation(location);
             emissionsForecast = forecastApi.getBestExecutionTime(List.of(mappedLocation), null, timeshift.timeshiftFromNow(), windowSizeMinutes);
         } catch (Exception e) {
             log.error("Error when calling the API for the optimal forecast", e);
