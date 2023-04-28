@@ -203,19 +203,21 @@
         }
       },
       "emissionsForecast": {
-        "type": "object",
-        "properties": {
-          "location": {
-            "type": "string"
-          },
-          "windowSize": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "optimalDataPoints": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/emissionsData"
+        "type": "array",
+        "items": {
+          "properties": {
+            "location": {
+              "type": "string"
+            },
+            "windowSize": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "optimalDataPoints": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/emissionsData"
+              }
             }
           }
         }
