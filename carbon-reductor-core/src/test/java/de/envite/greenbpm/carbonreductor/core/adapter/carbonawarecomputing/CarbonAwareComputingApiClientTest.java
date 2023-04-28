@@ -59,11 +59,11 @@ class CarbonAwareComputingApiClientTest {
     void setUp() {
         classUnderTest = new CarbonAwareComputingApiClient(forecastApiMock, locationMapperMock,
                 carbonAwareComputingMapperMock);
-        when(locationMapperMock.mapLocation(any(Location.class))).thenReturn(LOCATION);
     }
 
     @Test
     void should_call_api_and_map() throws Exception {
+        when(locationMapperMock.mapLocation(any(Location.class))).thenReturn(LOCATION);
         EmissionsForecastInner emissionsForecast = mock(EmissionsForecastInner.class);
         EmissionsData emissionsData = mock(EmissionsData.class);
         when(emissionsForecast.getOptimalDataPoints()).thenReturn(List.of(emissionsData));
@@ -78,7 +78,19 @@ class CarbonAwareComputingApiClientTest {
     }
 
     @Test
+    void should_throw_if_location_unknown() throws Exception {
+        when(locationMapperMock.mapLocation(any(Location.class))).thenReturn(null);
+
+        assertThatThrownBy(() -> classUnderTest.getEmissionTimeframe(Data.location, Data.timeshift, Data.executiontime))
+                .isExactlyInstanceOf(CarbonEmissionQueryException.class)
+                .hasMessage("The location is not know yet.");
+        verifyNoInteractions(forecastApiMock);
+        verifyNoInteractions(carbonAwareComputingMapperMock);
+    }
+
+    @Test
     void should_throw_if_no_element_in_list_response() throws Exception {
+        when(locationMapperMock.mapLocation(any(Location.class))).thenReturn(LOCATION);
         when(forecastApiMock.getBestExecutionTime(
                 eq(List.of(LOCATION)), isNull(), any(OffsetDateTime.class), eq(WINDOW_SIZE_MINUTES))
         ).thenReturn(List.of());
@@ -91,6 +103,7 @@ class CarbonAwareComputingApiClientTest {
 
     @Test
     void should_throw_if_no_element_in_inner_list_response() throws Exception {
+        when(locationMapperMock.mapLocation(any(Location.class))).thenReturn(LOCATION);
         EmissionsForecastInner emissionsForecast = mock(EmissionsForecastInner.class);
         when(emissionsForecast.getOptimalDataPoints()).thenReturn(List.of());
         when(forecastApiMock.getBestExecutionTime(
@@ -105,6 +118,7 @@ class CarbonAwareComputingApiClientTest {
 
     @Test
     void should_catch_exception_on_call_fail() throws Exception {
+        when(locationMapperMock.mapLocation(any(Location.class))).thenReturn(LOCATION);
         when(forecastApiMock.getBestExecutionTime(any(), isNull(), any(), any())).thenThrow(RuntimeException.class);
 
         assertThatThrownBy(() -> classUnderTest.getEmissionTimeframe(Data.location, Data.timeshift, Data.executiontime))

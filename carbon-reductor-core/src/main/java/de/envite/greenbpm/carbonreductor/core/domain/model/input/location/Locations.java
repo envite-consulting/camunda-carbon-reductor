@@ -1,5 +1,8 @@
 package de.envite.greenbpm.carbonreductor.core.domain.model.input.location;
 
+import java.util.Arrays;
+import java.util.Optional;
+
 public enum Locations {
   EUROPE_NORTH("northeurope"),
   EUROPE_WEST("westeurope"),
@@ -27,5 +30,11 @@ public enum Locations {
 
   public Location asLocation() {
     return new Location(this.regionname);
+  }
+
+  public static Optional<Locations> fromText(String text) {
+    return Arrays.stream(values())
+            .filter(v -> v.regionname.equalsIgnoreCase(text))
+            .findFirst();
   }
 }
