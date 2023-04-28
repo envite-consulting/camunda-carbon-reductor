@@ -10,7 +10,7 @@
     <version>1.0.2-SNAPSHOT</version>
 
     <modules>
-        <module>api-carbon-aware</module>
+        <module>api</module>
         <module>carbon-reductor-core</module>
         <module>camunda-carbon-reductor-c8</module>
         <module>camunda-carbon-reductor-c7</module>
