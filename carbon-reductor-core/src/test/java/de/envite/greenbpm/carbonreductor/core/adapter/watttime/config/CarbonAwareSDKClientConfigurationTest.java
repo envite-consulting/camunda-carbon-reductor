@@ -1,6 +1,6 @@
 package de.envite.greenbpm.carbonreductor.core.adapter.watttime.config;
 
-import de.envite.greenbpm.carbonreductor.api.carbon.aware.CarbonAwareApi;
+import de.envite.greenbpm.api.carbonawaresdk.api.CarbonAwareApi;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

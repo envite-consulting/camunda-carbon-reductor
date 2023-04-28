@@ -1,7 +1,7 @@
 package de.envite.greenbpm.carbonreductor.core.adapter.watttime;
 
-import de.envite.greenbpm.carbonreductor.api.carbon.aware.model.EmissionsDataDTO;
-import de.envite.greenbpm.carbonreductor.api.carbon.aware.model.EmissionsForecastDTO;
+import de.envite.greenbpm.api.carbonawaresdk.model.EmissionsDataDTO;
+import de.envite.greenbpm.api.carbonawaresdk.model.EmissionsForecastDTO;
 import de.envite.greenbpm.carbonreductor.core.domain.model.EmissionTimeframe;
 import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.ForecastedValue;
 import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.OptimalTime;
@@ -20,7 +20,7 @@ public class CarbonAwareApiMapper {
             .map(d -> d.get(0));
     OptimalTime optimalTime = optimalDataPoint
             .map(EmissionsDataDTO::getTimestamp)
-            .map(org.threeten.bp.OffsetDateTime::toString)
+            .map(OffsetDateTime::toString)
             .map(OffsetDateTime::parse)
             .map(OptimalTime::new)
             .orElse(null);

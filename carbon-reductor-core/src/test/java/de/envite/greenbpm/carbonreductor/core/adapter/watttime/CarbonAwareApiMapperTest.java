@@ -1,7 +1,7 @@
 package de.envite.greenbpm.carbonreductor.core.adapter.watttime;
 
-import de.envite.greenbpm.carbonreductor.api.carbon.aware.model.EmissionsDataDTO;
-import de.envite.greenbpm.carbonreductor.api.carbon.aware.model.EmissionsForecastDTO;
+import de.envite.greenbpm.api.carbonawaresdk.model.EmissionsDataDTO;
+import de.envite.greenbpm.api.carbonawaresdk.model.EmissionsForecastDTO;
 import de.envite.greenbpm.carbonreductor.core.domain.model.EmissionTimeframe;
 import io.github.domainprimitives.validation.InvariantException;
 import org.assertj.core.api.SoftAssertions;
@@ -21,7 +21,7 @@ class CarbonAwareApiMapperTest {
         final String optimalTime = "2007-12-03T10:15:30+01:00";
         EmissionsForecastDTO emissionsForecastDTO = new EmissionsForecastDTO();
         EmissionsDataDTO optimalDataPoint = new EmissionsDataDTO();
-        optimalDataPoint.setTimestamp(org.threeten.bp.OffsetDateTime.parse(optimalTime));
+        optimalDataPoint.setTimestamp(OffsetDateTime.parse(optimalTime));
         optimalDataPoint.setValue(2.0);
         emissionsForecastDTO.setOptimalDataPoints(List.of(optimalDataPoint, new EmissionsDataDTO()));
 
@@ -49,7 +49,7 @@ class CarbonAwareApiMapperTest {
     void should_throw_if_no_current_emissions() {
         EmissionsForecastDTO emissionsForecastDTO = new EmissionsForecastDTO();
         EmissionsDataDTO optimalDataPoint = new EmissionsDataDTO();
-        optimalDataPoint.setTimestamp(org.threeten.bp.OffsetDateTime.now());
+        optimalDataPoint.setTimestamp(OffsetDateTime.now());
         optimalDataPoint.setValue(2.0);
         emissionsForecastDTO.setOptimalDataPoints(List.of(optimalDataPoint, new EmissionsDataDTO()));
 
