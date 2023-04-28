@@ -1,4 +1,12 @@
 carbon-reductor:
     carbon-aware-api:
+      # Enable or disable the Carbon Aware Sdk usage (default is true)
+      # enabled: true
       # TODO: Remove CARBON_AWARE_BASEPATH env variable in next major release
       base-path: ${CARBON_AWARE_BASEPATH:http://localhost:8090}
+    carbon-aware-computing:
+      # Enable or disable the Carbon Aware Computing API usage (default is false)
+      # enabled: true
+      basePath: "https://forecast.carbon-aware-computing.com"
+      apiKey: <api-key>
+

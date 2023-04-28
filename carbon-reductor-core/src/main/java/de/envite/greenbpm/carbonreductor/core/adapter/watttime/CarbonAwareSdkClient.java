@@ -10,16 +10,12 @@ import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Locati
 import de.envite.greenbpm.carbonreductor.core.usecase.out.CarbonEmissionQuery;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
-import java.time.Duration;
-import java.time.OffsetDateTime;
 import java.util.List;
 
 import static java.util.Optional.ofNullable;
 
 @Slf4j
-@Component
 @RequiredArgsConstructor
 public class CarbonAwareSdkClient implements CarbonEmissionQuery {
 

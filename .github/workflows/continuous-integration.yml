@@ -27,4 +27,4 @@ jobs:
           java-version: ${{ matrix.java }}
           cache: 'maven'
       - name: Build with Maven Wrapper
-        run: ./mvnw verify
+        run: ./mvnw clean verify
