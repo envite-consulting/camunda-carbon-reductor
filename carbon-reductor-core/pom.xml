@@ -24,6 +24,11 @@
             <artifactId>api-carbon-aware</artifactId>
             <version>${parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>de.envite.greenbpm.api</groupId>
+            <artifactId>api-carbon-aware-computing</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>io.github.domain-primitives</groupId>
@@ -75,6 +80,10 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${version.lombok}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
         </dependency>
     </dependencies>
 

@@ -1,5 +1,8 @@
 package de.envite.greenbpm.carbonreductor.core.technology;
 
+import lombok.experimental.UtilityClass;
+
+@UtilityClass
 public class Constants {
-    public final static String CONFIG_PROPERTY_PREFIX = "carbon-reductor";
+    public static final String CONFIG_PROPERTY_PREFIX = "carbon-reductor";
 }

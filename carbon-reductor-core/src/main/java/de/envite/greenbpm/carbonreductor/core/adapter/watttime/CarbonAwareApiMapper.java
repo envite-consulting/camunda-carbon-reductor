@@ -6,15 +6,13 @@ import de.envite.greenbpm.carbonreductor.core.domain.model.EmissionTimeframe;
 import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.ForecastedValue;
 import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.OptimalTime;
 import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.Rating;
-import org.springframework.stereotype.Component;
 
 import java.time.OffsetDateTime;
 import java.util.Optional;
 
 import static java.util.Optional.of;
 
-@Component
-class CarbonAwareApiMapper {
+public class CarbonAwareApiMapper {
 
   public EmissionTimeframe mapToDomain(EmissionsForecastDTO emissionsForecast) {
     Optional<EmissionsDataDTO> optimalDataPoint = of(emissionsForecast)
