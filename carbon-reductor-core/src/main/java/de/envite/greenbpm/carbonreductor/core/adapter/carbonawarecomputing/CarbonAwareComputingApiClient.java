@@ -1,7 +1,7 @@
 package de.envite.greenbpm.carbonreductor.core.adapter.carbonawarecomputing;
 
 import de.envite.greenbpm.api.carbonawarecomputing.api.ForecastApi;
-import de.envite.greenbpm.api.carbonawarecomputing.model.EmissionsForecast;
+import de.envite.greenbpm.api.carbonawarecomputing.model.EmissionsForecastInner;
 import de.envite.greenbpm.carbonreductor.core.adapter.watttime.exception.CarbonEmissionQueryException;
 import de.envite.greenbpm.carbonreductor.core.domain.model.EmissionTimeframe;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Timeshift;
@@ -30,7 +30,7 @@ public class CarbonAwareComputingApiClient implements CarbonEmissionQuery {
     public EmissionTimeframe getEmissionTimeframe(Location location, Timeshift timeshift, Timeshift executiontime)
             throws CarbonEmissionQueryException {
         final int windowSizeMinutes = 5;
-        EmissionsForecast emissionsForecast = null;
+        List<EmissionsForecastInner> emissionsForecast = null;
         try {
             final String mappedLocation = locationMapper.mapLocation(location);
             emissionsForecast = forecastApi.getBestExecutionTime(List.of(mappedLocation), null, timeshift.timeshiftFromNow(), windowSizeMinutes);
@@ -40,7 +40,9 @@ public class CarbonAwareComputingApiClient implements CarbonEmissionQuery {
         }
 
         return ofNullable(emissionsForecast)
-                .map(EmissionsForecast::getOptimalDataPoints)
+                .filter(d -> !d.isEmpty())
+                .map(d -> d.get(0))
+                .map(EmissionsForecastInner::getOptimalDataPoints)
                 .filter(d -> !d.isEmpty())
                 .map(d -> d.get(0))
                 .map(carbonAwareComputingMapper::mapToDoamin)
