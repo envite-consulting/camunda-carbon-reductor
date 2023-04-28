@@ -1,9 +1,9 @@
 package de.envite.greenbpm.carbonreductor.core.adapter.watttime;
 
 
-import de.envite.greenbpm.carbonreductor.api.carbon.aware.ApiResponse;
-import de.envite.greenbpm.carbonreductor.api.carbon.aware.CarbonAwareApi;
-import de.envite.greenbpm.carbonreductor.api.carbon.aware.model.EmissionsForecastDTO;
+import de.envite.greenbpm.api.carbonawaresdk.ApiResponse;
+import de.envite.greenbpm.api.carbonawaresdk.api.CarbonAwareApi;
+import de.envite.greenbpm.api.carbonawaresdk.model.EmissionsForecastDTO;
 import de.envite.greenbpm.carbonreductor.core.adapter.watttime.exception.CarbonEmissionQueryException;
 import de.envite.greenbpm.carbonreductor.core.domain.model.EmissionTimeframe;
 import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.ForecastedValue;
@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoSettings;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -59,7 +60,7 @@ class CarbonAwareSdkClientTest {
                 eq(List.of(Data.location.getValue())), isNull(),
                 // TODO Clock now...
                 // org.threeten.bp.OffsetDateTime.parse(Data.timeshift.timeshiftFromNow().toString()),
-                any(org.threeten.bp.OffsetDateTime.class),
+                any(OffsetDateTime.class),
                 eq(Data.executiontime.inMinutes()))).thenReturn(apiResponse);
         when(carbonAwareApiMapperMock.mapToDomain(emissionsForecastDTO)).thenReturn(Data.emissionTimeframe);
 

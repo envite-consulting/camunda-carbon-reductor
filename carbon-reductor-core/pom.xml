@@ -20,7 +20,7 @@
     <dependencies>
 
         <dependency>
-            <groupId>de.envite.greenbpm</groupId>
+            <groupId>de.envite.greenbpm.api</groupId>
             <artifactId>api-carbon-aware</artifactId>
             <version>${parent.version}</version>
         </dependency>

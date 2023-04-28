@@ -1,7 +1,7 @@
 package de.envite.greenbpm.carbonreductor.core.adapter.watttime.config;
 
-import de.envite.greenbpm.carbonreductor.api.carbon.aware.ApiClient;
-import de.envite.greenbpm.carbonreductor.api.carbon.aware.CarbonAwareApi;
+import de.envite.greenbpm.api.carbonawaresdk.ApiClient;
+import de.envite.greenbpm.api.carbonawaresdk.api.CarbonAwareApi;
 import de.envite.greenbpm.carbonreductor.core.adapter.watttime.CarbonAwareApiMapper;
 import de.envite.greenbpm.carbonreductor.core.adapter.watttime.CarbonAwareSdkClient;
 import de.envite.greenbpm.carbonreductor.core.usecase.out.CarbonEmissionQuery;

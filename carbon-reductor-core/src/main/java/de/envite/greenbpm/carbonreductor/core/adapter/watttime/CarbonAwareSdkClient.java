@@ -1,8 +1,8 @@
 package de.envite.greenbpm.carbonreductor.core.adapter.watttime;
 
-import de.envite.greenbpm.carbonreductor.api.carbon.aware.ApiResponse;
-import de.envite.greenbpm.carbonreductor.api.carbon.aware.CarbonAwareApi;
-import de.envite.greenbpm.carbonreductor.api.carbon.aware.model.EmissionsForecastDTO;
+import de.envite.greenbpm.api.carbonawaresdk.ApiResponse;
+import de.envite.greenbpm.api.carbonawaresdk.api.CarbonAwareApi;
+import de.envite.greenbpm.api.carbonawaresdk.model.EmissionsForecastDTO;
 import de.envite.greenbpm.carbonreductor.core.adapter.watttime.exception.CarbonEmissionQueryException;
 import de.envite.greenbpm.carbonreductor.core.domain.model.EmissionTimeframe;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Timeshift;
@@ -11,6 +11,7 @@ import de.envite.greenbpm.carbonreductor.core.usecase.out.CarbonEmissionQuery;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 import static java.util.Optional.ofNullable;
@@ -30,7 +31,7 @@ public class CarbonAwareSdkClient implements CarbonEmissionQuery {
   private EmissionsForecastDTO getOptimalForecastUntil(Location location, Timeshift timeshift, Timeshift executiontime)
           throws CarbonEmissionQueryException {
     ApiResponse<List<EmissionsForecastDTO>> currentForecastDataWithHttpInfo;
-    org.threeten.bp.OffsetDateTime offsetDateTime = org.threeten.bp.OffsetDateTime.parse(timeshift.timeshiftFromNow().toString());
+    OffsetDateTime offsetDateTime = OffsetDateTime.parse(timeshift.timeshiftFromNow().toString());
     try {
       currentForecastDataWithHttpInfo =
               carbonAwareApi.getCurrentForecastDataWithHttpInfo(
