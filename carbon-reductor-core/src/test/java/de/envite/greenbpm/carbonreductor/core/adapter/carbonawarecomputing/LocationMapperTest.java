@@ -13,12 +13,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class LocationMapperTest {
 
-    private LocationMapper classUnderTets = new LocationMapper();
+    private final LocationMapper classUnderTest = new LocationMapper();
 
     @ParameterizedTest
     @MethodSource("provideLocations")
     void should_map_location(Location location, String expectedResult) {
-        final String result = classUnderTets.mapLocation(location);
+        final String result = classUnderTest.mapLocation(location);
 
         assertThat(result).isEqualTo(expectedResult);
     }
@@ -36,7 +36,8 @@ class LocationMapperTest {
                 Arguments.of(Locations.SWITZERLAND_WEST.asLocation(), "ch"),
                 Arguments.of(Locations.SWEDEN_CENTRAL.asLocation(), "no"),
                 Arguments.of(Locations.NORWAY_EAST.asLocation(), "no"),
-                Arguments.of(Locations.WEST_US.asLocation(), null)
+                Arguments.of(Locations.WEST_US.asLocation(), null),
+                Arguments.of(new Location("Foo"), null)
         );
     }
 }
