@@ -3,38 +3,24 @@ package de.envite.greenbpm.carbonreductor.core.adapter.carbonawarecomputing;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Location;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Locations;
 
+import java.util.Optional;
+
 public class LocationMapper {
 
     private static final String NOT_PRESENT = null;
 
     public String mapLocation(Location location) {
-        switch (Locations.fromText(location.getValue()).orElse(null)) {
-            case EUROPE_NORTH:
-                return "no";
-            case EUROPE_WEST:
-                return "fe";
-            case FRANCE_SOUTH:
-                return "fe";
-            case GERMANY_NORTH:
-                return "de";
-            case GERMANY_WEST_CENTRAL:
-                return "de";
-            case UK_WEST:
-                return "uk";
-            case UK_SOUTH:
-                return "uk";
-            case SWITZERLAND_WEST:
-                return "ch";
-            case SWITZERLAND_NORTH:
-                return "ch";
-            case SWEDEN_CENTRAL:
-                return "no";
-            case NORWAY_EAST:
-                return "no";
-            case WEST_US:
-                return NOT_PRESENT;
-            default:
-                return NOT_PRESENT;
+        final Optional<Locations> locationValue = Locations.fromText(location.getValue());
+        if (locationValue.isEmpty()) {
+            return NOT_PRESENT;
         }
+        return switch (locationValue.get()) {
+            case EUROPE_NORTH, SWEDEN_CENTRAL, NORWAY_EAST -> "no";
+            case EUROPE_WEST, FRANCE_SOUTH -> "fe";
+            case GERMANY_NORTH, GERMANY_WEST_CENTRAL -> "de";
+            case UK_WEST, UK_SOUTH -> "uk";
+            case SWITZERLAND_WEST, SWITZERLAND_NORTH -> "ch";
+            default -> NOT_PRESENT;
+        };
     }
 }
