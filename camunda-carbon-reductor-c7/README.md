@@ -5,7 +5,7 @@ Provides also a Service Task Template for configuration ([carbon-reductor.json](
 
 
 * [🚀Getting Started](#getting-started)
-  * [Create a WattTime Account](#create-a-watttime-account)
+  * [Choose the underlying API](#choose-the-underlying-api)
   * [Start Camunda Carbon Reductor](#start-camunda-carbon-reductor)
   * [Run the External Task Worker locally](#run-the-external-task-worker-locally)
   * [Building the Docker containers](#building-the-docker-containers)
@@ -15,17 +15,12 @@ Provides also a Service Task Template for configuration ([carbon-reductor.json](
 
 # 🚀Getting Started
 
-## Create a WattTime Account
-The Account can be created with a POST request ([watttime.org/api-documentation](https://www.watttime.org/api-documentation/#best-practices-for-api-usage)). With the visitor plan you are allowed to query information for the
-CAISO_NORTH (California) region.
+## Choose the underlying API
 
-```bash
-curl -X POST --location "https://api2.watttime.org/v2/register" \
-    -H "Content-Type: application/json" \
-    -d "{\"username\": \"<myWattTimeUsername>\",
-          \"password\": \"<myWattTimePassword>\",
-          \"email\": \"<myEmailAddress>\"}"
-```
+We support different APIs which could be used to fetch the forecast data.
+Have a look at our [APIs](../api/README.md) to see which ones are supported yet.
+You could turn the different adapters on and off via a configuration flag in the
+[application.yml](./src/main/resources/application.yml).
 
 ## Start Camunda Carbon Reductor
 Add the WattTime credentials in the
