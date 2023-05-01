@@ -5,3 +5,13 @@ camunda.bpm:
     base-url: ${BASE_URL}
     async-response-timeout: ${ASYNC_RESPONSE_TIMEOUT}
     worker-id: ${WORKER_ID}
+
+carbon-reductor:
+  carbon-aware-api:
+    # Enable or disable the Carbon Aware Sdk usage (default is true)
+    # enabled: true
+  carbon-aware-computing:
+    # Enable or disable the Carbon Aware Computing API usage (default is false)
+    # enabled: true
+    # basePath: "https://forecast.carbon-aware-computing.com"
+    # apiKey: <api-key>
