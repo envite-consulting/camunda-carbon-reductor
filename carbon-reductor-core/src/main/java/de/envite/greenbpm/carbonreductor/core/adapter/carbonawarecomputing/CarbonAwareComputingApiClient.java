@@ -1,7 +1,7 @@
 package de.envite.greenbpm.carbonreductor.core.adapter.carbonawarecomputing;
 
 import de.envite.greenbpm.api.carbonawarecomputing.api.ForecastApi;
-import de.envite.greenbpm.api.carbonawarecomputing.model.EmissionsForecastInner;
+import de.envite.greenbpm.api.carbonawarecomputing.model.EmissionsForecast;
 import de.envite.greenbpm.carbonreductor.core.adapter.watttime.exception.CarbonEmissionQueryException;
 import de.envite.greenbpm.carbonreductor.core.domain.model.EmissionTimeframe;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Timeshift;
@@ -30,14 +30,14 @@ public class CarbonAwareComputingApiClient implements CarbonEmissionQuery {
     public EmissionTimeframe getEmissionTimeframe(Location location, Timeshift timeshift, Timeshift executiontime)
             throws CarbonEmissionQueryException {
         final int windowSizeMinutes = 5;
-        List<EmissionsForecastInner> emissionsForecast = null;
+        List<EmissionsForecast> emissionsForecast = null;
         final String mappedLocation = locationMapper.mapLocation(location);
         if (mappedLocation == null) {
             throw new CarbonEmissionQueryException("The location is not know yet.");
         }
 
         try {
-            emissionsForecast = forecastApi.getBestExecutionTime(List.of(mappedLocation), null, timeshift.timeshiftFromNow(), windowSizeMinutes);
+            emissionsForecast = forecastApi.getBestExecutionTime(mappedLocation, null, timeshift.timeshiftFromNow(), windowSizeMinutes);
         } catch (Exception e) {
             log.error("Error when calling the API for the optimal forecast", e);
             throw new CarbonEmissionQueryException(e);
@@ -46,7 +46,7 @@ public class CarbonAwareComputingApiClient implements CarbonEmissionQuery {
         return ofNullable(emissionsForecast)
                 .filter(d -> !d.isEmpty())
                 .map(d -> d.get(0))
-                .map(EmissionsForecastInner::getOptimalDataPoints)
+                .map(EmissionsForecast::getOptimalDataPoints)
                 .filter(d -> !d.isEmpty())
                 .map(d -> d.get(0))
                 .map(carbonAwareComputingMapper::mapToDoamin)

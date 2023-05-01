@@ -28,16 +28,16 @@ class LocationMapperTest {
                 Arguments.of(Locations.EUROPE_NORTH.asLocation(), "no"),
                 Arguments.of(Locations.EUROPE_WEST.asLocation(), "fe"),
                 Arguments.of(Locations.FRANCE_SOUTH.asLocation(), "fe"),
+                Arguments.of(Locations.FRANCE_CENTRAL.asLocation(), Locations.FRANCE_CENTRAL.regionname()),
                 Arguments.of(Locations.GERMANY_NORTH.asLocation(), "de"),
-                Arguments.of(Locations.GERMANY_WEST_CENTRAL.asLocation(), "de"),
+                Arguments.of(Locations.GERMANY_WEST_CENTRAL.asLocation(), Locations.GERMANY_WEST_CENTRAL.regionname()),
                 Arguments.of(Locations.UK_SOUTH.asLocation(), "uk"),
                 Arguments.of(Locations.UK_WEST.asLocation(), "uk"),
-                Arguments.of(Locations.SWITZERLAND_NORTH.asLocation(), "ch"),
+                Arguments.of(Locations.SWITZERLAND_NORTH.asLocation(), Locations.SWITZERLAND_NORTH.regionname()),
                 Arguments.of(Locations.SWITZERLAND_WEST.asLocation(), "ch"),
                 Arguments.of(Locations.SWEDEN_CENTRAL.asLocation(), "no"),
                 Arguments.of(Locations.NORWAY_EAST.asLocation(), "no"),
-                Arguments.of(Locations.WEST_US.asLocation(), null),
-                Arguments.of(new Location("Foo"), null)
+                Arguments.of(Locations.WEST_US.asLocation(), null)
         );
     }
 }

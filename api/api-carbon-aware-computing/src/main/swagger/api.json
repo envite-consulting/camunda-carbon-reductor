@@ -54,7 +54,7 @@
         "x-ms-visibility": "important"
       }
     },
-    "/forecasts/current": {
+    "/emissions/forecasts/current": {
       "get": {
         "tags": [
           "forecast"
@@ -66,14 +66,26 @@
           {
             "name": "location",
             "in": "query",
-            "description": "String array of named locations",
+            "description": "Comma seperated list of named locations",
             "required": true,
-            "style": "form",
-            "explode": false,
             "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
+              "type": "string"
+            },
+            "examples": {
+              "Germany": {
+                "value": "de"
+              },
+              "Austria and France": {
+                "value": "at,fr"
+              },
+              "Azure francecentral": {
+                "value": "francecentral"
+              },
+              "AWS eu-west-3": {
+                "value": "eu-west-3"
+              },
+              "GCP europe-west9": {
+                "value": "europe-west9"
               }
             }
           },
@@ -84,6 +96,14 @@
             "schema": {
               "type": "string",
               "format": "date-time"
+            },
+            "examples": {
+              "Now": {
+                "value": "2023-05-01T05:49:54.0221509+00:00"
+              },
+              "In one hour": {
+                "value": "2023-05-01T06:49:54.0221589+00:00"
+              }
             }
           },
           {
@@ -93,6 +113,14 @@
             "schema": {
               "type": "string",
               "format": "date-time"
+            },
+            "examples": {
+              "In five hours": {
+                "value": "2023-05-01T06:49:54.0221673+00:00"
+              },
+              "In ten hours": {
+                "value": "2023-05-01T15:49:54.0221688+00:00"
+              }
             }
           },
           {
@@ -102,6 +130,14 @@
             "schema": {
               "type": "integer",
               "format": "int32"
+            },
+            "examples": {
+              "10 Minutes": {
+                "value": 10
+              },
+              "One hour": {
+                "value": 60
+              }
             }
           }
         ],
@@ -111,7 +147,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/emissionsForecast"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/emissionsForecast"
+                  }
                 }
               }
             },
@@ -181,10 +220,10 @@
       "availableLocation": {
         "type": "object",
         "properties": {
-          "locationName": {
+          "name": {
             "type": "string"
           },
-          "active": {
+          "isActive": {
             "type": "boolean"
           }
         }
@@ -203,21 +242,19 @@
         }
       },
       "emissionsForecast": {
-        "type": "array",
-        "items": {
-          "properties": {
-            "location": {
-              "type": "string"
-            },
-            "windowSize": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "optimalDataPoints": {
-              "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/emissionsData"
-              }
+        "type": "object",
+        "properties": {
+          "location": {
+            "type": "string"
+          },
+          "windowSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "optimalDataPoints": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/emissionsData"
             }
           }
         }
