@@ -2,6 +2,7 @@ package de.envite.greenbpm.carbonreductorconnector;
 
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReduction;
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReductorConfiguration;
+import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Locations;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Carbon;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Delay;
 import io.github.domainprimitives.validation.InvariantException;
@@ -24,7 +25,7 @@ class CarbonReductorVariableMapperTest {
         @Test
         void should_map_all_fields_from_map() {
             Map<String, Object> variables = new HashMap<>();
-            variables.put("location", "here");
+            variables.put("location", Locations.GERMANY_WEST_CENTRAL.regionname());
             variables.put("carbonReductorMode", "test");
             variables.put("milestone", DateTime.parse("2023-02-10T15:48:10.285+01:00"));
             variables.put("maximumProcessDuration", "PT10M");
@@ -45,7 +46,7 @@ class CarbonReductorVariableMapperTest {
         @Test
         void should_map_optional_null_fields() {
             Map<String, Object> variables = new HashMap<>();
-            variables.put("location", "here");
+            variables.put("location", Locations.GERMANY_WEST_CENTRAL.regionname());
             variables.put("carbonReductorMode", "test");
             variables.put("milestone", DateTime.parse("2023-02-10T15:48:10.285+01:00"));
 
