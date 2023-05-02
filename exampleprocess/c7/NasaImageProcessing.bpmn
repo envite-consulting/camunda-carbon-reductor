@@ -37,12 +37,12 @@
           <camunda:inputParameter name="location">westus</camunda:inputParameter>
           <camunda:inputParameter name="carbonReductorMode">slaBasedConfiguration</camunda:inputParameter>
           <camunda:inputParameter name="milestone">${dateTime()}</camunda:inputParameter>
-          <camunda:outputParameter name="executionDelayed1">${executionDelayed}</camunda:outputParameter>
-          <camunda:outputParameter name="delayedBy1">${delayedBy}</camunda:outputParameter>
-          <camunda:outputParameter name="originalCarbon1">${originalCarbon}</camunda:outputParameter>
-          <camunda:outputParameter name="actualCarbon1">${actualCarbon}</camunda:outputParameter>
-          <camunda:outputParameter name="savedCarbon1">${savedCarbon}</camunda:outputParameter>
-          <camunda:outputParameter name="reducedCarbon1">${reducedCarbon}</camunda:outputParameter>
+          <camunda:outputParameter name="executionDelayed">${executionDelayed}</camunda:outputParameter>
+          <camunda:outputParameter name="delayedBy">${delayedBy}</camunda:outputParameter>
+          <camunda:outputParameter name="originalCarbon">${originalCarbon}</camunda:outputParameter>
+          <camunda:outputParameter name="actualCarbon">${actualCarbon}</camunda:outputParameter>
+          <camunda:outputParameter name="savedCarbon">${savedCarbon}</camunda:outputParameter>
+          <camunda:outputParameter name="reducedCarbon">${reducedCarbon}</camunda:outputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0z16noo</bpmn:incoming>
