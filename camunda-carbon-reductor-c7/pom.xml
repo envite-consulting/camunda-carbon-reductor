@@ -17,8 +17,6 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <camunda.spring-boot.version>7.18.0</camunda.spring-boot.version>
-        <spring-boot.version>2.7.3</spring-boot.version>
         <version.spin>1.18.0</version.spin>
         <version.jaxb>2.3.5</version.jaxb>
         <version.joda-time>2.12.2</version.joda-time>
@@ -29,9 +27,16 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot.version}</version>
+                <version>${version.spring-boot}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.camunda.bpm</groupId>
+                <artifactId>camunda-bom</artifactId>
+                <version>${version.camunda.spring-boot}</version>
+                <scope>import</scope>
+                <type>pom</type>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -56,7 +61,6 @@
         <dependency>
             <groupId>org.camunda.bpm.springboot</groupId>
             <artifactId>camunda-bpm-spring-boot-starter-external-task-client</artifactId>
-            <version>${camunda.spring-boot.version}</version>
         </dependency>
 
         <dependency>
@@ -98,19 +102,16 @@
         <dependency>
             <groupId>org.camunda.bpm</groupId>
             <artifactId>camunda-engine</artifactId>
-            <version>${camunda.spring-boot.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.camunda.bpm.springboot</groupId>
             <artifactId>camunda-bpm-spring-boot-starter-test</artifactId>
-            <version>${camunda.spring-boot.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.camunda.bpm</groupId>
             <artifactId>camunda-bpm-junit5</artifactId>
-            <version>${camunda.spring-boot.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
