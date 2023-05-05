@@ -39,8 +39,8 @@ services:
       # To override the URL of the carbon api you could use the following variable
       - CARBON-REDUCTOR_CARBON-AWARE-API_BASE-PATH=http://carbon-aware-webapi:80
       # To enable or disable the Carbon Aware Computing API usage
-      # - CARBON-REDUCTOR-CARBON_AWARE_COMPUTING_ENABLED=true
-      # - CARBON-REDUCTOR-CARBON_AWARE_COMPUTING_API_KEY=<api-key>
+      # - CARBON-REDUCTOR_CARBON-AWARE-COMPUTING_ENABLED=true
+      # - CARBON-REDUCTOR_CARBON-AWARE-COMPUTING_API_KEY=<api-key>
     ports:
       - "8080:8080"
 

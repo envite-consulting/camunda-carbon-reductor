@@ -33,7 +33,7 @@ public class CarbonAwareComputingApiClient implements CarbonEmissionQuery {
         List<EmissionsForecast> emissionsForecast = null;
         final String mappedLocation = locationMapper.mapLocation(location);
         if (mappedLocation == null) {
-            throw new CarbonEmissionQueryException("The location is not know yet.");
+            throw new CarbonEmissionQueryException("The location is not known yet.");
         }
 
         try {

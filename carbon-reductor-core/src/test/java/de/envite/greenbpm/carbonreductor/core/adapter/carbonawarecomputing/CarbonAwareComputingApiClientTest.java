@@ -83,7 +83,7 @@ class CarbonAwareComputingApiClientTest {
 
         assertThatThrownBy(() -> classUnderTest.getEmissionTimeframe(Data.location, Data.timeshift, Data.executiontime))
                 .isExactlyInstanceOf(CarbonEmissionQueryException.class)
-                .hasMessage("The location is not know yet.");
+                .hasMessage("The location is not known yet.");
         verifyNoInteractions(forecastApiMock);
         verifyNoInteractions(carbonAwareComputingMapperMock);
     }
