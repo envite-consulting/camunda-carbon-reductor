@@ -2,7 +2,7 @@ package de.envite.greenbpm.carbonreductor.core.adapter.carbonawarecomputing;
 
 import de.envite.greenbpm.api.carbonawarecomputing.api.ForecastApi;
 import de.envite.greenbpm.api.carbonawarecomputing.model.EmissionsForecast;
-import de.envite.greenbpm.carbonreductor.core.adapter.watttime.exception.CarbonEmissionQueryException;
+import de.envite.greenbpm.carbonreductor.core.adapter.exception.CarbonEmissionQueryException;
 import de.envite.greenbpm.carbonreductor.core.domain.model.EmissionTimeframe;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Timeshift;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Location;

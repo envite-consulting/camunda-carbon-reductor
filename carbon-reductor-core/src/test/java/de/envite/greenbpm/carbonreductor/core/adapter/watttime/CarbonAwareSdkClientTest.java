@@ -4,7 +4,7 @@ package de.envite.greenbpm.carbonreductor.core.adapter.watttime;
 import de.envite.greenbpm.api.carbonawaresdk.ApiResponse;
 import de.envite.greenbpm.api.carbonawaresdk.api.CarbonAwareApi;
 import de.envite.greenbpm.api.carbonawaresdk.model.EmissionsForecastDTO;
-import de.envite.greenbpm.carbonreductor.core.adapter.watttime.exception.CarbonEmissionQueryException;
+import de.envite.greenbpm.carbonreductor.core.adapter.exception.CarbonEmissionQueryException;
 import de.envite.greenbpm.carbonreductor.core.domain.model.EmissionTimeframe;
 import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.ForecastedValue;
 import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.OptimalTime;
