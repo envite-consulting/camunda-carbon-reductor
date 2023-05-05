@@ -1,4 +1,4 @@
-package de.envite.greenbpm.carbonreductor.core.adapter.watttime.exception;
+package de.envite.greenbpm.carbonreductor.core.adapter.exception;
 
 public class CarbonEmissionQueryException extends Exception {
 
