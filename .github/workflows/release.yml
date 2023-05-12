@@ -1,0 +1,35 @@
+name: release version
+
+on:
+  workflow_dispatch:
+    inputs:
+      releaseVersion:
+        description: the release version
+        required: true
+        type: String
+      developmentVersion:
+        description: the next dev iteration version
+        required: true
+        type: String
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+          cache: 'maven'
+      - name: Configure Git User
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "ReleaseAction[bot]"
+      - name: Release
+        run: ./mvnw -B release:clean release:prepare -DreleaseVersion=$RELEASE_VERSION -DdevelopmentVersion=$DEV_VERSION
+        env:
+          RELEASE_VERSION: ${{ github.event.inputs.releaseVersion }}
+          DEV_VERSION: ${{ github.event.inputs.developmentVersion }}
