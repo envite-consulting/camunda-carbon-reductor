@@ -7,7 +7,7 @@
     <groupId>de.envite.greenbpm</groupId>
     <artifactId>CarbonReductorConnector</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.1.0</version>
 
     <modules>
         <module>api</module>
