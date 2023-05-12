@@ -5,7 +5,7 @@
     <groupId>de.envite.greenbpm</groupId>
     <artifactId>CarbonReductorConnector</artifactId>
     <packaging>pom</packaging>
-    <version>8.0.0</version>
+    <version>8.0.1-SNAPSHOT</version>
 
     <modules>
         <module>api</module>
@@ -55,7 +55,7 @@
 
     <scm>
         <connection>scm:git:https://github.com/maxbehr801/camunda-carbon-reductor.git</connection>
-        <tag>CarbonReductorConnector-8.0.0</tag>
+        <tag>v1.0.0</tag>
     </scm>
 
     <build>
