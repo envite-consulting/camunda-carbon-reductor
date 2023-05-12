@@ -1,0 +1,37 @@
+name: Release action
+
+on:
+  workflow_dispatch:
+    inputs:
+      developmentVersion:
+        type: string
+        description: the next development version
+        required: true
+      releaseVersion:
+        type: string
+        description: the release version
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        java: ['17']
+
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v3
+      - name: Set up JDKs with Matrix Build
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+          cache: 'maven'
+      - name: Configure git user
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions"
+      - name: Build with Maven Wrapper
+        run: ./mvnw -B release:clean release:prepare -DreleaseVersion=${{ github.event.inputs.releaseVersion }} -DdevelopmentVersion=${{ github.event.inputs.developmentVersion }} -DautoVersionSubmodules=true

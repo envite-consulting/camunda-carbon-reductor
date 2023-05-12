@@ -27,6 +27,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.scm.id>github</project.scm.id>
         <!-- external libraries -->
         <version.assertj>3.23.1</version.assertj>
         <version.junit-jupiter>5.9.0</version.junit-jupiter>
@@ -50,6 +51,23 @@
         <version.spring-boot>2.7.11</version.spring-boot>
         <version.org.jacoco>0.8.8</version.org.jacoco>
         <version.spring-banner-plugin>1.5.2</version.spring-banner-plugin>
+
+        <version.maven-release-plugin>3.0.0</version.maven-release-plugin>
     </properties>
+
+    <scm>
+        <connection>scm:git:https://github.com/maxbehr801/camunda-carbon-reductor.git</connection>
+        <tag>v1.0.0</tag>
+    </scm>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>${version.maven-release-plugin}</version>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
