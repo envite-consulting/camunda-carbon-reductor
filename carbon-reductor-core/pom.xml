@@ -22,12 +22,12 @@
         <dependency>
             <groupId>de.envite.greenbpm.api</groupId>
             <artifactId>api-carbon-aware</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>de.envite.greenbpm.api</groupId>
             <artifactId>api-carbon-aware-computing</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
 
         <dependency>

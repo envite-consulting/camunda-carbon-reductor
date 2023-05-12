@@ -46,7 +46,7 @@
         <dependency>
             <groupId>de.envite.greenbpm</groupId>
             <artifactId>carbon-reductor-core</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
 
         <dependency>
