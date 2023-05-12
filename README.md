@@ -65,6 +65,7 @@ Other combinations might also work but have not been tested.
 | Release | Camunda Platform 8 | Camunda Platform 7 |
 |---------|--------------------|--------------------|
 | 1.0.0   | 8.1.0              | 7.18.0             |
+| 1.1.0   | 8.2.0              | 7.19.0             |
 
 <details>
 <summary>Click to see older releases</summary>
@@ -72,6 +73,7 @@ Other combinations might also work but have not been tested.
 | Release | Camunda Platform 8 | Camunda Platform 7 |
 |---------|--------------------|--------------------|
 | 1.0.0   | 8.1.0              | 7.18.0             |
+| 1.1.0   | 8.2.0              | 7.19.0             |
 </details>
 
 Download of Releases:
