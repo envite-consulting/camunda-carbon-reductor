@@ -14,6 +14,7 @@
         <module>carbon-reductor-core</module>
         <module>camunda-carbon-reductor-c8</module>
         <module>camunda-carbon-reductor-c7</module>
+        <module>ppm-client</module>
     </modules>
 
     <parent>

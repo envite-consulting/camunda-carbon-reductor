@@ -5,6 +5,7 @@ import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReduction;
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReductorConfiguration;
 import de.envite.greenbpm.carbonreductor.core.domain.service.CarbonReductorException;
 import de.envite.greenbpm.carbonreductor.core.usecase.in.DelayCalculator;
+import de.envite.greenbpm.carbonreductor.ppm.usecase.in.PPMQuery;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.client.spring.annotation.ExternalTaskSubscription;
@@ -15,6 +16,7 @@ import org.joda.time.DateTime;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -27,7 +29,7 @@ public class CarbonReductorTaskHandler implements ExternalTaskHandler {
 
     private final DelayCalculator delayCalculator;
     private final CarbonReductorVariableMapper carbonReductorVariableMapper;
-    private final PPMService ppmService;
+    private final PPMQuery ppmQuery;
 
     @Override
     public void execute(ExternalTask externalTask, ExternalTaskService externalTaskService) {
@@ -41,7 +43,8 @@ public class CarbonReductorTaskHandler implements ExternalTaskHandler {
 
         Map<String, Object> variables = externalTask.getAllVariables();
         try {
-            variables.put("milestone", ppmService.getRemainingDurationPrediction());
+            final Duration remainingTime = ppmQuery.queryDuration(List.of("IV Antibiotics"));
+            variables.put("milestone", DateTime.now().plus(remainingTime.toMillis()));
         } catch (Exception e){
             log.error("Could not predict remain time via PPM", e);
         }

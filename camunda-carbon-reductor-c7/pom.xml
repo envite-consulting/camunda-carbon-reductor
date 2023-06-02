@@ -50,6 +50,12 @@
         </dependency>
 
         <dependency>
+            <groupId>de.envite.greenbpm.carbonreductor.ppm</groupId>
+            <artifactId>ppm-client</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot</artifactId>
         </dependency>
