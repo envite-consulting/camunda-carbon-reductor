@@ -105,23 +105,6 @@
             }
         },
         {
-            "label": "SLA based or absolute duration",
-            "group": "commonConfiguration",
-            "id": "carbonReductorMode",
-            "description": "Defines how to calculate the time window for the timeshift",
-            "type": "Dropdown",
-            "choices": [
-                {
-                    "name": "SLA based configuration",
-                    "value": "slaBasedConfiguration"
-                }
-            ],
-            "binding": {
-                "type": "zeebe:input",
-                "name": "carbonReductorMode"
-            }
-        },
-        {
             "label": "Duration of remaining process tasks",
             "group": "commonConfiguration",
             "id": "remainingProcessDuration",
@@ -158,6 +141,27 @@
             "binding": {
                 "type": "zeebe:input",
                 "name": "milestone"
+            }
+        },
+        {
+            "label": "Error handling behavior",
+            "group": "commonConfiguration",
+            "id": "errorHandling",
+            "description": "Defines how to handle eror during fetching and calculating the time window for the timeshift",
+            "type": "Dropdown",
+            "choices": [
+                {
+                    "name": "Continue on failure",
+                    "value": "CONTINUE_ON_EXCEPTION"
+                },
+                {
+                    "name": "Throw BPMN Error",
+                    "value": "THROW_BPMN_ERROR"
+                }
+            ],
+            "binding": {
+                "type": "zeebe:input",
+                "name": "errorHandling"
             }
         },
         {

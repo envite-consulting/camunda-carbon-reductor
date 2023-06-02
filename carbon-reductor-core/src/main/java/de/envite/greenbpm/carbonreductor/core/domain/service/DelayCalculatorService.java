@@ -2,11 +2,11 @@ package de.envite.greenbpm.carbonreductor.core.domain.service;
 
 import de.envite.greenbpm.carbonreductor.core.adapter.exception.CarbonEmissionQueryException;
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReduction;
+import de.envite.greenbpm.carbonreductor.core.domain.model.ExceptionHandlingEnum;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Timeshift;
 import de.envite.greenbpm.carbonreductor.core.usecase.out.CarbonEmissionQuery;
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReductorConfiguration;
 import de.envite.greenbpm.carbonreductor.core.domain.model.EmissionTimeframe;
-import de.envite.greenbpm.carbonreductor.core.domain.model.input.carbonreductormode.CarbonReductorModes;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Carbon;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Delay;
 import de.envite.greenbpm.carbonreductor.core.usecase.in.DelayCalculator;
@@ -19,30 +19,30 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 
+import static de.envite.greenbpm.carbonreductor.core.domain.model.ExceptionHandlingEnum.CONTINUE_ON_EXCEPTION;
+
 @Slf4j
 @RequiredArgsConstructor
 @Service
 public class DelayCalculatorService implements DelayCalculator {
+
     private final CarbonEmissionQuery carbonEmissionQuery;
+
+    private static final String ERROR_MSG = "Could not query API to get infos about future emissions";
 
     @Override
     public CarbonReduction calculateDelay(CarbonReductorConfiguration input) throws CarbonReductorException {
+        Timeshift startTime = calculateTimeshiftWindowForSLA(input);
         EmissionTimeframe emissionTimeframe;
-        if (CarbonReductorModes.SLA_BASED_MODE.asCarbonReductorMode().equals(input.getCarbonReductorMode())) {
-            // TODO negative duration does not make sense
-            Timeshift timeshiftTimeshift = calculateTimeshiftWindowForSLA(input);
 
-            try {
-                emissionTimeframe = carbonEmissionQuery.getEmissionTimeframe(input.getLocation(), timeshiftTimeshift, input.getRemainingProcessTimeshift());
-            } catch (CarbonEmissionQueryException e) {
-                throw new CarbonReductorException("Could not query API to get infos about future emissions", e);
+        try {
+            emissionTimeframe = carbonEmissionQuery.getEmissionTimeframe(input.getLocation(), startTime, input.getRemainingProcessTimeshift());
+        } catch (CarbonEmissionQueryException e) {
+            if (CONTINUE_ON_EXCEPTION.equals(input.getExceptionHandling())) {
+                log.error(ERROR_MSG, e);
+                return new CarbonReduction(new Delay(false, 0L), new Carbon(0.0), new Carbon(0.0), new Carbon(0.0));
             }
-        } else {
-            try {
-                emissionTimeframe = carbonEmissionQuery.getEmissionTimeframe(input.getLocation(), input.getTimeshiftWindow(), input.getRemainingProcessTimeshift());
-            } catch (CarbonEmissionQueryException e) {
-                throw new CarbonReductorException("Could not query API to get infos about future emissions", e);
-            }
+            throw new CarbonReductorException(ERROR_MSG, e);
         }
 
         boolean isDelayNecessary = input.isDelayStillRelevant() && emissionTimeframe.isCleanerEnergyInFuture();

@@ -29,7 +29,7 @@ class ElementTemplateTest {
                 "executionDelayed", true,
                 "delayedBy", 100000));
         // input variables
-        assertThat(processInstance).hasVariables("remainingProcessDuration", "maximumProcessDuration", "carbonReductorMode", "location", "milestone");
+        assertThat(processInstance).hasVariables("remainingProcessDuration", "maximumProcessDuration", "location", "milestone", "errorHandling");
         // output variables
         assertThat(processInstance).hasVariables(
                 "originalCarbonMapped",
