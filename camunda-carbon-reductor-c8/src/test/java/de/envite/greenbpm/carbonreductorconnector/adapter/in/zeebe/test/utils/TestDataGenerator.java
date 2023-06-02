@@ -5,7 +5,6 @@ import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReduction;
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReductorConfiguration;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Milestone;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Timeshift;
-import de.envite.greenbpm.carbonreductor.core.domain.model.input.carbonreductormode.CarbonReductorModes;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Carbon;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Delay;
 
@@ -16,7 +15,6 @@ public class TestDataGenerator {
     public static CarbonReductorInputVariable createInputVariables() {
         CarbonReductorInputVariable inputVariable = new CarbonReductorInputVariable();
         inputVariable.setLocation("norwayeast");
-        inputVariable.setCarbonReductorMode("timeshiftWindowOnly");
         inputVariable.setMilestone("2022-10-20T11:35:45.826Z[Etc/UTC]");
         inputVariable.setRemainingProcessDuration("PT10M");
         inputVariable.setTimeshiftWindow("PT6H");
@@ -35,10 +33,10 @@ public class TestDataGenerator {
     public static CarbonReductorConfiguration createSLABasedCarbonReductorInput(String timestamp) {
         return new CarbonReductorConfiguration(
                 NORWAY_EAST.asLocation(),
-                CarbonReductorModes.SLA_BASED_MODE.asCarbonReductorMode(),
                 new Milestone(timestamp),
                 new Timeshift("PT5H"),
                 new Timeshift("PT10H"),
+                null,
                 null
         );
     }

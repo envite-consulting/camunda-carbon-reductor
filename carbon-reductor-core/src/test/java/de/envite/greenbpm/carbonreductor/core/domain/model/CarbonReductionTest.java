@@ -6,7 +6,6 @@ import io.github.domainprimitives.validation.InvariantException;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static de.envite.greenbpm.carbonreductor.core.TestDataGenerator.createCarbonReductorOutput;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -44,7 +43,12 @@ class CarbonReductionTest {
 
     @Test
     void should_calculate_reduction() {
-        CarbonReduction carbonReduction = createCarbonReductorOutput();
+        CarbonReduction carbonReduction = new CarbonReduction(
+                new Delay(true, 3),
+                new Carbon(1.0),
+                new Carbon(2.0),
+                new Carbon(3.0)
+        );
         Double expectedReduction = carbonReduction.getOriginalCarbon().getValue() -
                 carbonReduction.getActualCarbon().getValue();
 

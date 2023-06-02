@@ -2,9 +2,9 @@ package de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.variable;
 
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReduction;
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReductorConfiguration;
+import de.envite.greenbpm.carbonreductor.core.domain.model.ExceptionHandlingEnum;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Milestone;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Timeshift;
-import de.envite.greenbpm.carbonreductor.core.domain.model.input.carbonreductormode.CarbonReductorMode;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Location;
 import org.springframework.stereotype.Component;
 
@@ -12,13 +12,15 @@ import org.springframework.stereotype.Component;
 public class CarbonReductorVariableMapper {
 
     public CarbonReductorConfiguration mapToDomain(CarbonReductorInputVariable inputVariables) {
+        final ExceptionHandlingEnum exceptionHandling = inputVariables.getErrorHandling() != null && !inputVariables.getErrorHandling().isEmpty() ?
+                ExceptionHandlingEnum.valueOf(inputVariables.getErrorHandling()) : null;
         return new CarbonReductorConfiguration(
                 new Location(inputVariables.getLocation()),
-                new CarbonReductorMode(inputVariables.getCarbonReductorMode()),
                 new Milestone(inputVariables.getMilestone()),
                 new Timeshift(inputVariables.getRemainingProcessDuration()),
                 mapIfNotNull(inputVariables.getMaximumProcessDuration()),
-                mapIfNotNull(inputVariables.getTimeshiftWindow())
+                mapIfNotNull(inputVariables.getTimeshiftWindow()),
+                exceptionHandling
         );
     }
 

@@ -2,6 +2,7 @@ package de.envite.greenbpm.carbonreductorconnector;
 
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReduction;
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReductorConfiguration;
+import de.envite.greenbpm.carbonreductor.core.domain.model.ExceptionHandlingEnum;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Locations;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Carbon;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Delay;
@@ -22,6 +23,7 @@ class CarbonReductorVariableMapperTest {
 
     @Nested
     class ToDomain {
+
         @Test
         void should_map_all_fields_from_map() {
             Map<String, Object> variables = new HashMap<>();
@@ -30,16 +32,18 @@ class CarbonReductorVariableMapperTest {
             variables.put("milestone", DateTime.parse("2023-02-10T15:48:10.285+01:00"));
             variables.put("maximumProcessDuration", "PT10M");
             variables.put("remainingProcessDuration", "PT6H");
+            variables.put("errorHandling", "THROW_BPMN_ERROR");
 
             CarbonReductorConfiguration result = classUnderTest.mapToDomain(variables);
 
             SoftAssertions softAssertions = new SoftAssertions();
             softAssertions.assertThat(result.getLocation().getValue()).isEqualTo(variables.get("location"));
-            softAssertions.assertThat(result.getCarbonReductorMode().getValue()).isEqualTo(variables.get("carbonReductorMode"));
             softAssertions.assertThat(result.getMilestone().getValue()).isEqualTo("2023-02-10T14:48:10.285Z[Etc/UTC]");
             softAssertions.assertThat(result.getMaximumProcessTimeshift().getValue().toString()).isEqualTo(variables.get("maximumProcessDuration"));
             softAssertions.assertThat(result.getRemainingProcessTimeshift().getValue().toString()).isEqualTo(variables.get("remainingProcessDuration"));
             softAssertions.assertThat(result.getTimeshiftWindow()).isNull();
+            softAssertions.assertThat(result.getTimeshiftWindow()).isNull();
+            softAssertions.assertThat(result.getExceptionHandling()).isEqualTo(ExceptionHandlingEnum.THROW_BPMN_ERROR);
             softAssertions.assertAll();
         }
 

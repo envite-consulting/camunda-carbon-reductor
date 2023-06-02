@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1e0e918" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.9.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.1.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1e0e918" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.11.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.1.0">
   <bpmn:collaboration id="Collaboration_ImageProcessing">
     <bpmn:participant id="Participant_Nasa" name="Space Center Houston" processRef="NasaImageProcessing" />
     <bpmn:participant id="Participant_MarsRover" name="Mars Rover" />
@@ -18,12 +18,12 @@
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="de.envite.greenbpm.carbonreductorconnector.carbonreductortask:1" />
         <zeebe:ioMapping>
-          <zeebe:input source="slaBasedConfiguration" target="carbonReductorMode" />
-          <zeebe:input source="=now()" target="milestone" />
-          <zeebe:input source="PT6H" target="remainingProcessDuration" />
-          <zeebe:input source="PT12H" target="maximumProcessDuration" />
           <zeebe:input source="PT5H" target="timeshiftWindow" />
           <zeebe:input source="uksouth" target="location" />
+          <zeebe:input source="PT6H" target="remainingProcessDuration" />
+          <zeebe:input source="PT12H" target="maximumProcessDuration" />
+          <zeebe:input source="=now()" target="milestone" />
+          <zeebe:input source="CONTINUE_ON_EXCEPTION" target="errorHandling" />
         </zeebe:ioMapping>
         <zeebe:taskHeaders>
           <zeebe:header key="resultExpression" value="={&#10;  &#34;wasExecutionDelayed&#34;: response.executionDelayed,&#10;  &#34;delayedByInMs&#34;: response.delayedBy,&#10;  &#34;originalCarbon&#34;: response.originalCarbon,&#10;  &#34;actualCarbon&#34;: response.actualCarbon,&#10;  &#34;savedCarbonPct&#34;: response.savedCarbon,&#10;  &#34;reducedCarbon&#34;: response.reducedCarbon&#10;}" />
@@ -85,11 +85,22 @@
           <dc:Bounds x="199" y="462" width="65" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="BPMNShape_113k72g" bpmnElement="Gateway_SplitProcessing">
-        <dc:Bounds x="635" y="412" width="50" height="50" />
+      <bpmndi:BPMNShape id="BPMNShape_0acgyhs" bpmnElement="Activity_GeneratePreviewImage">
+        <dc:Bounds x="310" y="397" width="100" height="80" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="BPMNShape_1pkmt78" bpmnElement="Gateway_JoinProcessing">
-        <dc:Bounds x="915" y="412" width="50" height="50" />
+      <bpmndi:BPMNShape id="Activity_1fnv86p_di" bpmnElement="Activity_TimeShiftToCleanEnergy">
+        <dc:Bounds x="470" y="397" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0a5ibdd" bpmnElement="Activity_Parallel1">
+        <dc:Bounds x="750" y="277" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1c15h1z" bpmnElement="Activity_Parallel3">
+        <dc:Bounds x="750" y="517" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1r61b42" bpmnElement="Activity_Parallel2">
+        <dc:Bounds x="750" y="397" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_0gki1zt" bpmnElement="Event_TransmissionProcessed">
         <dc:Bounds x="1032" y="419" width="36" height="36" />
@@ -97,22 +108,11 @@
           <dc:Bounds x="1018" y="462" width="65" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="BPMNShape_0acgyhs" bpmnElement="Activity_GeneratePreviewImage">
-        <dc:Bounds x="310" y="397" width="100" height="80" />
-        <bpmndi:BPMNLabel />
+      <bpmndi:BPMNShape id="BPMNShape_1pkmt78" bpmnElement="Gateway_JoinProcessing">
+        <dc:Bounds x="915" y="412" width="50" height="50" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="BPMNShape_1r61b42" bpmnElement="Activity_Parallel2">
-        <dc:Bounds x="750" y="397" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="BPMNShape_1c15h1z" bpmnElement="Activity_Parallel3">
-        <dc:Bounds x="750" y="517" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="BPMNShape_0a5ibdd" bpmnElement="Activity_Parallel1">
-        <dc:Bounds x="750" y="277" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1fnv86p_di" bpmnElement="Activity_TimeShiftToCleanEnergy">
-        <dc:Bounds x="470" y="397" width="100" height="80" />
-        <bpmndi:BPMNLabel />
+      <bpmndi:BPMNShape id="BPMNShape_113k72g" bpmnElement="Gateway_SplitProcessing">
+        <dc:Bounds x="635" y="412" width="50" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="BPMNEdge_0k6xa9l" bpmnElement="Flow_03b5f3o">
         <di:waypoint x="248" y="437" />

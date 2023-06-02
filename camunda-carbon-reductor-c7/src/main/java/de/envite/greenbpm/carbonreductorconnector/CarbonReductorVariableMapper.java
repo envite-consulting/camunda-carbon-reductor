@@ -2,9 +2,9 @@ package de.envite.greenbpm.carbonreductorconnector;
 
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReduction;
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReductorConfiguration;
+import de.envite.greenbpm.carbonreductor.core.domain.model.ExceptionHandlingEnum;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Milestone;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Timeshift;
-import de.envite.greenbpm.carbonreductor.core.domain.model.input.carbonreductormode.CarbonReductorMode;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Location;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Component;
@@ -20,13 +20,15 @@ import static de.envite.greenbpm.carbonreductor.core.domain.model.input.Mileston
 @Component
 class CarbonReductorVariableMapper {
     public CarbonReductorConfiguration mapToDomain(Map<String, Object> allVariables) {
+        final ExceptionHandlingEnum exceptionHandling = allVariables.containsKey("errorHandling") ?
+                ExceptionHandlingEnum.valueOf((String) allVariables.get("errorHandling")) : null;
         return new CarbonReductorConfiguration(
                 new Location((String) allVariables.get("location")),
-                new CarbonReductorMode((String) allVariables.get("carbonReductorMode")),
                 new Milestone(getDateTime(allVariables)),
                 mapIfNotNull((String) allVariables.get("remainingProcessDuration")),
                 mapIfNotNull((String) allVariables.get("maximumProcessDuration")),
-                null // Will become relevant in the future
+                null, // Will become relevant in the future
+                exceptionHandling
         );
     }
 
