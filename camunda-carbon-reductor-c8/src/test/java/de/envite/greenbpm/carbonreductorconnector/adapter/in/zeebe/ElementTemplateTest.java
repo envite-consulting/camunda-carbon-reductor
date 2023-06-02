@@ -45,9 +45,9 @@ class ElementTemplateTest {
         assertThat(inputVariables).containsKeys(
                 "remainingProcessDuration",
                 "maximumProcessDuration",
-                "carbonReductorMode",
                 "location",
-                "milestone");
+                "milestone",
+                "errorHandling");
         CompleteJobResponse completeJobResponse = completeTaskForJob(activatedJob, Map.of(
                 "originalCarbon", 100,
                 "actualCarbon", 50,

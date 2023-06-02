@@ -6,10 +6,10 @@ import lombok.Data;
 public class CarbonReductorInputVariable {
 
     private String location;
-    private String carbonReductorMode;
     private String milestone;
     private String remainingProcessDuration;
     private String maximumProcessDuration;
     private String timeshiftWindow;
+    private String errorHandling;
 
 }

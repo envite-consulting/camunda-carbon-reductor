@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0zgcacq" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.7.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.1.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0zgcacq" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.11.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.1.0">
   <bpmn:process id="CarbonReductorTestProcess" name="CarbonReductorTestProcess" isExecutable="true">
     <bpmn:startEvent id="Event_Start" name="Start">
       <bpmn:outgoing>Flow_0ijxfpf</bpmn:outgoing>
@@ -13,11 +13,11 @@
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="de.envite.greenbpm.carbonreductorconnector.carbonreductortask:1" />
         <zeebe:ioMapping>
-          <zeebe:input source="=now()" target="milestone" />
           <zeebe:input source="westus" target="location" />
-          <zeebe:input source="slaBasedConfiguration" target="carbonReductorMode" />
           <zeebe:input source="PT6H" target="remainingProcessDuration" />
           <zeebe:input source="PT12H" target="maximumProcessDuration" />
+          <zeebe:input source="=now()" target="milestone" />
+          <zeebe:input source="CONTINUE_ON_EXCEPTION" target="errorHandling" />
         </zeebe:ioMapping>
         <zeebe:taskHeaders>
           <zeebe:header key="resultExpression" value="={&#10;  &#34;wasExecutionDelayed&#34;: response.executionDelayed,&#10;  &#34;delayedByInMs&#34;: response.delayedBy,&#10;  &#34;originalCarbon&#34;: response.originalCarbon,&#10;  &#34;actualCarbon&#34;: response.actualCarbon,&#10;  &#34;savedCarbonPct&#34;: response.savedCarbon,&#10;  &#34;reducedCarbon&#34;: response.reducedCarbon&#10;}" />
@@ -43,15 +43,15 @@
           <dc:Bounds x="185" y="142" width="25" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_157qcda_di" bpmnElement="Carbon_Reductor">
-        <dc:Bounds x="270" y="77" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1sqlvty_di" bpmnElement="Event_End">
         <dc:Bounds x="572" y="99" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="580" y="142" width="20" height="14" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_157qcda_di" bpmnElement="Carbon_Reductor">
+        <dc:Bounds x="270" y="77" width="100" height="80" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_19ggm36_di" bpmnElement="check_variables">
         <dc:Bounds x="420" y="77" width="100" height="80" />

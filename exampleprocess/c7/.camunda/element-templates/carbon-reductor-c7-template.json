@@ -48,6 +48,28 @@
       }
     },
     {
+      "label": "Error handling behavior",
+      "id": "errorHandling",
+      "description": "Defines how to handle eror during fetching and calculating the time window for the timeshift",
+      "group": "implementation",
+      "type": "Dropdown",
+      "choices": [
+        {
+          "name": "Continue on failure",
+          "value": "CONTINUE_ON_EXCEPTION"
+        },
+        {
+          "name": "Throw BPMN Error",
+          "value": "THROW_BPMN_ERROR"
+        }
+      ],
+      "binding": {
+        "type": "camunda:inputParameter",
+        "group": "carbonreductor",
+        "name": "errorHandling"
+      }
+    },
+    {
       "label": "Location",
       "id": "location",
       "description": "The location where the process is running",
@@ -110,24 +132,6 @@
       "binding": {
         "type": "camunda:inputParameter",
         "name": "location"
-      }
-    },
-    {
-      "label": "SLA based or absolute duration",
-      "id": "carbonReductorMode",
-      "description": "Defines how to calculate the time window for the timeshift",
-      "group": "carbonreductor",
-      "type": "Dropdown",
-      "choices": [
-        {
-          "name": "SLA based configuration",
-          "value": "slaBasedConfiguration"
-        }
-      ],
-      "binding": {
-        "type": "camunda:inputParameter",
-        "group": "carbonreductor",
-        "name": "carbonReductorMode"
       }
     },
     {
