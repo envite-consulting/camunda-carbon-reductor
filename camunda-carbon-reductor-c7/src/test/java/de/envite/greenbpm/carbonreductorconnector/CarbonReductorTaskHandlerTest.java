@@ -3,6 +3,7 @@ package de.envite.greenbpm.carbonreductorconnector;
 
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReduction;
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReductorConfiguration;
+import de.envite.greenbpm.carbonreductor.core.domain.service.CarbonReductorException;
 import de.envite.greenbpm.carbonreductor.core.usecase.in.DelayCalculator;
 import org.camunda.bpm.client.task.ExternalTask;
 import org.camunda.bpm.client.task.ExternalTaskService;
@@ -88,5 +89,23 @@ class CarbonReductorTaskHandlerTest {
         verify(externalTaskService).complete(externalTask);
         verifyNoInteractions(variableMapperMock);
         verifyNoInteractions(delayCalculatorMock);
+    }
+
+    @Test
+    void should_throw_bpmn_error_on_CarbonReductorException() throws Exception {
+        ExternalTask externalTask = mock(ExternalTask.class);
+        when(externalTask.getRetries()).thenReturn(RETRIES_MAGIC_NUMBER - 1);
+        ExternalTaskService externalTaskService = mock(ExternalTaskService.class);
+        CarbonReductorConfiguration carbonReductorConfiguration = mock(CarbonReductorConfiguration.class);
+        when(variableMapperMock.mapToDomain(externalTask.getAllVariables())).thenReturn(carbonReductorConfiguration);
+        when(delayCalculatorMock.calculateDelay(carbonReductorConfiguration)).thenThrow(new CarbonReductorException("Test", new RuntimeException("Testing ...")));
+
+        classUnderTest.execute(externalTask, externalTaskService);
+
+        verify(externalTaskService).handleBpmnError(
+                externalTask,
+                "carbon-reductor-error",
+                "Test"
+        );
     }
 }
