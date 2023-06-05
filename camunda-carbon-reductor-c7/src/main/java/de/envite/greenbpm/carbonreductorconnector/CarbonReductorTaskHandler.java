@@ -43,7 +43,7 @@ public class CarbonReductorTaskHandler implements ExternalTaskHandler {
             CarbonReduction carbonReductorOutput = delayCalculator.calculateDelay(carbonReductorConfiguration);
             delayOrExecute(externalTask, externalTaskService, carbonReductorOutput);
         } catch (CarbonReductorException e) {
-            throw new RuntimeException(e);
+            externalTaskService.handleBpmnError(externalTask, "carbon-reductor-error", e.getMessage());
         }
     }
 
