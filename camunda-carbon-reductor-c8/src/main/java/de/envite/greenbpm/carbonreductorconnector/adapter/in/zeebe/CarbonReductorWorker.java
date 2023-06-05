@@ -1,11 +1,12 @@
 package de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe;
 
+import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReduction;
+import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReductorConfiguration;
+import de.envite.greenbpm.carbonreductor.core.domain.service.CarbonReductorException;
+import de.envite.greenbpm.carbonreductor.core.usecase.in.DelayCalculator;
 import de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.variable.CarbonReductorInputVariable;
 import de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.variable.CarbonReductorOutputVariable;
 import de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.variable.CarbonReductorVariableMapper;
-import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReduction;
-import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReductorConfiguration;
-import de.envite.greenbpm.carbonreductor.core.usecase.in.DelayCalculator;
 import io.camunda.zeebe.client.ZeebeClient;
 import io.camunda.zeebe.client.api.response.ActivatedJob;
 import io.camunda.zeebe.spring.client.annotation.JobWorker;
@@ -29,22 +30,32 @@ public class CarbonReductorWorker {
 
     @JobWorker(type = "de.envite.greenbpm.carbonreductorconnector.carbonreductortask:1", autoComplete = false)
     public void execute(ActivatedJob job) throws Exception {
-        if (timeShiftMustBeDetermined(job)) {
-            CarbonReductorConfiguration carbonReductorConfiguration = getCarbonReductorInput(job);
-            CarbonReduction carbonReductorOutput = delayCalculator.calculateDelay(carbonReductorConfiguration);
-
-            writeOutputToProcessInstance(job, carbonReductorOutput);
-
-            if (carbonReductorOutput.getDelay().isExecutionDelayed()) {
-                Duration duration = Duration.ofMillis(carbonReductorOutput.getDelay().getDelayedBy());
-                log.info("Time shifting job {} by {}", job.getProcessInstanceKey(), duration);
-                failJobWithRetry(job, duration);
-            } else {
-                log.info("Executing job {} immediately", job.getProcessInstanceKey());
-                completeJob(job);
-            }
-        } else {
+        if (!timeShiftMustBeDetermined(job)) {
             log.info("Completing previously time shifted job {}", job.getProcessInstanceKey());
+            completeJob(job);
+            return;
+        }
+
+        CarbonReductorConfiguration carbonReductorConfiguration = getCarbonReductorInput(job);
+        CarbonReduction carbonReductorOutput;
+        try {
+            carbonReductorOutput = delayCalculator.calculateDelay(carbonReductorConfiguration);
+        } catch (CarbonReductorException e) {
+            client.newThrowErrorCommand(job)
+                    .errorCode("carbon-reductor-error")
+                    .errorMessage(e.getMessage())
+                    .send();
+            return;
+        }
+
+        writeOutputToProcessInstance(job, carbonReductorOutput);
+
+        if (carbonReductorOutput.getDelay().isExecutionDelayed()) {
+            Duration duration = Duration.ofMillis(carbonReductorOutput.getDelay().getDelayedBy());
+            log.info("Time shifting job {} by {}", job.getProcessInstanceKey(), duration);
+            failJobWithRetry(job, duration);
+        } else {
+            log.info("Executing job {} immediately", job.getProcessInstanceKey());
             completeJob(job);
         }
     }
