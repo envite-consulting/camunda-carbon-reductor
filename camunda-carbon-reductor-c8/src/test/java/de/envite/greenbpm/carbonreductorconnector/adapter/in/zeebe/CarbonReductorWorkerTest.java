@@ -1,13 +1,14 @@
 package de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe;
 
-import de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.variable.CarbonReductorInputVariable;
-import de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.variable.CarbonReductorOutputVariable;
-import de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.variable.CarbonReductorVariableMapper;
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReduction;
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReductorConfiguration;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Carbon;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Delay;
+import de.envite.greenbpm.carbonreductor.core.domain.service.CarbonReductorException;
 import de.envite.greenbpm.carbonreductor.core.domain.service.DelayCalculatorService;
+import de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.variable.CarbonReductorInputVariable;
+import de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.variable.CarbonReductorOutputVariable;
+import de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.variable.CarbonReductorVariableMapper;
 import io.camunda.zeebe.client.ZeebeClient;
 import io.camunda.zeebe.client.api.ZeebeFuture;
 import io.camunda.zeebe.client.api.response.ActivatedJob;
@@ -104,5 +105,24 @@ class CarbonReductorWorkerTest {
         verify(delayCalculatorService, never()).calculateDelay(any(CarbonReductorConfiguration.class));
         verify(client, times(1)).newSetVariablesCommand(job.getElementInstanceKey());
         verify(client, times(2)).newCompleteCommand(job);
+    }
+
+    @Test
+    void shouldThrowBPMNErrorOnCarbonReductorException() throws Exception {
+        DelayCalculatorService delayCalculatorService = mock(DelayCalculatorService.class);
+        when(delayCalculatorService.calculateDelay(any())).thenThrow(new CarbonReductorException("Test", new RuntimeException("Testing")));
+        ZeebeClient client = mock(ZeebeClient.class, RETURNS_DEEP_STUBS);
+
+        var worker = new CarbonReductorWorker(client, delayCalculatorService, variableMapper);
+
+        ActivatedJob job = mock(ActivatedJob.class);
+        when(job.getVariablesAsType(CarbonReductorInputVariable.class)).thenReturn(createInputVariables());
+
+        when(job.getRetries()).thenReturn(3);
+        worker.execute(job);
+
+        verify(client.newThrowErrorCommand(job).errorCode("carbon-reductor-error")).errorMessage("Test");
+        verify(client, never()).newSetVariablesCommand(anyLong());
+        verify(client, never()).newCompleteCommand(job);
     }
 }
