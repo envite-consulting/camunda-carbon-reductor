@@ -112,6 +112,7 @@ class CarbonReductorWorkerTest {
         DelayCalculatorService delayCalculatorService = mock(DelayCalculatorService.class);
         when(delayCalculatorService.calculateDelay(any())).thenThrow(new CarbonReductorException("Test", new RuntimeException("Testing")));
         ZeebeClient client = mock(ZeebeClient.class, RETURNS_DEEP_STUBS);
+        CarbonReductorOutputVariable defaultCarbonReductorOutput = createDefaultOutput();
 
         var worker = new CarbonReductorWorker(client, delayCalculatorService, variableMapper);
 
@@ -122,7 +123,18 @@ class CarbonReductorWorkerTest {
         worker.execute(job);
 
         verify(client.newThrowErrorCommand(job).errorCode("carbon-reductor-error")).errorMessage("Test");
-        verify(client, never()).newSetVariablesCommand(anyLong());
+        verify(client, times(1)).newSetVariablesCommand(job.getElementInstanceKey());
+        verify(client.newSetVariablesCommand(job.getElementInstanceKey())).variables(defaultCarbonReductorOutput);
         verify(client, never()).newCompleteCommand(job);
+    }
+
+    private CarbonReductorOutputVariable createDefaultOutput() {
+        CarbonReductorOutputVariable defaultCarbonReductorOutput = new CarbonReductorOutputVariable();
+        defaultCarbonReductorOutput.setExecutionDelayed(false);
+        defaultCarbonReductorOutput.setOriginalCarbon(0.0);
+        defaultCarbonReductorOutput.setActualCarbon(0.0);
+        defaultCarbonReductorOutput.setSavedCarbon(0.0);
+        defaultCarbonReductorOutput.setDelayedBy(0);
+        return defaultCarbonReductorOutput;
     }
 }
