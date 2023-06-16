@@ -81,3 +81,21 @@ To manually override the postponement of the carbon reductor you could add a [co
 it as shown in the following image. 
 
 ![Manual Override via Conditional Boundary Event](../docs/manual-override/manual-override-c7.png)
+
+# Error Handling
+
+The error handling behavior of the carbon reductor can be configured in the element-template.
+On Exceptions the process execution can either continue (the default) without timeshifting
+or a BPMN Error can be thrown in order to handle the error in the process.
+
+![Error Handling Behavior in the element template](../docs/error-handling/error-handling-c7-template.png)
+
+There are 2 options:
+* Continue on failure (default)
+  * On Exceptions the process continues without an error or incident. The execution won't be timeshifted.
+* Throw BPMN Error
+  * On Exceptions a BPMN Error will be thrown that can be caught in the process model.
+  * The process model needs to catch the thrown BPMN Error with the name **carbon-reductor-error**
+
+![Attached Error Event in the process model](../docs/error-handling/error-handling-c7-process.png)
+

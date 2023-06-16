@@ -126,3 +126,20 @@ it. Due to the fact that the conditional boundary event is not supported yet, yo
 [message boundary event (interrupting)](https://docs.camunda.org/manual/latest/reference/bpmn20/events/message-events/) as shown in the following image.
 
 ![Manual Override via Conditional Boundary Event](../docs/manual-override/manual-override-c8.png)
+
+# Error Handling
+
+The error handling behavior of the carbon reductor can be configured in the element-template.
+On Exceptions the process execution can either continue (the default) without timeshifting
+or a BPMN Error can be thrown in order to handle the error in the process.
+
+![Error Handling Behavior in the element template](../docs/error-handling/error-handling-c8-template.png)
+
+There are 2 options:
+* Continue on failure (default)
+  * On Exceptions the process continues without an error or incident. The execution won't be timeshifted.
+* Throw BPMN Error
+  * On Exceptions a BPMN Error will be thrown that can be caught in the process model.
+  * The process model needs to catch the thrown BPMN Error with the name **carbon-reductor-error**
+
+![Attached Error Event in the process model](../docs/error-handling/error-handling-c8-process.png)
