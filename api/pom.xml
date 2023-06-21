@@ -23,6 +23,9 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- external libraries -->
+        <version.openapi-generator>6.6.0</version.openapi-generator>
     </properties>
 
     <dependencies>
