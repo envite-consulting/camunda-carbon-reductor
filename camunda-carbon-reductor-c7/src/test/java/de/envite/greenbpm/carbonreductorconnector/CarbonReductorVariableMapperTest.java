@@ -6,6 +6,7 @@ import de.envite.greenbpm.carbonreductor.core.domain.model.ExceptionHandlingEnum
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Locations;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Carbon;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Delay;
+import de.envite.greenbpm.carbonreductor.core.domain.model.output.Percentage;
 import io.github.domainprimitives.validation.InvariantException;
 import org.assertj.core.api.SoftAssertions;
 import org.joda.time.DateTime;
@@ -33,6 +34,7 @@ class CarbonReductorVariableMapperTest {
             variables.put("maximumProcessDuration", "PT10M");
             variables.put("remainingProcessDuration", "PT6H");
             variables.put("errorHandling", "THROW_BPMN_ERROR");
+            variables.put("measurementOnly", "true");
 
             CarbonReductorConfiguration result = classUnderTest.mapToDomain(variables);
 
@@ -44,6 +46,7 @@ class CarbonReductorVariableMapperTest {
             softAssertions.assertThat(result.getTimeshiftWindow()).isNull();
             softAssertions.assertThat(result.getTimeshiftWindow()).isNull();
             softAssertions.assertThat(result.getExceptionHandling()).isEqualTo(ExceptionHandlingEnum.THROW_BPMN_ERROR);
+            softAssertions.assertThat(result.isMeasurementOnly()).isTrue();
             softAssertions.assertAll();
         }
 
@@ -66,16 +69,16 @@ class CarbonReductorVariableMapperTest {
                     new Delay(true, 3),
                     new Carbon(1.0),
                     new Carbon(2.0),
-                    new Carbon(3.0)
+                    new Percentage(3.0)
             );
             Map<String, Object> variables = Map.of("milestone", DateTime.parse("2023-02-10T15:48:10.285+01:00"));
 
             Map<String, Object> result = classUnderTest.mapFromDomain(carbonReduction, variables);
             SoftAssertions softAssertions = new SoftAssertions();
             softAssertions.assertThat(result.get("executionDelayed")).isEqualTo(carbonReduction.getDelay().isExecutionDelayed());
-            softAssertions.assertThat(result.get("originalCarbon")).isEqualTo(carbonReduction.getOriginalCarbon().getValue());
-            softAssertions.assertThat(result.get("actualCarbon")).isEqualTo(carbonReduction.getActualCarbon().getValue());
-            softAssertions.assertThat(result.get("savedCarbon")).isEqualTo(carbonReduction.getSavedCarbon().getValue());
+            softAssertions.assertThat(result.get("carbonWithoutOptimization")).isEqualTo(carbonReduction.getCarbonWithoutOptimization().getValue());
+            softAssertions.assertThat(result.get("optimalForecastedCarbon")).isEqualTo(carbonReduction.getOptimalForecastedCarbon().getValue());
+            softAssertions.assertThat(result.get("savedCarbonPercentage")).isEqualTo(carbonReduction.getSavedCarbonPercentage().getValue());
             softAssertions.assertThat(result.get("reducedCarbon")).isEqualTo(carbonReduction.calculateReduction().getValue());
             softAssertions.assertThat(result.get("delayedBy")).isEqualTo(carbonReduction.getDelay().getDelayedBy());
             softAssertions.assertThat(result.get("milestone")).isEqualTo("2023-02-10T14:48:10.285Z[Etc/UTC]");

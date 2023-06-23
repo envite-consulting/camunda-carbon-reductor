@@ -20,8 +20,8 @@ public class CarbonReductorVariableMapper {
                 new Timeshift(inputVariables.getRemainingProcessDuration()),
                 mapIfNotNull(inputVariables.getMaximumProcessDuration()),
                 mapIfNotNull(inputVariables.getTimeshiftWindow()),
-                exceptionHandling
-        );
+                exceptionHandling,
+                inputVariables.isMeasurementOnly());
     }
 
     private Timeshift mapIfNotNull(String input) {
@@ -35,9 +35,9 @@ public class CarbonReductorVariableMapper {
         CarbonReductorOutputVariable outputVariable = new CarbonReductorOutputVariable();
         outputVariable.setExecutionDelayed(output.getDelay().isExecutionDelayed());
         outputVariable.setDelayedBy(output.getDelay().getDelayedBy());
-        outputVariable.setActualCarbon(output.getActualCarbon().getValue());
-        outputVariable.setOriginalCarbon(output.getOriginalCarbon().getValue());
-        outputVariable.setSavedCarbon(output.getSavedCarbon().getValue());
+        outputVariable.setOptimalForecastedCarbon(output.getOptimalForecastedCarbon().getValue());
+        outputVariable.setCarbonWithoutOptimization(output.getCarbonWithoutOptimization().getValue());
+        outputVariable.setSavedCarbonPercentage(output.getSavedCarbonPercentage().getValue());
         outputVariable.setCarbonReduction(output.calculateReduction().getValue());
         return outputVariable;
     }

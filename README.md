@@ -11,6 +11,8 @@ You want to contribute 🌱? Please read the [Contribution Guidelines](CONTRIBUT
 # Table of Contents
 
 * ✨ [Features](#features)
+  * [Time Shifting Mode ⏭️](#time-shifting-mode-)
+  * [Measuring Mode 📏](#measuring-mode-)
 * 🚀 [Getting Started](#getting-started)
   * [Camunda 8](#camunda-8)
   * [Camunda 7](#camunda-7)
@@ -21,8 +23,12 @@ You want to contribute 🌱? Please read the [Contribution Guidelines](CONTRIBUT
 
 # ✨Features
 
-The Carbon Reductor Connector consists of an element-template that can be used in the process 
-model that connects to the connector function. The Carbon Reductor Connector allows you to
+The Carbon Reductor Connector consists of an element-template that can be used in the process
+model that connects to the connector function.
+
+## Time Shifting Mode ⏭️
+
+Using the time shifting mode (default) the Carbon Reductor Connector allows you to
 optimize for lower carbon emissions by moving your process execution into a timeframe with the least amount 
 of carbon possible while still fulfilling SLAs.
 
@@ -32,6 +38,15 @@ The Carbon Reductor Connector defines the following inputs:
 - a milestone (a timestamp used to calculate the duration the process instance has been running)
 - a duration for the remainder of the process (the duration the remainder needs at most)
 - the maximum duration a process instance can take
+
+## Measuring Mode 📏
+
+> *Note*: This mode only works with the [Carbon Aware SDK](./api-carbon-aware/README.md) API at the moment.
+
+Using the measuring mode the Carbon Reductor Connector allows you to measure the emissions in gCO2e/KWh at 
+execution time and reports as well the emissions at the optimal time while still fulfilling your SLAs.
+
+The same input as in the [Time Shifting Mode ⏭️](#time-shifting-mode-) is required.
 
 # 🚀Getting Started
 
@@ -72,6 +87,8 @@ Other combinations might also work but have not been tested.
 | 1.1.0   | 8.2.0              | 7.19.0             |
 
 <details>
+
+
 <summary>Click to see older releases</summary>
 
 | Release | Camunda Platform 8 | Camunda Platform 7 |

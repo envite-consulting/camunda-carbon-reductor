@@ -4,8 +4,8 @@ import io.github.domainprimitives.type.ValueObject;
 
 import static io.github.domainprimitives.validation.Constraints.isNotNullDouble;
 
-public class Rating extends ValueObject<Double> {
-    public Rating(Double value) {
+public class EarliestForecastedValue extends ValueObject<Double> {
+    public EarliestForecastedValue(Double value) {
         super(value, isNotNullDouble());
     }
 }

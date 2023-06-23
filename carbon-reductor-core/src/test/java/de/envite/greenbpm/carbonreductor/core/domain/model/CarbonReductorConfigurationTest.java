@@ -27,8 +27,8 @@ class CarbonReductorConfigurationTest {
                 new Timeshift(String.valueOf(Duration.ofHours(3))),
                 new Timeshift(String.valueOf(Duration.ofHours(12))),
                 null,
-                null
-        );
+                null,
+                false);
 
         assertThat(config.getExceptionHandling()).isEqualTo(ExceptionHandlingEnum.CONTINUE_ON_EXCEPTION);
     }
@@ -41,8 +41,8 @@ class CarbonReductorConfigurationTest {
                 new Timeshift(String.valueOf(Duration.ofHours(3))),
                 new Timeshift(String.valueOf(Duration.ofHours(12))),
                 null,
-                ExceptionHandlingEnum.THROW_BPMN_ERROR
-        );
+                ExceptionHandlingEnum.THROW_BPMN_ERROR,
+                false);
 
         assertThat(config.getExceptionHandling()).isEqualTo(ExceptionHandlingEnum.THROW_BPMN_ERROR);
     }
@@ -59,21 +59,21 @@ class CarbonReductorConfigurationTest {
         void should_throw_on_missing_location() {
             assertThatThrownBy(() -> new CarbonReductorConfiguration(
                     null,
-                    milestone, timeshift, timeshift, null, null)
+                    milestone, timeshift, timeshift, null, null, false)
             ).isInstanceOf(InvariantException.class);
         }
 
         @Test
         void should_throw_on_missing_milestone() {
             assertThatThrownBy(() -> new CarbonReductorConfiguration(
-                    location, null, timeshift, timeshift, null, null)
+                    location, null, timeshift, timeshift, null, null, false)
             ).isInstanceOf(InvariantException.class);
         }
 
         @Test
         void should_throw_on_missing_remaining_process_timeshift() {
             assertThatThrownBy(() -> new CarbonReductorConfiguration(
-                    location, milestone, null, timeshift, null, null)
+                    location, milestone, null, timeshift, null, null, false)
             ).isInstanceOf(InvariantException.class);
         }
     }

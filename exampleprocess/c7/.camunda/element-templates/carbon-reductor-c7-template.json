@@ -48,25 +48,25 @@
       }
     },
     {
-      "label": "Error handling behavior",
-      "id": "errorHandling",
-      "description": "Defines how to handle eror during fetching and calculating the time window for the timeshift",
-      "group": "implementation",
+      "label": "Carbon Reductor Mode",
+      "group": "carbonreductor",
+      "id": "carbonReductorMode",
+      "description": "Choice whether to time shift the execution or just measuring the potential of time shifting",
       "type": "Dropdown",
       "choices": [
         {
-          "name": "Continue on failure",
-          "value": "CONTINUE_ON_EXCEPTION"
+          "name": "Timeshifting Mode",
+          "value": "false"
         },
         {
-          "name": "Throw BPMN Error",
-          "value": "THROW_BPMN_ERROR"
+          "name": "Measurement Only Mode",
+          "value": "true"
         }
       ],
+      "value": "false",
       "binding": {
         "type": "camunda:inputParameter",
-        "group": "carbonreductor",
-        "name": "errorHandling"
+        "name": "measurementOnly"
       }
     },
     {
@@ -172,6 +172,28 @@
       }
     },
     {
+      "label": "Error handling behavior",
+      "id": "errorHandling",
+      "description": "Defines how to handle error during fetching and calculating the time window for the timeshift",
+      "group": "carbonreductor",
+      "type": "Dropdown",
+      "choices": [
+        {
+          "name": "Continue on failure",
+          "value": "CONTINUE_ON_EXCEPTION"
+        },
+        {
+          "name": "Throw BPMN Error",
+          "value": "THROW_BPMN_ERROR"
+        }
+      ],
+      "binding": {
+        "type": "camunda:inputParameter",
+        "group": "carbonreductor",
+        "name": "errorHandling"
+      }
+    },
+    {
       "label": "Execution delayed?",
       "description": "Has the execution been delayed?",
       "group": "outputMapping",
@@ -197,33 +219,33 @@
       "label": "Original carbon",
       "description": "Carbon emission in gCO2/kWh if the execution is not delayed",
       "group": "outputMapping",
-      "value": "originalCarbon",
+      "value": "carbonWithoutOptimization",
       "type": "String",
       "binding": {
         "type": "camunda:outputParameter",
-        "source": "${originalCarbon}"
+        "source": "${carbonWithoutOptimization}"
       }
     },
     {
       "label": "Actual carbon",
       "description": "Carbon emission in gCO2/kWh at the time of the delayed execution",
       "group": "outputMapping",
-      "value": "actualCarbon",
+      "value": "optimalForecastedCarbon",
       "type": "String",
       "binding": {
         "type": "camunda:outputParameter",
-        "source": "${actualCarbon}"
+        "source": "${optimalForecastedCarbon}"
       }
     },
     {
       "label": "Saved carbon %",
       "description": "The percentage of saved carbon",
       "group": "outputMapping",
-      "value": "savedCarbon",
+      "value": "savedCarbonPercentage",
       "type": "String",
       "binding": {
         "type": "camunda:outputParameter",
-        "source": "${savedCarbon}"
+        "source": "${savedCarbonPercentage}"
       }
     },
     {

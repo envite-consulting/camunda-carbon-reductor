@@ -2,6 +2,7 @@ package de.envite.greenbpm.carbonreductor.core.domain.model;
 
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Carbon;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Delay;
+import de.envite.greenbpm.carbonreductor.core.domain.model.output.Percentage;
 import io.github.domainprimitives.validation.InvariantException;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -15,22 +16,23 @@ class CarbonReductionTest {
     class CrossValidation {
         private final Carbon carbon = new Carbon(1.0);
         private final Delay delay = new Delay(true, 1);
+        private final Percentage percentage = new Percentage(0.8);
 
         @Test
         void should_throw_if_no_delay() {
-            assertThatThrownBy(() -> new CarbonReduction(null, carbon, carbon, carbon))
+            assertThatThrownBy(() -> new CarbonReduction(null, carbon, carbon, percentage))
                     .isInstanceOf(InvariantException.class);
         }
 
         @Test
         void should_throw_if_no_original_carbon() {
-            assertThatThrownBy(() -> new CarbonReduction(delay, null, carbon, carbon))
+            assertThatThrownBy(() -> new CarbonReduction(delay, null, carbon, percentage))
                     .isInstanceOf(InvariantException.class);
         }
 
         @Test
         void should_throw_if_no_actual_carbon() {
-            assertThatThrownBy(() -> new CarbonReduction(delay, carbon, null, carbon))
+            assertThatThrownBy(() -> new CarbonReduction(delay, carbon, null, percentage))
                     .isInstanceOf(InvariantException.class);
         }
 
@@ -47,10 +49,10 @@ class CarbonReductionTest {
                 new Delay(true, 3),
                 new Carbon(1.0),
                 new Carbon(2.0),
-                new Carbon(3.0)
+                new Percentage(0.3)
         );
-        Double expectedReduction = carbonReduction.getOriginalCarbon().getValue() -
-                carbonReduction.getActualCarbon().getValue();
+        Double expectedReduction = carbonReduction.getCarbonWithoutOptimization().getValue() -
+                carbonReduction.getOptimalForecastedCarbon().getValue();
 
         Carbon reduction = carbonReduction.calculateReduction();
 
