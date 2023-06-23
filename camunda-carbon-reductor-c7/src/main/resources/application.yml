@@ -2,9 +2,9 @@ camunda.bpm:
   default-serialization-format: application/json
   metrics.enabled: false
   client:
-    base-url: ${BASE_URL}
-    async-response-timeout: ${ASYNC_RESPONSE_TIMEOUT}
-    worker-id: ${WORKER_ID}
+    base-url: http://localhost:7777/engine-rest
+    async-response-timeout: 10000
+    worker-id: carbonReductorWorker-1
 
 carbon-reductor:
   carbon-aware-api:

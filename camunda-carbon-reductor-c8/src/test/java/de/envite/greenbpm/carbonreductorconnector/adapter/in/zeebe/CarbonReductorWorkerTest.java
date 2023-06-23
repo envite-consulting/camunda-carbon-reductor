@@ -4,6 +4,7 @@ import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReduction;
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReductorConfiguration;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Carbon;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Delay;
+import de.envite.greenbpm.carbonreductor.core.domain.model.output.Percentage;
 import de.envite.greenbpm.carbonreductor.core.domain.service.CarbonReductorException;
 import de.envite.greenbpm.carbonreductor.core.domain.service.DelayCalculatorService;
 import de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.variable.CarbonReductorInputVariable;
@@ -39,13 +40,13 @@ class CarbonReductorWorkerTest {
                 new Delay(false, 0),
                 new Carbon(500.0),
                 new Carbon(500.0),
-                new Carbon(0.0)
+                new Percentage(0.0)
         );
         carbonReductorOutput_Dirty = new CarbonReduction(
                 new Delay(true, 3000),
                 new Carbon(500.0),
                 new Carbon(500.0),
-                new Carbon(250.0)
+                new Percentage(250.0)
         );
     }
 
@@ -128,12 +129,33 @@ class CarbonReductorWorkerTest {
         verify(client, never()).newCompleteCommand(job);
     }
 
+    @Test
+    void shouldWriteDataAndNotShiftOnMeasurementOnly() throws Exception {
+        DelayCalculatorService delayCalculatorService = mock(DelayCalculatorService.class);
+        when(delayCalculatorService.calculateDelay(any())).thenReturn(carbonReductorOutput_Dirty);
+        ZeebeClient client = mock(ZeebeClient.class, RETURNS_DEEP_STUBS);
+
+        var worker = new CarbonReductorWorker(client, delayCalculatorService, variableMapper);
+
+        ActivatedJob job = mock(ActivatedJob.class);
+        CarbonReductorInputVariable inputVariables = createInputVariables();
+        inputVariables.setMeasurementOnly(true);
+        when(job.getVariablesAsType(CarbonReductorInputVariable.class)).thenReturn(inputVariables);
+        when(job.getRetries()).thenReturn(3);
+        when(client.newSetVariablesCommand(job.getElementInstanceKey()).variables(any(CarbonReductorOutputVariable.class)).send()).thenReturn(mock(ZeebeFuture.class));
+        when(client.newCompleteCommand(job).send()).thenReturn(mock(ZeebeFuture.class));
+        worker.execute(job);
+
+        verify(client, times(2)).newSetVariablesCommand(job.getElementInstanceKey());
+        verify(client, times(2)).newCompleteCommand(job);
+    }
+
     private CarbonReductorOutputVariable createDefaultOutput() {
         CarbonReductorOutputVariable defaultCarbonReductorOutput = new CarbonReductorOutputVariable();
         defaultCarbonReductorOutput.setExecutionDelayed(false);
-        defaultCarbonReductorOutput.setOriginalCarbon(0.0);
-        defaultCarbonReductorOutput.setActualCarbon(0.0);
-        defaultCarbonReductorOutput.setSavedCarbon(0.0);
+        defaultCarbonReductorOutput.setCarbonWithoutOptimization(0.0);
+        defaultCarbonReductorOutput.setOptimalForecastedCarbon(0.0);
+        defaultCarbonReductorOutput.setSavedCarbonPercentage(0.0);
         defaultCarbonReductorOutput.setDelayedBy(0);
         return defaultCarbonReductorOutput;
     }

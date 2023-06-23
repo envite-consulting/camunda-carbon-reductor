@@ -24,7 +24,7 @@ class CarbonAwareComputingMapperTest {
 
         SoftAssertions softAssertions = new SoftAssertions();
         softAssertions.assertThat(result.getOptimalTime().getValue()).isEqualTo(emissionsData.getTimestamp());
-        softAssertions.assertThat(result.getRating().getValue()).isEqualTo(0.0);
+        softAssertions.assertThat(result.getEarliestForecastedValue().getValue()).isEqualTo(0.0);
         softAssertions.assertThat(result.getForecastedValue().getValue()).isEqualTo(emissionsData.getValue());
         softAssertions.assertAll();
     }

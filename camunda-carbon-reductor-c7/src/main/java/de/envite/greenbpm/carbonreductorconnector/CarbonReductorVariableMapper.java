@@ -28,8 +28,8 @@ class CarbonReductorVariableMapper {
                 mapIfNotNull((String) allVariables.get("remainingProcessDuration")),
                 mapIfNotNull((String) allVariables.get("maximumProcessDuration")),
                 null, // Will become relevant in the future
-                exceptionHandling
-        );
+                exceptionHandling,
+                Boolean.parseBoolean((String) allVariables.get("measurementOnly")));
     }
 
     private String getDateTime(Map<String, Object> allVariables) {
@@ -48,9 +48,9 @@ class CarbonReductorVariableMapper {
     public Map<String, Object> mapFromDomain(CarbonReduction output, Map<String, Object> allVariables) {
         Map<String, Object> variables = new HashMap<>();
         variables.put("executionDelayed", output.getDelay().isExecutionDelayed());
-        variables.put("originalCarbon", output.getOriginalCarbon().getValue());
-        variables.put("actualCarbon", output.getActualCarbon().getValue());
-        variables.put("savedCarbon", output.getSavedCarbon().getValue());
+        variables.put("carbonWithoutOptimization", output.getCarbonWithoutOptimization().getValue());
+        variables.put("optimalForecastedCarbon", output.getOptimalForecastedCarbon().getValue());
+        variables.put("savedCarbonPercentage", output.getSavedCarbonPercentage().getValue());
         variables.put("reducedCarbon", output.calculateReduction().getValue());
         variables.put("delayedBy", output.getDelay().getDelayedBy());
         // Override milestone variable because joda time is not a primitive object ..

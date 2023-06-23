@@ -1,12 +1,13 @@
 package de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.test.utils;
 
-import de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.variable.CarbonReductorInputVariable;
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReduction;
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReductorConfiguration;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Milestone;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Timeshift;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Carbon;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Delay;
+import de.envite.greenbpm.carbonreductor.core.domain.model.output.Percentage;
+import de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.variable.CarbonReductorInputVariable;
 
 import static de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Locations.NORWAY_EAST;
 
@@ -26,7 +27,7 @@ public class TestDataGenerator {
                 new Delay(true, 3),
                 new Carbon(1.0),
                 new Carbon(2.0),
-                new Carbon(3.0)
+                new Percentage(3.0)
         );
     }
 
@@ -37,7 +38,7 @@ public class TestDataGenerator {
                 new Timeshift("PT5H"),
                 new Timeshift("PT10H"),
                 null,
-                null
-        );
+                null,
+                false);
     }
 }

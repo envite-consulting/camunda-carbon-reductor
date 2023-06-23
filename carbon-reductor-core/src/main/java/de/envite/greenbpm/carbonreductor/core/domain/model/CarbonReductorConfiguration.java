@@ -19,6 +19,7 @@ public class CarbonReductorConfiguration extends Aggregate {
     private final Timeshift maximumProcessTimeshift;
     private final Timeshift timeshiftWindow;
     private final ExceptionHandlingEnum exceptionHandling;
+    private final boolean measurementOnly;
 
     private static final ExceptionHandlingEnum EXCEPTION_HANDLING_DEFAULT = ExceptionHandlingEnum.CONTINUE_ON_EXCEPTION;
 
@@ -27,13 +28,15 @@ public class CarbonReductorConfiguration extends Aggregate {
                                        Timeshift remainingProcessTimeshift,
                                        Timeshift maximumProcessTimeshift,
                                        Timeshift timeshiftWindow,
-                                       ExceptionHandlingEnum exceptionHandling) {
+                                       ExceptionHandlingEnum exceptionHandling,
+                                       boolean measurementOnly) {
         this.location = location;
         this.milestone = milestone;
         this.remainingProcessTimeshift = remainingProcessTimeshift;
         this.maximumProcessTimeshift = maximumProcessTimeshift;
         this.timeshiftWindow = timeshiftWindow;
         this.exceptionHandling = exceptionHandling == null ? EXCEPTION_HANDLING_DEFAULT : exceptionHandling;
+        this.measurementOnly = measurementOnly;
         this.validate();
     }
 

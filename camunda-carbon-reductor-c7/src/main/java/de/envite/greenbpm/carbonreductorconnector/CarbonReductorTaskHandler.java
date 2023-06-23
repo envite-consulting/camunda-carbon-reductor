@@ -5,6 +5,7 @@ import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReduction;
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReductorConfiguration;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Carbon;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Delay;
+import de.envite.greenbpm.carbonreductor.core.domain.model.output.Percentage;
 import de.envite.greenbpm.carbonreductor.core.domain.service.CarbonReductorException;
 import de.envite.greenbpm.carbonreductor.core.usecase.in.DelayCalculator;
 import lombok.RequiredArgsConstructor;
@@ -43,16 +44,22 @@ public class CarbonReductorTaskHandler implements ExternalTaskHandler {
 
         try {
             CarbonReduction carbonReductorOutput = delayCalculator.calculateDelay(carbonReductorConfiguration);
-            delayOrExecute(externalTask, externalTaskService, carbonReductorOutput);
+            delayOrExecute(externalTask, externalTaskService, carbonReductorOutput, carbonReductorConfiguration.isMeasurementOnly());
         } catch (CarbonReductorException e) {
-            CarbonReduction defaultCarbonReductorOutput = new CarbonReduction(new Delay(false, 0L), new Carbon(0.0), new Carbon(0.0), new Carbon(0.0));
+            CarbonReduction defaultCarbonReductorOutput = new CarbonReduction(new Delay(false, 0L), new Carbon(0.0), new Carbon(0.0), new Percentage(0.0));
             Map<String, Object> outputVariables = carbonReductorVariableMapper.mapFromDomain(defaultCarbonReductorOutput, externalTask.getAllVariables());
             externalTaskService.handleBpmnError(externalTask, "carbon-reductor-error", e.getMessage(), outputVariables);
         }
     }
 
-    private void delayOrExecute(ExternalTask externalTask, ExternalTaskService externalTaskService, CarbonReduction carbonReductorOutput) {
+    private void delayOrExecute(ExternalTask externalTask, ExternalTaskService externalTaskService, CarbonReduction carbonReductorOutput, boolean measurementOnly) {
         Map<String, Object> outputVariables = carbonReductorVariableMapper.mapFromDomain(carbonReductorOutput, externalTask.getAllVariables());
+
+        if (measurementOnly) {
+            log.info("Executing job {} immediately for measurement only", externalTask.getProcessInstanceId());
+            externalTaskService.complete(externalTask, outputVariables);
+            return;
+        }
 
         if (carbonReductorOutput.getDelay().isExecutionDelayed()) {
             Duration duration = Duration.ofMillis(carbonReductorOutput.getDelay().getDelayedBy());

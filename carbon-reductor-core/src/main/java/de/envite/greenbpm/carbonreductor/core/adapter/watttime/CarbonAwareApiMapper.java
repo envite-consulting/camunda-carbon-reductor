@@ -3,9 +3,9 @@ package de.envite.greenbpm.carbonreductor.core.adapter.watttime;
 import de.envite.greenbpm.api.carbonawaresdk.model.EmissionsDataDTO;
 import de.envite.greenbpm.api.carbonawaresdk.model.EmissionsForecastDTO;
 import de.envite.greenbpm.carbonreductor.core.domain.model.EmissionTimeframe;
+import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.EarliestForecastedValue;
 import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.ForecastedValue;
 import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.OptimalTime;
-import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.Rating;
 
 import java.time.OffsetDateTime;
 import java.util.Optional;
@@ -29,13 +29,13 @@ public class CarbonAwareApiMapper {
             .map(ForecastedValue::new)
             .orElse(null);
 
-    Rating rating = of(emissionsForecast)
+    EarliestForecastedValue earliestForecastedValue = of(emissionsForecast)
             .map(EmissionsForecastDTO::getForecastData)
             .map(d -> d.get(0))
             .map(EmissionsDataDTO::getValue)
-            .map(Rating::new)
+            .map(EarliestForecastedValue::new)
             .orElse(null);
 
-    return new EmissionTimeframe(optimalTime, rating, forecastedValue);
+    return new EmissionTimeframe(optimalTime, earliestForecastedValue, forecastedValue);
   }
 }

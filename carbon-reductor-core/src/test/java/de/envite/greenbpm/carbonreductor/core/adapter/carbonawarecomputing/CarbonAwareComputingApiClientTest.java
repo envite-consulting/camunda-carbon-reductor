@@ -5,9 +5,9 @@ import de.envite.greenbpm.api.carbonawarecomputing.model.EmissionsData;
 import de.envite.greenbpm.api.carbonawarecomputing.model.EmissionsForecast;
 import de.envite.greenbpm.carbonreductor.core.adapter.exception.CarbonEmissionQueryException;
 import de.envite.greenbpm.carbonreductor.core.domain.model.EmissionTimeframe;
+import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.EarliestForecastedValue;
 import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.ForecastedValue;
 import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.OptimalTime;
-import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.Rating;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Timeshift;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Location;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Locations;
@@ -22,7 +22,6 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @MockitoSettings
@@ -46,7 +45,7 @@ class CarbonAwareComputingApiClientTest {
 
         final static EmissionTimeframe emissionTimeframe = new EmissionTimeframe(
                 new OptimalTime(java.time.OffsetDateTime.now().plusHours(3)),
-                new Rating(200.6),
+                new EarliestForecastedValue(200.6),
                 new ForecastedValue(0.0)
         );
     }

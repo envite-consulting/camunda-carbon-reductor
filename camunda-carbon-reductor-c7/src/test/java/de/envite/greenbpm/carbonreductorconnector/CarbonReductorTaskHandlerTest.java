@@ -5,6 +5,7 @@ import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReduction;
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReductorConfiguration;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Carbon;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Delay;
+import de.envite.greenbpm.carbonreductor.core.domain.model.output.Percentage;
 import de.envite.greenbpm.carbonreductor.core.domain.service.CarbonReductorException;
 import de.envite.greenbpm.carbonreductor.core.usecase.in.DelayCalculator;
 import org.camunda.bpm.client.task.ExternalTask;
@@ -98,7 +99,7 @@ class CarbonReductorTaskHandlerTest {
         CarbonReductorConfiguration carbonReductorConfiguration = mock(CarbonReductorConfiguration.class);
         when(variableMapperMock.mapToDomain(externalTask.getAllVariables())).thenReturn(carbonReductorConfiguration);
         when(delayCalculatorMock.calculateDelay(carbonReductorConfiguration)).thenThrow(new CarbonReductorException("Test", new RuntimeException("Testing ...")));
-        CarbonReduction defaultCarbonReductorOutput = new CarbonReduction(new Delay(false, 0L), new Carbon(0.0), new Carbon(0.0), new Carbon(0.0));
+        CarbonReduction defaultCarbonReductorOutput = new CarbonReduction(new Delay(false, 0L), new Carbon(0.0), new Carbon(0.0), new Percentage(0.0));
         Map<String, Object> outputVariables = Map.of();
         when(variableMapperMock.mapFromDomain(defaultCarbonReductorOutput, externalTask.getAllVariables())).thenReturn(outputVariables);
 
@@ -110,5 +111,23 @@ class CarbonReductorTaskHandlerTest {
                 "Test",
                 outputVariables
         );
+    }
+
+    @Test
+    void should_query_reduction_write_variables_and_not_shift_on_measurement_only() throws Exception {
+        ExternalTask externalTask = mock(ExternalTask.class);
+        when(externalTask.getRetries()).thenReturn(RETRIES_MAGIC_NUMBER - 1);
+        ExternalTaskService externalTaskService = mock(ExternalTaskService.class);
+        CarbonReductorConfiguration carbonReductorConfiguration = mock(CarbonReductorConfiguration.class);
+        when(carbonReductorConfiguration.isMeasurementOnly()).thenReturn(true);
+        when(variableMapperMock.mapToDomain(externalTask.getAllVariables())).thenReturn(carbonReductorConfiguration);
+        CarbonReduction carbonReductorOutput = mock(CarbonReduction.class, RETURNS_DEEP_STUBS);
+        when(delayCalculatorMock.calculateDelay(carbonReductorConfiguration)).thenReturn(carbonReductorOutput);
+        Map<String, Object> outputVariables = Map.of();
+        when(variableMapperMock.mapFromDomain(carbonReductorOutput, externalTask.getAllVariables())).thenReturn(outputVariables);
+
+        classUnderTest.execute(externalTask, externalTaskService);
+
+        verify(externalTaskService).complete(externalTask, outputVariables);
     }
 }

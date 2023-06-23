@@ -2,6 +2,7 @@ package de.envite.greenbpm.carbonreductor.core.domain.model;
 
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Carbon;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Delay;
+import de.envite.greenbpm.carbonreductor.core.domain.model.output.Percentage;
 import io.github.domainprimitives.object.Aggregate;
 import lombok.Getter;
 
@@ -9,28 +10,29 @@ import lombok.Getter;
 public class CarbonReduction extends Aggregate {
 
   private final Delay delay;
-  private final Carbon originalCarbon;
-  private final Carbon actualCarbon;
-  private final Carbon savedCarbon;
 
-  public CarbonReduction(Delay delay, Carbon originalCarbon, Carbon actualCarbon, Carbon savedCarbon) {
+  private final Carbon carbonWithoutOptimization;
+  private final Carbon optimalForecastedCarbon;
+  private final Percentage savedCarbonPercentage;
+
+  public CarbonReduction(Delay delay, Carbon carbonWithoutOptimization, Carbon optimalForcatedCarbon, Percentage savedCarbonPercentage) {
     this.delay = delay;
-    this.originalCarbon = originalCarbon;
-    this.actualCarbon = actualCarbon;
-    this.savedCarbon = savedCarbon;
+    this.carbonWithoutOptimization = carbonWithoutOptimization;
+    this.optimalForecastedCarbon = optimalForcatedCarbon;
+    this.savedCarbonPercentage = savedCarbonPercentage;
     this.validate();
   }
 
   @Override
   protected void validate() {
     validateNotNull(delay, "Delay");
-    validateNotNull(originalCarbon, "original Carbon");
-    validateNotNull(actualCarbon, "actual Carbon");
-    validateNotNull(savedCarbon, "saved Carbon");
+    validateNotNull(carbonWithoutOptimization, "original Carbon");
+    validateNotNull(optimalForecastedCarbon, "actual Carbon");
+    validateNotNull(savedCarbonPercentage, "saved Carbon");
     evaluateValidations();
   }
 
   public Carbon calculateReduction() {
-    return new Carbon(originalCarbon.getValue() - actualCarbon.getValue());
+    return new Carbon(carbonWithoutOptimization.getValue() - optimalForecastedCarbon.getValue());
   }
 }
