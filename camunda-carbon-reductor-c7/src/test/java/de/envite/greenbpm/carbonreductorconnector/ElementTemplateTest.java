@@ -17,7 +17,7 @@ class ElementTemplateTest {
 
     @Test
     @Deployment(resources = "test.bpmn")
-    public void test() {
+    void test() {
         ProcessInstance processInstance = runtimeService().startProcessInstanceByKey(PROCESS_KEY);
         assertThat(processInstance).isStarted();
         assertThat(processInstance).isWaitingAt(CARBON_REDUCTOR_ID);
@@ -29,7 +29,7 @@ class ElementTemplateTest {
                 "executionDelayed", true,
                 "delayedBy", 100000));
         // input variables
-        assertThat(processInstance).hasVariables("remainingProcessDuration", "maximumProcessDuration", "location", "milestone", "errorHandling");
+        assertThat(processInstance).hasVariables("remainingProcessDuration", "maximumProcessDuration", "location", "milestone", "errorHandling", "measurementOnly");
         // output variables
         assertThat(processInstance).hasVariables(
                 "originalCarbonMapped",

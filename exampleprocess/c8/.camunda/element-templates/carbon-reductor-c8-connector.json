@@ -40,6 +40,28 @@
             }
         },
         {
+            "label": "Carbon Reductor Mode",
+            "group": "commonConfiguration",
+            "id": "carbonReductorMode",
+            "description": "Choice whether to time shift the execution or just measuring the potential of time shifting",
+            "type": "Dropdown",
+            "choices": [
+                {
+                    "name": "Timeshifting Mode",
+                    "value": "false"
+                },
+                {
+                    "name": "Measurement Only Mode",
+                    "value": "true"
+                }
+            ],
+            "value": "false",
+            "binding": {
+                "type": "zeebe:input",
+                "name": "measurementOnly"
+            }
+        },
+        {
             "label": "Location",
             "group": "commonConfiguration",
             "id": "location",
@@ -170,7 +192,7 @@
             "type": "Text",
             "group": "outputMapping",
             "feel": "required",
-            "value": "{\n  \"wasExecutionDelayed\": response.executionDelayed,\n  \"delayedByInMs\": response.delayedBy,\n  \"originalCarbon\": response.originalCarbon,\n  \"actualCarbon\": response.actualCarbon,\n  \"savedCarbonPct\": response.savedCarbon,\n  \"reducedCarbon\": response.reducedCarbon\n}",
+            "value": "{\n  \"wasExecutionDelayed\": response.executionDelayed,\n  \"delayedByInMs\": response.delayedBy,\n  \"carbonWithoutOptimization\": response.carbonWithoutOptimization,\n  \"optimalForecastedCarbon\": response.optimalForecastedCarbon,\n  \"savedCarbonPercentage\": response.savedCarbonPercentage,\n  \"carbonReduction\": response.carbonReduction\n}",
             "binding": {
                 "type": "zeebe:taskHeader",
                 "key": "resultExpression"

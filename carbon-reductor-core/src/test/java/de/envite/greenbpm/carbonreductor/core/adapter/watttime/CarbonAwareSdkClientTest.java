@@ -6,9 +6,9 @@ import de.envite.greenbpm.api.carbonawaresdk.api.CarbonAwareApi;
 import de.envite.greenbpm.api.carbonawaresdk.model.EmissionsForecastDTO;
 import de.envite.greenbpm.carbonreductor.core.adapter.exception.CarbonEmissionQueryException;
 import de.envite.greenbpm.carbonreductor.core.domain.model.EmissionTimeframe;
+import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.EarliestForecastedValue;
 import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.ForecastedValue;
 import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.OptimalTime;
-import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.Rating;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Timeshift;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Location;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Locations;
@@ -42,7 +42,7 @@ class CarbonAwareSdkClientTest {
 
         final static EmissionTimeframe emissionTimeframe = new EmissionTimeframe(
                 new OptimalTime(java.time.OffsetDateTime.now().plusHours(3)),
-                new Rating(200.6),
+                new EarliestForecastedValue(200.6),
                 new ForecastedValue(0.0)
         );
     }

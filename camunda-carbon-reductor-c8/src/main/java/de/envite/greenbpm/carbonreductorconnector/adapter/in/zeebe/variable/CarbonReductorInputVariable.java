@@ -11,5 +11,6 @@ public class CarbonReductorInputVariable {
     private String maximumProcessDuration;
     private String timeshiftWindow;
     private String errorHandling;
+    private boolean measurementOnly;
 
 }

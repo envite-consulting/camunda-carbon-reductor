@@ -12,8 +12,8 @@ import java.time.Duration;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
-import static io.camunda.zeebe.process.test.assertions.BpmnAssert.*;
-import static org.assertj.core.api.Assertions.*;
+import static io.camunda.zeebe.process.test.assertions.BpmnAssert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ZeebeProcessTest
 class ElementTemplateTest {
@@ -47,7 +47,8 @@ class ElementTemplateTest {
                 "maximumProcessDuration",
                 "location",
                 "milestone",
-                "errorHandling");
+                "errorHandling",
+                "measurementOnly");
         CompleteJobResponse completeJobResponse = completeTaskForJob(activatedJob, Map.of(
                 "originalCarbon", 100,
                 "actualCarbon", 50,

@@ -4,6 +4,7 @@ import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReduction;
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReductorConfiguration;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Carbon;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Delay;
+import de.envite.greenbpm.carbonreductor.core.domain.model.output.Percentage;
 import de.envite.greenbpm.carbonreductor.core.domain.service.CarbonReductorException;
 import de.envite.greenbpm.carbonreductor.core.usecase.in.DelayCalculator;
 import de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.variable.CarbonReductorInputVariable;
@@ -31,7 +32,7 @@ public class CarbonReductorWorker {
     private static final int RETRIES_MAGIC_VALUE = 999;
 
     @JobWorker(type = "de.envite.greenbpm.carbonreductorconnector.carbonreductortask:1", autoComplete = false)
-    public void execute(ActivatedJob job) throws Exception {
+    public void execute(ActivatedJob job) {
         if (!timeShiftMustBeDetermined(job)) {
             log.info("Completing previously time shifted job {}", job.getProcessInstanceKey());
             completeJob(job);
@@ -43,7 +44,7 @@ public class CarbonReductorWorker {
         try {
             carbonReductorOutput = delayCalculator.calculateDelay(carbonReductorConfiguration);
         } catch (CarbonReductorException e) {
-            CarbonReduction defaultCarbonReductorOutput = new CarbonReduction(new Delay(false, 0L), new Carbon(0.0), new Carbon(0.0), new Carbon(0.0));
+            CarbonReduction defaultCarbonReductorOutput = new CarbonReduction(new Delay(false, 0L), new Carbon(0.0), new Carbon(0.0), new Percentage(0.0));
             writeOutputToProcessInstance(job, defaultCarbonReductorOutput);
             client.newThrowErrorCommand(job)
                     .errorCode("carbon-reductor-error")
@@ -53,6 +54,12 @@ public class CarbonReductorWorker {
         }
 
         writeOutputToProcessInstance(job, carbonReductorOutput);
+
+        if (carbonReductorConfiguration.isMeasurementOnly()) {
+            log.info("Executing job {} immediately for measurement only", job.getProcessInstanceKey());
+            completeJob(job);
+            return;
+        }
 
         if (carbonReductorOutput.getDelay().isExecutionDelayed()) {
             Duration duration = Duration.ofMillis(carbonReductorOutput.getDelay().getDelayedBy());

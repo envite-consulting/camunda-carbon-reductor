@@ -6,7 +6,6 @@ import lombok.Getter;
 @Getter
 public class Delay extends ComposedValueObject {
 
-    // TODO: Custom types
     private final boolean executionDelayed;
     private final long delayedBy;
 
