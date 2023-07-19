@@ -21,7 +21,7 @@
           <zeebe:input source="CONTINUE_ON_EXCEPTION" target="errorHandling" />
         </zeebe:ioMapping>
         <zeebe:taskHeaders>
-          <zeebe:header key="resultExpression" value="={&#10;  &#34;wasExecutionDelayed&#34;: response.executionDelayed,&#10;  &#34;delayedByInMs&#34;: response.delayedBy,&#10;  &#34;originalCarbon&#34;: response.originalCarbon,&#10;  &#34;actualCarbon&#34;: response.actualCarbon,&#10;  &#34;savedCarbonPct&#34;: response.savedCarbon,&#10;  &#34;reducedCarbon&#34;: response.reducedCarbon&#10;}" />
+          <zeebe:header key="resultExpression" value="put all()" />
         </zeebe:taskHeaders>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0ijxfpf</bpmn:incoming>
