@@ -192,7 +192,7 @@
             "type": "Text",
             "group": "outputMapping",
             "feel": "required",
-            "value": "{\n  \"wasExecutionDelayed\": response.executionDelayed,\n  \"delayedByInMs\": response.delayedBy,\n  \"carbonWithoutOptimization\": response.carbonWithoutOptimization,\n  \"optimalForecastedCarbon\": response.optimalForecastedCarbon,\n  \"savedCarbonPercentage\": response.savedCarbonPercentage,\n  \"carbonReduction\": response.carbonReduction\n}",
+            "value": "put all()",
             "binding": {
                 "type": "zeebe:taskHeader",
                 "key": "resultExpression"
