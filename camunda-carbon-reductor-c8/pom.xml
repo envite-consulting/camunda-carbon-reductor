@@ -27,13 +27,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <dependency>
-                <groupId>io.camunda</groupId>
-                <artifactId>zeebe-bom</artifactId>
-                <version>${version.zeebe.spring-boot}</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -46,8 +39,8 @@
         </dependency>
 
         <dependency>
-            <groupId>io.camunda</groupId>
-            <artifactId>spring-zeebe-starter</artifactId>
+            <groupId>io.camunda.spring</groupId>
+            <artifactId>spring-boot-starter-camunda</artifactId>
             <version>${version.zeebe.spring-boot}</version>
         </dependency>
 
