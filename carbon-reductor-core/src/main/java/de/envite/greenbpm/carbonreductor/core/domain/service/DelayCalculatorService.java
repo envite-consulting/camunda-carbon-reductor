@@ -50,8 +50,9 @@ public class DelayCalculatorService implements DelayCalculator {
         if (isDelayNecessary) {
             final long optimalTime = emissionTimeframe.getOptimalTime().asOffsetDateTime().toInstant().toEpochMilli();
             final long delayedBy = optimalTime - OffsetDateTime.now(ZoneOffset.UTC).toInstant().toEpochMilli();
+            final boolean executionDelayed = !input.isMeasurementOnly();
             return new CarbonReduction(
-                    new Delay(true, delayedBy),
+                    new Delay(executionDelayed, delayedBy),
                     new Carbon(emissionTimeframe.getEarliestForecastedValue().getValue()),
                     new Carbon(emissionTimeframe.getForecastedValue().getValue()),
                     new Percentage(emissionTimeframe.calculateSavedCarbonPercentage())
