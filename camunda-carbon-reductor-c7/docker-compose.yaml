@@ -2,7 +2,7 @@ version: "3.9"
 services:
 
   carbon-aware-webapi:
-    image: enviteconsulting/carbon-aware-sdk-webapi:0.0.2
+    image: enviteconsulting/carbon-aware-sdk-webapi:0.0.3
     container_name: carbon-aware-webapi
     environment:
       - DataSources__EmissionsDataSource=WattTime
@@ -20,7 +20,7 @@ services:
       - "8090:80"
 
   camunda-7-carbon-reductor-connector:
-    image: enviteconsulting/camunda-7-carbon-reductor-connector:0.0.1
+    image: enviteconsulting/camunda-7-carbon-reductor-connector:2.0.0
     build:
       context: ../
       dockerfile: camunda-carbon-reductor-c7/Dockerfile
@@ -45,7 +45,7 @@ services:
       - "8080:8080"
 
   carbon-reductor-c7-example-workflow:
-    image: enviteconsulting/carbon-reductor-c7-example-workflow:0.0.2
+    image: enviteconsulting/carbon-reductor-c7-example-workflow:0.0.3
     container_name: carbon-reductor-c7-example-workflow
     healthcheck:
       test: curl --fail 'http://localhost:7777/engine-rest/engine' || exit 1
