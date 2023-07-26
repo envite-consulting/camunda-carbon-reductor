@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoSettings;
 
@@ -80,16 +81,24 @@ class DelayCalculatorServiceTest {
         return timestampDelayed.format(DateTimeFormatter.ofPattern(YYYY_MM_DD_T_HH_MM_SS_SSSX_ETC_UTC));
     }
 
-    @Test
-    void shouldCalculateDelayForSLA() throws CarbonReductorException, CarbonEmissionQueryException {
+    @ValueSource(booleans = { false, true })
+    @ParameterizedTest
+    void shouldCalculateDelay(final boolean measurementMode) throws CarbonReductorException, CarbonEmissionQueryException {
         EmissionTimeframe emissionTimeframe = createBetterEmissionTimeframeIn3Hours();
+        CarbonReductorConfiguration inputConfig = new CarbonReductorConfiguration(
+                Locations.NORWAY_EAST.asLocation(),
+                new Milestone(createTimestamp(1)),
+                new Timeshift("PT5H"),
+                new Timeshift("PT10H"),
+                null,
+                null,
+                measurementMode);
+        when(carbonEmissionQuery.getEmissionTimeframe(eq(inputConfig.getLocation()),
+                any(Timeshift.class), eq(inputConfig.getRemainingProcessTimeshift()))).thenReturn(emissionTimeframe);
 
-        when(carbonEmissionQuery.getEmissionTimeframe(eq(input.getLocation()),
-                any(Timeshift.class), eq(input.getRemainingProcessTimeshift()))).thenReturn(emissionTimeframe);
+        CarbonReduction result = classUnderTest.calculateDelay(inputConfig);
 
-        CarbonReduction result = classUnderTest.calculateDelay(input);
-
-        Assertions.assertThat(result.getDelay().isExecutionDelayed()).isTrue();
+        Assertions.assertThat(result.getDelay().isExecutionDelayed()).isEqualTo(!measurementMode);
         Assertions.assertThat(result.getDelay().getDelayedBy()).isGreaterThanOrEqualTo(Duration.ofMinutes(179).toMillis());
         Assertions.assertThat(result.getOptimalForecastedCarbon().getValue()).isEqualTo(0.0);
         Assertions.assertThat(result.getCarbonWithoutOptimization().getValue()).isEqualTo(200.6);
@@ -97,8 +106,8 @@ class DelayCalculatorServiceTest {
     }
 
     @Test
-    @DisplayName("should calculate no delay for SLA because maximumDuration would be breached")
-    void shouldCalculateNoDelayForSLABecauseProcessIsRunningVeryLong() throws CarbonReductorException, CarbonEmissionQueryException {
+    @DisplayName("should calculate no delay because maximumDuration would be breached")
+    void shouldCalculateNoDelayBecauseProcessIsRunningVeryLong() throws CarbonReductorException, CarbonEmissionQueryException {
         EmissionTimeframe emissionTimeframe = createBetterEmissionTimeframeIn3Hours();
 
         when(carbonEmissionQuery.getEmissionTimeframe(eq(inputWithDelay.getLocation()),
@@ -114,8 +123,8 @@ class DelayCalculatorServiceTest {
     }
 
     @Test
-    @DisplayName("should calculate no delay for SLA mode because energy is optimal")
-    void shouldCalculateNoDelayForSLABecauseEnergyIsOptimal() throws CarbonReductorException, CarbonEmissionQueryException {
+    @DisplayName("should calculate no delay because energy is optimal")
+    void shouldCalculateNoDelayBecauseEnergyIsOptimal() throws CarbonReductorException, CarbonEmissionQueryException {
         EmissionTimeframe emissionTimeframe = createEmissionTimeframeCurrentlyOptimal();
 
         when(carbonEmissionQuery.getEmissionTimeframe(eq(input.getLocation()),
@@ -131,7 +140,7 @@ class DelayCalculatorServiceTest {
     }
 
     @ParameterizedTest(name = "{0}")
-    @DisplayName("should calculate delay duration for SLA")
+    @DisplayName("should calculate delay duration")
     @MethodSource("provideDelayDurationInput")
     void shouldCalculateDelayDurationForSLA(CarbonReductorConfiguration configuration, Timeshift expected) {
         Timeshift actual = classUnderTest.calculateTimeshiftWindowForSLA(configuration);
