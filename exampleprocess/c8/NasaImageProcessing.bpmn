@@ -20,14 +20,14 @@
         <zeebe:ioMapping>
           <zeebe:input source="PT5H" target="timeshiftWindow" />
           <zeebe:input source="false" target="measurementOnly" />
-          <zeebe:input source="uksouth" target="location" />
+          <zeebe:input source="westus" target="location" />
           <zeebe:input source="PT6H" target="remainingProcessDuration" />
           <zeebe:input source="PT12H" target="maximumProcessDuration" />
           <zeebe:input source="=now()" target="milestone" />
           <zeebe:input source="CONTINUE_ON_EXCEPTION" target="errorHandling" />
         </zeebe:ioMapping>
         <zeebe:taskHeaders>
-          <zeebe:header key="resultExpression" value="={&#10;  &#34;wasExecutionDelayed&#34;: response.executionDelayed,&#10;  &#34;delayedByInMs&#34;: response.delayedBy,&#10;  &#34;originalCarbon&#34;: response.originalCarbon,&#10;  &#34;actualCarbon&#34;: response.actualCarbon,&#10;  &#34;savedCarbonPct&#34;: response.savedCarbon,&#10;  &#34;reducedCarbon&#34;: response.reducedCarbon&#10;}" />
+          <zeebe:header key="resultExpression" value="=put all()" />
         </zeebe:taskHeaders>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_14e4zmj</bpmn:incoming>

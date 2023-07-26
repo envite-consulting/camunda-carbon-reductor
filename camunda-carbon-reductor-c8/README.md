@@ -39,7 +39,9 @@ docker container by running `docker-compose up`.
 ## Import Process Model to Camunda Platform 8
 
 * Open the Camunda Web Modeler
-* Import the process model `exampleprocess/NasaImageProcessing.bpmn`
+* Import the process model [`exampleprocess/c8/NasaImageProcessing.bpmn`](../exampleprocess/c8/NasaImageProcessing.bpmn)   
+  You need to [import the connector](https://docs.camunda.io/docs/components/connectors/manage-connector-templates/#importing-existing-connector-templates) as well as re-link it in the process model.  
+  You can find the element template next to the process model: [`exampleprocess/c8/.camunda/element-templates/carbon-reductor-c8-connector.json`](../exampleprocess/c8/.camunda/element-templates/carbon-reductor-c8-connector.json)
 * Start a new instance
 * Switch to Camunda Operate to see the token waiting at the connector
 
