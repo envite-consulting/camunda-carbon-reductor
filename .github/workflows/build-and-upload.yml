@@ -14,7 +14,7 @@ on:
       TAG:
         description: 'the tag to be built'
         required: true
-        type: String
+        type: string
 
 jobs:
   docker:
@@ -35,18 +35,22 @@ jobs:
           if [ "$C8" = true ]
           then
             echo "Building C8" && \
-            docker-compose -f camunda-carbon-reductor-c8/docker-compose.yaml build camunda-8-carbon-reductor-connector && \
-            docker tag enviteconsulting/camunda-8-carbon-reductor-connector:0.0.2 enviteconsulting/camunda-8-carbon-reductor-connector:${{ inputs.TAG }} && \
-            docker push enviteconsulting/camunda-8-carbon-reductor-connector:${{ inputs.TAG }}
+            docker buildx build --push --platform linux/arm64/v8,linux/amd64 \
+              -t enviteconsulting/camunda-8-carbon-reductor-connector:latest \
+              -t enviteconsulting/camunda-8-carbon-reductor-connector:${{ inputs.TAG }} \
+              -f camunda-carbon-reductor-c8/Dockerfile \
+              .
           else
             echo "Nothing to build for C8"
           fi
           if [ "$C7" = true ]
           then
             echo "Building C7" && \
-            docker-compose -f camunda-carbon-reductor-c7/docker-compose.yaml build camunda-7-carbon-reductor-connector && \
-            docker tag enviteconsulting/camunda-7-carbon-reductor-connector:0.0.1 enviteconsulting/camunda-7-carbon-reductor-connector:${{ inputs.TAG }} && \
-            docker push enviteconsulting/camunda-7-carbon-reductor-connector:${{ inputs.TAG }}
+            docker buildx build --push --platform linux/arm64/v8,linux/amd64 \
+              -t enviteconsulting/camunda-7-carbon-reductor-connector:latest \
+              -t enviteconsulting/camunda-7-carbon-reductor-connector:${{ inputs.TAG }} \
+              -f camunda-carbon-reductor-c7/Dockerfile \
+              .
           else
             echo "Nothing to build for C7"
           fi
