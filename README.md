@@ -81,6 +81,7 @@ Other combinations might also work but have not been tested.
 |---------|--------------------|--------------------|
 | 1.0.0   | 8.1.0              | 7.18.0             |
 | 1.1.0   | 8.2.0              | 7.19.0             |
+| 2.0.0   | 8.2.3              | 7.19.0             |
 
 <details>
 
@@ -91,6 +92,7 @@ Other combinations might also work but have not been tested.
 |---------|--------------------|--------------------|
 | 1.0.0   | 8.1.0              | 7.18.0             |
 | 1.1.0   | 8.2.0              | 7.19.0             |
+| 2.0.0   | 8.2.3              | 7.19.0             |
 </details>
 
 Download of Releases:
