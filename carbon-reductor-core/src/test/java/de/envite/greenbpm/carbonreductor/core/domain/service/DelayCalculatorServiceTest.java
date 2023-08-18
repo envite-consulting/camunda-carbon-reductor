@@ -29,7 +29,6 @@ import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.*;
@@ -144,7 +143,7 @@ class DelayCalculatorServiceTest {
     @MethodSource("provideDelayDurationInput")
     void shouldCalculateDelayDurationForSLA(CarbonReductorConfiguration configuration, Timeshift expected) {
         Timeshift actual = classUnderTest.calculateTimeshiftWindowForSLA(configuration);
-        assertThat(actual.timeshiftFromNow()).isCloseTo(expected.timeshiftFromNow(), within(5, ChronoUnit.SECONDS));
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Nested
@@ -176,7 +175,7 @@ class DelayCalculatorServiceTest {
         }
 
         @Test
-        void shouldThrowCustomExceptionOnErrorOnCalculateDelay() throws CarbonReductorException, CarbonEmissionQueryException {
+        void shouldThrowCustomExceptionOnErrorOnCalculateDelay() throws CarbonEmissionQueryException {
             CarbonReductorConfiguration input = new CarbonReductorConfiguration(
                     Locations.NORWAY_EAST.asLocation(),
                     new Milestone(createTimestamp(1)),
@@ -222,7 +221,8 @@ class DelayCalculatorServiceTest {
                         new Timeshift(String.valueOf(Duration.ofHours(12))),
                         null,
                         null,
-                        false)), new Timeshift(String.valueOf(Duration.ofHours(9)))),
+                        false)),
+                        new Timeshift(String.valueOf(Duration.ofHours(9)))),
                 Arguments.of(named("Milestone 3 hours ago - time shift for 6 hours", new CarbonReductorConfiguration(
                         Locations.SWEDEN_CENTRAL.asLocation(),
                         new Milestone(OffsetDateTime.now(ZoneOffset.UTC).minusHours(3).format(DateTimeFormatter.ofPattern(YYYY_MM_DD_T_HH_MM_SS_SSSX_ETC_UTC))),
@@ -230,7 +230,8 @@ class DelayCalculatorServiceTest {
                         new Timeshift(String.valueOf(Duration.ofHours(12))),
                         null,
                         null,
-                        false)), new Timeshift(String.valueOf(Duration.ofHours(6)))),
+                        false)),
+                        new Timeshift(String.valueOf(Duration.ofHours(6)))),
                 Arguments.of(named("Milestone 12 hours ago - do not time shift", new CarbonReductorConfiguration(
                         Locations.SWEDEN_CENTRAL.asLocation(),
                         new Milestone(OffsetDateTime.now(ZoneOffset.UTC).minusHours(12).format(DateTimeFormatter.ofPattern(YYYY_MM_DD_T_HH_MM_SS_SSSX_ETC_UTC))),
@@ -238,7 +239,8 @@ class DelayCalculatorServiceTest {
                         new Timeshift(String.valueOf(Duration.ofHours(12))),
                         null,
                         null,
-                        false)), new Timeshift(String.valueOf(Duration.ofHours(0)))),
+                        false)),
+                        new Timeshift(String.valueOf(Duration.ofHours(0)))),
                 Arguments.of(named("Milestone now - remainingTime & maxTimeshift equal - do not time shift", new CarbonReductorConfiguration(
                         Locations.SWEDEN_CENTRAL.asLocation(),
                         new Milestone(OffsetDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern(YYYY_MM_DD_T_HH_MM_SS_SSSX_ETC_UTC))),
@@ -246,7 +248,8 @@ class DelayCalculatorServiceTest {
                         new Timeshift(String.valueOf(Duration.ofHours(12))),
                         null,
                         null,
-                        false)), new Timeshift(String.valueOf(Duration.ofHours(0)))),
+                        false)),
+                        new Timeshift(String.valueOf(Duration.ofHours(0)))),
                 Arguments.of(named("Milestone now - remainingTime > maxTimeshift - do not time shift", new CarbonReductorConfiguration(
                         Locations.SWEDEN_CENTRAL.asLocation(),
                         new Milestone(OffsetDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern(YYYY_MM_DD_T_HH_MM_SS_SSSX_ETC_UTC))),
@@ -254,7 +257,8 @@ class DelayCalculatorServiceTest {
                         new Timeshift(String.valueOf(Duration.ofHours(6))),
                         null,
                         null,
-                        false)), new Timeshift(String.valueOf(Duration.ofHours(0)))),
+                        false)),
+                        new Timeshift(String.valueOf(Duration.ofHours(0)))),
                 Arguments.of(named("Milestone long ago - do not time shift", new CarbonReductorConfiguration(
                         Locations.SWEDEN_CENTRAL.asLocation(),
                         new Milestone(OffsetDateTime.now(ZoneOffset.UTC).minusHours(50).format(DateTimeFormatter.ofPattern(YYYY_MM_DD_T_HH_MM_SS_SSSX_ETC_UTC))),
@@ -262,7 +266,8 @@ class DelayCalculatorServiceTest {
                         new Timeshift(String.valueOf(Duration.ofHours(12))),
                         null,
                         null,
-                        false)), new Timeshift(String.valueOf(Duration.ofHours(0))))
+                        false)),
+                        new Timeshift(String.valueOf(Duration.ofHours(0))))
         );
     }
 }
