@@ -15,7 +15,7 @@
           <camunda:inputParameter name="remainingProcessDuration">PT6H</camunda:inputParameter>
           <camunda:inputParameter name="maximumProcessDuration">PT12H</camunda:inputParameter>
           <camunda:inputParameter name="location">westeurope</camunda:inputParameter>
-          <camunda:inputParameter name="milestone">${dateTime()}</camunda:inputParameter>
+          <camunda:inputParameter name="milestone">${dateTime().toDateTimeISO().toString()}</camunda:inputParameter>
           <camunda:inputParameter name="errorHandling">CONTINUE_ON_EXCEPTION</camunda:inputParameter>
           <camunda:inputParameter name="measurementOnly">false</camunda:inputParameter>
           <camunda:outputParameter name="executionDelayedMapped">${executionDelayed}</camunda:outputParameter>

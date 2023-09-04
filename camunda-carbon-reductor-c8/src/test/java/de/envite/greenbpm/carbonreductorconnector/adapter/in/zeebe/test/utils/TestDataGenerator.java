@@ -9,6 +9,8 @@ import de.envite.greenbpm.carbonreductor.core.domain.model.output.Delay;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Percentage;
 import de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.variable.CarbonReductorInputVariable;
 
+import java.time.OffsetDateTime;
+
 import static de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Locations.NORWAY_EAST;
 
 public class TestDataGenerator {
@@ -16,7 +18,7 @@ public class TestDataGenerator {
     public static CarbonReductorInputVariable createInputVariables() {
         CarbonReductorInputVariable inputVariable = new CarbonReductorInputVariable();
         inputVariable.setLocation("norwayeast");
-        inputVariable.setMilestone("2022-10-20T11:35:45.826Z[Etc/UTC]");
+        inputVariable.setMilestone("2020-07-31T14:27:30.766Z[GMT]");
         inputVariable.setRemainingProcessDuration("PT10M");
         inputVariable.setTimeshiftWindow("PT6H");
         return inputVariable;
@@ -31,7 +33,7 @@ public class TestDataGenerator {
         );
     }
 
-    public static CarbonReductorConfiguration createSLABasedCarbonReductorInput(String timestamp) {
+    public static CarbonReductorConfiguration createSLABasedCarbonReductorInput(OffsetDateTime timestamp) {
         return new CarbonReductorConfiguration(
                 NORWAY_EAST.asLocation(),
                 new Milestone(timestamp),

@@ -8,15 +8,37 @@ import de.envite.greenbpm.carbonreductor.core.domain.model.input.Timeshift;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Location;
 import org.springframework.stereotype.Component;
 
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeParseException;
+
+import static java.lang.String.format;
+import static java.time.format.DateTimeFormatter.ofPattern;
+
 @Component
 public class CarbonReductorVariableMapper {
+
+    // Sample Date: 2023-09-08T12:58:20.766Z[GMT]
+    private static final String DATE_TIME_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSSX'['z']'";
+
+
+    private static OffsetDateTime parseDateString(String value) {
+        try {
+            return OffsetDateTime.parse(value, ofPattern(DATE_TIME_PATTERN));
+        } catch (DateTimeParseException exception) {
+            throw new IllegalArgumentException(
+                    format("Milestone: Unknown date time format (Expected %s)",
+                            DATE_TIME_PATTERN.replace("'", "")
+                    )
+            );
+        }
+    }
 
     public CarbonReductorConfiguration mapToDomain(CarbonReductorInputVariable inputVariables) {
         final ExceptionHandlingEnum exceptionHandling = inputVariables.getErrorHandling() != null && !inputVariables.getErrorHandling().isEmpty() ?
                 ExceptionHandlingEnum.valueOf(inputVariables.getErrorHandling()) : null;
         return new CarbonReductorConfiguration(
                 new Location(inputVariables.getLocation()),
-                new Milestone(inputVariables.getMilestone()),
+                new Milestone(parseDateString(inputVariables.getMilestone())),
                 new Timeshift(inputVariables.getRemainingProcessDuration()),
                 mapIfNotNull(inputVariables.getMaximumProcessDuration()),
                 mapIfNotNull(inputVariables.getTimeshiftWindow()),
