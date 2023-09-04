@@ -6,16 +6,13 @@ import de.envite.greenbpm.carbonreductor.core.domain.model.ExceptionHandlingEnum
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Milestone;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Timeshift;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Location;
-import org.joda.time.DateTime;
 import org.springframework.stereotype.Component;
 
-import java.time.Instant;
-import java.time.ZoneOffset;
+import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
-import static de.envite.greenbpm.carbonreductor.core.domain.model.input.Milestone.YYYY_MM_DD_T_HH_MM_SS_SSSX_ETC_UTC;
 
 @Component
 class CarbonReductorVariableMapper {
@@ -24,7 +21,7 @@ class CarbonReductorVariableMapper {
                 ExceptionHandlingEnum.valueOf((String) allVariables.get("errorHandling")) : null;
         return new CarbonReductorConfiguration(
                 new Location((String) allVariables.get("location")),
-                new Milestone(getDateTime(allVariables)),
+                new Milestone(getMilestone(allVariables)),
                 mapIfNotNull((String) allVariables.get("remainingProcessDuration")),
                 mapIfNotNull((String) allVariables.get("maximumProcessDuration")),
                 null, // Will become relevant in the future
@@ -32,10 +29,9 @@ class CarbonReductorVariableMapper {
                 Boolean.parseBoolean((String) allVariables.get("measurementOnly")));
     }
 
-    private String getDateTime(Map<String, Object> allVariables) {
-        DateTime dt = (DateTime) allVariables.get("milestone");
-        long millis = dt.getMillis();
-        return Instant.ofEpochMilli(millis).atOffset(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern(YYYY_MM_DD_T_HH_MM_SS_SSSX_ETC_UTC));
+    private OffsetDateTime getMilestone(Map<String, Object> allVariables) {
+        // "2023-09-08T14:13:40.764+02:00"
+        return OffsetDateTime.parse((String) allVariables.get("milestone"));
     }
 
     private Timeshift mapIfNotNull(String input) {
@@ -54,7 +50,7 @@ class CarbonReductorVariableMapper {
         variables.put("reducedCarbon", output.calculateReduction().getValue());
         variables.put("delayedBy", output.getDelay().getDelayedBy());
         // Override milestone variable because joda time is not a primitive object ..
-        variables.put("milestone", getDateTime(allVariables));
+        variables.put("milestone", getMilestone(allVariables).format(DateTimeFormatter.ISO_DATE_TIME));
         return variables;
     }
 }

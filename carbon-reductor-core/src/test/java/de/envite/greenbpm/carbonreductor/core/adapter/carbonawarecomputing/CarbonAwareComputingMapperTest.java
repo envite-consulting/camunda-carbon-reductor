@@ -12,7 +12,7 @@ import static org.mockito.Mockito.when;
 
 class CarbonAwareComputingMapperTest {
 
-    private CarbonAwareComputingMapper classUnderTest = new CarbonAwareComputingMapper();
+    private final CarbonAwareComputingMapper classUnderTest = new CarbonAwareComputingMapper();
 
     @Test
     void should_map_all_fields() {

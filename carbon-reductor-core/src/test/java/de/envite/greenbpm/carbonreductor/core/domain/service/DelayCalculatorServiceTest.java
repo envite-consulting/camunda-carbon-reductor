@@ -28,10 +28,10 @@ import org.mockito.junit.jupiter.MockitoSettings;
 import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 import java.util.stream.Stream;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.offset;
 import static org.junit.jupiter.api.Named.named;
 import static org.mockito.ArgumentMatchers.any;
@@ -40,9 +40,6 @@ import static org.mockito.Mockito.when;
 
 @MockitoSettings
 class DelayCalculatorServiceTest {
-
-    private static final String YYYY_MM_DD_T_HH_MM_SS_SSSX_ETC_UTC =
-            "yyyy-MM-dd'T'HH:mm:ss.SSSX'[Etc/UTC]'";
 
     private CarbonReductorConfiguration input;
     private CarbonReductorConfiguration inputWithDelay;
@@ -75,9 +72,9 @@ class DelayCalculatorServiceTest {
                 false);
     }
 
-    private String createTimestamp(Integer minusHours) {
+    private OffsetDateTime createTimestamp(Integer minusHours) {
         OffsetDateTime timestampDelayed = OffsetDateTime.now(ZoneOffset.UTC).minusHours(minusHours);
-        return timestampDelayed.format(DateTimeFormatter.ofPattern(YYYY_MM_DD_T_HH_MM_SS_SSSX_ETC_UTC));
+        return timestampDelayed;
     }
 
     @ValueSource(booleans = { false, true })
@@ -216,7 +213,7 @@ class DelayCalculatorServiceTest {
         return Stream.of(
                 Arguments.of(named("Milestone now - time shift for 9 hours", new CarbonReductorConfiguration(
                         Locations.SWEDEN_CENTRAL.asLocation(),
-                        new Milestone(OffsetDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern(YYYY_MM_DD_T_HH_MM_SS_SSSX_ETC_UTC))),
+                        new Milestone(OffsetDateTime.now(ZoneOffset.UTC)),
                         new Timeshift(String.valueOf(Duration.ofHours(3))),
                         new Timeshift(String.valueOf(Duration.ofHours(12))),
                         null,
@@ -225,7 +222,7 @@ class DelayCalculatorServiceTest {
                         new Timeshift(String.valueOf(Duration.ofHours(9)))),
                 Arguments.of(named("Milestone 3 hours ago - time shift for 6 hours", new CarbonReductorConfiguration(
                         Locations.SWEDEN_CENTRAL.asLocation(),
-                        new Milestone(OffsetDateTime.now(ZoneOffset.UTC).minusHours(3).format(DateTimeFormatter.ofPattern(YYYY_MM_DD_T_HH_MM_SS_SSSX_ETC_UTC))),
+                        new Milestone(OffsetDateTime.now(ZoneOffset.UTC).minusHours(3)),
                         new Timeshift(String.valueOf(Duration.ofHours(3))),
                         new Timeshift(String.valueOf(Duration.ofHours(12))),
                         null,
@@ -234,7 +231,7 @@ class DelayCalculatorServiceTest {
                         new Timeshift(String.valueOf(Duration.ofHours(6)))),
                 Arguments.of(named("Milestone 12 hours ago - do not time shift", new CarbonReductorConfiguration(
                         Locations.SWEDEN_CENTRAL.asLocation(),
-                        new Milestone(OffsetDateTime.now(ZoneOffset.UTC).minusHours(12).format(DateTimeFormatter.ofPattern(YYYY_MM_DD_T_HH_MM_SS_SSSX_ETC_UTC))),
+                        new Milestone(OffsetDateTime.now(ZoneOffset.UTC).minusHours(12)),
                         new Timeshift(String.valueOf(Duration.ofHours(3))),
                         new Timeshift(String.valueOf(Duration.ofHours(12))),
                         null,
@@ -243,7 +240,7 @@ class DelayCalculatorServiceTest {
                         new Timeshift(String.valueOf(Duration.ofHours(0)))),
                 Arguments.of(named("Milestone now - remainingTime & maxTimeshift equal - do not time shift", new CarbonReductorConfiguration(
                         Locations.SWEDEN_CENTRAL.asLocation(),
-                        new Milestone(OffsetDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern(YYYY_MM_DD_T_HH_MM_SS_SSSX_ETC_UTC))),
+                        new Milestone(OffsetDateTime.now(ZoneOffset.UTC)),
                         new Timeshift(String.valueOf(Duration.ofHours(12))),
                         new Timeshift(String.valueOf(Duration.ofHours(12))),
                         null,
@@ -252,7 +249,7 @@ class DelayCalculatorServiceTest {
                         new Timeshift(String.valueOf(Duration.ofHours(0)))),
                 Arguments.of(named("Milestone now - remainingTime > maxTimeshift - do not time shift", new CarbonReductorConfiguration(
                         Locations.SWEDEN_CENTRAL.asLocation(),
-                        new Milestone(OffsetDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern(YYYY_MM_DD_T_HH_MM_SS_SSSX_ETC_UTC))),
+                        new Milestone(OffsetDateTime.now(ZoneOffset.UTC)),
                         new Timeshift(String.valueOf(Duration.ofHours(12))),
                         new Timeshift(String.valueOf(Duration.ofHours(6))),
                         null,
@@ -261,7 +258,7 @@ class DelayCalculatorServiceTest {
                         new Timeshift(String.valueOf(Duration.ofHours(0)))),
                 Arguments.of(named("Milestone long ago - do not time shift", new CarbonReductorConfiguration(
                         Locations.SWEDEN_CENTRAL.asLocation(),
-                        new Milestone(OffsetDateTime.now(ZoneOffset.UTC).minusHours(50).format(DateTimeFormatter.ofPattern(YYYY_MM_DD_T_HH_MM_SS_SSSX_ETC_UTC))),
+                        new Milestone(OffsetDateTime.now(ZoneOffset.UTC).minusHours(50)),
                         new Timeshift(String.valueOf(Duration.ofHours(3))),
                         new Timeshift(String.valueOf(Duration.ofHours(12))),
                         null,

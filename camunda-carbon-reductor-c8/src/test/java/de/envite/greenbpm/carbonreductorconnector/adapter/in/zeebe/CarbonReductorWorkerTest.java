@@ -16,7 +16,7 @@ import io.camunda.zeebe.client.api.response.ActivatedJob;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.time.Duration;
+import java.time.*;
 
 import static de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.test.utils.TestDataGenerator.createInputVariables;
 import static de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.test.utils.TestDataGenerator.createSLABasedCarbonReductorInput;
@@ -35,7 +35,12 @@ class CarbonReductorWorkerTest {
     @BeforeAll
     static void init() {
         variableMapper = new CarbonReductorVariableMapper();
-        carbonReductorConfiguration = createSLABasedCarbonReductorInput("2022-10-20T11:35:45.826Z[Etc/UTC]");
+        OffsetDateTime timestamp = OffsetDateTime.of(
+                LocalDate.of(2020, 7, 31),
+                LocalTime.of(14, 27, 30),
+                ZoneId.of("Europe/Berlin").getRules().getOffset(Instant.now())
+        );
+        carbonReductorConfiguration = createSLABasedCarbonReductorInput(timestamp);
         carbonReductorOutput_Clean = new CarbonReduction(
                 new Delay(false, 0),
                 new Carbon(500.0),
