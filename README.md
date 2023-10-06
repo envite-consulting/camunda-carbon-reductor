@@ -83,9 +83,8 @@ Other combinations might also work but have not been tested.
 
 | Release | Camunda Platform 8 | Camunda Platform 7 |
 |---------|--------------------|--------------------|
-| 1.0.0   | 8.1.0              | 7.18.0             |
-| 1.1.0   | 8.2.0              | 7.19.0             |
-| 2.0.0   | 8.2.3              | 7.19.0             |
+| 2.0.1   | 8.2.3              | 7.19.0             |
+| 2.0.2   | 8.2.3              | 7.19.0             |
 
 <details>
 
@@ -97,6 +96,9 @@ Other combinations might also work but have not been tested.
 | 1.0.0   | 8.1.0              | 7.18.0             |
 | 1.1.0   | 8.2.0              | 7.19.0             |
 | 2.0.0   | 8.2.3              | 7.19.0             |
+| 2.0.1   | 8.2.3              | 7.19.0             |
+| 2.0.2   | 8.2.3              | 7.19.0             |
+
 </details>
 
 Download of Releases:
@@ -105,18 +107,19 @@ Download of Releases:
 
 # 📆Publications
 
-* 2022-11: [Project Pitch](https://taikai.network/gsf/hackathons/carbonhack22/projects/cl9czuvwy65500401uzm9hfwbs9/idea)  
-  Project pitch on Taikai as part of the [#CarbonHack22](https://greensoftware.foundation/articles/carbonhack22) hackathon
+* 2023-09: [Camunda Marketplace](https://marketplace.camunda.com/en-US/apps/419555/carbon-reductor)
+* 2023-07: [The Camunda 8 Connector for Carbon-Aware Process Execution](https://bit.ly/3NZ5LMz)
+* 2023-02: Hehnle, Philipp; Behrendt, Maximilian; Weinbrecht, Luc (20.2023): Digitale Geschäftsprozesse klimabewusst ausführen. In: Uwe Friedrichsen (Hg.): IT Spektrum. Green IT, S. 16–19.
 * 2022-11: [Carbon Reduced Business Process Execution](https://youtu.be/sGW5MJoOxPk)  
   2 Minute pitch on YouTube as part of the [#CarbonHack22](https://greensoftware.foundation/articles/carbonhack22) hackathon
-* 2023-02: Hehnle, Philipp; Behrendt, Maximilian; Weinbrecht, Luc (20.2023): Digitale Geschäftsprozesse klimabewusst ausführen. In: Uwe Friedrichsen (Hg.): IT Spektrum. Green IT, S. 16–19.
-* 2023-07: [The Camunda 8 Connector for Carbon-Aware Process Execution](https://bit.ly/3NZ5LMz)
+* 2022-11: [Project Pitch](https://taikai.network/gsf/hackathons/carbonhack22/projects/cl9czuvwy65500401uzm9hfwbs9/idea)  
+  Project pitch on Taikai as part of the [#CarbonHack22](https://greensoftware.foundation/articles/carbonhack22) hackathon
 
 If you are interested in our work and want to get to know more, feel free to reach out to us.
 
 # 📨Contact
 
-If you have any questions or ideas feel free to create an [issue](https://github.com/envite-consulting/carbonaware-process-automation/discussions/issues) or contact us via GitHub Discussions or mail.
+If you have any questions or ideas feel free to create an [issue](https://github.com/envite-consulting/carbonaware-process-automation/discussions/issues) or contact us via GitHub Discussions or [mail](mailto:carbon-reductor@envite.de).
 
 This open source project is being developed by [envite consulting GmbH](https://envite.de).
 
