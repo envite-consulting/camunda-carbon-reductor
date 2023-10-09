@@ -2,7 +2,7 @@ version: "3.9"
 services:
 
   carbon-aware-webapi:
-    image: enviteconsulting/carbon-aware-sdk-webapi:0.0.3
+    image: ghcr.io/green-software-foundation/carbon-aware-sdk:v1.1.0
     container_name: carbon-aware-webapi
     environment:
       - DataSources__EmissionsDataSource=WattTime

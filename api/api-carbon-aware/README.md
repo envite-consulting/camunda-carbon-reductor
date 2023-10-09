@@ -44,7 +44,7 @@ docker run -it --rm -p 8090:80 \
     -e DataSources__Configurations__WattTime__Type="WattTime" \
     -e DataSources__Configurations__WattTime__Username="<myWattTimeUsername>" \
     -e DataSources__Configurations__WattTime__Password="<myWattTimePassword>" \
-  enviteconsulting/carbon-aware-sdk-webapi
+  ghcr.io/green-software-foundation/carbon-aware-sdk
 ```
 
 Test the API with `curl -s "http://localhost:8090/emissions/forecasts/current?location=westus"`.
