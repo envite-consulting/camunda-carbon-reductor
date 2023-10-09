@@ -41,7 +41,7 @@ The Carbon Reductor Connector defines the following inputs:
 
 ## Measuring Mode 📏
 
-> *Note*: This mode only works with the [Carbon Aware SDK](./api-carbon-aware/README.md) API at the moment.
+> *Note*: This mode only works with the [Carbon Aware SDK](./api/api-carbon-aware/README.md) API at the moment.
 
 Using the measuring mode the Carbon Reductor Connector allows you to measure the emissions in gCO2e/KWh at 
 execution time and reports as well the emissions at the optimal time while still fulfilling your SLAs.
