@@ -1,8 +1,8 @@
-FROM maven:3.8.3-openjdk-17 AS BUILD
+FROM eclipse-temurin:17-jdk AS BUILD
 COPY . .
-RUN mvn clean package
+RUN ./mvnw clean package
 
-FROM openjdk:17.0.1-jdk-slim AS RUN
+FROM eclipse-temurin:17-jdk AS RUN
 
 COPY --from=BUILD camunda-carbon-reductor-c8/target/camunda-carbon-reductor-c8-*.jar camunda-carbon-reductor-c8.jar
 

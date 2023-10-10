@@ -41,7 +41,7 @@ jobs:
           if [ "$C8" = true ]
           then
             echo "Building C8" && \
-            docker buildx build --push --platform linux/arm64/v8,linux/amd64 \
+            docker buildx build --push --platform  linux/arm/v8,linux/arm64/v8,linux/amd64 \
               -t enviteconsulting/camunda-8-carbon-reductor-connector:latest \
               -t enviteconsulting/camunda-8-carbon-reductor-connector:${{ inputs.TAG }} \
               -f camunda-carbon-reductor-c8/Dockerfile \
@@ -52,7 +52,7 @@ jobs:
           if [ "$C7" = true ]
           then
             echo "Building C7" && \
-            docker buildx build --push --platform linux/arm64/v8,linux/amd64 \
+            docker buildx build --push --platform  linux/arm/v8,linux/arm64/v8,linux/amd64 \
               -t enviteconsulting/camunda-7-carbon-reductor-connector:latest \
               -t enviteconsulting/camunda-7-carbon-reductor-connector:${{ inputs.TAG }} \
               -f camunda-carbon-reductor-c7/Dockerfile \
