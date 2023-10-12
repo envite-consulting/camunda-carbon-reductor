@@ -1,3 +1,5 @@
+<img align="right" width="100" src="./assets/Logo/logo-listing.svg">
+
 # 🌱Camunda Carbon Reductor
 
 The Camunda Carbon Reductor allows you to time shift your processes' carbon emissions when energy is clean while still fulfilling the requested SLAs.
