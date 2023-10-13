@@ -59,6 +59,14 @@
         <tag>HEAD</tag>
     </scm>
 
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/envite-consulting/camunda-carbon-reductor</url>
+        </repository>
+    </distributionManagement>
+
     <build>
         <plugins>
             <plugin>
