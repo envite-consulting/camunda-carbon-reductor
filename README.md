@@ -110,6 +110,8 @@ Download of Releases:
 
 # 📆Publications
 
+* 2023-10: [Process Pattern.book](https://process-pattern.app/book/case-studies/envite-camunda-carbon-reductor) 
+  The Camunda Carbon Reductor as Case Study for the _Shift Workload_ Workflow Pattern.
 * 2023-09: [Camunda Marketplace](https://marketplace.camunda.com/en-US/apps/419555/carbon-reductor)
 * 2023-07: [The Camunda 8 Connector for Carbon-Aware Process Execution](https://bit.ly/3NZ5LMz)
 * 2023-02: Hehnle, Philipp; Behrendt, Maximilian; Weinbrecht, Luc (20.2023): Digitale Geschäftsprozesse klimabewusst ausführen. In: Uwe Friedrichsen (Hg.): IT Spektrum. Green IT, S. 16–19.
