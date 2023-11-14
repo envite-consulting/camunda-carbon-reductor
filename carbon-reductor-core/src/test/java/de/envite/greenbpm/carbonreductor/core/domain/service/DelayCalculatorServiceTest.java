@@ -9,6 +9,7 @@ import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.Earlies
 import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.ForecastedValue;
 import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.OptimalTime;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Milestone;
+import de.envite.greenbpm.carbonreductor.core.domain.model.input.Threshold;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Timeshift;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Locations;
 import de.envite.greenbpm.carbonreductor.core.usecase.out.CarbonEmissionQuery;
@@ -45,13 +46,13 @@ class DelayCalculatorServiceTest {
     private CarbonReductorConfiguration inputWithDelay;
 
     @Mock
-    private CarbonEmissionQuery carbonEmissionQuery;
+    private CarbonEmissionQuery carbonEmissionQueryMock;
 
     private DelayCalculatorService classUnderTest;
 
     @BeforeEach
     void init() {
-        classUnderTest = new DelayCalculatorService(carbonEmissionQuery);
+        classUnderTest = new DelayCalculatorService(carbonEmissionQueryMock);
 
         input = new CarbonReductorConfiguration(
                 Locations.NORWAY_EAST.asLocation(),
@@ -60,7 +61,8 @@ class DelayCalculatorServiceTest {
                 new Timeshift("PT10H"),
                 null,
                 null,
-                false);
+                false,
+                new Threshold(false, 0.0f));
 
         inputWithDelay = new CarbonReductorConfiguration(
                 Locations.NORWAY_EAST.asLocation(),
@@ -69,7 +71,8 @@ class DelayCalculatorServiceTest {
                 new Timeshift("PT10H"),
                 null,
                 null,
-                false);
+                false,
+                new Threshold(false, 0.0f));
     }
 
     private OffsetDateTime createTimestamp(Integer minusHours) {
@@ -79,7 +82,7 @@ class DelayCalculatorServiceTest {
 
     @ValueSource(booleans = { false, true })
     @ParameterizedTest
-    void shouldCalculateDelay(final boolean measurementMode) throws CarbonReductorException, CarbonEmissionQueryException {
+    void shouldCalculateDelayWithoutThreshold(final boolean measurementMode) throws CarbonReductorException, CarbonEmissionQueryException {
         EmissionTimeframe emissionTimeframe = createBetterEmissionTimeframeIn3Hours();
         CarbonReductorConfiguration inputConfig = new CarbonReductorConfiguration(
                 Locations.NORWAY_EAST.asLocation(),
@@ -88,17 +91,66 @@ class DelayCalculatorServiceTest {
                 new Timeshift("PT10H"),
                 null,
                 null,
-                measurementMode);
-        when(carbonEmissionQuery.getEmissionTimeframe(eq(inputConfig.getLocation()),
+                measurementMode,
+                new Threshold(false, 0.0f));
+        when(carbonEmissionQueryMock.getEmissionTimeframe(eq(inputConfig.getLocation()),
                 any(Timeshift.class), eq(inputConfig.getRemainingProcessTimeshift()))).thenReturn(emissionTimeframe);
 
         CarbonReduction result = classUnderTest.calculateDelay(inputConfig);
 
         Assertions.assertThat(result.getDelay().isExecutionDelayed()).isEqualTo(!measurementMode);
         Assertions.assertThat(result.getDelay().getDelayedBy()).isGreaterThanOrEqualTo(Duration.ofMinutes(179).toMillis());
-        Assertions.assertThat(result.getOptimalForecastedCarbon().getValue()).isEqualTo(0.0);
+        Assertions.assertThat(result.getOptimalForecastedCarbon().getValue()).isEqualTo(15.0);
         Assertions.assertThat(result.getCarbonWithoutOptimization().getValue()).isEqualTo(200.6);
-        Assertions.assertThat(result.getSavedCarbonPercentage().getValue()).isCloseTo(100.0, offset(0.1));
+        Assertions.assertThat(result.getSavedCarbonPercentage().getValue()).isCloseTo(92.5, offset(0.1));
+    }
+
+    @Test
+    void shouldCalculateDelayWithThreshold() throws CarbonReductorException, CarbonEmissionQueryException {
+        EmissionTimeframe emissionTimeframe = createBetterEmissionTimeframeIn3Hours();
+        CarbonReductorConfiguration inputConfig = new CarbonReductorConfiguration(
+                Locations.NORWAY_EAST.asLocation(),
+                new Milestone(createTimestamp(1)),
+                new Timeshift("PT5H"),
+                new Timeshift("PT10H"),
+                null,
+                null,
+                false,
+                new Threshold(true, 4.9f));
+        when(carbonEmissionQueryMock.getEmissionTimeframe(eq(inputConfig.getLocation()),
+                any(Timeshift.class), eq(inputConfig.getRemainingProcessTimeshift()))).thenReturn(emissionTimeframe);
+
+        CarbonReduction result = classUnderTest.calculateDelay(inputConfig);
+
+        Assertions.assertThat(result.getDelay().isExecutionDelayed()).isTrue();
+        Assertions.assertThat(result.getDelay().getDelayedBy()).isGreaterThanOrEqualTo(Duration.ofMinutes(179).toMillis());
+        Assertions.assertThat(result.getOptimalForecastedCarbon().getValue()).isEqualTo(15.0);
+        Assertions.assertThat(result.getCarbonWithoutOptimization().getValue()).isEqualTo(200.6);
+        Assertions.assertThat(result.getSavedCarbonPercentage().getValue()).isCloseTo(92.5, offset(0.1));
+    }
+
+    @Test
+    void shouldNotCalculateDelayBecauseBelowThreshold() throws CarbonReductorException, CarbonEmissionQueryException {
+        EmissionTimeframe emissionTimeframe = createBetterEmissionTimeframeIn3Hours();
+        CarbonReductorConfiguration inputConfig = new CarbonReductorConfiguration(
+                Locations.NORWAY_EAST.asLocation(),
+                new Milestone(createTimestamp(1)),
+                new Timeshift("PT5H"),
+                new Timeshift("PT10H"),
+                null,
+                null,
+                false,
+                new Threshold(true, 5.1f));
+        when(carbonEmissionQueryMock.getEmissionTimeframe(eq(inputConfig.getLocation()),
+                any(Timeshift.class), eq(inputConfig.getRemainingProcessTimeshift()))).thenReturn(emissionTimeframe);
+
+        CarbonReduction result = classUnderTest.calculateDelay(inputConfig);
+
+        Assertions.assertThat(result.getDelay().isExecutionDelayed()).isTrue();
+        Assertions.assertThat(result.getDelay().getDelayedBy()).isGreaterThanOrEqualTo(Duration.ofMinutes(179).toMillis());
+        Assertions.assertThat(result.getOptimalForecastedCarbon().getValue()).isEqualTo(15.0);
+        Assertions.assertThat(result.getCarbonWithoutOptimization().getValue()).isEqualTo(200.6);
+        Assertions.assertThat(result.getSavedCarbonPercentage().getValue()).isCloseTo(92.5, offset(0.1));
     }
 
     @Test
@@ -106,7 +158,7 @@ class DelayCalculatorServiceTest {
     void shouldCalculateNoDelayBecauseProcessIsRunningVeryLong() throws CarbonReductorException, CarbonEmissionQueryException {
         EmissionTimeframe emissionTimeframe = createBetterEmissionTimeframeIn3Hours();
 
-        when(carbonEmissionQuery.getEmissionTimeframe(eq(inputWithDelay.getLocation()),
+        when(carbonEmissionQueryMock.getEmissionTimeframe(eq(inputWithDelay.getLocation()),
                 any(Timeshift.class), eq(inputWithDelay.getRemainingProcessTimeshift()))).thenReturn(emissionTimeframe);
 
         CarbonReduction result = classUnderTest.calculateDelay(inputWithDelay);
@@ -123,7 +175,7 @@ class DelayCalculatorServiceTest {
     void shouldCalculateNoDelayBecauseEnergyIsOptimal() throws CarbonReductorException, CarbonEmissionQueryException {
         EmissionTimeframe emissionTimeframe = createEmissionTimeframeCurrentlyOptimal();
 
-        when(carbonEmissionQuery.getEmissionTimeframe(eq(input.getLocation()),
+        when(carbonEmissionQueryMock.getEmissionTimeframe(eq(input.getLocation()),
                 any(Timeshift.class), eq(input.getRemainingProcessTimeshift()))).thenReturn(emissionTimeframe);
 
         CarbonReduction result = classUnderTest.calculateDelay(input);
@@ -155,9 +207,10 @@ class DelayCalculatorServiceTest {
                     new Timeshift("PT10H"),
                     null,
                     ExceptionHandlingEnum.CONTINUE_ON_EXCEPTION,
-                    false);
+                    false,
+                    new Threshold(false, 0.0f));
 
-            when(carbonEmissionQuery.getEmissionTimeframe(any(), any(), any()))
+            when(carbonEmissionQueryMock.getEmissionTimeframe(any(), any(), any()))
                     .thenThrow(new CarbonEmissionQueryException("Test"));
 
             CarbonReduction result = classUnderTest.calculateDelay(input);
@@ -180,10 +233,11 @@ class DelayCalculatorServiceTest {
                     new Timeshift("PT10H"),
                     null,
                     ExceptionHandlingEnum.THROW_BPMN_ERROR,
-                    false);
+                    false,
+                    new Threshold(false, 0.0f));
             final Throwable cause = new CarbonEmissionQueryException("Test");
 
-            when(carbonEmissionQuery.getEmissionTimeframe(any(), any(), any()))
+            when(carbonEmissionQueryMock.getEmissionTimeframe(any(), any(), any()))
                     .thenThrow(cause);
 
             assertThatThrownBy(() -> classUnderTest.calculateDelay(input))
@@ -197,7 +251,7 @@ class DelayCalculatorServiceTest {
         return new EmissionTimeframe(
                 new OptimalTime(java.time.OffsetDateTime.now().plusHours(3)),
                 new EarliestForecastedValue(200.6),
-                new ForecastedValue(0.0)
+                new ForecastedValue(15.0)
         );
     }
 
@@ -218,7 +272,8 @@ class DelayCalculatorServiceTest {
                         new Timeshift(String.valueOf(Duration.ofHours(12))),
                         null,
                         null,
-                        false)),
+                        false,
+                                new Threshold(false, 0.0f))),
                         new Timeshift(String.valueOf(Duration.ofHours(9)))),
                 Arguments.of(named("Milestone 3 hours ago - time shift for 6 hours", new CarbonReductorConfiguration(
                         Locations.SWEDEN_CENTRAL.asLocation(),
@@ -227,7 +282,8 @@ class DelayCalculatorServiceTest {
                         new Timeshift(String.valueOf(Duration.ofHours(12))),
                         null,
                         null,
-                        false)),
+                        false,
+                                new Threshold(false, 0.0f))),
                         new Timeshift(String.valueOf(Duration.ofHours(6)))),
                 Arguments.of(named("Milestone 12 hours ago - do not time shift", new CarbonReductorConfiguration(
                         Locations.SWEDEN_CENTRAL.asLocation(),
@@ -236,7 +292,8 @@ class DelayCalculatorServiceTest {
                         new Timeshift(String.valueOf(Duration.ofHours(12))),
                         null,
                         null,
-                        false)),
+                        false,
+                                new Threshold(false, 0.0f))),
                         new Timeshift(String.valueOf(Duration.ofHours(0)))),
                 Arguments.of(named("Milestone irrelevant - remainingTime & maxTimeshift equal - do not time shift", new CarbonReductorConfiguration(
                         Locations.SWEDEN_CENTRAL.asLocation(),
@@ -245,7 +302,8 @@ class DelayCalculatorServiceTest {
                         new Timeshift(String.valueOf(Duration.ofHours(12))),
                         null,
                         null,
-                        false)),
+                        false,
+                                new Threshold(false, 0.0f))),
                         new Timeshift(String.valueOf(Duration.ofHours(0)))),
                 Arguments.of(named("Milestone irrelevant - remainingTime > maxTimeshift - do not time shift", new CarbonReductorConfiguration(
                         Locations.SWEDEN_CENTRAL.asLocation(),
@@ -254,7 +312,8 @@ class DelayCalculatorServiceTest {
                         new Timeshift(String.valueOf(Duration.ofHours(6))),
                         null,
                         null,
-                        false)),
+                        false,
+                                new Threshold(false, 0.0f))),
                         new Timeshift(String.valueOf(Duration.ofHours(0)))),
                 Arguments.of(named("Milestone long ago - do not time shift", new CarbonReductorConfiguration(
                         Locations.SWEDEN_CENTRAL.asLocation(),
@@ -263,7 +322,8 @@ class DelayCalculatorServiceTest {
                         new Timeshift(String.valueOf(Duration.ofHours(12))),
                         null,
                         null,
-                        false)),
+                        false,
+                                new Threshold(false, 0.0f))),
                         new Timeshift(String.valueOf(Duration.ofHours(0))))
         );
     }
