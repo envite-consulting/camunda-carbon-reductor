@@ -3,6 +3,7 @@ package de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.test.utils;
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReduction;
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReductorConfiguration;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Milestone;
+import de.envite.greenbpm.carbonreductor.core.domain.model.input.Threshold;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Timeshift;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Carbon;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Delay;
@@ -41,6 +42,7 @@ public class TestDataGenerator {
                 new Timeshift("PT10H"),
                 null,
                 null,
-                false, threshold);
+                false,
+                new Threshold(false, 0f));
     }
 }

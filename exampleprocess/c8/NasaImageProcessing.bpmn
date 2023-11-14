@@ -25,6 +25,8 @@
           <zeebe:input source="PT12H" target="maximumProcessDuration" />
           <zeebe:input source="=now()" target="milestone" />
           <zeebe:input source="CONTINUE_ON_EXCEPTION" target="errorHandling" />
+          <zeebe:input source="true" target="thresholdEnabled" />
+          <zeebe:input source="4.5" target="thresholdValue" />
         </zeebe:ioMapping>
         <zeebe:taskHeaders>
           <zeebe:header key="resultExpression" value="=put all()" />

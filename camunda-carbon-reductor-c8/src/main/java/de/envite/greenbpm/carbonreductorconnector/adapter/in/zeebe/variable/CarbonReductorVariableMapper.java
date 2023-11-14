@@ -4,6 +4,7 @@ import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReduction;
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReductorConfiguration;
 import de.envite.greenbpm.carbonreductor.core.domain.model.ExceptionHandlingEnum;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Milestone;
+import de.envite.greenbpm.carbonreductor.core.domain.model.input.Threshold;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Timeshift;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Location;
 import org.springframework.stereotype.Component;
@@ -19,7 +20,6 @@ public class CarbonReductorVariableMapper {
 
     // Sample Date: 2023-09-08T12:58:20.766Z[GMT]
     private static final String DATE_TIME_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSSX'['z']'";
-
 
     private static OffsetDateTime parseDateString(String value) {
         try {
@@ -43,7 +43,9 @@ public class CarbonReductorVariableMapper {
                 mapIfNotNull(inputVariables.getMaximumProcessDuration()),
                 mapIfNotNull(inputVariables.getTimeshiftWindow()),
                 exceptionHandling,
-                inputVariables.isMeasurementOnly(), threshold);
+                inputVariables.isMeasurementOnly(),
+                new Threshold(inputVariables.isThresholdEnabled(), inputVariables.getThresholdValue())
+        );
     }
 
     private Timeshift mapIfNotNull(String input) {
