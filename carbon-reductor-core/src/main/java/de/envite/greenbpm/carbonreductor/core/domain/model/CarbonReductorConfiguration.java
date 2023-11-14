@@ -1,6 +1,7 @@
 package de.envite.greenbpm.carbonreductor.core.domain.model;
 
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Milestone;
+import de.envite.greenbpm.carbonreductor.core.domain.model.input.Threshold;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Timeshift;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Location;
 import io.github.domainprimitives.object.Aggregate;
@@ -20,6 +21,7 @@ public class CarbonReductorConfiguration extends Aggregate {
     private final Timeshift timeshiftWindow;
     private final ExceptionHandlingEnum exceptionHandling;
     private final boolean measurementOnly;
+    private final Threshold threshold;
 
     private static final ExceptionHandlingEnum EXCEPTION_HANDLING_DEFAULT = ExceptionHandlingEnum.CONTINUE_ON_EXCEPTION;
 
@@ -29,7 +31,8 @@ public class CarbonReductorConfiguration extends Aggregate {
                                        Timeshift maximumProcessTimeshift,
                                        Timeshift timeshiftWindow,
                                        ExceptionHandlingEnum exceptionHandling,
-                                       boolean measurementOnly) {
+                                       boolean measurementOnly,
+                                       Threshold threshold) {
         this.location = location;
         this.milestone = milestone;
         this.remainingProcessTimeshift = remainingProcessTimeshift;
@@ -37,6 +40,7 @@ public class CarbonReductorConfiguration extends Aggregate {
         this.timeshiftWindow = timeshiftWindow;
         this.exceptionHandling = exceptionHandling == null ? EXCEPTION_HANDLING_DEFAULT : exceptionHandling;
         this.measurementOnly = measurementOnly;
+        this.threshold = threshold;
         this.validate();
     }
 

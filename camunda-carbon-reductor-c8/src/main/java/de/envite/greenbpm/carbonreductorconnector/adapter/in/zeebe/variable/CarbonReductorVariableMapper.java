@@ -43,7 +43,7 @@ public class CarbonReductorVariableMapper {
                 mapIfNotNull(inputVariables.getMaximumProcessDuration()),
                 mapIfNotNull(inputVariables.getTimeshiftWindow()),
                 exceptionHandling,
-                inputVariables.isMeasurementOnly());
+                inputVariables.isMeasurementOnly(), threshold);
     }
 
     private Timeshift mapIfNotNull(String input) {

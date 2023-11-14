@@ -46,8 +46,11 @@ public class DelayCalculatorService implements DelayCalculator {
         }
 
         boolean isDelayNecessary = input.isDelayStillRelevant() && emissionTimeframe.isCleanerEnergyInFuture();
+        boolean isGreaterThanMinimumThreshold = input.getThreshold().isGreaterThanMinimumThreshold(
+                emissionTimeframe.getForecastedValue().getValue()
+        );
 
-        if (isDelayNecessary) {
+        if (isDelayNecessary && isGreaterThanMinimumThreshold) {
             final long optimalTime = emissionTimeframe.getOptimalTime().asOffsetDateTime().toInstant().toEpochMilli();
             final long delayedBy = optimalTime - OffsetDateTime.now(ZoneOffset.UTC).toInstant().toEpochMilli();
             final boolean executionDelayed = !input.isMeasurementOnly();

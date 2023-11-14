@@ -26,7 +26,7 @@ class CarbonReductorVariableMapper {
                 mapIfNotNull((String) allVariables.get("maximumProcessDuration")),
                 null, // Will become relevant in the future
                 exceptionHandling,
-                Boolean.parseBoolean((String) allVariables.get("measurementOnly")));
+                Boolean.parseBoolean((String) allVariables.get("measurementOnly")), threshold);
     }
 
     private OffsetDateTime getMilestone(Map<String, Object> allVariables) {
