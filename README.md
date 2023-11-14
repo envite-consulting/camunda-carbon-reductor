@@ -40,6 +40,7 @@ The Carbon Reductor Connector defines the following inputs:
 - a milestone (a timestamp used to calculate the duration the process instance has been running)
 - a duration for the remainder of the process (the duration the remainder needs at most)
 - the maximum duration a process instance can take
+- optionally, set a threshold for the minimum amount of grams of CO2 per kilowatt-hour that should be saved
 
 ## Measuring Mode 📏
 
