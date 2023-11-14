@@ -1,7 +1,9 @@
 package de.envite.greenbpm.carbonreductor.core.domain.model.input;
 
 import io.github.domainprimitives.object.ComposedValueObject;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode(callSuper = false)
 public class Threshold extends ComposedValueObject {
 
     private final boolean enabled;
