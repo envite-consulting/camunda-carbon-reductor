@@ -172,6 +172,38 @@
       }
     },
     {
+      "label": "Minimum Threshold Enabling",
+      "group": "carbonreductor",
+      "id": "thresholdEnabled",
+      "description": "Enable setting a minimal amount of g/CO2 per kWh which should be saved at least",
+      "type": "Dropdown",
+      "choices": [
+        {
+          "name": "enable",
+          "value": "true"
+        },
+        {
+          "name": "disable",
+          "value": "false"
+        }
+      ],
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "thresholdEnabled"
+      }
+    },
+    {
+      "label": "Minimum Threshold Value",
+      "group": "carbonreductor",
+      "id": "thresholdValue",
+      "description": "Enable setting a minimal amount of g/CO2 per kWh which should be saved at least",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "thresholdValue"
+      }
+    },
+    {
       "label": "Error handling behavior",
       "id": "errorHandling",
       "description": "Defines how to handle error during fetching and calculating the time window for the timeshift",

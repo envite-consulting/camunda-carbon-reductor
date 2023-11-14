@@ -3,6 +3,7 @@ package de.envite.greenbpm.carbonreductorconnector;
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReduction;
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReductorConfiguration;
 import de.envite.greenbpm.carbonreductor.core.domain.model.ExceptionHandlingEnum;
+import de.envite.greenbpm.carbonreductor.core.domain.model.input.Threshold;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Locations;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Carbon;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Delay;
@@ -38,6 +39,8 @@ class CarbonReductorVariableMapperTest {
             variables.put("remainingProcessDuration", "PT6H");
             variables.put("errorHandling", "THROW_BPMN_ERROR");
             variables.put("measurementOnly", "true");
+            variables.put("thresholdEnabled", "true");
+            variables.put("thresholdValue", "4.5");
 
             CarbonReductorConfiguration result = classUnderTest.mapToDomain(variables);
 
@@ -54,6 +57,7 @@ class CarbonReductorVariableMapperTest {
             softAssertions.assertThat(result.getTimeshiftWindow()).isNull();
             softAssertions.assertThat(result.getExceptionHandling()).isEqualTo(ExceptionHandlingEnum.THROW_BPMN_ERROR);
             softAssertions.assertThat(result.isMeasurementOnly()).isTrue();
+            softAssertions.assertThat(result.getThreshold()).isEqualTo(new Threshold(true, 4.5f));
             softAssertions.assertAll();
         }
 

@@ -4,6 +4,7 @@ import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReduction;
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReductorConfiguration;
 import de.envite.greenbpm.carbonreductor.core.domain.model.ExceptionHandlingEnum;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Milestone;
+import de.envite.greenbpm.carbonreductor.core.domain.model.input.Threshold;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Timeshift;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Location;
 import org.springframework.stereotype.Component;
@@ -26,7 +27,12 @@ class CarbonReductorVariableMapper {
                 mapIfNotNull((String) allVariables.get("maximumProcessDuration")),
                 null, // Will become relevant in the future
                 exceptionHandling,
-                Boolean.parseBoolean((String) allVariables.get("measurementOnly")), threshold);
+                Boolean.parseBoolean((String) allVariables.get("measurementOnly")),
+                mapIfEnabled(
+                        Boolean.parseBoolean((String) allVariables.get("thresholdEnabled")),
+                        (String) allVariables.get("thresholdValue")
+                )
+        );
     }
 
     private OffsetDateTime getMilestone(Map<String, Object> allVariables) {
@@ -39,6 +45,13 @@ class CarbonReductorVariableMapper {
             return null;
         }
         return new Timeshift(input);
+    }
+
+    private Threshold mapIfEnabled(boolean enabled, String thresholdValue) {
+        if (enabled) {
+            return new Threshold(enabled, Float.valueOf(thresholdValue));
+        }
+        return new Threshold(enabled, 0.0f);
     }
 
     public Map<String, Object> mapFromDomain(CarbonReduction output, Map<String, Object> allVariables) {
