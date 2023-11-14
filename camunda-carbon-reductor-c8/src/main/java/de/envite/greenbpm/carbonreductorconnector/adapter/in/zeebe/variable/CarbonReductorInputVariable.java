@@ -12,5 +12,7 @@ public class CarbonReductorInputVariable {
     private String timeshiftWindow;
     private String errorHandling;
     private boolean measurementOnly;
+    private boolean thresholdEnabled;
+    private Float thresholdValue;
 
 }

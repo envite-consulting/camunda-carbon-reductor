@@ -166,6 +166,42 @@
             }
         },
         {
+            "label": "Minimum Threshold Enabling",
+            "group": "commonConfiguration",
+            "id": "thresholdEnabled",
+            "description": "Enable setting a minimal amount of g/CO2 per kWh which should be saved at least",
+            "type": "Dropdown",
+            "choices": [
+                {
+                    "name": "enable",
+                    "value": "true"
+                },
+                {
+                    "name": "disable",
+                    "value": "false"
+                }
+            ],
+            "binding": {
+                "type": "zeebe:input",
+                "name": "thresholdEnabled"
+            }
+        },
+        {
+            "label": "Minimum Threshold Value",
+            "group": "commonConfiguration",
+            "id": "thresholdValue",
+            "description": "Enable setting a minimal amount of g/CO2 per kWh which should be saved at least",
+            "type": "String",
+            "condition": {
+                "property": "thresholdEnabled",
+                "equals": "true"
+            },
+            "binding": {
+                "type": "zeebe:input",
+                "name": "thresholdValue"
+            }
+        },
+        {
             "label": "Error handling behavior",
             "group": "commonConfiguration",
             "id": "errorHandling",

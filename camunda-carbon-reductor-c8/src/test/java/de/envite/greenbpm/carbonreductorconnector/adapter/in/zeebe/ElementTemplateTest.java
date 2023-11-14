@@ -48,7 +48,9 @@ class ElementTemplateTest {
                 "location",
                 "milestone",
                 "errorHandling",
-                "measurementOnly");
+                "measurementOnly",
+                "thresholdEnabled",
+                "thresholdValue");
         CompleteJobResponse completeJobResponse = completeTaskForJob(activatedJob, Map.of(
                 "originalCarbon", 100,
                 "actualCarbon", 50,
