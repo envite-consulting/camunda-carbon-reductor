@@ -17,7 +17,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.4</version>
+        <version>3.1.5</version>
         <relativePath />
     </parent>
 
@@ -27,29 +27,26 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.scm.url>https://github.com/envite-consulting/camunda-carbon-reductor.git</project.scm.url>
         <!-- external libraries -->
-        <version.assertj>3.23.1</version.assertj>
-        <version.junit-jupiter>5.9.0</version.junit-jupiter>
-        <version.mockito>4.7.0</version.mockito>
-        <version.slf4j>1.7.36</version.slf4j>
-        <version.gson>2.9.1</version.gson>
-        <version.gson-extras>1.0.0</version.gson-extras>
-        <version.lombok>1.18.24</version.lombok>
+        <version.assertj>3.24.2</version.assertj>
+        <version.junit-jupiter>5.10.1</version.junit-jupiter>
+        <version.mockito>5.7.0</version.mockito>
+        <version.slf4j>2.0.9</version.slf4j>
+        <version.gson>2.10.1</version.gson>
+        <version.gson-extras>1.2.0</version.gson-extras>
+        <version.gson-fire>1.9.0</version.gson-fire>
+        <version.lombok>1.18.30</version.lombok>
         <version.domainprimitives>0.1.0</version.domainprimitives>
 
-        <version.swagger-core>2.0.0</version.swagger-core>
+        <version.swagger-core>2.2.19</version.swagger-core>
         <version.okhttp>2.7.5</version.okhttp>
-        <version.gson>2.8.1</version.gson>
-        <version.gson-fire>1.8.3</version.gson-fire>
-        <version.threetenbp>1.3.5</version.threetenbp>
-        <version.hibernate-validator>8.0.0.Final</version.hibernate-validator>
+        <version.hibernate-validator>8.0.1.Final</version.hibernate-validator>
         <version.jakarta.validation-api>3.0.2</version.jakarta.validation-api>
-        <version.zeebe.spring-boot>8.3.0</version.zeebe.spring-boot>
-        <version.camunda.connector-core>0.11.4</version.camunda.connector-core>
-        <version.camunda.spring-boot>7.19.0</version.camunda.spring-boot>
-        <version.spring-boot>2.7.14</version.spring-boot>
-        <version.org.jacoco>0.8.8</version.org.jacoco>
-        <version.spring-banner-plugin>1.5.2</version.spring-banner-plugin>
-        <version.maven-release-plugin>3.0.0</version.maven-release-plugin>
+        <version.zeebe.spring-boot>8.3.1</version.zeebe.spring-boot>
+        <version.camunda.spring-boot>7.20.0</version.camunda.spring-boot>
+        <version.spring-boot>3.1.5</version.spring-boot>
+        <version.org.jacoco>0.8.11</version.org.jacoco>
+        <version.spring-banner-plugin>1.6.0</version.spring-banner-plugin>
+        <version.maven-release-plugin>3.0.1</version.maven-release-plugin>
     </properties>
 
     <scm>
