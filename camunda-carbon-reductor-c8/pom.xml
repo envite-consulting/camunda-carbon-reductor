@@ -57,7 +57,7 @@
         <dependency>
             <groupId>io.camunda.connector</groupId>
             <artifactId>connector-validation</artifactId>
-            <version>${version.camunda.connector-core}</version>
+            <version>${version.zeebe.spring-boot}</version>
         </dependency>
 
         <dependency>
