@@ -8,7 +8,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.Map;
 
-import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.*;
+import static org.assertj.core.api.Assertions.*;
+import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.*;
 
 @ExtendWith(ProcessEngineExtension.class)
 class ElementTemplateTest {
@@ -21,6 +22,10 @@ class ElementTemplateTest {
         ProcessInstance processInstance = runtimeService().startProcessInstanceByKey(PROCESS_KEY);
         assertThat(processInstance).isStarted();
         assertThat(processInstance).isWaitingAt(CARBON_REDUCTOR_ID);
+        // input variables
+        Map<String, Object> inputVariables = runtimeService().getVariables(externalTask().getExecutionId());
+        assertThat(inputVariables).containsOnlyKeys(
+                "remainingProcessDuration", "maximumProcessDuration", "location", "milestone", "errorHandling", "measurementOnly", "thresholdValue", "thresholdEnabled");
         complete(externalTask(CARBON_REDUCTOR_ID), Map.of(
                 "originalCarbon", 100,
                 "actualCarbon", 50,
@@ -28,8 +33,6 @@ class ElementTemplateTest {
                 "reducedCarbon", 50,
                 "executionDelayed", true,
                 "delayedBy", 100000));
-        // input variables
-        assertThat(processInstance).hasVariables("remainingProcessDuration", "maximumProcessDuration", "location", "milestone", "errorHandling", "measurementOnly");
         // output variables
         assertThat(processInstance).hasVariables(
                 "originalCarbonMapped",
