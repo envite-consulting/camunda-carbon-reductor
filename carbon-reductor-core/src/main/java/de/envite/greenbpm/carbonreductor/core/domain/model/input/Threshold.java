@@ -23,7 +23,7 @@ public class Threshold extends ComposedValueObject {
         evaluateValidations();
     }
 
-    public boolean isGreaterThanMinimumThreshold(final Double forecastedValue) {
-     return !enabled || value <= forecastedValue;
+    public boolean isGreaterThanMinimumThreshold(final Double savedCarbonDelta) {
+     return !enabled || value <= savedCarbonDelta;
     }
 }

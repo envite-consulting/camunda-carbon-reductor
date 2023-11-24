@@ -76,13 +76,12 @@ class DelayCalculatorServiceTest {
     }
 
     private OffsetDateTime createTimestamp(Integer minusHours) {
-        OffsetDateTime timestampDelayed = OffsetDateTime.now(ZoneOffset.UTC).minusHours(minusHours);
-        return timestampDelayed;
+        return OffsetDateTime.now(ZoneOffset.UTC).minusHours(minusHours);
     }
 
     @ValueSource(booleans = { false, true })
     @ParameterizedTest
-    void shouldCalculateDelayWithoutThreshold(final boolean measurementMode) throws CarbonReductorException, CarbonEmissionQueryException {
+    void shouldCalculateDelayWithDisabledThreshold(final boolean measurementMode) throws CarbonReductorException, CarbonEmissionQueryException {
         EmissionTimeframe emissionTimeframe = createBetterEmissionTimeframeIn3Hours();
         CarbonReductorConfiguration inputConfig = new CarbonReductorConfiguration(
                 Locations.NORWAY_EAST.asLocation(),
@@ -92,7 +91,7 @@ class DelayCalculatorServiceTest {
                 null,
                 null,
                 measurementMode,
-                new Threshold(false, 0.0f));
+                new Threshold(false, 1000.0f));
         when(carbonEmissionQueryMock.getEmissionTimeframe(eq(inputConfig.getLocation()),
                 any(Timeshift.class), eq(inputConfig.getRemainingProcessTimeshift()))).thenReturn(emissionTimeframe);
 
@@ -116,7 +115,7 @@ class DelayCalculatorServiceTest {
                 null,
                 null,
                 false,
-                new Threshold(true, 4.9f));
+                new Threshold(true, 180f));
         when(carbonEmissionQueryMock.getEmissionTimeframe(eq(inputConfig.getLocation()),
                 any(Timeshift.class), eq(inputConfig.getRemainingProcessTimeshift()))).thenReturn(emissionTimeframe);
 
@@ -140,17 +139,17 @@ class DelayCalculatorServiceTest {
                 null,
                 null,
                 false,
-                new Threshold(true, 5.1f));
+                new Threshold(true, 200.0f));
         when(carbonEmissionQueryMock.getEmissionTimeframe(eq(inputConfig.getLocation()),
                 any(Timeshift.class), eq(inputConfig.getRemainingProcessTimeshift()))).thenReturn(emissionTimeframe);
 
         CarbonReduction result = classUnderTest.calculateDelay(inputConfig);
 
-        Assertions.assertThat(result.getDelay().isExecutionDelayed()).isTrue();
-        Assertions.assertThat(result.getDelay().getDelayedBy()).isGreaterThanOrEqualTo(Duration.ofMinutes(179).toMillis());
-        Assertions.assertThat(result.getOptimalForecastedCarbon().getValue()).isEqualTo(15.0);
+        Assertions.assertThat(result.getDelay().isExecutionDelayed()).isFalse();
+        Assertions.assertThat(result.getDelay().getDelayedBy()).isZero();
+        Assertions.assertThat(result.getOptimalForecastedCarbon().getValue()).isEqualTo(200.6);
         Assertions.assertThat(result.getCarbonWithoutOptimization().getValue()).isEqualTo(200.6);
-        Assertions.assertThat(result.getSavedCarbonPercentage().getValue()).isCloseTo(92.5, offset(0.1));
+        Assertions.assertThat(result.getSavedCarbonPercentage().getValue()).isCloseTo(0, offset(0.1));
     }
 
     @Test
