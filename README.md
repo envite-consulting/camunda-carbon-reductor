@@ -125,7 +125,7 @@ If you are interested in our work and want to get to know more, feel free to rea
 
 # 📨Contact
 
-If you have any questions or ideas feel free to create an [issue](https://github.com/envite-consulting/carbonaware-process-automation/discussions/issues) or contact us via GitHub Discussions or [mail](mailto:carbon-reductor@envite.de).
+If you have any questions or ideas feel free to start a [discussion](https://github.com/envite-consulting/carbonaware-process-automation/discussions) or contact us via [mail](mailto:carbon-reductor@envite.de).
 
 This open source project is being developed by [envite consulting GmbH](https://envite.de).
 
