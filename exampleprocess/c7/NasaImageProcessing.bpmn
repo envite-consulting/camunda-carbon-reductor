@@ -10,7 +10,7 @@
   <bpmn:category id="Category_0t7znfq">
     <bpmn:categoryValue id="CategoryValue_1rfem0e" value="carbon intense calculation" />
   </bpmn:category>
-  <bpmn:process id="ExternalTaskCarbonReductorProcess" name="ExternalTaskCarbonReductorProcess" isExecutable="true">
+  <bpmn:process id="ExternalTaskCarbonReductorProcess" name="ExternalTaskCarbonReductorProcess" isExecutable="true" camunda:historyTimeToLive="P10D">
     <bpmn:extensionElements />
     <bpmn:startEvent id="StartEvent_1" name="Transmission received">
       <bpmn:outgoing>Flow_1qbpniq</bpmn:outgoing>
