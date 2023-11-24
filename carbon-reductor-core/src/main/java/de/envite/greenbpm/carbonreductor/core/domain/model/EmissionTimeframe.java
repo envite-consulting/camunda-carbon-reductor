@@ -34,6 +34,10 @@ public class EmissionTimeframe extends Aggregate {
         return earliestForecastedValue.getValue() > forecastedValue.getValue();
     }
 
+    public double calculateSavedCarbonDelta() {
+        return earliestForecastedValue.getValue() - forecastedValue.getValue();
+
+    }
     public double calculateSavedCarbonPercentage() {
         double difference = earliestForecastedValue.getValue() - forecastedValue.getValue();
         return (difference / earliestForecastedValue.getValue()) * 100;

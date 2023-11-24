@@ -47,7 +47,7 @@ public class DelayCalculatorService implements DelayCalculator {
 
         boolean isDelayNecessary = input.isDelayStillRelevant() && emissionTimeframe.isCleanerEnergyInFuture();
         boolean isGreaterThanMinimumThreshold = input.getThreshold().isGreaterThanMinimumThreshold(
-                emissionTimeframe.getForecastedValue().getValue()
+                emissionTimeframe.calculateSavedCarbonDelta()
         );
 
         if (isDelayNecessary && isGreaterThanMinimumThreshold) {
