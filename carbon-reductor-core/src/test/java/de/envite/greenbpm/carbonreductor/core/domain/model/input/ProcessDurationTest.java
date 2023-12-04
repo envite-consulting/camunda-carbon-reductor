@@ -1,7 +1,6 @@
 package de.envite.greenbpm.carbonreductor.core.domain.model.input;
 
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +10,7 @@ import java.time.format.DateTimeParseException;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class TimeshiftTest {
+class ProcessDurationTest {
 
     @Nested
     class Invariants {
@@ -20,10 +19,10 @@ class TimeshiftTest {
         void should_create_with_valid_duration() {
             final Duration duration = Duration.parse("PT5M");
 
-            Timeshift timeshift = new Timeshift(duration);
+            ProcessDuration processDuration = new ProcessDuration(duration);
 
-            assertThat(timeshift).isNotNull();
-            assertThat(timeshift.getValue()).isEqualTo(duration);
+            assertThat(processDuration).isNotNull();
+            assertThat(processDuration.getValue()).isEqualTo(duration);
         }
 
         @Test
@@ -31,15 +30,15 @@ class TimeshiftTest {
             final String durationString = "PT5M";
             final Duration duration = Duration.parse(durationString);
 
-            Timeshift timeshift = new Timeshift(durationString);
+            ProcessDuration processDuration = new ProcessDuration(durationString);
 
-            assertThat(timeshift).isNotNull();
-            assertThat(timeshift.getValue()).isEqualTo(duration);
+            assertThat(processDuration).isNotNull();
+            assertThat(processDuration.getValue()).isEqualTo(duration);
         }
 
         @Test
         void should_not_create_with_empty_string() {
-            assertThatThrownBy(() -> new Timeshift(""))
+            assertThatThrownBy(() -> new ProcessDuration(""))
                     .isInstanceOf(DateTimeParseException.class);
         }
     }
@@ -48,9 +47,9 @@ class TimeshiftTest {
     void should_get_duration_in_minutes() {
         final Duration duration = Duration.parse("PT120S");
 
-        Timeshift timeshift = new Timeshift(duration);
+        ProcessDuration processDuration = new ProcessDuration(duration);
 
-        assertThat(timeshift).isNotNull();
-        assertThat(timeshift.inMinutes()).isEqualTo(2);
+        assertThat(processDuration).isNotNull();
+        assertThat(processDuration.inMinutes()).isEqualTo(2);
     }
 }

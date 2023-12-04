@@ -8,7 +8,7 @@ import de.envite.greenbpm.carbonreductor.core.domain.model.EmissionTimeframe;
 import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.EarliestForecastedValue;
 import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.ForecastedValue;
 import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.OptimalTime;
-import de.envite.greenbpm.carbonreductor.core.domain.model.input.Timeshift;
+import de.envite.greenbpm.carbonreductor.core.domain.model.input.ProcessDuration;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Location;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Locations;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,8 +40,8 @@ class CarbonAwareComputingApiClientTest {
 
     static class Data {
         final static Location location = Locations.FRANCE_CENTRAL.asLocation();
-        final static Timeshift timeshift = new Timeshift("PT5M");
-        final static Timeshift executiontime = new Timeshift("PT10M");
+        final static ProcessDuration PROCESS_DURATION = new ProcessDuration("PT5M");
+        final static ProcessDuration executiontime = new ProcessDuration("PT10M");
 
         final static EmissionTimeframe emissionTimeframe = new EmissionTimeframe(
                 new OptimalTime(java.time.OffsetDateTime.now().plusHours(3)),
@@ -71,7 +71,7 @@ class CarbonAwareComputingApiClientTest {
         ).thenReturn(List.of(emissionsForecast));
         when(carbonAwareComputingMapperMock.mapToDoamin(emissionsData)).thenReturn(Data.emissionTimeframe);
 
-        EmissionTimeframe result = classUnderTest.getEmissionTimeframe(Data.location, Data.timeshift, Data.executiontime);
+        EmissionTimeframe result = classUnderTest.getEmissionTimeframe(Data.location, Data.PROCESS_DURATION, Data.executiontime);
 
         assertThat(result).isEqualTo(Data.emissionTimeframe);
     }
@@ -80,7 +80,7 @@ class CarbonAwareComputingApiClientTest {
     void should_throw_if_location_unknown() throws Exception {
         when(locationMapperMock.mapLocation(any(Location.class))).thenReturn(null);
 
-        assertThatThrownBy(() -> classUnderTest.getEmissionTimeframe(Data.location, Data.timeshift, Data.executiontime))
+        assertThatThrownBy(() -> classUnderTest.getEmissionTimeframe(Data.location, Data.PROCESS_DURATION, Data.executiontime))
                 .isExactlyInstanceOf(CarbonEmissionQueryException.class)
                 .hasMessage("The location is not known yet.");
         verifyNoInteractions(forecastApiMock);
@@ -94,7 +94,7 @@ class CarbonAwareComputingApiClientTest {
                 eq(LOCATION), isNull(), any(OffsetDateTime.class), eq(WINDOW_SIZE_MINUTES))
         ).thenReturn(List.of());
 
-        assertThatThrownBy(() -> classUnderTest.getEmissionTimeframe(Data.location, Data.timeshift, Data.executiontime))
+        assertThatThrownBy(() -> classUnderTest.getEmissionTimeframe(Data.location, Data.PROCESS_DURATION, Data.executiontime))
                 .isExactlyInstanceOf(CarbonEmissionQueryException.class)
                 .hasMessage("API provided no data");
         verifyNoInteractions(carbonAwareComputingMapperMock);
@@ -109,7 +109,7 @@ class CarbonAwareComputingApiClientTest {
                 eq(LOCATION), isNull(), any(OffsetDateTime.class), eq(WINDOW_SIZE_MINUTES))
         ).thenReturn(List.of(emissionsForecast));
 
-        assertThatThrownBy(() -> classUnderTest.getEmissionTimeframe(Data.location, Data.timeshift, Data.executiontime))
+        assertThatThrownBy(() -> classUnderTest.getEmissionTimeframe(Data.location, Data.PROCESS_DURATION, Data.executiontime))
                 .isExactlyInstanceOf(CarbonEmissionQueryException.class)
                 .hasMessage("API provided no data");
         verifyNoInteractions(carbonAwareComputingMapperMock);
@@ -120,7 +120,7 @@ class CarbonAwareComputingApiClientTest {
         when(locationMapperMock.mapLocation(any(Location.class))).thenReturn(LOCATION);
         when(forecastApiMock.getBestExecutionTime(any(), isNull(), any(), any())).thenThrow(RuntimeException.class);
 
-        assertThatThrownBy(() -> classUnderTest.getEmissionTimeframe(Data.location, Data.timeshift, Data.executiontime))
+        assertThatThrownBy(() -> classUnderTest.getEmissionTimeframe(Data.location, Data.PROCESS_DURATION, Data.executiontime))
                 .isExactlyInstanceOf(CarbonEmissionQueryException.class)
                 .hasMessage(RuntimeException.class.getName());
     }

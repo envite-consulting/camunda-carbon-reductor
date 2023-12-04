@@ -4,7 +4,7 @@ import de.envite.greenbpm.carbonreductor.core.adapter.exception.CarbonEmissionQu
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReduction;
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReductorConfiguration;
 import de.envite.greenbpm.carbonreductor.core.domain.model.EmissionTimeframe;
-import de.envite.greenbpm.carbonreductor.core.domain.model.input.Timeshift;
+import de.envite.greenbpm.carbonreductor.core.domain.model.input.ProcessDuration;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Carbon;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Delay;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Percentage;
@@ -32,11 +32,11 @@ public class DelayCalculatorService implements DelayCalculator {
 
     @Override
     public CarbonReduction calculateDelay(CarbonReductorConfiguration input) throws CarbonReductorException {
-        Timeshift startTime = calculateTimeshiftWindowForSLA(input);
+        ProcessDuration timeshiftWindow = calculateTimeshiftWindowForSLA(input);
         EmissionTimeframe emissionTimeframe;
 
         try {
-            emissionTimeframe = carbonEmissionQuery.getEmissionTimeframe(input.getLocation(), startTime, input.getRemainingProcessTimeshift());
+            emissionTimeframe = carbonEmissionQuery.getEmissionTimeframe(input.getLocation(), timeshiftWindow, input.getRemainingProcessDuration());
         } catch (CarbonEmissionQueryException e) {
             if (CONTINUE_ON_EXCEPTION.equals(input.getExceptionHandling())) {
                 log.error(ERROR_MSG, e);
@@ -57,7 +57,7 @@ public class DelayCalculatorService implements DelayCalculator {
             return new CarbonReduction(
                     new Delay(executionDelayed, delayedBy),
                     new Carbon(emissionTimeframe.getEarliestForecastedValue().getValue()),
-                    new Carbon(emissionTimeframe.getForecastedValue().getValue()),
+                    new Carbon(emissionTimeframe.getOptimalValue().getValue()),
                     new Percentage(emissionTimeframe.calculateSavedCarbonPercentage())
                     );
         }
@@ -70,18 +70,18 @@ public class DelayCalculatorService implements DelayCalculator {
         );
     }
 
-    Timeshift calculateTimeshiftWindowForSLA(CarbonReductorConfiguration input) {
+    ProcessDuration calculateTimeshiftWindowForSLA(CarbonReductorConfiguration input) {
     	// (milestone + maximumDuration) - milestone - remaining - (now - milestone)
     	// lastPossibletEndDateTime = (milestone + maximumDuration)
     	// lastPossibletEndDateTime - remainingDuration - now
-    	OffsetDateTime lastPossibleEndDateTime = input.getMilestone().asDate().plus(input.getMaximumProcessTimeshift().getValue().toMillis(), ChronoUnit.MILLIS);
+    	OffsetDateTime lastPossibleEndDateTime = input.getMilestone().asDate().plus(input.getMaximumProcessDuration().getValue().toMillis(), ChronoUnit.MILLIS);
     	java.time.Duration duration = java.time.Duration.ofMillis(
                 lastPossibleEndDateTime
-                        .minus(input.getRemainingProcessTimeshift().getValue().toMillis(), ChronoUnit.MILLIS)
+                        .minus(input.getRemainingProcessDuration().getValue().toMillis(), ChronoUnit.MILLIS)
                         .minus(OffsetDateTime.now(ZoneOffset.UTC).toInstant().toEpochMilli(), ChronoUnit.MILLIS).toInstant().toEpochMilli());
         if (duration.isNegative()) {
-            return new Timeshift(Duration.ofMillis(0));
+            return new ProcessDuration(Duration.ofMillis(0));
         }
-        return new Timeshift(duration);
+        return new ProcessDuration(duration);
     }
 }

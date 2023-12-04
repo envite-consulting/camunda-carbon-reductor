@@ -34,7 +34,7 @@ class CarbonAwareApiMapperTest {
         SoftAssertions softAssertions = new SoftAssertions();
         softAssertions.assertThat(result.getOptimalTime().getValue()).isEqualTo(OffsetDateTime.parse(optimalTime));
         softAssertions.assertThat(result.getEarliestForecastedValue().getValue()).isEqualTo(40.0);
-        softAssertions.assertThat(result.getForecastedValue().getValue()).isEqualTo(2.0);
+        softAssertions.assertThat(result.getOptimalValue().getValue()).isEqualTo(2.0);
         softAssertions.assertAll();
     }
 

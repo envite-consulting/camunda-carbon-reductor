@@ -10,7 +10,7 @@ import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.Forecas
 import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.OptimalTime;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Milestone;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Threshold;
-import de.envite.greenbpm.carbonreductor.core.domain.model.input.Timeshift;
+import de.envite.greenbpm.carbonreductor.core.domain.model.input.ProcessDuration;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Locations;
 import de.envite.greenbpm.carbonreductor.core.usecase.out.CarbonEmissionQuery;
 import org.assertj.core.api.Assertions;
@@ -57,8 +57,8 @@ class DelayCalculatorServiceTest {
         input = new CarbonReductorConfiguration(
                 Locations.NORWAY_EAST.asLocation(),
                 new Milestone(createTimestamp(1)),
-                new Timeshift("PT5H"),
-                new Timeshift("PT10H"),
+                new ProcessDuration("PT5H"),
+                new ProcessDuration("PT10H"),
                 null,
                 false,
                 new Threshold(false, 0.0f));
@@ -66,8 +66,8 @@ class DelayCalculatorServiceTest {
         inputWithDelay = new CarbonReductorConfiguration(
                 Locations.NORWAY_EAST.asLocation(),
                 new Milestone(createTimestamp(12)),
-                new Timeshift("PT5H"),
-                new Timeshift("PT10H"),
+                new ProcessDuration("PT5H"),
+                new ProcessDuration("PT10H"),
                 null,
                 false,
                 new Threshold(false, 0.0f));
@@ -84,13 +84,13 @@ class DelayCalculatorServiceTest {
         CarbonReductorConfiguration inputConfig = new CarbonReductorConfiguration(
                 Locations.NORWAY_EAST.asLocation(),
                 new Milestone(createTimestamp(1)),
-                new Timeshift("PT5H"),
-                new Timeshift("PT10H"),
+                new ProcessDuration("PT5H"),
+                new ProcessDuration("PT10H"),
                 null,
                 measurementMode,
                 new Threshold(false, 1000.0f));
         when(carbonEmissionQueryMock.getEmissionTimeframe(eq(inputConfig.getLocation()),
-                any(Timeshift.class), eq(inputConfig.getRemainingProcessTimeshift()))).thenReturn(emissionTimeframe);
+                any(ProcessDuration.class), eq(inputConfig.getRemainingProcessDuration()))).thenReturn(emissionTimeframe);
 
         CarbonReduction result = classUnderTest.calculateDelay(inputConfig);
 
@@ -107,13 +107,13 @@ class DelayCalculatorServiceTest {
         CarbonReductorConfiguration inputConfig = new CarbonReductorConfiguration(
                 Locations.NORWAY_EAST.asLocation(),
                 new Milestone(createTimestamp(1)),
-                new Timeshift("PT5H"),
-                new Timeshift("PT10H"),
+                new ProcessDuration("PT5H"),
+                new ProcessDuration("PT10H"),
                 null,
                 false,
                 new Threshold(true, 180f));
         when(carbonEmissionQueryMock.getEmissionTimeframe(eq(inputConfig.getLocation()),
-                any(Timeshift.class), eq(inputConfig.getRemainingProcessTimeshift()))).thenReturn(emissionTimeframe);
+                any(ProcessDuration.class), eq(inputConfig.getRemainingProcessDuration()))).thenReturn(emissionTimeframe);
 
         CarbonReduction result = classUnderTest.calculateDelay(inputConfig);
 
@@ -130,13 +130,13 @@ class DelayCalculatorServiceTest {
         CarbonReductorConfiguration inputConfig = new CarbonReductorConfiguration(
                 Locations.NORWAY_EAST.asLocation(),
                 new Milestone(createTimestamp(1)),
-                new Timeshift("PT5H"),
-                new Timeshift("PT10H"),
+                new ProcessDuration("PT5H"),
+                new ProcessDuration("PT10H"),
                 null,
                 false,
                 new Threshold(true, 200.0f));
         when(carbonEmissionQueryMock.getEmissionTimeframe(eq(inputConfig.getLocation()),
-                any(Timeshift.class), eq(inputConfig.getRemainingProcessTimeshift()))).thenReturn(emissionTimeframe);
+                any(ProcessDuration.class), eq(inputConfig.getRemainingProcessDuration()))).thenReturn(emissionTimeframe);
 
         CarbonReduction result = classUnderTest.calculateDelay(inputConfig);
 
@@ -153,7 +153,7 @@ class DelayCalculatorServiceTest {
         EmissionTimeframe emissionTimeframe = createBetterEmissionTimeframeIn3Hours();
 
         when(carbonEmissionQueryMock.getEmissionTimeframe(eq(inputWithDelay.getLocation()),
-                any(Timeshift.class), eq(inputWithDelay.getRemainingProcessTimeshift()))).thenReturn(emissionTimeframe);
+                any(ProcessDuration.class), eq(inputWithDelay.getRemainingProcessDuration()))).thenReturn(emissionTimeframe);
 
         CarbonReduction result = classUnderTest.calculateDelay(inputWithDelay);
 
@@ -170,7 +170,7 @@ class DelayCalculatorServiceTest {
         EmissionTimeframe emissionTimeframe = createEmissionTimeframeCurrentlyOptimal();
 
         when(carbonEmissionQueryMock.getEmissionTimeframe(eq(input.getLocation()),
-                any(Timeshift.class), eq(input.getRemainingProcessTimeshift()))).thenReturn(emissionTimeframe);
+                any(ProcessDuration.class), eq(input.getRemainingProcessDuration()))).thenReturn(emissionTimeframe);
 
         CarbonReduction result = classUnderTest.calculateDelay(input);
 
@@ -184,8 +184,8 @@ class DelayCalculatorServiceTest {
     @ParameterizedTest(name = "{0}")
     @DisplayName("should calculate delay duration")
     @MethodSource("provideDelayDurationInput")
-    void shouldCalculateDelayDurationForSLA(CarbonReductorConfiguration configuration, Timeshift expected) {
-        Timeshift actual = classUnderTest.calculateTimeshiftWindowForSLA(configuration);
+    void shouldCalculateDelayDurationForSLA(CarbonReductorConfiguration configuration, ProcessDuration expected) {
+        ProcessDuration actual = classUnderTest.calculateTimeshiftWindowForSLA(configuration);
         assertThat(actual).isEqualTo(expected);
     }
 
@@ -197,8 +197,8 @@ class DelayCalculatorServiceTest {
             CarbonReductorConfiguration input = new CarbonReductorConfiguration(
                     Locations.NORWAY_EAST.asLocation(),
                     new Milestone(createTimestamp(1)),
-                    new Timeshift("PT5H"),
-                    new Timeshift("PT10H"),
+                    new ProcessDuration("PT5H"),
+                    new ProcessDuration("PT10H"),
                     ExceptionHandlingEnum.CONTINUE_ON_EXCEPTION,
                     false,
                     new Threshold(false, 0.0f));
@@ -222,8 +222,8 @@ class DelayCalculatorServiceTest {
             CarbonReductorConfiguration input = new CarbonReductorConfiguration(
                     Locations.NORWAY_EAST.asLocation(),
                     new Milestone(createTimestamp(1)),
-                    new Timeshift("PT5H"),
-                    new Timeshift("PT10H"),
+                    new ProcessDuration("PT5H"),
+                    new ProcessDuration("PT10H"),
                     ExceptionHandlingEnum.THROW_BPMN_ERROR,
                     false,
                     new Threshold(false, 0.0f));
@@ -260,57 +260,57 @@ class DelayCalculatorServiceTest {
                 Arguments.of(named("Milestone irrelevant - time shift for 9 hours", new CarbonReductorConfiguration(
                         Locations.SWEDEN_CENTRAL.asLocation(),
                         new Milestone(OffsetDateTime.now(ZoneOffset.UTC).minusHours(1)),
-                        new Timeshift(String.valueOf(Duration.ofHours(3))),
-                        new Timeshift(String.valueOf(Duration.ofHours(12))),
+                        new ProcessDuration(String.valueOf(Duration.ofHours(3))),
+                        new ProcessDuration(String.valueOf(Duration.ofHours(12))),
                         null,
                         false,
                                 new Threshold(false, 0.0f))),
-                        new Timeshift(String.valueOf(Duration.ofHours(9)))),
+                        new ProcessDuration(String.valueOf(Duration.ofHours(9)))),
                 Arguments.of(named("Milestone 3 hours ago - time shift for 6 hours", new CarbonReductorConfiguration(
                         Locations.SWEDEN_CENTRAL.asLocation(),
                         new Milestone(OffsetDateTime.now().minusHours(3)),
-                        new Timeshift(String.valueOf(Duration.ofHours(3))),
-                        new Timeshift(String.valueOf(Duration.ofHours(12))),
+                        new ProcessDuration(String.valueOf(Duration.ofHours(3))),
+                        new ProcessDuration(String.valueOf(Duration.ofHours(12))),
                         null,
                         false,
                                 new Threshold(false, 0.0f))),
-                        new Timeshift(String.valueOf(Duration.ofHours(6)))),
+                        new ProcessDuration(String.valueOf(Duration.ofHours(6)))),
                 Arguments.of(named("Milestone 12 hours ago - do not time shift", new CarbonReductorConfiguration(
                         Locations.SWEDEN_CENTRAL.asLocation(),
                         new Milestone(OffsetDateTime.now().minusHours(12)),
-                        new Timeshift(String.valueOf(Duration.ofHours(3))),
-                        new Timeshift(String.valueOf(Duration.ofHours(12))),
+                        new ProcessDuration(String.valueOf(Duration.ofHours(3))),
+                        new ProcessDuration(String.valueOf(Duration.ofHours(12))),
                         null,
                         false,
                                 new Threshold(false, 0.0f))),
-                        new Timeshift(String.valueOf(Duration.ofHours(0)))),
+                        new ProcessDuration(String.valueOf(Duration.ofHours(0)))),
                 Arguments.of(named("Milestone irrelevant - remainingTime & maxTimeshift equal - do not time shift", new CarbonReductorConfiguration(
                         Locations.SWEDEN_CENTRAL.asLocation(),
                         new Milestone(OffsetDateTime.now(ZoneOffset.UTC).minusHours(1)),
-                        new Timeshift(String.valueOf(Duration.ofHours(12))),
-                        new Timeshift(String.valueOf(Duration.ofHours(12))),
+                        new ProcessDuration(String.valueOf(Duration.ofHours(12))),
+                        new ProcessDuration(String.valueOf(Duration.ofHours(12))),
                         null,
                         false,
                                 new Threshold(false, 0.0f))),
-                        new Timeshift(String.valueOf(Duration.ofHours(0)))),
+                        new ProcessDuration(String.valueOf(Duration.ofHours(0)))),
                 Arguments.of(named("Milestone irrelevant - remainingTime > maxTimeshift - do not time shift", new CarbonReductorConfiguration(
                         Locations.SWEDEN_CENTRAL.asLocation(),
                         new Milestone(OffsetDateTime.now(ZoneOffset.UTC).minusHours(1)),
-                        new Timeshift(String.valueOf(Duration.ofHours(12))),
-                        new Timeshift(String.valueOf(Duration.ofHours(6))),
+                        new ProcessDuration(String.valueOf(Duration.ofHours(12))),
+                        new ProcessDuration(String.valueOf(Duration.ofHours(6))),
                         null,
                         false,
                                 new Threshold(false, 0.0f))),
-                        new Timeshift(String.valueOf(Duration.ofHours(0)))),
+                        new ProcessDuration(String.valueOf(Duration.ofHours(0)))),
                 Arguments.of(named("Milestone long ago - do not time shift", new CarbonReductorConfiguration(
                         Locations.SWEDEN_CENTRAL.asLocation(),
                         new Milestone(OffsetDateTime.now().minusHours(50)),
-                        new Timeshift(String.valueOf(Duration.ofHours(3))),
-                        new Timeshift(String.valueOf(Duration.ofHours(12))),
+                        new ProcessDuration(String.valueOf(Duration.ofHours(3))),
+                        new ProcessDuration(String.valueOf(Duration.ofHours(12))),
                         null,
                         false,
                                 new Threshold(false, 0.0f))),
-                        new Timeshift(String.valueOf(Duration.ofHours(0))))
+                        new ProcessDuration(String.valueOf(Duration.ofHours(0))))
         );
     }
 }

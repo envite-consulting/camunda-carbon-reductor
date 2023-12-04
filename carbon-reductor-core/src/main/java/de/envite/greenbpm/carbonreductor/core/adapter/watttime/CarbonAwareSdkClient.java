@@ -5,7 +5,7 @@ import de.envite.greenbpm.api.carbonawaresdk.api.CarbonAwareApi;
 import de.envite.greenbpm.api.carbonawaresdk.model.EmissionsForecastDTO;
 import de.envite.greenbpm.carbonreductor.core.adapter.exception.CarbonEmissionQueryException;
 import de.envite.greenbpm.carbonreductor.core.domain.model.EmissionTimeframe;
-import de.envite.greenbpm.carbonreductor.core.domain.model.input.Timeshift;
+import de.envite.greenbpm.carbonreductor.core.domain.model.input.ProcessDuration;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Location;
 import de.envite.greenbpm.carbonreductor.core.usecase.out.CarbonEmissionQuery;
 import lombok.RequiredArgsConstructor;
@@ -24,14 +24,14 @@ public class CarbonAwareSdkClient implements CarbonEmissionQuery {
   private final CarbonAwareApiMapper carbonAwareApiMapper;
 
   @Override
-  public EmissionTimeframe getEmissionTimeframe(Location location, Timeshift timeshift, Timeshift executiontime) throws CarbonEmissionQueryException {
-    EmissionsForecastDTO emissionsForecast = getOptimalForecastUntil(location, timeshift, executiontime);
+  public EmissionTimeframe getEmissionTimeframe(Location location, ProcessDuration processDuration, ProcessDuration executiontime) throws CarbonEmissionQueryException {
+    EmissionsForecastDTO emissionsForecast = getOptimalForecastUntil(location, processDuration, executiontime);
     return carbonAwareApiMapper.mapToDomain(emissionsForecast);
   }
-  private EmissionsForecastDTO getOptimalForecastUntil(Location location, Timeshift timeshift, Timeshift executiontime)
+  private EmissionsForecastDTO getOptimalForecastUntil(Location location, ProcessDuration processDuration, ProcessDuration executiontime)
           throws CarbonEmissionQueryException {
     ApiResponse<List<EmissionsForecastDTO>> currentForecastDataWithHttpInfo;
-    OffsetDateTime offsetDateTime = OffsetDateTime.parse(timeshift.timeshiftFromNow().toString());
+    OffsetDateTime offsetDateTime = OffsetDateTime.parse(processDuration.timeshiftFromNow().toString());
     try {
       currentForecastDataWithHttpInfo =
               carbonAwareApi.getCurrentForecastDataWithHttpInfo(

@@ -5,7 +5,7 @@ import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReductorConfigu
 import de.envite.greenbpm.carbonreductor.core.domain.model.ExceptionHandlingEnum;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Milestone;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Threshold;
-import de.envite.greenbpm.carbonreductor.core.domain.model.input.Timeshift;
+import de.envite.greenbpm.carbonreductor.core.domain.model.input.ProcessDuration;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Location;
 import org.springframework.stereotype.Component;
 
@@ -39,11 +39,11 @@ class CarbonReductorVariableMapper {
         return OffsetDateTime.parse((String) allVariables.get("milestone"));
     }
 
-    private Timeshift mapIfNotNull(String input) {
+    private ProcessDuration mapIfNotNull(String input) {
         if (input == null) {
             return null;
         }
-        return new Timeshift(input);
+        return new ProcessDuration(input);
     }
 
     private Threshold mapIfEnabled(boolean enabled, String thresholdValue) {

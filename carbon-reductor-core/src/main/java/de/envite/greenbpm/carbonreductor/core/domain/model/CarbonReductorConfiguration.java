@@ -1,8 +1,9 @@
 package de.envite.greenbpm.carbonreductor.core.domain.model;
 
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Milestone;
+import de.envite.greenbpm.carbonreductor.core.domain.model.input.ProcessDuration;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Threshold;
-import de.envite.greenbpm.carbonreductor.core.domain.model.input.Timeshift;
+import de.envite.greenbpm.carbonreductor.core.domain.model.input.ProcessDuration;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Location;
 import io.github.domainprimitives.object.Aggregate;
 import lombok.Getter;
@@ -16,8 +17,8 @@ public class CarbonReductorConfiguration extends Aggregate {
 
     private final Location location;
     private final Milestone milestone;
-    private final Timeshift remainingProcessTimeshift;
-    private final Timeshift maximumProcessTimeshift;
+    private final ProcessDuration remainingProcessDuration;
+    private final ProcessDuration maximumProcessDuration;
     private final ExceptionHandlingEnum exceptionHandling;
     private final boolean measurementOnly;
     private final Threshold threshold;
@@ -26,15 +27,15 @@ public class CarbonReductorConfiguration extends Aggregate {
 
     public CarbonReductorConfiguration(Location location,
                                        Milestone milestone,
-                                       Timeshift remainingProcessTimeshift,
-                                       Timeshift maximumProcessTimeshift,
+                                       ProcessDuration remainingProcessDuration,
+                                       ProcessDuration maximumProcessDuration,
                                        ExceptionHandlingEnum exceptionHandling,
                                        boolean measurementOnly,
                                        Threshold threshold) {
         this.location = location;
         this.milestone = milestone;
-        this.remainingProcessTimeshift = remainingProcessTimeshift;
-        this.maximumProcessTimeshift = maximumProcessTimeshift;
+        this.remainingProcessDuration = remainingProcessDuration;
+        this.maximumProcessDuration = maximumProcessDuration;
         this.exceptionHandling = exceptionHandling == null ? EXCEPTION_HANDLING_DEFAULT : exceptionHandling;
         this.measurementOnly = measurementOnly;
         this.threshold = threshold;
@@ -45,7 +46,7 @@ public class CarbonReductorConfiguration extends Aggregate {
     protected void validate() {
         validateNotNull(location, "Location");
         validateNotNull(milestone, "Milestone");
-        validateNotNull(remainingProcessTimeshift, "Remaining Process Duration");
+        validateNotNull(remainingProcessDuration, "Remaining Process Duration");
         evaluateValidations();
     }
 
@@ -53,8 +54,8 @@ public class CarbonReductorConfiguration extends Aggregate {
         OffsetDateTime milestoneTimestamp = milestone.asDate();
 
         return (milestoneTimestamp
-                .plus(remainingProcessTimeshift.getValue().toMillis(), ChronoUnit.MILLIS)
-                .plus(maximumProcessTimeshift.getValue().toMillis(), ChronoUnit.MILLIS)
-                .isAfter(OffsetDateTime.now(ZoneOffset.UTC).plus(remainingProcessTimeshift.getValue().toMillis(), ChronoUnit.MILLIS)));
+                .plus(remainingProcessDuration.getValue().toMillis(), ChronoUnit.MILLIS)
+                .plus(maximumProcessDuration.getValue().toMillis(), ChronoUnit.MILLIS)
+                .isAfter(OffsetDateTime.now(ZoneOffset.UTC).plus(remainingProcessDuration.getValue().toMillis(), ChronoUnit.MILLIS)));
     }
 }

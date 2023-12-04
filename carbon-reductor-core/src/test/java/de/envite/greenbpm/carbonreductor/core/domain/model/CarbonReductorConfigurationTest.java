@@ -2,7 +2,7 @@ package de.envite.greenbpm.carbonreductor.core.domain.model;
 
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Milestone;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Threshold;
-import de.envite.greenbpm.carbonreductor.core.domain.model.input.Timeshift;
+import de.envite.greenbpm.carbonreductor.core.domain.model.input.ProcessDuration;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Location;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Locations;
 import io.github.domainprimitives.validation.InvariantException;
@@ -23,8 +23,8 @@ class CarbonReductorConfigurationTest {
         CarbonReductorConfiguration config = new CarbonReductorConfiguration(
                 Locations.SWEDEN_CENTRAL.asLocation(),
                 new Milestone(OffsetDateTime.now(ZoneOffset.UTC).minusHours(1)),
-                new Timeshift(String.valueOf(Duration.ofHours(3))),
-                new Timeshift(String.valueOf(Duration.ofHours(12))),
+                new ProcessDuration(String.valueOf(Duration.ofHours(3))),
+                new ProcessDuration(String.valueOf(Duration.ofHours(12))),
                 null,
                 false,
                 new Threshold(false, 0.0f));
@@ -37,8 +37,8 @@ class CarbonReductorConfigurationTest {
         CarbonReductorConfiguration config = new CarbonReductorConfiguration(
                 Locations.SWEDEN_CENTRAL.asLocation(),
                 new Milestone(OffsetDateTime.now(ZoneOffset.UTC).minusHours(1)),
-                new Timeshift(String.valueOf(Duration.ofHours(3))),
-                new Timeshift(String.valueOf(Duration.ofHours(12))),
+                new ProcessDuration(String.valueOf(Duration.ofHours(3))),
+                new ProcessDuration(String.valueOf(Duration.ofHours(12))),
                 ExceptionHandlingEnum.THROW_BPMN_ERROR,
                 false,
                 new Threshold(false, 0.0f));
@@ -52,27 +52,27 @@ class CarbonReductorConfigurationTest {
         private final Location location = Locations.SWEDEN_CENTRAL.asLocation();
 
         private final Milestone milestone = new Milestone(OffsetDateTime.now(ZoneOffset.UTC).minusHours(1));
-        private final Timeshift timeshift = new Timeshift(String.valueOf(Duration.ofHours(3)));
+        private final ProcessDuration processDuration = new ProcessDuration(String.valueOf(Duration.ofHours(3)));
 
         @Test
         void should_throw_on_missing_location() {
             assertThatThrownBy(() -> new CarbonReductorConfiguration(
                     null,
-                    milestone, timeshift, timeshift, null, false, new Threshold(false, 0.0f))
+                    milestone, processDuration, processDuration, null, false, new Threshold(false, 0.0f))
             ).isInstanceOf(InvariantException.class);
         }
 
         @Test
         void should_throw_on_missing_milestone() {
             assertThatThrownBy(() -> new CarbonReductorConfiguration(
-                    location, null, timeshift, timeshift, null, false, new Threshold(false, 0.0f))
+                    location, null, processDuration, processDuration, null, false, new Threshold(false, 0.0f))
             ).isInstanceOf(InvariantException.class);
         }
 
         @Test
         void should_throw_on_missing_remaining_process_timeshift() {
             assertThatThrownBy(() -> new CarbonReductorConfiguration(
-                    location, milestone, null, timeshift, null, false, new Threshold(false, 0.0f))
+                    location, milestone, null, processDuration, null, false, new Threshold(false, 0.0f))
             ).isInstanceOf(InvariantException.class);
         }
     }
