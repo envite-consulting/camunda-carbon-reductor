@@ -13,12 +13,12 @@ public class EmissionTimeframe extends Aggregate {
 
     private final OptimalTime optimalTime;
     private final EarliestForecastedValue earliestForecastedValue;
-    private final ForecastedValue forecastedValue;
+    private final ForecastedValue optimalValue;
 
-    public EmissionTimeframe(OptimalTime optimalTime, EarliestForecastedValue earliestForecastedValue, ForecastedValue forecastedValue) {
+    public EmissionTimeframe(OptimalTime optimalTime, EarliestForecastedValue earliestForecastedValue, ForecastedValue optimalValue) {
         this.optimalTime = optimalTime;
         this.earliestForecastedValue = earliestForecastedValue;
-        this.forecastedValue = forecastedValue;
+        this.optimalValue = optimalValue;
         this.validate();
     }
 
@@ -26,20 +26,20 @@ public class EmissionTimeframe extends Aggregate {
     protected void validate() {
         validateNotNull(optimalTime, "Optimal Time");
         validateNotNull(earliestForecastedValue, "Rating");
-        validateNotNull(forecastedValue, "ForecastedValue");
+        validateNotNull(optimalValue, "ForecastedValue");
         evaluateValidations();
     }
 
     public boolean isCleanerEnergyInFuture() {
-        return earliestForecastedValue.getValue() > forecastedValue.getValue();
+        return earliestForecastedValue.getValue() > optimalValue.getValue();
     }
 
     public double calculateSavedCarbonDelta() {
-        return earliestForecastedValue.getValue() - forecastedValue.getValue();
+        return earliestForecastedValue.getValue() - optimalValue.getValue();
 
     }
     public double calculateSavedCarbonPercentage() {
-        double difference = earliestForecastedValue.getValue() - forecastedValue.getValue();
+        double difference = earliestForecastedValue.getValue() - optimalValue.getValue();
         return (difference / earliestForecastedValue.getValue()) * 100;
     }
 }

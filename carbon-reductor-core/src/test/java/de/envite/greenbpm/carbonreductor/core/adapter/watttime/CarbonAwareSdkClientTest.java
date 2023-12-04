@@ -9,7 +9,7 @@ import de.envite.greenbpm.carbonreductor.core.domain.model.EmissionTimeframe;
 import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.EarliestForecastedValue;
 import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.ForecastedValue;
 import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.OptimalTime;
-import de.envite.greenbpm.carbonreductor.core.domain.model.input.Timeshift;
+import de.envite.greenbpm.carbonreductor.core.domain.model.input.ProcessDuration;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Location;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Locations;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,8 +37,8 @@ class CarbonAwareSdkClientTest {
 
     static class Data {
         final static Location location = Locations.FRANCE_CENTRAL.asLocation();
-        final static Timeshift timeshift = new Timeshift("PT5M");
-        final static Timeshift executiontime = new Timeshift("PT10M");
+        final static ProcessDuration PROCESS_DURATION = new ProcessDuration("PT5M");
+        final static ProcessDuration executiontime = new ProcessDuration("PT10M");
 
         final static EmissionTimeframe emissionTimeframe = new EmissionTimeframe(
                 new OptimalTime(java.time.OffsetDateTime.now().plusHours(3)),
@@ -64,7 +64,7 @@ class CarbonAwareSdkClientTest {
                 eq(Data.executiontime.inMinutes()))).thenReturn(apiResponse);
         when(carbonAwareApiMapperMock.mapToDomain(emissionsForecastDTO)).thenReturn(Data.emissionTimeframe);
 
-        EmissionTimeframe result = classUnderTest.getEmissionTimeframe(Data.location, Data.timeshift, Data.executiontime);
+        EmissionTimeframe result = classUnderTest.getEmissionTimeframe(Data.location, Data.PROCESS_DURATION, Data.executiontime);
 
         assertThat(result).isEqualTo(Data.emissionTimeframe);
     }
@@ -75,7 +75,7 @@ class CarbonAwareSdkClientTest {
         when(carbonAwareApiMock.getCurrentForecastDataWithHttpInfo(any(), isNull(), any(), any()))
                 .thenReturn(apiResponse);
 
-        assertThatThrownBy(() -> classUnderTest.getEmissionTimeframe(Data.location, Data.timeshift, Data.executiontime))
+        assertThatThrownBy(() -> classUnderTest.getEmissionTimeframe(Data.location, Data.PROCESS_DURATION, Data.executiontime))
                 .isExactlyInstanceOf(CarbonEmissionQueryException.class)
                         .hasMessage("API provided no data");
     }
@@ -85,7 +85,7 @@ class CarbonAwareSdkClientTest {
         when(carbonAwareApiMock.getCurrentForecastDataWithHttpInfo(any(), isNull(), any(), any()))
                 .thenThrow(RuntimeException.class);
 
-        assertThatThrownBy(() -> classUnderTest.getEmissionTimeframe(Data.location, Data.timeshift, Data.executiontime))
+        assertThatThrownBy(() -> classUnderTest.getEmissionTimeframe(Data.location, Data.PROCESS_DURATION, Data.executiontime))
                 .isExactlyInstanceOf(CarbonEmissionQueryException.class)
                 .hasMessage(RuntimeException.class.getName());
     }

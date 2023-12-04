@@ -4,7 +4,7 @@ import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReduction;
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReductorConfiguration;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Milestone;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Threshold;
-import de.envite.greenbpm.carbonreductor.core.domain.model.input.Timeshift;
+import de.envite.greenbpm.carbonreductor.core.domain.model.input.ProcessDuration;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Carbon;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Delay;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Percentage;
@@ -38,8 +38,8 @@ public class TestDataGenerator {
         return new CarbonReductorConfiguration(
                 NORWAY_EAST.asLocation(),
                 new Milestone(timestamp),
-                new Timeshift("PT5H"),
-                new Timeshift("PT10H"),
+                new ProcessDuration("PT5H"),
+                new ProcessDuration("PT10H"),
                 null,
                 false,
                 new Threshold(false, 0f));

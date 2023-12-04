@@ -28,7 +28,7 @@ class EmissionTimeframeTest {
 
             assertThat(emissionTimeframe.getOptimalTime()).isEqualTo(optimalTime);
             assertThat(emissionTimeframe.getEarliestForecastedValue()).isEqualTo(earliestForecastedValue);
-            assertThat(emissionTimeframe.getForecastedValue()).isEqualTo(forecastedValue);
+            assertThat(emissionTimeframe.getOptimalValue()).isEqualTo(forecastedValue);
         }
 
         @Test

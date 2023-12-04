@@ -8,12 +8,12 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
 @EqualsAndHashCode(callSuper = false)
-public class Timeshift extends ValueObject<Duration> {
-    public Timeshift(Duration value) {
+public class ProcessDuration extends ValueObject<Duration> {
+    public ProcessDuration(Duration value) {
         super(value);
     }
 
-    public Timeshift(String value) {
+    public ProcessDuration(String value) {
         this(Duration.parse(value));
     }
 
