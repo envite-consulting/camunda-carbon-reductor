@@ -10,7 +10,7 @@ import static io.github.domainprimitives.validation.Constraints.isNotNull;
 public class Location extends ValueObject<String> {
 
     private static Consumer<Validation<String>> isKnowLocation() {
-        return (val) -> val.constraint(Locations.fromText(val.value()).isPresent(), () ->
+        return val -> val.constraint(Locations.fromText(val.value()).isPresent(), () ->
                 String.format("%s is not a known location", val.value())
         );
     }

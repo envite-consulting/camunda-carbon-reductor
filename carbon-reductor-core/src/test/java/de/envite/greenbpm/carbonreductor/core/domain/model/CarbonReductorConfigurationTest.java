@@ -26,7 +26,6 @@ class CarbonReductorConfigurationTest {
                 new Timeshift(String.valueOf(Duration.ofHours(3))),
                 new Timeshift(String.valueOf(Duration.ofHours(12))),
                 null,
-                null,
                 false,
                 new Threshold(false, 0.0f));
 
@@ -40,7 +39,6 @@ class CarbonReductorConfigurationTest {
                 new Milestone(OffsetDateTime.now(ZoneOffset.UTC).minusHours(1)),
                 new Timeshift(String.valueOf(Duration.ofHours(3))),
                 new Timeshift(String.valueOf(Duration.ofHours(12))),
-                null,
                 ExceptionHandlingEnum.THROW_BPMN_ERROR,
                 false,
                 new Threshold(false, 0.0f));
@@ -60,21 +58,21 @@ class CarbonReductorConfigurationTest {
         void should_throw_on_missing_location() {
             assertThatThrownBy(() -> new CarbonReductorConfiguration(
                     null,
-                    milestone, timeshift, timeshift, null, null, false, new Threshold(false, 0.0f))
+                    milestone, timeshift, timeshift, null, false, new Threshold(false, 0.0f))
             ).isInstanceOf(InvariantException.class);
         }
 
         @Test
         void should_throw_on_missing_milestone() {
             assertThatThrownBy(() -> new CarbonReductorConfiguration(
-                    location, null, timeshift, timeshift, null, null, false, new Threshold(false, 0.0f))
+                    location, null, timeshift, timeshift, null, false, new Threshold(false, 0.0f))
             ).isInstanceOf(InvariantException.class);
         }
 
         @Test
         void should_throw_on_missing_remaining_process_timeshift() {
             assertThatThrownBy(() -> new CarbonReductorConfiguration(
-                    location, milestone, null, timeshift, null, null, false, new Threshold(false, 0.0f))
+                    location, milestone, null, timeshift, null, false, new Threshold(false, 0.0f))
             ).isInstanceOf(InvariantException.class);
         }
     }

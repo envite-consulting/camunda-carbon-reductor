@@ -60,7 +60,6 @@ class DelayCalculatorServiceTest {
                 new Timeshift("PT5H"),
                 new Timeshift("PT10H"),
                 null,
-                null,
                 false,
                 new Threshold(false, 0.0f));
 
@@ -69,7 +68,6 @@ class DelayCalculatorServiceTest {
                 new Milestone(createTimestamp(12)),
                 new Timeshift("PT5H"),
                 new Timeshift("PT10H"),
-                null,
                 null,
                 false,
                 new Threshold(false, 0.0f));
@@ -88,7 +86,6 @@ class DelayCalculatorServiceTest {
                 new Milestone(createTimestamp(1)),
                 new Timeshift("PT5H"),
                 new Timeshift("PT10H"),
-                null,
                 null,
                 measurementMode,
                 new Threshold(false, 1000.0f));
@@ -113,7 +110,6 @@ class DelayCalculatorServiceTest {
                 new Timeshift("PT5H"),
                 new Timeshift("PT10H"),
                 null,
-                null,
                 false,
                 new Threshold(true, 180f));
         when(carbonEmissionQueryMock.getEmissionTimeframe(eq(inputConfig.getLocation()),
@@ -136,7 +132,6 @@ class DelayCalculatorServiceTest {
                 new Milestone(createTimestamp(1)),
                 new Timeshift("PT5H"),
                 new Timeshift("PT10H"),
-                null,
                 null,
                 false,
                 new Threshold(true, 200.0f));
@@ -204,7 +199,6 @@ class DelayCalculatorServiceTest {
                     new Milestone(createTimestamp(1)),
                     new Timeshift("PT5H"),
                     new Timeshift("PT10H"),
-                    null,
                     ExceptionHandlingEnum.CONTINUE_ON_EXCEPTION,
                     false,
                     new Threshold(false, 0.0f));
@@ -230,7 +224,6 @@ class DelayCalculatorServiceTest {
                     new Milestone(createTimestamp(1)),
                     new Timeshift("PT5H"),
                     new Timeshift("PT10H"),
-                    null,
                     ExceptionHandlingEnum.THROW_BPMN_ERROR,
                     false,
                     new Threshold(false, 0.0f));
@@ -270,7 +263,6 @@ class DelayCalculatorServiceTest {
                         new Timeshift(String.valueOf(Duration.ofHours(3))),
                         new Timeshift(String.valueOf(Duration.ofHours(12))),
                         null,
-                        null,
                         false,
                                 new Threshold(false, 0.0f))),
                         new Timeshift(String.valueOf(Duration.ofHours(9)))),
@@ -279,7 +271,6 @@ class DelayCalculatorServiceTest {
                         new Milestone(OffsetDateTime.now().minusHours(3)),
                         new Timeshift(String.valueOf(Duration.ofHours(3))),
                         new Timeshift(String.valueOf(Duration.ofHours(12))),
-                        null,
                         null,
                         false,
                                 new Threshold(false, 0.0f))),
@@ -290,7 +281,6 @@ class DelayCalculatorServiceTest {
                         new Timeshift(String.valueOf(Duration.ofHours(3))),
                         new Timeshift(String.valueOf(Duration.ofHours(12))),
                         null,
-                        null,
                         false,
                                 new Threshold(false, 0.0f))),
                         new Timeshift(String.valueOf(Duration.ofHours(0)))),
@@ -299,7 +289,6 @@ class DelayCalculatorServiceTest {
                         new Milestone(OffsetDateTime.now(ZoneOffset.UTC).minusHours(1)),
                         new Timeshift(String.valueOf(Duration.ofHours(12))),
                         new Timeshift(String.valueOf(Duration.ofHours(12))),
-                        null,
                         null,
                         false,
                                 new Threshold(false, 0.0f))),
@@ -310,7 +299,6 @@ class DelayCalculatorServiceTest {
                         new Timeshift(String.valueOf(Duration.ofHours(12))),
                         new Timeshift(String.valueOf(Duration.ofHours(6))),
                         null,
-                        null,
                         false,
                                 new Threshold(false, 0.0f))),
                         new Timeshift(String.valueOf(Duration.ofHours(0)))),
@@ -319,7 +307,6 @@ class DelayCalculatorServiceTest {
                         new Milestone(OffsetDateTime.now().minusHours(50)),
                         new Timeshift(String.valueOf(Duration.ofHours(3))),
                         new Timeshift(String.valueOf(Duration.ofHours(12))),
-                        null,
                         null,
                         false,
                                 new Threshold(false, 0.0f))),
