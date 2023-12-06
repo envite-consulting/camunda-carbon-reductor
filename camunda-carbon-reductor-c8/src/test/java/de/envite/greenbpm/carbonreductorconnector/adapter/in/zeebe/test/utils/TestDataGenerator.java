@@ -41,7 +41,6 @@ public class TestDataGenerator {
                 new Timeshift("PT5H"),
                 new Timeshift("PT10H"),
                 null,
-                null,
                 false,
                 new Threshold(false, 0f));
     }

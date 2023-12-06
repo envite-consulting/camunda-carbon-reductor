@@ -25,7 +25,6 @@ class CarbonReductorVariableMapper {
                 new Milestone(getMilestone(allVariables)),
                 mapIfNotNull((String) allVariables.get("remainingProcessDuration")),
                 mapIfNotNull((String) allVariables.get("maximumProcessDuration")),
-                null, // Will become relevant in the future
                 exceptionHandling,
                 Boolean.parseBoolean((String) allVariables.get("measurementOnly")),
                 mapIfEnabled(

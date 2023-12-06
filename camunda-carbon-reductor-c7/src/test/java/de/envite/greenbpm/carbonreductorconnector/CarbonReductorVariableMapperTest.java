@@ -53,8 +53,6 @@ class CarbonReductorVariableMapperTest {
             ));
             softAssertions.assertThat(result.getMaximumProcessTimeshift().getValue().toString()).isEqualTo(variables.get("maximumProcessDuration"));
             softAssertions.assertThat(result.getRemainingProcessTimeshift().getValue().toString()).isEqualTo(variables.get("remainingProcessDuration"));
-            softAssertions.assertThat(result.getTimeshiftWindow()).isNull();
-            softAssertions.assertThat(result.getTimeshiftWindow()).isNull();
             softAssertions.assertThat(result.getExceptionHandling()).isEqualTo(ExceptionHandlingEnum.THROW_BPMN_ERROR);
             softAssertions.assertThat(result.isMeasurementOnly()).isTrue();
             softAssertions.assertThat(result.getThreshold()).isEqualTo(new Threshold(true, 4.5f));

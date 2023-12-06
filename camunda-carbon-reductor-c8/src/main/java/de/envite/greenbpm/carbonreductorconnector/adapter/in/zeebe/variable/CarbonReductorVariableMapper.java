@@ -41,7 +41,6 @@ public class CarbonReductorVariableMapper {
                 new Milestone(parseDateString(inputVariables.getMilestone())),
                 new Timeshift(inputVariables.getRemainingProcessDuration()),
                 mapIfNotNull(inputVariables.getMaximumProcessDuration()),
-                mapIfNotNull(inputVariables.getTimeshiftWindow()),
                 exceptionHandling,
                 inputVariables.isMeasurementOnly(),
                 new Threshold(inputVariables.isThresholdEnabled(), inputVariables.getThresholdValue())

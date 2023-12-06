@@ -18,7 +18,6 @@ public class CarbonReductorConfiguration extends Aggregate {
     private final Milestone milestone;
     private final Timeshift remainingProcessTimeshift;
     private final Timeshift maximumProcessTimeshift;
-    private final Timeshift timeshiftWindow;
     private final ExceptionHandlingEnum exceptionHandling;
     private final boolean measurementOnly;
     private final Threshold threshold;
@@ -29,7 +28,6 @@ public class CarbonReductorConfiguration extends Aggregate {
                                        Milestone milestone,
                                        Timeshift remainingProcessTimeshift,
                                        Timeshift maximumProcessTimeshift,
-                                       Timeshift timeshiftWindow,
                                        ExceptionHandlingEnum exceptionHandling,
                                        boolean measurementOnly,
                                        Threshold threshold) {
@@ -37,7 +35,6 @@ public class CarbonReductorConfiguration extends Aggregate {
         this.milestone = milestone;
         this.remainingProcessTimeshift = remainingProcessTimeshift;
         this.maximumProcessTimeshift = maximumProcessTimeshift;
-        this.timeshiftWindow = timeshiftWindow;
         this.exceptionHandling = exceptionHandling == null ? EXCEPTION_HANDLING_DEFAULT : exceptionHandling;
         this.measurementOnly = measurementOnly;
         this.threshold = threshold;
