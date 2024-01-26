@@ -195,7 +195,7 @@
             }
           },
           {
-            "name": "startTime",
+            "name": "time",
             "in": "query",
             "description": "[Optional] Start time for the data query.",
             "schema": {
@@ -204,7 +204,7 @@
             }
           },
           {
-            "name": "endTime",
+            "name": "toTime",
             "in": "query",
             "description": "[Optional] End time for the data query.",
             "schema": {
@@ -978,7 +978,9 @@
             "readOnly": true
           }
         },
-        "additionalProperties": { }
+        "additionalProperties": {
+
+        }
       }
     }
   }
