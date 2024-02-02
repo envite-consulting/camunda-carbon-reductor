@@ -100,7 +100,7 @@
         </dependency>
         <dependency>
             <groupId>io.camunda</groupId>
-            <artifactId>zeebe-process-test-extension</artifactId>
+            <artifactId>zeebe-process-test-extension-testcontainer</artifactId>
             <version>${version.zeebe.spring-boot}</version>
             <scope>test</scope>
         </dependency>
