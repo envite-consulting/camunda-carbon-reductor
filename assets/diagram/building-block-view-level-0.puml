@@ -1,0 +1,32 @@
+@startuml
+
+component "Camunda Carbon Reductor" {
+    portin "Camunda 7"
+    portin "Camunda 8"
+
+    component "Carbon Reductor Core" <<Maven Module>>
+    component "Camunda Carbon Reductor C7" <<Maven Module>>
+    component "Camunda Carbon Reductor C8" <<Maven Module>>
+
+    component API <<Maven Module>> {
+        component "Carbon Aware API" <<Maven Module>>
+        component "Carbon Aware Computing API" <<Maven Module>>
+    }
+
+    portout "Carbon Aware SDK \n (WattTime | ElectricityMaps)" as CarbonAwareSDK
+    portout "Carbon Aware Computing"
+
+    "Camunda 7" --> "Camunda Carbon Reductor C7"
+    "Camunda 8" --> "Camunda Carbon Reductor C8"
+
+    "Camunda Carbon Reductor C7" --> "Carbon Reductor Core"
+    "Camunda Carbon Reductor C8" --> "Carbon Reductor Core"
+
+    "Carbon Reductor Core" --> "Carbon Aware API"
+    "Carbon Reductor Core" --> "Carbon Aware Computing API"
+
+    "Carbon Aware API" --> CarbonAwareSDK
+    "Carbon Aware Computing API" --> "Carbon Aware Computing"
+}
+
+@enduml

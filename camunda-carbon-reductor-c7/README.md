@@ -12,6 +12,7 @@ Provides also a Service Task Template for configuration ([carbon-reductor.json](
   * [Adding the element template to the modeler](#adding-the-element-template-to-the-modeler)
   * [Configuring the element template](#configuring-the-element-template)
 * [🖐🏼 Manual Override](#-manual-override)
+* [🏗️ Building Blocks](#building-blocks)
 
 # 🚀Getting Started
 
@@ -99,3 +100,11 @@ There are 2 options:
 
 ![Attached Error Event in the process model](../docs/error-handling/error-handling-c7-process.png)
 
+# 🏗️Building Blocks
+
+![Building Block View Level 1 Camunda Carbon Reductor C7](../assets/diagram/generated/building-block-view-level-1-camunda-carbon-reductor-c7.png)
+
+| Element                      | Description                                                                           |
+|------------------------------|---------------------------------------------------------------------------------------|
+| CarbonReductorTaskHandler    | `ExternalTaskHandler` which connects to the model element and does the time shifting. |
+| CarbonReductorVariableMapper | Maps the process data to the internal configuration model.                            |

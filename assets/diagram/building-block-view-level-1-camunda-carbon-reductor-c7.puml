@@ -1,0 +1,19 @@
+@startuml
+
+component "Camunda Carbon Reductor C7" <<Maven Module>> {
+    portin "Camunda 7"
+
+    component CarbonReductorTaskHandler
+
+    component CarbonReductorVariableMapper
+
+    portout "Carbon Reductor Core" <<Maven Module>>
+
+    "Camunda 7" <-- CarbonReductorTaskHandler : import
+    "Carbon Reductor Core" --> CarbonReductorTaskHandler : use
+
+    CarbonReductorTaskHandler -> CarbonReductorVariableMapper : use
+    CarbonReductorVariableMapper -> "Carbon Reductor Core" : import
+}
+
+@enduml
