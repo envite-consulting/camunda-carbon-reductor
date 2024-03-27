@@ -15,6 +15,7 @@ implementation of the Carbon Redcutor.
   * [Adding the element template to the modeler](#adding-the-element-template-to-the-modeler)
   * [Configuring the element template](#configuring-the-element-template)
 * [🖐🏼 Manual Override](#-manual-override)
+* [🏗️ Building Blocks](#building-blocks)
 
 # 🗒️Notes
 
@@ -145,3 +146,14 @@ There are 2 options:
   * The process model needs to catch the thrown BPMN Error with the name **carbon-reductor-error**
 
 ![Attached Error Event in the process model](../docs/error-handling/error-handling-c8-process.png)
+
+# 🏗️Building Blocks
+
+![Building Block View Level 1 Camunda Carbon Reductor C8](../assets/diagram/generated/building-block-view-level-1-camunda-carbon-reductor-c8.png)
+
+| Element                      | Description                                                                 |
+|------------------------------|-----------------------------------------------------------------------------|
+| CarbonReductorWorker         | `JobWorker` which connects to the model element and does the time shifting. |
+| CarbonReductorVariableMapper | Maps the process data to the internal configuration model.                  |
+| CarbonReductorInputVariable  | Object representing the input data from the process.                        |
+| CarbonReductorOutVariable    | Object representing the data which is written back to the process.          |

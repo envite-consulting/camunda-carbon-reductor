@@ -1,0 +1,42 @@
+@startuml
+
+component "Carbon Reductor Core" <<Maven Module>> {
+    portin "Camunda Carbon Reductor C7" <<Maven Module>>
+    portin "Camunda Carbon Reductor C8" <<Maven Module>>
+
+    ' Usecase
+    component DelayCalculator <<Usecase: In>>
+    component CarbonEmissionQuery <<Usecase: Out>>
+
+    ' Domain
+    component DelayCalculatorService <<Domain Service>>
+
+    component CarbonReduction <<Domain Model: Aggregate>>
+    component CarbonReductorConfiguration <<Domain Model: Aggregate>>
+
+    ' Adapter
+    component CarbonAwareSdkClient <<Adapter>>
+    component CarbonAwareComputingApiClient <<Adapter>>
+
+    portout "Carbon Aware API" <<Maven Module>>
+    portout "Carbon Aware Computing API" <<Maven Module>>
+
+
+    DelayCalculatorService --> CarbonReduction : use
+    DelayCalculatorService --> CarbonReductorConfiguration  : use
+
+    DelayCalculator <-- DelayCalculatorService : implements
+    CarbonEmissionQuery <-- CarbonAwareSdkClient : implements
+    CarbonEmissionQuery <-- CarbonAwareComputingApiClient : implements
+
+    DelayCalculatorService --> CarbonEmissionQuery : use
+
+
+    "Camunda Carbon Reductor C7" --> DelayCalculator
+    "Camunda Carbon Reductor C8" --> DelayCalculator
+
+    CarbonAwareSdkClient --> "Carbon Aware API"
+    CarbonAwareComputingApiClient --> "Carbon Aware Computing API"
+}
+
+@enduml

@@ -1,0 +1,24 @@
+@startuml
+
+component "Camunda Carbon Reductor C8" <<Maven Module>> {
+    portin "Camunda 8"
+
+    component CarbonReductorWorker
+
+    component CarbonReductorVariableMapper
+    component CarbonReductorInputVariable
+    component CarbonReductorOutputVariable
+
+    portout "Carbon Reductor Core" <<Maven Module>>
+
+    "Camunda 8" <-- CarbonReductorWorker : import
+    "Carbon Reductor Core" --> CarbonReductorWorker : use
+
+    CarbonReductorWorker --> CarbonReductorVariableMapper : use
+    CarbonReductorVariableMapper --> "Carbon Reductor Core" : import
+
+    CarbonReductorVariableMapper --> CarbonReductorInputVariable : import
+    CarbonReductorVariableMapper --> CarbonReductorOutputVariable : import
+}
+
+@enduml
