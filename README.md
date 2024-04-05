@@ -19,7 +19,7 @@ You want to contribute 🌱? Please read the [Contribution Guidelines](CONTRIBUT
   * [Camunda 8](#camunda-8)
   * [Camunda 7](#camunda-7)
 * 📈 [Reporting Carbon Reduction via Camunda Optimize](#reporting-carbon-reduction-via-camunda-optimize)
-* [🏗️ Building Blocks](#building-blocks)
+* 🏗️ [Building Blocks](#building-blocks)
 * 📚 [Releases](#releases)
 * 📆 [Publications](#publications)
 * 📨 [Contact](#contact)
@@ -76,17 +76,17 @@ we visualized the results for out example process and it looks like the followin
 
 The exported Dashboard Definition could be found [here](assets/optimize-dashboard-definition.json).
 
-# 🏗️Building Blocks
+# 🏗Building Blocks
 
 ![Building Block View Level 0 Camunda Carbon Reductor](assets/diagram/generated/building-block-view-level-0.png)
 
-| Element                                                                              | Description                                                                                                |
-|--------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|
-| [Carbon Reductor Core](./carbon-reductor-core/README.md#building-blocks)             | Core module which calculates the possible time shifting base on data it fetches from the external systems. |
-| Carbon Aware API                                                                     | Custom Client to connect to the Carbon Aware SDK.                                                          |
-| Carbon Aware Computing API                                                           | Custom Client to connect to the Carbon Aware Computing API.                                                |
-| [Camunda Carbon Reductor C8](./camunda-carbon-reductor-c8/README.md#building-blocks) | Camunda 8 Job Worker.                                                                                      |
-| [Camunda Carbon Reductor C7](./camunda-carbon-reductor-c7/README.md#building-blocks) | Camunda 7 External Task Worker.                                                                            |
+| Element                                                                              | Description                                                                                                 |
+|--------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------|
+| [Carbon Reductor Core](./carbon-reductor-core/README.md#building-blocks)             | Core module which calculates the possible time shifting based on data it fetches from the external systems. |
+| Carbon Aware API                                                                     | Custom Client to connect to the Carbon Aware SDK.                                                           |
+| Carbon Aware Computing API                                                           | Custom Client to connect to the Carbon Aware Computing API.                                                 |
+| [Camunda Carbon Reductor C8](./camunda-carbon-reductor-c8/README.md#building-blocks) | Camunda 8 Job Worker.                                                                                       |
+| [Camunda Carbon Reductor C7](./camunda-carbon-reductor-c7/README.md#building-blocks) | Camunda 7 External Task Worker.                                                                             |
 
 
 # 📚Releases

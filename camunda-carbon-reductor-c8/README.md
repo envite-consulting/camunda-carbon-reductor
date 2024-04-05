@@ -14,8 +14,8 @@ implementation of the Carbon Redcutor.
   * [Building the Docker containers](#building-the-docker-containers)
   * [Adding the element template to the modeler](#adding-the-element-template-to-the-modeler)
   * [Configuring the element template](#configuring-the-element-template)
-* [🖐🏼 Manual Override](#-manual-override)
-* [🏗️ Building Blocks](#building-blocks)
+* 🖐🏼[Manual Override](#-manual-override)
+* 🏗️[Building Blocks](#building-blocks)
 
 # 🗒️Notes
 
@@ -147,7 +147,7 @@ There are 2 options:
 
 ![Attached Error Event in the process model](../docs/error-handling/error-handling-c8-process.png)
 
-# 🏗️Building Blocks
+# 🏗Building Blocks
 
 ![Building Block View Level 1 Camunda Carbon Reductor C8](../assets/diagram/generated/building-block-view-level-1-camunda-carbon-reductor-c8.png)
 
