@@ -4,15 +4,15 @@ Camunda 7 [External Task Worker](https://docs.camunda.org/manual/7.18/user-guide
 Provides also a Service Task Template for configuration ([carbon-reductor.json](../exampleprocess/c7/.camunda/element-templates/carbon-reductor-c7-template.json))
 
 
-* [🚀Getting Started](#getting-started)
+* 🚀 [Getting Started](#getting-started)
   * [Choose the underlying API](#choose-the-underlying-api)
   * [Start Camunda Carbon Reductor](#start-camunda-carbon-reductor)
   * [Run the External Task Worker locally](#run-the-external-task-worker-locally)
   * [Building the Docker containers](#building-the-docker-containers)
   * [Adding the element template to the modeler](#adding-the-element-template-to-the-modeler)
   * [Configuring the element template](#configuring-the-element-template)
-* [🖐🏼 Manual Override](#-manual-override)
-* [🏗️ Building Blocks](#building-blocks)
+* 🖐🏼 [Manual Override](#-manual-override)
+* 🏗 [️Building Blocks](#building-blocks)
 
 # 🚀Getting Started
 
@@ -100,7 +100,7 @@ There are 2 options:
 
 ![Attached Error Event in the process model](../docs/error-handling/error-handling-c7-process.png)
 
-# 🏗️Building Blocks
+# 🏗Building Blocks
 
 ![Building Block View Level 1 Camunda Carbon Reductor C7](../assets/diagram/generated/building-block-view-level-1-camunda-carbon-reductor-c7.png)
 

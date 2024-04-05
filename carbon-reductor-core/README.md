@@ -6,8 +6,8 @@ Uses the [Carbon Aware API](../api/api-carbon-aware/README.md).
 
 # Table of Contents
 
-* [🔧️Configuration](#configuration)
-* [🏗️ Building Blocks](#building-blocks)
+* 🔧[️Configuration](#configuration)
+* 🏗[️Building Blocks](#building-blocks)
 
 # 🔧️Configuration
 
@@ -17,7 +17,7 @@ Default is `http://localhost:8090`.
 Or you can override all properties in the [application.yaml](./src/main/resources/application.yaml) by applying e.g. a custom one. 
 
 
-# 🏗️Building Blocks
+# 🏗Building Blocks
 
 ![Building Block View Level 1 Carbon Reductor Core](../assets/diagram/generated/building-block-view-level-1-carbon-reductor-core.png)
 
