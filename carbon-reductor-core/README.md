@@ -21,9 +21,12 @@ Or you can override all properties in the [application.yaml](./src/main/resource
 
 ![Building Block View Level 1 Carbon Reductor Core](../assets/diagram/generated/building-block-view-level-1-carbon-reductor-core.png)
 
-| Element                      | Description                                                                 |
-|------------------------------|-----------------------------------------------------------------------------|
-| CarbonReductorWorker         | `JobWorker` which connects to the model element and does the time shifting. |
-| CarbonReductorVariableMapper | Maps the process data to the internal configuration model.                  |
-| CarbonReductorInputVariable  | Object representing the input data from the process.                        |
-| CarbonReductorOutVariable    | Object representing the data which is written back to the process.          |
+| Element                       | Description                                                                                                           |
+|-------------------------------|-----------------------------------------------------------------------------------------------------------------------|
+| DelayCalculator               | Input port to calculate a time shift.                                                                                 |
+| DelayCalculatorService        | Implementation of the input port calculating the time shift.                                                          |
+| CarbonReductorConfiguration   | Aggregate representing the input configuration.                                                                       |
+| CarbonReduction               | Aggregate representing the result of the time shift.                                                                  |
+| CarbonEmissionQuery           | Output port allowing to query for carbon emission forecast data.                                                      |
+| CarbonAwareSdkClient          | Implementation of the output port using the [Carbon Aware SDK](../api/api-carbon-aware/README.md)                     |
+| CarbonAwareComputingApiClient | Implementation of the output port using the [Carbon Aware Computing API](../api/api-carbon-aware-computing/README.md) |
