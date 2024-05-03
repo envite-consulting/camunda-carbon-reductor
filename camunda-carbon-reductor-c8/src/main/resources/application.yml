@@ -1,10 +1,10 @@
-zeebe:
+camunda:
   client:
-    cloud:
-      clientId: ${CLIENT_ID}
-      clusterId: ${CLUSTER_ID}
-      clientSecret: ${CLIENT_SECRET}
-      region: ${CLIENT_REGION}
+    auth:
+      client-id: ${CLIENT_ID}
+      client-secret: ${CLIENT_SECRET}
+    cluster-id: ${CLIENT_ID}
+    region: ${CLIENT_REGION}
 
 carbon-reductor:
   carbon-aware-api:
