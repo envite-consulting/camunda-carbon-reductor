@@ -60,22 +60,22 @@ Configure the application using [application.yml](./src/main/resources/applicati
 You can run the Connector and connect it to a Camunda Platform 8 SaaS cluster.
 
 ```yml
-zeebe:
+camunda:
   client:
-    cloud:
-      clientId: xxx
-      clusterId: xxx
-      clientSecret: xxx
-      region: dsm-1
+    auth:
+      client-id: xxx
+      client-secret: xxx
+    cluster-id: xxx
+    region: xxx
 ```
 
 If you're running Camunda Platform 8 Self-Managed then use the following configuration:
 
 ```yml
-zeebe:
+camunda:
   client:
-    broker.gateway-address: 127.0.0.1:26500
-    security.plaintext: true
+    zeebe:
+      base-url: http://127.0.0.1:26500
 ```
 
 Once the Connector is running you will see log entries like the following.
