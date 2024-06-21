@@ -55,7 +55,7 @@ You could turn the different adapters on and off via a configuration flag in the
 
 ## Run Connector locally
 
-Configure the application using [application.yml](./src/main/resources/application.yml).
+Configure the application using [application.yml](./src/main/resources/application.yml). Find more info at [Configuring Camunda 8 Connection](https://github.com/camunda-community-hub/spring-zeebe?tab=readme-ov-file#configuring-camunda-8-connection)
 
 You can run the Connector and connect it to a Camunda Platform 8 SaaS cluster.
 
