@@ -67,6 +67,7 @@ camunda:
       client-secret: xxx
     cluster-id: xxx
     region: xxx
+    mode: saas
 ```
 
 If you're running Camunda Platform 8 Self-Managed then use the following configuration:

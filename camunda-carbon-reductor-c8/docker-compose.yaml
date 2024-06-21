@@ -33,6 +33,7 @@ services:
       - CLUSTER_ID=<cluster_id>
       - CLIENT_SECRET=<client_secret>
       - CLIENT_REGION=<client_region>
+      - CLIENT_MODE=<client_mode>
       # To enable or disable the Carbon Aware SDK usage
       - CARBON-REDUCTOR_CARBON-AWARE-API_ENABLED=true
       # To override the URL of the carbon api you could use the following variable

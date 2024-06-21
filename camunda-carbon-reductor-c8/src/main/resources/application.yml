@@ -5,6 +5,7 @@ camunda:
       client-secret: ${CLIENT_SECRET}
     cluster-id: ${CLIENT_ID}
     region: ${CLIENT_REGION}
+    mode: ${CLIENT_MODE}
 
 carbon-reductor:
   carbon-aware-api:
