@@ -3,7 +3,7 @@ camunda:
     auth:
       client-id: ${CLIENT_ID}
       client-secret: ${CLIENT_SECRET}
-    cluster-id: ${CLIENT_ID}
+    cluster-id: ${CLUSTER_ID}
     region: ${CLIENT_REGION}
     mode: ${CLIENT_MODE}
 
