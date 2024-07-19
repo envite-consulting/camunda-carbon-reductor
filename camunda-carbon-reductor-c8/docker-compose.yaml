@@ -12,8 +12,8 @@ services:
       - DataSources__Configurations__WattTime__Password=<myWattTimePassword>
     healthcheck:
       test: curl --fail 'http://localhost:80/emissions/forecasts/current?location=westus' || exit 1
-      interval: 5s
-      retries: 5
+      interval: 60s
+      retries: 3
       start_period: 3s
       timeout: 2s
     ports:
