@@ -2,7 +2,8 @@ version: "3.9"
 services:
 
   carbon-aware-webapi:
-    image: ghcr.io/green-software-foundation/carbon-aware-sdk:v1.2.0
+    # TODO update version after official release of v1.5.0
+    image: ghcr.io/green-software-foundation/carbon-aware-sdk:sha-fd2f560
     container_name: carbon-aware-webapi
     environment:
       - DataSources__EmissionsDataSource=WattTime
@@ -11,13 +12,13 @@ services:
       - DataSources__Configurations__WattTime__Username=<myWattTimeUsername>
       - DataSources__Configurations__WattTime__Password=<myWattTimePassword>
     healthcheck:
-      test: curl --fail 'http://localhost:80/emissions/forecasts/current?location=westus' || exit 1
+      test: curl --fail 'http://localhost:8080/emissions/forecasts/current?location=westus' || exit 1
       interval: 60s
       retries: 3
       start_period: 3s
       timeout: 2s
     ports:
-      - "8090:80"
+      - "8090:8080"
 
   camunda-7-carbon-reductor-connector:
     image: enviteconsulting/camunda-7-carbon-reductor-connector
@@ -37,7 +38,7 @@ services:
       # To enable or disable the Carbon Aware SDK usage
       - CARBON-REDUCTOR_CARBON-AWARE-API_ENABLED=true
       # To override the URL of the carbon api you could use the following variable
-      - CARBON-REDUCTOR_CARBON-AWARE-API_BASE-PATH=http://carbon-aware-webapi:80
+      - CARBON-REDUCTOR_CARBON-AWARE-API_BASE-PATH=http://carbon-aware-webapi:8080
       # To enable or disable the Carbon Aware Computing API usage
       # - CARBON-REDUCTOR_CARBON-AWARE-COMPUTING_ENABLED=true
       # - CARBON-REDUCTOR_CARBON-AWARE-COMPUTING_API_KEY=<api-key>

@@ -22,7 +22,7 @@ The Account can be created with a POST request ([watttime.org/api-documentation]
 CAISO_NORTH (California) region.
 
 ```bash
-curl -X POST --location "https://api2.watttime.org/v2/register" \
+curl -X POST --location "https://api.watttime.org/register" \
     -H "Content-Type: application/json" \
     -d "{\"username\": \"<myWattTimeUsername>\",
           \"password\": \"<myWattTimePassword>\",
@@ -51,3 +51,9 @@ Test the API with `curl -s "http://localhost:8090/emissions/forecasts/current?lo
 This should return a lengthy JSON response.
 
 Congratulations 🎉 - the API is now running locally.
+
+### Download openapi specification
+Run the container locally and open  
+``` 
+  http://localhost:8090/api/v1/swagger.yaml
+```
