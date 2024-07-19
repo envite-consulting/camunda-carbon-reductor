@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "CarbonAware.WebApi",
+    "title": "CarbonAware.WebApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
     "version": "1.0"
   },
   "paths": {
@@ -974,13 +974,10 @@
                 "type": "string"
               }
             },
-            "nullable": true,
-            "readOnly": true
+            "nullable": true
           }
         },
-        "additionalProperties": {
-
-        }
+        "additionalProperties": {}
       }
     }
   }
