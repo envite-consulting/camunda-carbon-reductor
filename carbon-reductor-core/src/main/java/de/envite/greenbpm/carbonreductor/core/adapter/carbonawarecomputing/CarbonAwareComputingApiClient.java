@@ -49,7 +49,7 @@ public class CarbonAwareComputingApiClient implements CarbonEmissionQuery {
                 .map(EmissionsForecast::getOptimalDataPoints)
                 .filter(d -> !d.isEmpty())
                 .map(d -> d.get(0))
-                .map(carbonAwareComputingMapper::mapToDoamin)
+                .map(carbonAwareComputingMapper::mapToDomain)
                 .orElseThrow(() -> new CarbonEmissionQueryException("API provided no data"));
     }
 }
