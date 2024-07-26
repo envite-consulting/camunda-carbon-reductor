@@ -20,7 +20,7 @@ class CarbonAwareComputingMapperTest {
         when(emissionsData.getValue()).thenReturn(2.0);
         when(emissionsData.getTimestamp()).thenReturn(OffsetDateTime.MIN);
 
-        EmissionTimeframe result = classUnderTest.mapToDoamin(emissionsData);
+        EmissionTimeframe result = classUnderTest.mapToDomain(emissionsData);
 
         SoftAssertions softAssertions = new SoftAssertions();
         softAssertions.assertThat(result.getOptimalTime().getValue()).isEqualTo(emissionsData.getTimestamp());

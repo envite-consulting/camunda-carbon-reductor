@@ -69,7 +69,7 @@ class CarbonAwareComputingApiClientTest {
         when(forecastApiMock.getBestExecutionTime(
                 eq(LOCATION), isNull(), any(OffsetDateTime.class), eq(WINDOW_SIZE_MINUTES))
         ).thenReturn(List.of(emissionsForecast));
-        when(carbonAwareComputingMapperMock.mapToDoamin(emissionsData)).thenReturn(Data.emissionTimeframe);
+        when(carbonAwareComputingMapperMock.mapToDomain(emissionsData)).thenReturn(Data.emissionTimeframe);
 
         EmissionTimeframe result = classUnderTest.getEmissionTimeframe(Data.location, Data.PROCESS_DURATION, Data.executiontime);
 
