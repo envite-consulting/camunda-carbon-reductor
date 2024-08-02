@@ -131,6 +131,7 @@ Download of Releases:
 
 # 📆Publications
 
+* 2024-04: Hehnle, Philipp; Behrendt, Maximilian; Weinbrecht, Luc; Corea, Carl (2024): [Carbon-Aware Process Execution for Green Business Process Management](https://www.scitepress.org/PublicationsDetail.aspx?ID=gVUFPh60DTc=&t=1). In: Proceedings of the 26th International Conference on Enterprise Information Systems. Angers, France, 28/04/2024 - 30/04/2024: SCITEPRESS - Science and Technology Publications, S. 659–666.
 * 2023-10: [Process Pattern.book](https://process-pattern.app/book/case-studies/envite-camunda-carbon-reductor) 
   The Camunda Carbon Reductor as Case Study for the _Shift Workload_ Workflow Pattern.
 * 2023-09: [Camunda Marketplace](https://marketplace.camunda.com/en-US/apps/419555/carbon-reductor)
