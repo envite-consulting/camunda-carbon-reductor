@@ -19,9 +19,6 @@
 
         <property name="history" value="full" />
 
-        <!-- telemetry configuration -->
-        <property name="telemetryReporterActivate" value="false" />
-
     </bean>
 
 </beans>

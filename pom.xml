@@ -17,7 +17,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.2</version>
+        <version>3.3.4</version>
         <relativePath />
     </parent>
 
@@ -42,8 +42,8 @@
         <version.hibernate-validator>8.0.1.Final</version.hibernate-validator>
         <version.jakarta.validation-api>3.0.2</version.jakarta.validation-api>
         <version.zeebe.spring-boot>8.5.0</version.zeebe.spring-boot>
-        <version.camunda.spring-boot>7.21.0</version.camunda.spring-boot>
-        <version.spring-boot>3.2.4</version.spring-boot>
+        <version.camunda.spring-boot>7.22.0</version.camunda.spring-boot>
+        <version.spring-boot>3.3.4</version.spring-boot>
         <version.org.jacoco>0.8.12</version.org.jacoco>
         <version.spring-banner-plugin>1.6.0</version.spring-banner-plugin>
         <version.maven-release-plugin>3.0.1</version.maven-release-plugin>
