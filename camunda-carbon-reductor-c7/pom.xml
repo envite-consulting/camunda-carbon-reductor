@@ -32,7 +32,7 @@
             <dependency>
                 <groupId>org.camunda.bpm</groupId>
                 <artifactId>camunda-bom</artifactId>
-                <version>${version.camunda.spring-boot}</version>
+                <version>${version.camunda7.spring-boot}</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
