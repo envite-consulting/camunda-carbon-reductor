@@ -39,10 +39,7 @@
 
         <version.swagger-core>2.2.21</version.swagger-core>
         <version.okhttp>4.12.0</version.okhttp>
-        <version.hibernate-validator>8.0.1.Final</version.hibernate-validator>
-        <version.jakarta.validation-api>3.0.2</version.jakarta.validation-api>
         <version.camunda8>8.6.3</version.camunda8>
-        <version.camunda8.connector>8.6.2</version.camunda8.connector>
         <version.camunda7.spring-boot>7.22.0</version.camunda7.spring-boot>
         <version.spring-boot>3.3.4</version.spring-boot>
         <version.org.jacoco>0.8.12</version.org.jacoco>
