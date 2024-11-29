@@ -39,11 +39,11 @@ class CarbonAwareComputingApiClientTest {
     private CarbonAwareComputingMapper carbonAwareComputingMapperMock;
 
     static class Data {
-        final static Location location = Locations.FRANCE_CENTRAL.asLocation();
-        final static ProcessDuration PROCESS_DURATION = new ProcessDuration("PT5M");
-        final static ProcessDuration executiontime = new ProcessDuration("PT10M");
+        static final Location location = Locations.FRANCE_CENTRAL.asLocation();
+        static final ProcessDuration PROCESS_DURATION = new ProcessDuration("PT5M");
+        static final ProcessDuration executiontime = new ProcessDuration("PT10M");
 
-        final static EmissionTimeframe emissionTimeframe = new EmissionTimeframe(
+        static final EmissionTimeframe emissionTimeframe = new EmissionTimeframe(
                 new OptimalTime(java.time.OffsetDateTime.now().plusHours(3)),
                 new EarliestForecastedValue(200.6),
                 new ForecastedValue(0.0)
@@ -51,8 +51,6 @@ class CarbonAwareComputingApiClientTest {
     }
 
     private static final String LOCATION = "de";
-    private static final int WINDOW_SIZE_MINUTES = 5;
-
 
     @BeforeEach
     void setUp() {
@@ -67,7 +65,7 @@ class CarbonAwareComputingApiClientTest {
         EmissionsData emissionsData = mock(EmissionsData.class);
         when(emissionsForecast.getOptimalDataPoints()).thenReturn(List.of(emissionsData));
         when(forecastApiMock.getBestExecutionTime(
-                eq(LOCATION), isNull(), any(OffsetDateTime.class), eq(WINDOW_SIZE_MINUTES))
+                eq(LOCATION), isNull(), any(OffsetDateTime.class), eq(Data.executiontime.inMinutes()))
         ).thenReturn(List.of(emissionsForecast));
         when(carbonAwareComputingMapperMock.mapToDomain(emissionsData)).thenReturn(Data.emissionTimeframe);
 
@@ -77,7 +75,7 @@ class CarbonAwareComputingApiClientTest {
     }
 
     @Test
-    void should_throw_if_location_unknown() throws Exception {
+    void should_throw_if_location_unknown() {
         when(locationMapperMock.mapLocation(any(Location.class))).thenReturn(null);
 
         assertThatThrownBy(() -> classUnderTest.getEmissionTimeframe(Data.location, Data.PROCESS_DURATION, Data.executiontime))
@@ -91,7 +89,7 @@ class CarbonAwareComputingApiClientTest {
     void should_throw_if_no_element_in_list_response() throws Exception {
         when(locationMapperMock.mapLocation(any(Location.class))).thenReturn(LOCATION);
         when(forecastApiMock.getBestExecutionTime(
-                eq(LOCATION), isNull(), any(OffsetDateTime.class), eq(WINDOW_SIZE_MINUTES))
+                eq(LOCATION), isNull(), any(OffsetDateTime.class), eq(Data.executiontime.inMinutes()))
         ).thenReturn(List.of());
 
         assertThatThrownBy(() -> classUnderTest.getEmissionTimeframe(Data.location, Data.PROCESS_DURATION, Data.executiontime))
@@ -106,7 +104,7 @@ class CarbonAwareComputingApiClientTest {
         EmissionsForecast emissionsForecast = mock(EmissionsForecast.class);
         when(emissionsForecast.getOptimalDataPoints()).thenReturn(List.of());
         when(forecastApiMock.getBestExecutionTime(
-                eq(LOCATION), isNull(), any(OffsetDateTime.class), eq(WINDOW_SIZE_MINUTES))
+                eq(LOCATION), isNull(), any(OffsetDateTime.class), eq(Data.executiontime.inMinutes()))
         ).thenReturn(List.of(emissionsForecast));
 
         assertThatThrownBy(() -> classUnderTest.getEmissionTimeframe(Data.location, Data.PROCESS_DURATION, Data.executiontime))
