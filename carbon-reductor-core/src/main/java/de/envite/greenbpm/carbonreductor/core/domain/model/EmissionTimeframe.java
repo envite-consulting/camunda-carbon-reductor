@@ -31,13 +31,14 @@ public class EmissionTimeframe extends Aggregate {
     }
 
     public boolean isCleanerEnergyInFuture() {
-        return earliestForecastedValue.getValue() > optimalValue.getValue();
+        final boolean emissionReduction = earliestForecastedValue.getValue() > optimalValue.getValue();
+        return emissionReduction && optimalTime.isInFuture();
     }
 
     public double calculateSavedCarbonDelta() {
         return earliestForecastedValue.getValue() - optimalValue.getValue();
-
     }
+
     public double calculateSavedCarbonPercentage() {
         double difference = earliestForecastedValue.getValue() - optimalValue.getValue();
         return (difference / earliestForecastedValue.getValue()) * 100;
