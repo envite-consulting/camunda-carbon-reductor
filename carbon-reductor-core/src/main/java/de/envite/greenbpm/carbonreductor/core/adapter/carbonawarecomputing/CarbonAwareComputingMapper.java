@@ -11,8 +11,7 @@ import java.time.OffsetDateTime;
 public class CarbonAwareComputingMapper {
 
     public EmissionTimeframe mapToDomain(EmissionsData emissionsData) {
-        // TODO keep in mind: cleanerEnergyInFuture will not work as expected with earliestForecastedValue 0.0
-        if (emissionsData.getTimestamp().isAfter(OffsetDateTime.now())) {
+        if (emissionsData.getTimestamp() != null && emissionsData.getTimestamp().isAfter(OffsetDateTime.now())) {
             return new EmissionTimeframe(
                     new OptimalTime(emissionsData.getTimestamp()),
                     new EarliestForecastedValue(0.0),

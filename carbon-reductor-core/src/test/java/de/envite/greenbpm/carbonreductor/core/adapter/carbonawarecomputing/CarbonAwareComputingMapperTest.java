@@ -2,11 +2,13 @@ package de.envite.greenbpm.carbonreductor.core.adapter.carbonawarecomputing;
 
 import de.envite.greenbpm.api.carbonawarecomputing.model.EmissionsData;
 import de.envite.greenbpm.carbonreductor.core.domain.model.EmissionTimeframe;
+import io.github.domainprimitives.validation.InvariantException;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.OffsetDateTime;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -43,4 +45,17 @@ class CarbonAwareComputingMapperTest {
         softAssertions.assertThat(result.getOptimalValue().getValue()).isEqualTo(emissionsData.getValue());
         softAssertions.assertAll();
     }
+
+    @Test
+    void should_throw_if_timestamp_is_null() {
+        EmissionsData emissionsData = mock(EmissionsData.class);
+        when(emissionsData.getValue()).thenReturn(2.0);
+        when(emissionsData.getTimestamp()).thenReturn(null);
+
+        assertThatThrownBy(() -> classUnderTest.mapToDomain(emissionsData))
+                .isInstanceOf(InvariantException.class)
+                .hasMessageContaining("OptimalTime should not be null");
+
+    }
+
 }

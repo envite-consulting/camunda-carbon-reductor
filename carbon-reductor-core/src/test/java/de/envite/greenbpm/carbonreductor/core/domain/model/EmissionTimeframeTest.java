@@ -67,6 +67,23 @@ class EmissionTimeframeTest {
 
             assertThat(emissionTimeframe.isCleanerEnergyInFuture()).isTrue();
         }
+
+        @Test
+        void should_return_false_if_earliestForecastedValue_is_greater_than_forecast_and_in_past() {
+            final ForecastedValue higherForecastedValue = new ForecastedValue(500.0);
+            final OptimalTime optimalTimeInPast = new OptimalTime(OffsetDateTime.now().minusHours(1));
+            EmissionTimeframe emissionTimeframe = new EmissionTimeframe(optimalTimeInPast, earliestForecastedValue, higherForecastedValue);
+
+            assertThat(emissionTimeframe.isCleanerEnergyInFuture()).isFalse();
+        }
+
+        @Test
+        void should_return_false_if_earliestForecastedValue_is_greater_than_forecast_but_in_past() {
+            final OptimalTime optimalTimeInPast = new OptimalTime(OffsetDateTime.now().minusHours(1));
+            EmissionTimeframe emissionTimeframe = new EmissionTimeframe(optimalTimeInPast, earliestForecastedValue, forecastedValue);
+
+            assertThat(emissionTimeframe.isCleanerEnergyInFuture()).isFalse();
+        }
     }
 
     @Nested
