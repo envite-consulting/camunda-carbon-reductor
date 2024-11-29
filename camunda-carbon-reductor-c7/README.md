@@ -21,7 +21,8 @@ Provides also a Service Task Template for configuration ([carbon-reductor.json](
 We support different APIs which could be used to fetch the forecast data.
 Have a look at our [APIs](../api/README.md) to see which ones are supported yet.
 You could turn the different adapters on and off via a configuration flag in the
-[application.yml](./src/main/resources/application.yml).
+[application.yml](./src/main/resources/application.yml). But keep in mind to turn
+off the default API if you like to enable another one.
 
 ## Start Camunda Carbon Reductor
 Add the WattTime credentials in the

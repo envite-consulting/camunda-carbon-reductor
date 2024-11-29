@@ -11,7 +11,7 @@ public class CarbonAwareComputingMapper {
     public EmissionTimeframe mapToDomain(EmissionsData emissionsData) {
         return new EmissionTimeframe(
                 new OptimalTime(emissionsData.getTimestamp()),
-                new EarliestForecastedValue(0.0),
+                new EarliestForecastedValue(emissionsData.getValue()),
                 new ForecastedValue(emissionsData.getValue())
         );
     }
