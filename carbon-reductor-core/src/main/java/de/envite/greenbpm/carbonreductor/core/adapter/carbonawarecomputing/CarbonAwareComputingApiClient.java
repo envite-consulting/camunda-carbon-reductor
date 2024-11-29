@@ -29,7 +29,6 @@ public class CarbonAwareComputingApiClient implements CarbonEmissionQuery {
     @Override
     public EmissionTimeframe getEmissionTimeframe(Location location, ProcessDuration processDuration, ProcessDuration executiontime)
             throws CarbonEmissionQueryException {
-        final int windowSizeMinutes = 5;
         List<EmissionsForecast> emissionsForecast = null;
         final String mappedLocation = locationMapper.mapLocation(location);
         if (mappedLocation == null) {
@@ -37,7 +36,7 @@ public class CarbonAwareComputingApiClient implements CarbonEmissionQuery {
         }
 
         try {
-            emissionsForecast = forecastApi.getBestExecutionTime(mappedLocation, null, processDuration.timeshiftFromNow(), windowSizeMinutes);
+            emissionsForecast = forecastApi.getBestExecutionTime(mappedLocation, null, processDuration.timeshiftFromNow(), executiontime.inMinutes());
         } catch (Exception e) {
             log.error("Error when calling the API for the optimal forecast", e);
             throw new CarbonEmissionQueryException(e);
