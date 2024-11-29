@@ -38,7 +38,7 @@ class EmissionTimeframeTest {
         }
 
         @Test
-        void should_throw_if_rating_is_null() {
+        void should_throw_if_earliestForecastedValue_is_null() {
             assertThatThrownBy(() -> new EmissionTimeframe(optimalTime, null, forecastedValue))
                     .isInstanceOf(InvariantException .class);
         }
@@ -54,15 +54,15 @@ class EmissionTimeframeTest {
     class CleanEnergyInFutureCalculation {
 
         @Test
-        void should_return_false_if_rating_is_smaller_than_forecast() {
-            ForecastedValue forecastedValue = new ForecastedValue(500.0);
-            EmissionTimeframe emissionTimeframe = new EmissionTimeframe(optimalTime, earliestForecastedValue, forecastedValue);
+        void should_return_false_if_earliestForecastedValue_is_smaller_than_forecast() {
+            ForecastedValue higherForecastedValue = new ForecastedValue(500.0);
+            EmissionTimeframe emissionTimeframe = new EmissionTimeframe(optimalTime, earliestForecastedValue, higherForecastedValue);
 
             assertThat(emissionTimeframe.isCleanerEnergyInFuture()).isFalse();
         }
 
         @Test
-        void should_return_true_if_rating_is_greater_than_forecast() {
+        void should_return_true_if_earliestForecastedValue_is_greater_than_forecast() {
             EmissionTimeframe emissionTimeframe = new EmissionTimeframe(optimalTime, earliestForecastedValue, forecastedValue);
 
             assertThat(emissionTimeframe.isCleanerEnergyInFuture()).isTrue();
