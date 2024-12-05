@@ -7,6 +7,7 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
@@ -35,7 +36,7 @@ class CarbonAwareComputingMapperTest {
     void should_map_all_fields_except_earliestForecastedValue_for_timestamp_in_the_future() {
         EmissionsData emissionsData = mock(EmissionsData.class);
         when(emissionsData.getValue()).thenReturn(2.0);
-        when(emissionsData.getTimestamp()).thenReturn(OffsetDateTime.now().plusHours(12));
+        when(emissionsData.getTimestamp()).thenReturn(OffsetDateTime.now(ZoneOffset.UTC).plusHours(12));
 
         EmissionTimeframe result = classUnderTest.mapToDomain(emissionsData);
 
