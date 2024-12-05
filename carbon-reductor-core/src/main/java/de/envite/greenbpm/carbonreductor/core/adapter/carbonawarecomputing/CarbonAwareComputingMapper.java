@@ -7,11 +7,12 @@ import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.Forecas
 import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.OptimalTime;
 
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 
 public class CarbonAwareComputingMapper {
 
     public EmissionTimeframe mapToDomain(EmissionsData emissionsData) {
-        if (emissionsData.getTimestamp() != null && emissionsData.getTimestamp().isAfter(OffsetDateTime.now())) {
+        if (emissionsData.getTimestamp() != null && emissionsData.getTimestamp().isAfter(OffsetDateTime.now(ZoneOffset.UTC))) {
             return new EmissionTimeframe(
                     new OptimalTime(emissionsData.getTimestamp()),
                     new EarliestForecastedValue(0.0),

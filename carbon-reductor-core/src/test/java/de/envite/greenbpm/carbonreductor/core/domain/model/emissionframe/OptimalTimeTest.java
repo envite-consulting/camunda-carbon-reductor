@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -13,10 +14,11 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 class OptimalTimeTest {
 
+    private final OffsetDateTime utcNow = OffsetDateTime.now(ZoneOffset.UTC);
 
     @Test
     void should_not_throw_if_valid() {
-        assertDoesNotThrow(() -> new OptimalTime(OffsetDateTime.now()));
+        assertDoesNotThrow(() -> new OptimalTime(utcNow));
     }
 
     @Nested
@@ -24,12 +26,10 @@ class OptimalTimeTest {
 
         @Test
         void should_convert() {
-            final OffsetDateTime offsetDateTime = OffsetDateTime.now();
-
-            final OptimalTime optimalTime = new OptimalTime(offsetDateTime);
+            final OptimalTime optimalTime = new OptimalTime(utcNow);
 
             SoftAssertions softAssertions = new SoftAssertions();
-            softAssertions.assertThat(optimalTime.asOffsetDateTime()).isEqualTo(offsetDateTime);
+            softAssertions.assertThat(optimalTime.asOffsetDateTime()).isEqualTo(utcNow);
             softAssertions.assertThat(optimalTime.asOffsetDateTime()).isInstanceOf(OffsetDateTime.class);
             softAssertions.assertAll();
         }
@@ -40,21 +40,21 @@ class OptimalTimeTest {
 
         @Test
         void should_return_true_if_is_in_future() {
-            final OptimalTime nextHour = new OptimalTime(OffsetDateTime.now().plusHours(1));
+            final OptimalTime nextHour = new OptimalTime(utcNow.plusHours(1));
 
             assertThat(nextHour.isInFuture()).isTrue();
         }
 
         @Test
         void should_return_true_if_is_in_now() {
-            final OptimalTime now = new OptimalTime(OffsetDateTime.now());
+            final OptimalTime now = new OptimalTime(utcNow);
 
             assertThat(now.isInFuture()).isTrue();
         }
 
         @Test
         void should_return_false_if_is_in_past() {
-            final OptimalTime lastHour = new OptimalTime(OffsetDateTime.now().minusHours(1));
+            final OptimalTime lastHour = new OptimalTime(utcNow.minusHours(1));
 
             assertThat(lastHour.isInFuture()).isFalse();
         }
