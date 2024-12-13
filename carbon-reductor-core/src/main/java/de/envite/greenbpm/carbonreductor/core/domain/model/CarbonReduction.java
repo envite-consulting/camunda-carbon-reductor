@@ -11,6 +11,10 @@ public class CarbonReduction extends Aggregate {
 
   private final Delay delay;
 
+  /**
+   * CO2eq if executed immediately.
+   * Could be null because some data provider only serve the {@link CarbonReduction#optimalForecastedCarbon}.
+   */
   private final Carbon carbonWithoutOptimization;
   private final Carbon optimalForecastedCarbon;
   private final Percentage savedCarbonPercentage;
@@ -26,13 +30,15 @@ public class CarbonReduction extends Aggregate {
   @Override
   protected void validate() {
     validateNotNull(delay, "Delay");
-    validateNotNull(carbonWithoutOptimization, "original Carbon");
     validateNotNull(optimalForecastedCarbon, "actual Carbon");
     validateNotNull(savedCarbonPercentage, "saved Carbon");
     evaluateValidations();
   }
 
   public Carbon calculateReduction() {
+    if (carbonWithoutOptimization == null) {
+      return optimalForecastedCarbon;
+    }
     return new Carbon(carbonWithoutOptimization.getValue() - optimalForecastedCarbon.getValue());
   }
 }

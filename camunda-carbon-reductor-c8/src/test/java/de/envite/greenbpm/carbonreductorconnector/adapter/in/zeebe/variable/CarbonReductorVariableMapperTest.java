@@ -9,8 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.*;
 
-import static de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.test.utils.TestDataGenerator.createCarbonReductorOutput;
-import static de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.test.utils.TestDataGenerator.createInputVariables;
+import static de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.test.utils.TestDataGenerator.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 class CarbonReductorVariableMapperTest {
@@ -54,19 +53,38 @@ class CarbonReductorVariableMapperTest {
         }
     }
 
-    @Test
-    void should_map_all_fields_from_domain() {
-        CarbonReduction outputDDD = createCarbonReductorOutput();
+    @Nested
+    class MapFromDomain {
+        @Test
+        void should_map_all_fields_from_domain() {
+            CarbonReduction outputDDD = createCarbonReductorOutput();
 
-        CarbonReductorOutputVariable result = classUnderTest.mapFromDomain(outputDDD);
+            CarbonReductorOutputVariable result = classUnderTest.mapFromDomain(outputDDD);
 
-        SoftAssertions softAssertions = new SoftAssertions();
-        softAssertions.assertThat(result.isExecutionDelayed()).isEqualTo(outputDDD.getDelay().isExecutionDelayed());
-        softAssertions.assertThat(result.getDelayedBy()).isEqualTo(outputDDD.getDelay().getDelayedBy());
-        softAssertions.assertThat(result.getOptimalForecastedCarbon()).isEqualTo(outputDDD.getOptimalForecastedCarbon().getValue());
-        softAssertions.assertThat(result.getCarbonWithoutOptimization()).isEqualTo(outputDDD.getCarbonWithoutOptimization().getValue());
-        softAssertions.assertThat(result.getSavedCarbonPercentage()).isEqualTo(outputDDD.getSavedCarbonPercentage().getValue());
-        softAssertions.assertThat(result.getCarbonReduction()).isEqualTo(outputDDD.calculateReduction().getValue());
-        softAssertions.assertAll();
+            SoftAssertions softAssertions = new SoftAssertions();
+            softAssertions.assertThat(result.isExecutionDelayed()).isEqualTo(outputDDD.getDelay().isExecutionDelayed());
+            softAssertions.assertThat(result.getDelayedBy()).isEqualTo(outputDDD.getDelay().getDelayedBy());
+            softAssertions.assertThat(result.getOptimalForecastedCarbon()).isEqualTo(outputDDD.getOptimalForecastedCarbon().getValue());
+            softAssertions.assertThat(result.getCarbonWithoutOptimization()).isEqualTo(outputDDD.getCarbonWithoutOptimization().getValue());
+            softAssertions.assertThat(result.getSavedCarbonPercentage()).isEqualTo(outputDDD.getSavedCarbonPercentage().getValue());
+            softAssertions.assertThat(result.getCarbonReduction()).isEqualTo(outputDDD.calculateReduction().getValue());
+            softAssertions.assertAll();
+        }
+
+        @Test
+        void should_map_mandatory_fields_from_domain() {
+            CarbonReduction outputDDD = createCarbonReductorOutputWithoutCurrentValue();
+
+            CarbonReductorOutputVariable result = classUnderTest.mapFromDomain(outputDDD);
+
+            SoftAssertions softAssertions = new SoftAssertions();
+            softAssertions.assertThat(result.isExecutionDelayed()).isEqualTo(outputDDD.getDelay().isExecutionDelayed());
+            softAssertions.assertThat(result.getDelayedBy()).isEqualTo(outputDDD.getDelay().getDelayedBy());
+            softAssertions.assertThat(result.getOptimalForecastedCarbon()).isEqualTo(outputDDD.getOptimalForecastedCarbon().getValue());
+            softAssertions.assertThat(result.getCarbonWithoutOptimization()).isNull();
+            softAssertions.assertThat(result.getSavedCarbonPercentage()).isEqualTo(outputDDD.getSavedCarbonPercentage().getValue());
+            softAssertions.assertThat(result.getCarbonReduction()).isEqualTo(outputDDD.calculateReduction().getValue());
+            softAssertions.assertAll();
+        }
     }
 }

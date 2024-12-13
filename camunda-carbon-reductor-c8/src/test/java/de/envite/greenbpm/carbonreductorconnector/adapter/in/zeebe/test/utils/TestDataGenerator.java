@@ -3,8 +3,8 @@ package de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.test.utils;
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReduction;
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReductorConfiguration;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Milestone;
-import de.envite.greenbpm.carbonreductor.core.domain.model.input.Threshold;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.ProcessDuration;
+import de.envite.greenbpm.carbonreductor.core.domain.model.input.Threshold;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Carbon;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Delay;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Percentage;
@@ -29,6 +29,15 @@ public class TestDataGenerator {
         return new CarbonReduction(
                 new Delay(true, 3),
                 new Carbon(1.0),
+                new Carbon(2.0),
+                new Percentage(3.0)
+        );
+    }
+
+    public static CarbonReduction createCarbonReductorOutputWithoutCurrentValue() {
+        return new CarbonReduction(
+                new Delay(true, 3),
+                null,
                 new Carbon(2.0),
                 new Percentage(3.0)
         );
