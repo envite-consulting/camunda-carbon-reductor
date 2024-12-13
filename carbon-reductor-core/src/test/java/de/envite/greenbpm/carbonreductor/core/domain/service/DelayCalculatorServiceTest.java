@@ -9,8 +9,8 @@ import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.Earlies
 import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.ForecastedValue;
 import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.OptimalTime;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Milestone;
-import de.envite.greenbpm.carbonreductor.core.domain.model.input.Threshold;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.ProcessDuration;
+import de.envite.greenbpm.carbonreductor.core.domain.model.input.Threshold;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Locations;
 import de.envite.greenbpm.carbonreductor.core.usecase.out.CarbonEmissionQuery;
 import org.assertj.core.api.Assertions;
@@ -142,7 +142,7 @@ class DelayCalculatorServiceTest {
 
         Assertions.assertThat(result.getDelay().isExecutionDelayed()).isFalse();
         Assertions.assertThat(result.getDelay().getDelayedBy()).isZero();
-        Assertions.assertThat(result.getOptimalForecastedCarbon().getValue()).isEqualTo(200.6);
+        Assertions.assertThat(result.getOptimalForecastedCarbon().getValue()).isEqualTo(emissionTimeframe.getOptimalValue().getValue());
         Assertions.assertThat(result.getCarbonWithoutOptimization().getValue()).isEqualTo(200.6);
         Assertions.assertThat(result.getSavedCarbonPercentage().getValue()).isCloseTo(0, offset(0.1));
     }
@@ -159,7 +159,7 @@ class DelayCalculatorServiceTest {
 
         Assertions.assertThat(result.getDelay().isExecutionDelayed()).isFalse();
         Assertions.assertThat(result.getDelay().getDelayedBy()).isZero();
-        Assertions.assertThat(result.getOptimalForecastedCarbon().getValue()).isEqualTo(200.6);
+        Assertions.assertThat(result.getOptimalForecastedCarbon().getValue()).isEqualTo(emissionTimeframe.getOptimalValue().getValue());
         Assertions.assertThat(result.getCarbonWithoutOptimization().getValue()).isEqualTo(200.6);
         Assertions.assertThat(result.getSavedCarbonPercentage().getValue()).isZero();
     }

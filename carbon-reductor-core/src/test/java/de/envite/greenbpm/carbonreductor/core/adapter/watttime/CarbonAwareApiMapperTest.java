@@ -40,21 +40,10 @@ class CarbonAwareApiMapperTest {
 
     @Test
     void should_throw_if_no_optimal_data_points() {
-        assertThatThrownBy(() -> classUnderTest.mapToDomain(new EmissionsForecastDTO()))
+        final EmissionsForecastDTO emissionsForecast = new EmissionsForecastDTO();
+
+        assertThatThrownBy(() -> classUnderTest.mapToDomain(emissionsForecast))
                 .isExactlyInstanceOf(InvariantException.class)
                 .hasMessageContaining("Optimal Time should not be null");
-    }
-
-    @Test
-    void should_throw_if_no_current_emissions() {
-        EmissionsForecastDTO emissionsForecastDTO = new EmissionsForecastDTO();
-        EmissionsDataDTO optimalDataPoint = new EmissionsDataDTO();
-        optimalDataPoint.setTimestamp(OffsetDateTime.now());
-        optimalDataPoint.setValue(2.0);
-        emissionsForecastDTO.setOptimalDataPoints(List.of(optimalDataPoint, new EmissionsDataDTO()));
-
-        assertThatThrownBy(() -> classUnderTest.mapToDomain(emissionsForecastDTO))
-                .isExactlyInstanceOf(InvariantException.class)
-                .hasMessageContaining("Rating should not be null");
     }
 }

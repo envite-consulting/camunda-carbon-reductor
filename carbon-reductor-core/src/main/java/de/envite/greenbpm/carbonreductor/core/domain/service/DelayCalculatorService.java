@@ -10,6 +10,7 @@ import de.envite.greenbpm.carbonreductor.core.domain.model.output.Delay;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Percentage;
 import de.envite.greenbpm.carbonreductor.core.usecase.in.DelayCalculator;
 import de.envite.greenbpm.carbonreductor.core.usecase.out.CarbonEmissionQuery;
+import io.github.domainprimitives.type.ValueObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
+import java.util.Optional;
 
 import static de.envite.greenbpm.carbonreductor.core.domain.model.ExceptionHandlingEnum.CONTINUE_ON_EXCEPTION;
 
@@ -50,13 +52,18 @@ public class DelayCalculatorService implements DelayCalculator {
                 emissionTimeframe.calculateSavedCarbonDelta()
         );
 
+        final Carbon carbonWithoutOptimization = Optional.ofNullable(emissionTimeframe.getEarliestForecastedValue())
+                .map(ValueObject::getValue)
+                .map(Carbon::new)
+                .orElse(null);
+
         if (isDelayNecessary && isGreaterThanMinimumThreshold) {
             final long optimalTime = emissionTimeframe.getOptimalTime().asOffsetDateTime().toInstant().toEpochMilli();
             final long delayedBy = optimalTime - OffsetDateTime.now(ZoneOffset.UTC).toInstant().toEpochMilli();
             final boolean executionDelayed = !input.isMeasurementOnly();
             return new CarbonReduction(
                     new Delay(executionDelayed, delayedBy),
-                    new Carbon(emissionTimeframe.getEarliestForecastedValue().getValue()),
+                    carbonWithoutOptimization,
                     new Carbon(emissionTimeframe.getOptimalValue().getValue()),
                     new Percentage(emissionTimeframe.calculateSavedCarbonPercentage())
                     );
@@ -64,8 +71,8 @@ public class DelayCalculatorService implements DelayCalculator {
         // execution is optimal currently
         return new CarbonReduction(
                 new Delay(false, 0),
-                new Carbon(emissionTimeframe.getEarliestForecastedValue().getValue()),
-                new Carbon(emissionTimeframe.getEarliestForecastedValue().getValue()),
+                carbonWithoutOptimization,
+                new Carbon(emissionTimeframe.getOptimalValue().getValue()),
                 new Percentage(0.0)
         );
     }
