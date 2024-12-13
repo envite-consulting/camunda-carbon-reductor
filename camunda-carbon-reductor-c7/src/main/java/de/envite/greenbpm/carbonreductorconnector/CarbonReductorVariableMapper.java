@@ -4,15 +4,17 @@ import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReduction;
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReductorConfiguration;
 import de.envite.greenbpm.carbonreductor.core.domain.model.ExceptionHandlingEnum;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Milestone;
-import de.envite.greenbpm.carbonreductor.core.domain.model.input.Threshold;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.ProcessDuration;
+import de.envite.greenbpm.carbonreductor.core.domain.model.input.Threshold;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Location;
+import io.github.domainprimitives.type.ValueObject;
 import org.springframework.stereotype.Component;
 
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 
 @Component
@@ -54,9 +56,12 @@ class CarbonReductorVariableMapper {
     }
 
     public Map<String, Object> mapFromDomain(CarbonReduction output, Map<String, Object> allVariables) {
+        final Double carbonWithoutOptimization = Optional.ofNullable(output.getCarbonWithoutOptimization())
+                .map(ValueObject::getValue)
+                .orElse(null);
         Map<String, Object> variables = new HashMap<>();
         variables.put("executionDelayed", output.getDelay().isExecutionDelayed());
-        variables.put("carbonWithoutOptimization", output.getCarbonWithoutOptimization().getValue());
+        variables.put("carbonWithoutOptimization", carbonWithoutOptimization);
         variables.put("optimalForecastedCarbon", output.getOptimalForecastedCarbon().getValue());
         variables.put("savedCarbonPercentage", output.getSavedCarbonPercentage().getValue());
         variables.put("reducedCarbon", output.calculateReduction().getValue());

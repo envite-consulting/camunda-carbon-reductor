@@ -6,7 +6,7 @@ import lombok.Data;
 public class CarbonReductorOutputVariable {
 
   private boolean executionDelayed;
-  private double carbonWithoutOptimization;
+  private Double carbonWithoutOptimization;
   private double optimalForecastedCarbon;
   private double savedCarbonPercentage;
   private double carbonReduction;

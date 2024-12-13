@@ -95,5 +95,29 @@ class CarbonReductorVariableMapperTest {
             softAssertions.assertThat(result.get("milestone")).isEqualTo(mileStoneDateString);
             softAssertions.assertAll();
         }
+
+        @Test
+        void should_map_mandatory_fields_to_map() {
+            final String mileStoneDateString = "2023-09-08T14:13:40.764+02:00";
+            CarbonReduction carbonReduction = new CarbonReduction(
+                    new Delay(true, 3),
+                    null,
+                    new Carbon(2.0),
+                    new Percentage(3.0)
+            );
+            Map<String, Object> variables = Map.of("milestone", mileStoneDateString);
+
+            Map<String, Object> result = classUnderTest.mapFromDomain(carbonReduction, variables);
+
+            SoftAssertions softAssertions = new SoftAssertions();
+            softAssertions.assertThat(result.get("executionDelayed")).isEqualTo(carbonReduction.getDelay().isExecutionDelayed());
+            softAssertions.assertThat(result.get("carbonWithoutOptimization")).isNull();
+            softAssertions.assertThat(result.get("optimalForecastedCarbon")).isEqualTo(carbonReduction.getOptimalForecastedCarbon().getValue());
+            softAssertions.assertThat(result.get("savedCarbonPercentage")).isEqualTo(carbonReduction.getSavedCarbonPercentage().getValue());
+            softAssertions.assertThat(result.get("reducedCarbon")).isEqualTo(carbonReduction.calculateReduction().getValue());
+            softAssertions.assertThat(result.get("delayedBy")).isEqualTo(carbonReduction.getDelay().getDelayedBy());
+            softAssertions.assertThat(result.get("milestone")).isEqualTo(mileStoneDateString);
+            softAssertions.assertAll();
+        }
     }
 }

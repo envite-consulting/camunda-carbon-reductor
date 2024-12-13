@@ -25,12 +25,6 @@ class CarbonReductionTest {
         }
 
         @Test
-        void should_throw_if_no_original_carbon() {
-            assertThatThrownBy(() -> new CarbonReduction(delay, null, carbon, percentage))
-                    .isInstanceOf(InvariantException.class);
-        }
-
-        @Test
         void should_throw_if_no_actual_carbon() {
             assertThatThrownBy(() -> new CarbonReduction(delay, carbon, null, percentage))
                     .isInstanceOf(InvariantException.class);
@@ -43,19 +37,37 @@ class CarbonReductionTest {
         }
     }
 
-    @Test
-    void should_calculate_reduction() {
-        CarbonReduction carbonReduction = new CarbonReduction(
-                new Delay(true, 3),
-                new Carbon(1.0),
-                new Carbon(2.0),
-                new Percentage(0.3)
-        );
-        Double expectedReduction = carbonReduction.getCarbonWithoutOptimization().getValue() -
-                carbonReduction.getOptimalForecastedCarbon().getValue();
+    @Nested
+    class ReductionCalculation {
+        @Test
+        void should_calculate_reduction() {
+            CarbonReduction carbonReduction = new CarbonReduction(
+                    new Delay(true, 3),
+                    new Carbon(1.0),
+                    new Carbon(2.0),
+                    new Percentage(0.3)
+            );
+            Double expectedReduction = carbonReduction.getCarbonWithoutOptimization().getValue() -
+                    carbonReduction.getOptimalForecastedCarbon().getValue();
 
-        Carbon reduction = carbonReduction.calculateReduction();
+            Carbon reduction = carbonReduction.calculateReduction();
 
-        assertThat(reduction.getValue()).isEqualTo(expectedReduction);
+            assertThat(reduction.getValue()).isEqualTo(expectedReduction);
+        }
+
+        @Test
+        void should_return_optimal_on_calculate_reduction_if_no_original() {
+            CarbonReduction carbonReduction = new CarbonReduction(
+                    new Delay(true, 3),
+                    null,
+                    new Carbon(2.0),
+                    new Percentage(0.3)
+            );
+
+            Carbon reduction = carbonReduction.calculateReduction();
+
+            assertThat(reduction.getValue()).isEqualTo(carbonReduction.getOptimalForecastedCarbon().getValue());
+        }
     }
+
 }

@@ -4,13 +4,15 @@ import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReduction;
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReductorConfiguration;
 import de.envite.greenbpm.carbonreductor.core.domain.model.ExceptionHandlingEnum;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Milestone;
-import de.envite.greenbpm.carbonreductor.core.domain.model.input.Threshold;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.ProcessDuration;
+import de.envite.greenbpm.carbonreductor.core.domain.model.input.Threshold;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Location;
+import io.github.domainprimitives.type.ValueObject;
 import org.springframework.stereotype.Component;
 
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeParseException;
+import java.util.Optional;
 
 import static java.lang.String.format;
 import static java.time.format.DateTimeFormatter.ofPattern;
@@ -55,11 +57,14 @@ public class CarbonReductorVariableMapper {
     }
 
     public CarbonReductorOutputVariable mapFromDomain(CarbonReduction output) {
+        final Double carbonWithoutOptimization = Optional.ofNullable(output.getCarbonWithoutOptimization())
+                .map(ValueObject::getValue)
+                .orElse(null);
         CarbonReductorOutputVariable outputVariable = new CarbonReductorOutputVariable();
         outputVariable.setExecutionDelayed(output.getDelay().isExecutionDelayed());
         outputVariable.setDelayedBy(output.getDelay().getDelayedBy());
         outputVariable.setOptimalForecastedCarbon(output.getOptimalForecastedCarbon().getValue());
-        outputVariable.setCarbonWithoutOptimization(output.getCarbonWithoutOptimization().getValue());
+        outputVariable.setCarbonWithoutOptimization(carbonWithoutOptimization);
         outputVariable.setSavedCarbonPercentage(output.getSavedCarbonPercentage().getValue());
         outputVariable.setCarbonReduction(output.calculateReduction().getValue());
         return outputVariable;
