@@ -65,7 +65,7 @@ public class CarbonReductorVariableMapper {
         outputVariable.setDelayedBy(output.getDelay().getDelayedBy());
         outputVariable.setOptimalForecastedCarbon(output.getOptimalForecastedCarbon().getValue());
         outputVariable.setCarbonWithoutOptimization(carbonWithoutOptimization);
-        outputVariable.setSavedCarbonPercentage(output.getSavedCarbonPercentage().getValue());
+        outputVariable.setSavedCarbonPercentage(Optional.ofNullable(output.getSavedCarbonPercentage()).map(ValueObject::getValue).orElse(null));
         outputVariable.setCarbonReduction(Optional.ofNullable(output.calculateReduction()).map(ValueObject::getValue).orElse(null));
         return outputVariable;
     }

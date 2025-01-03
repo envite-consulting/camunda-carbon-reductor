@@ -48,9 +48,9 @@ public class DelayCalculatorService implements DelayCalculator {
         }
 
         boolean isDelayNecessary = input.isDelayStillRelevant() && emissionTimeframe.isCleanerEnergyInFuture();
-        boolean isGreaterThanMinimumThreshold = input.getThreshold().isGreaterThanMinimumThreshold(
-                emissionTimeframe.calculateSavedCarbonDelta()
-        );
+        boolean isGreaterThanMinimumThreshold = Optional.ofNullable(emissionTimeframe.calculateSavedCarbonDelta())
+                .map(savedCarbonDelta -> input.getThreshold().isGreaterThanMinimumThreshold(savedCarbonDelta))
+                .orElse(false);
 
         final Carbon carbonWithoutOptimization = Optional.ofNullable(emissionTimeframe.getEarliestForecastedValue())
                 .map(ValueObject::getValue)

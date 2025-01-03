@@ -8,7 +8,7 @@ public class CarbonReductorOutputVariable {
   private boolean executionDelayed;
   private Double carbonWithoutOptimization;
   private double optimalForecastedCarbon;
-  private double savedCarbonPercentage;
+  private Double savedCarbonPercentage;
   private Double carbonReduction;
   private long delayedBy;
 
