@@ -35,9 +35,13 @@ public class CarbonReduction extends Aggregate {
     evaluateValidations();
   }
 
+  /**
+   * Calculates the Carbon Reduction due to the time shifting
+   * @return Carbon Reduction. If no calculation is possible it returns null
+   */
   public Carbon calculateReduction() {
     if (carbonWithoutOptimization == null) {
-      return optimalForecastedCarbon;
+      return null;
     }
     return new Carbon(carbonWithoutOptimization.getValue() - optimalForecastedCarbon.getValue());
   }

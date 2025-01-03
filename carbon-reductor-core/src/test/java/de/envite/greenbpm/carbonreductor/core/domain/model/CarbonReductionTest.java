@@ -56,7 +56,7 @@ class CarbonReductionTest {
         }
 
         @Test
-        void should_return_optimal_on_calculate_reduction_if_no_original() {
+        void should_return_null_on_calculate_reduction_if_no_original() {
             CarbonReduction carbonReduction = new CarbonReduction(
                     new Delay(true, 3),
                     null,
@@ -66,7 +66,7 @@ class CarbonReductionTest {
 
             Carbon reduction = carbonReduction.calculateReduction();
 
-            assertThat(reduction.getValue()).isEqualTo(carbonReduction.getOptimalForecastedCarbon().getValue());
+            assertThat(reduction).isNull();
         }
     }
 
