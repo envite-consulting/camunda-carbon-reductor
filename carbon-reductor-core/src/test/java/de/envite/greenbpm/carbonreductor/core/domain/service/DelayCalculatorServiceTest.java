@@ -148,6 +148,33 @@ class DelayCalculatorServiceTest {
     }
 
     @Test
+    void shouldNotCalculateDelayBecauseNoThresholdPossible() throws CarbonReductorException, CarbonEmissionQueryException {
+        EmissionTimeframe emissionTimeframeIn3HoursWithoutActualCarbon = new EmissionTimeframe(
+                new OptimalTime(java.time.OffsetDateTime.now().plusHours(3)),
+                null,
+                new ForecastedValue(15.0)
+        );
+        CarbonReductorConfiguration inputConfig = new CarbonReductorConfiguration(
+                Locations.NORWAY_EAST.asLocation(),
+                new Milestone(createTimestamp(1)),
+                new ProcessDuration("PT5H"),
+                new ProcessDuration("PT10H"),
+                null,
+                false,
+                new Threshold(true, 200.0f));
+        when(carbonEmissionQueryMock.getEmissionTimeframe(eq(inputConfig.getLocation()),
+                any(ProcessDuration.class), eq(inputConfig.getRemainingProcessDuration()))).thenReturn(emissionTimeframeIn3HoursWithoutActualCarbon);
+
+        CarbonReduction result = classUnderTest.calculateDelay(inputConfig);
+
+        Assertions.assertThat(result.getDelay().isExecutionDelayed()).isFalse();
+        Assertions.assertThat(result.getDelay().getDelayedBy()).isZero();
+        Assertions.assertThat(result.getOptimalForecastedCarbon().getValue()).isEqualTo(emissionTimeframeIn3HoursWithoutActualCarbon.getOptimalValue().getValue());
+        Assertions.assertThat(result.getCarbonWithoutOptimization()).isNull();
+        Assertions.assertThat(result.getSavedCarbonPercentage().getValue()).isCloseTo(0, offset(0.1));
+    }
+
+    @Test
     @DisplayName("should calculate no delay because maximumDuration would be breached")
     void shouldCalculateNoDelayBecauseProcessIsRunningVeryLong() throws CarbonReductorException, CarbonEmissionQueryException {
         EmissionTimeframe emissionTimeframe = createBetterEmissionTimeframeIn3Hours();
@@ -180,6 +207,7 @@ class DelayCalculatorServiceTest {
         Assertions.assertThat(result.getCarbonWithoutOptimization().getValue()).isEqualTo(200.6);
         Assertions.assertThat(result.getSavedCarbonPercentage().getValue()).isZero();
     }
+
 
     @ParameterizedTest(name = "{0}")
     @DisplayName("should calculate delay duration")

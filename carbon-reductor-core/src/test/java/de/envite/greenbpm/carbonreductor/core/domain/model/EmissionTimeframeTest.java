@@ -88,10 +88,10 @@ class EmissionTimeframeTest {
         }
 
         @Test
-        void should_return_zero_on_calculate_saved_carbon_delta_if_earliest_is_null() {
+        void should_return_null_on_calculate_saved_carbon_delta_if_earliest_is_null() {
             EmissionTimeframe emissionTimeframe = new EmissionTimeframe(optimalTime, null, forecastedValue);
 
-            assertThat(emissionTimeframe.calculateSavedCarbonDelta()).isZero();
+            assertThat(emissionTimeframe.calculateSavedCarbonDelta()).isNull();
         }
     }
 
@@ -106,10 +106,10 @@ class EmissionTimeframeTest {
         }
 
         @Test
-        void should_return_optimal_on_calculate_saved_carbon_in_percentage_if_earliest_is_null() {
+        void should_return_null_on_calculate_saved_carbon_in_percentage_if_earliest_is_null() {
             EmissionTimeframe emissionTimeframe = new EmissionTimeframe(optimalTime, null, forecastedValue);
 
-            assertThat(emissionTimeframe.calculateSavedCarbonPercentage()).isEqualTo(100);
+            assertThat(emissionTimeframe.calculateSavedCarbonPercentage()).isNull();
         }
     }
 }

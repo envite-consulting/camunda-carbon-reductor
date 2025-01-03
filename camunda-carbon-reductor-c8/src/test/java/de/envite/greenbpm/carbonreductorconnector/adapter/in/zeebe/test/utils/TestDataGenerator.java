@@ -39,7 +39,7 @@ public class TestDataGenerator {
                 new Delay(true, 3),
                 null,
                 new Carbon(2.0),
-                new Percentage(3.0)
+                null
         );
     }
 

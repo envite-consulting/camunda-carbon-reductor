@@ -31,7 +31,6 @@ public class CarbonReduction extends Aggregate {
   protected void validate() {
     validateNotNull(delay, "Delay");
     validateNotNull(optimalForecastedCarbon, "actual Carbon");
-    validateNotNull(savedCarbonPercentage, "saved Carbon");
     evaluateValidations();
   }
 

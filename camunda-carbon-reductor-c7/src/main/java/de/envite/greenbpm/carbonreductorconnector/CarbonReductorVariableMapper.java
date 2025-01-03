@@ -63,7 +63,7 @@ class CarbonReductorVariableMapper {
         variables.put("executionDelayed", output.getDelay().isExecutionDelayed());
         variables.put("carbonWithoutOptimization", carbonWithoutOptimization);
         variables.put("optimalForecastedCarbon", output.getOptimalForecastedCarbon().getValue());
-        variables.put("savedCarbonPercentage", output.getSavedCarbonPercentage().getValue());
+        variables.put("savedCarbonPercentage", Optional.ofNullable(output.getSavedCarbonPercentage()).map(ValueObject::getValue).orElse(null));
         variables.put("reducedCarbon", Optional.ofNullable(output.calculateReduction()).map(ValueObject::getValue).orElse(null));
         variables.put("delayedBy", output.getDelay().getDelayedBy());
         // Override milestone variable because joda time is not a primitive object ..
