@@ -51,16 +51,16 @@ public class EmissionTimeframe extends Aggregate {
         return emissionReduction && optimalTime.isInFuture();
     }
 
-    public double calculateSavedCarbonDelta() {
+    public Double calculateSavedCarbonDelta() {
         if (earliestForecastedValue == null) {
-            return 0.0;
+            return null;
         }
         return earliestForecastedValue.getValue() - optimalValue.getValue();
     }
 
-    public double calculateSavedCarbonPercentage() {
+    public Double calculateSavedCarbonPercentage() {
         if (earliestForecastedValue == null) {
-            return 100;
+            return null;
         }
         double difference = earliestForecastedValue.getValue() - optimalValue.getValue();
         return (difference / earliestForecastedValue.getValue()) * 100;

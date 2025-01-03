@@ -29,12 +29,6 @@ class CarbonReductionTest {
             assertThatThrownBy(() -> new CarbonReduction(delay, carbon, null, percentage))
                     .isInstanceOf(InvariantException.class);
         }
-
-        @Test
-        void should_throw_if_no_saved_carbon() {
-            assertThatThrownBy(() -> new CarbonReduction(delay, carbon, carbon, null))
-                    .isInstanceOf(InvariantException.class);
-        }
     }
 
     @Nested
