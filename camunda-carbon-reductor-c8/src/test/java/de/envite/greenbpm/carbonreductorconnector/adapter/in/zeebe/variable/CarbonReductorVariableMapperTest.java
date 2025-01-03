@@ -55,6 +55,7 @@ class CarbonReductorVariableMapperTest {
 
     @Nested
     class MapFromDomain {
+
         @Test
         void should_map_all_fields_from_domain() {
             CarbonReduction outputDDD = createCarbonReductorOutput();
@@ -83,7 +84,7 @@ class CarbonReductorVariableMapperTest {
             softAssertions.assertThat(result.getOptimalForecastedCarbon()).isEqualTo(outputDDD.getOptimalForecastedCarbon().getValue());
             softAssertions.assertThat(result.getCarbonWithoutOptimization()).isNull();
             softAssertions.assertThat(result.getSavedCarbonPercentage()).isEqualTo(outputDDD.getSavedCarbonPercentage().getValue());
-            softAssertions.assertThat(result.getCarbonReduction()).isEqualTo(outputDDD.calculateReduction().getValue());
+            softAssertions.assertThat(result.getCarbonReduction()).isNull();
             softAssertions.assertAll();
         }
     }

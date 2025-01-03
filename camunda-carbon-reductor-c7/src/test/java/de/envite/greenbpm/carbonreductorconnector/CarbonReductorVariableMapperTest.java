@@ -114,7 +114,7 @@ class CarbonReductorVariableMapperTest {
             softAssertions.assertThat(result.get("carbonWithoutOptimization")).isNull();
             softAssertions.assertThat(result.get("optimalForecastedCarbon")).isEqualTo(carbonReduction.getOptimalForecastedCarbon().getValue());
             softAssertions.assertThat(result.get("savedCarbonPercentage")).isEqualTo(carbonReduction.getSavedCarbonPercentage().getValue());
-            softAssertions.assertThat(result.get("reducedCarbon")).isEqualTo(carbonReduction.calculateReduction().getValue());
+            softAssertions.assertThat(result.get("reducedCarbon")).isNull();
             softAssertions.assertThat(result.get("delayedBy")).isEqualTo(carbonReduction.getDelay().getDelayedBy());
             softAssertions.assertThat(result.get("milestone")).isEqualTo(mileStoneDateString);
             softAssertions.assertAll();

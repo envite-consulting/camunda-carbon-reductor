@@ -161,6 +161,7 @@ class CarbonReductorWorkerTest {
         defaultCarbonReductorOutput.setCarbonWithoutOptimization(0.0);
         defaultCarbonReductorOutput.setOptimalForecastedCarbon(0.0);
         defaultCarbonReductorOutput.setSavedCarbonPercentage(0.0);
+        defaultCarbonReductorOutput.setCarbonReduction(0.0);
         defaultCarbonReductorOutput.setDelayedBy(0);
         return defaultCarbonReductorOutput;
     }
