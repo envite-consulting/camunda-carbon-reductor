@@ -73,6 +73,12 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>io.skippy</groupId>
+            <artifactId>skippy-junit5</artifactId>
+            <version>${verion.skippy}</version>
+            <scope>test</scope>
+        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -131,6 +137,22 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>io.skippy</groupId>
+                <artifactId>skippy-maven</artifactId>
+                <version>${verion.skippy}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>buildFinished</goal>
+                            <goal>buildStarted</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <coverageForSkippedTests>true</coverageForSkippedTests>
+                </configuration>
             </plugin>
         </plugins>
     </build>

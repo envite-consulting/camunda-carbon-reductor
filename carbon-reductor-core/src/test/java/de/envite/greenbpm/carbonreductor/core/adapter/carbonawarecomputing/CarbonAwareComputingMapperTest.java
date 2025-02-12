@@ -2,6 +2,7 @@ package de.envite.greenbpm.carbonreductor.core.adapter.carbonawarecomputing;
 
 import de.envite.greenbpm.api.carbonawarecomputing.model.EmissionsData;
 import de.envite.greenbpm.carbonreductor.core.domain.model.EmissionTimeframe;
+import io.skippy.junit5.PredictWithSkippy;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
@@ -10,6 +11,7 @@ import java.time.OffsetDateTime;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@PredictWithSkippy
 class CarbonAwareComputingMapperTest {
 
     private final CarbonAwareComputingMapper classUnderTest = new CarbonAwareComputingMapper();

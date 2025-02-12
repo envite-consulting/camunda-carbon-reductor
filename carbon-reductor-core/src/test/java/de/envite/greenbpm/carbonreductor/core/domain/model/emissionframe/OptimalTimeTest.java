@@ -1,6 +1,7 @@
 package de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe;
 
 import io.github.domainprimitives.validation.InvariantException;
+import io.skippy.junit5.PredictWithSkippy;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+@PredictWithSkippy
 class OptimalTimeTest {
 
     private final OffsetDateTime utcNow = OffsetDateTime.now(ZoneOffset.UTC);

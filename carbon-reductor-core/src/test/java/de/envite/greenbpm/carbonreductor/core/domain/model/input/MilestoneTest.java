@@ -1,11 +1,13 @@
 package de.envite.greenbpm.carbonreductor.core.domain.model.input;
 
+import io.skippy.junit5.PredictWithSkippy;
 import org.junit.jupiter.api.Test;
 
 import java.time.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@PredictWithSkippy
 class MilestoneTest {
 
 

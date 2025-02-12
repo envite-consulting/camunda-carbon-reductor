@@ -1,11 +1,12 @@
 package de.envite.greenbpm.carbonreductor.core.domain.model;
 
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Milestone;
-import de.envite.greenbpm.carbonreductor.core.domain.model.input.Threshold;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.ProcessDuration;
+import de.envite.greenbpm.carbonreductor.core.domain.model.input.Threshold;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Location;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Locations;
 import io.github.domainprimitives.validation.InvariantException;
+import io.skippy.junit5.PredictWithSkippy;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -16,6 +17,7 @@ import java.time.ZoneOffset;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+@PredictWithSkippy
 class CarbonReductorConfigurationTest {
 
     @Test

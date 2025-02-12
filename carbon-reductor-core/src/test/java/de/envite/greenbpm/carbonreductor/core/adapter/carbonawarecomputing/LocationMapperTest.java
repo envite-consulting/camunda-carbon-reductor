@@ -3,6 +3,7 @@ package de.envite.greenbpm.carbonreductor.core.adapter.carbonawarecomputing;
 
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Location;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Locations;
+import io.skippy.junit5.PredictWithSkippy;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -11,6 +12,7 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@PredictWithSkippy
 class LocationMapperTest {
 
     private final LocationMapper classUnderTest = new LocationMapper();

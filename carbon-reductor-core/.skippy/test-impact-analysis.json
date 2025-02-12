@@ -1,0 +1,667 @@
+{
+    "id": "86A4E49A38D70318851C8502ED5C73B5",
+    "classes": {
+		"0": {
+			"name": "de.envite.greenbpm.carbonreductor.core.CarbonReductorConfiguration",
+			"path": "de/envite/greenbpm/carbonreductor/core/CarbonReductorConfiguration.class",
+			"outputFolder": "target/classes",
+			"hash": "F2742CA9"
+		},
+		"1": {
+			"name": "de.envite.greenbpm.carbonreductor.core.EnableCarbonReductorCore",
+			"path": "de/envite/greenbpm/carbonreductor/core/EnableCarbonReductorCore.class",
+			"outputFolder": "target/classes",
+			"hash": "9EEB8FFB"
+		},
+		"2": {
+			"name": "de.envite.greenbpm.carbonreductor.core.TestContextApp",
+			"path": "de/envite/greenbpm/carbonreductor/core/TestContextApp.class",
+			"outputFolder": "target/test-classes",
+			"hash": "14585D71"
+		},
+		"3": {
+			"name": "de.envite.greenbpm.carbonreductor.core.adapter.carbonawarecomputing.CarbonAwareComputingApiClient",
+			"path": "de/envite/greenbpm/carbonreductor/core/adapter/carbonawarecomputing/CarbonAwareComputingApiClient.class",
+			"outputFolder": "target/classes",
+			"hash": "96938127"
+		},
+		"4": {
+			"name": "de.envite.greenbpm.carbonreductor.core.adapter.carbonawarecomputing.CarbonAwareComputingApiClientTest",
+			"path": "de/envite/greenbpm/carbonreductor/core/adapter/carbonawarecomputing/CarbonAwareComputingApiClientTest.class",
+			"outputFolder": "target/test-classes",
+			"hash": "FFDAD07F"
+		},
+		"5": {
+			"name": "de.envite.greenbpm.carbonreductor.core.adapter.carbonawarecomputing.CarbonAwareComputingApiClientTest$Data",
+			"path": "de/envite/greenbpm/carbonreductor/core/adapter/carbonawarecomputing/CarbonAwareComputingApiClientTest$Data.class",
+			"outputFolder": "target/test-classes",
+			"hash": "A676136A"
+		},
+		"6": {
+			"name": "de.envite.greenbpm.carbonreductor.core.adapter.carbonawarecomputing.CarbonAwareComputingMapper",
+			"path": "de/envite/greenbpm/carbonreductor/core/adapter/carbonawarecomputing/CarbonAwareComputingMapper.class",
+			"outputFolder": "target/classes",
+			"hash": "9EF19136"
+		},
+		"7": {
+			"name": "de.envite.greenbpm.carbonreductor.core.adapter.carbonawarecomputing.CarbonAwareComputingMapperTest",
+			"path": "de/envite/greenbpm/carbonreductor/core/adapter/carbonawarecomputing/CarbonAwareComputingMapperTest.class",
+			"outputFolder": "target/test-classes",
+			"hash": "9C0ED85F"
+		},
+		"8": {
+			"name": "de.envite.greenbpm.carbonreductor.core.adapter.carbonawarecomputing.LocationMapper",
+			"path": "de/envite/greenbpm/carbonreductor/core/adapter/carbonawarecomputing/LocationMapper.class",
+			"outputFolder": "target/classes",
+			"hash": "D6F6DFA6"
+		},
+		"9": {
+			"name": "de.envite.greenbpm.carbonreductor.core.adapter.carbonawarecomputing.LocationMapper$1",
+			"path": "de/envite/greenbpm/carbonreductor/core/adapter/carbonawarecomputing/LocationMapper$1.class",
+			"outputFolder": "target/classes",
+			"hash": "2BC4B639"
+		},
+		"10": {
+			"name": "de.envite.greenbpm.carbonreductor.core.adapter.carbonawarecomputing.LocationMapperTest",
+			"path": "de/envite/greenbpm/carbonreductor/core/adapter/carbonawarecomputing/LocationMapperTest.class",
+			"outputFolder": "target/test-classes",
+			"hash": "64253655"
+		},
+		"11": {
+			"name": "de.envite.greenbpm.carbonreductor.core.adapter.carbonawarecomputing.config.CarbonAwareComputingClientConfiguration",
+			"path": "de/envite/greenbpm/carbonreductor/core/adapter/carbonawarecomputing/config/CarbonAwareComputingClientConfiguration.class",
+			"outputFolder": "target/classes",
+			"hash": "1285C4EE"
+		},
+		"12": {
+			"name": "de.envite.greenbpm.carbonreductor.core.adapter.carbonawarecomputing.config.CarbonAwareComputingProperties",
+			"path": "de/envite/greenbpm/carbonreductor/core/adapter/carbonawarecomputing/config/CarbonAwareComputingProperties.class",
+			"outputFolder": "target/classes",
+			"hash": "D2215B10"
+		},
+		"13": {
+			"name": "de.envite.greenbpm.carbonreductor.core.adapter.carbonawarecomputing.config.PropertyPrefix",
+			"path": "de/envite/greenbpm/carbonreductor/core/adapter/carbonawarecomputing/config/PropertyPrefix.class",
+			"outputFolder": "target/classes",
+			"hash": "E71874B4"
+		},
+		"14": {
+			"name": "de.envite.greenbpm.carbonreductor.core.adapter.exception.CarbonEmissionQueryException",
+			"path": "de/envite/greenbpm/carbonreductor/core/adapter/exception/CarbonEmissionQueryException.class",
+			"outputFolder": "target/classes",
+			"hash": "C52924FF"
+		},
+		"15": {
+			"name": "de.envite.greenbpm.carbonreductor.core.adapter.watttime.CarbonAwareApiMapper",
+			"path": "de/envite/greenbpm/carbonreductor/core/adapter/watttime/CarbonAwareApiMapper.class",
+			"outputFolder": "target/classes",
+			"hash": "EB5C65CC"
+		},
+		"16": {
+			"name": "de.envite.greenbpm.carbonreductor.core.adapter.watttime.CarbonAwareApiMapperTest",
+			"path": "de/envite/greenbpm/carbonreductor/core/adapter/watttime/CarbonAwareApiMapperTest.class",
+			"outputFolder": "target/test-classes",
+			"hash": "16B0064F"
+		},
+		"17": {
+			"name": "de.envite.greenbpm.carbonreductor.core.adapter.watttime.CarbonAwareSdkClient",
+			"path": "de/envite/greenbpm/carbonreductor/core/adapter/watttime/CarbonAwareSdkClient.class",
+			"outputFolder": "target/classes",
+			"hash": "A16F8B81"
+		},
+		"18": {
+			"name": "de.envite.greenbpm.carbonreductor.core.adapter.watttime.CarbonAwareSdkClientTest",
+			"path": "de/envite/greenbpm/carbonreductor/core/adapter/watttime/CarbonAwareSdkClientTest.class",
+			"outputFolder": "target/test-classes",
+			"hash": "6DB19674"
+		},
+		"19": {
+			"name": "de.envite.greenbpm.carbonreductor.core.adapter.watttime.CarbonAwareSdkClientTest$Data",
+			"path": "de/envite/greenbpm/carbonreductor/core/adapter/watttime/CarbonAwareSdkClientTest$Data.class",
+			"outputFolder": "target/test-classes",
+			"hash": "ECED9379"
+		},
+		"20": {
+			"name": "de.envite.greenbpm.carbonreductor.core.adapter.watttime.config.CarbonAwareClientProperties",
+			"path": "de/envite/greenbpm/carbonreductor/core/adapter/watttime/config/CarbonAwareClientProperties.class",
+			"outputFolder": "target/classes",
+			"hash": "167E5686"
+		},
+		"21": {
+			"name": "de.envite.greenbpm.carbonreductor.core.adapter.watttime.config.CarbonAwareSDKClientConfigurationTest",
+			"path": "de/envite/greenbpm/carbonreductor/core/adapter/watttime/config/CarbonAwareSDKClientConfigurationTest.class",
+			"outputFolder": "target/test-classes",
+			"hash": "516AD223"
+		},
+		"22": {
+			"name": "de.envite.greenbpm.carbonreductor.core.adapter.watttime.config.CarbonAwareSdkClientConfiguration",
+			"path": "de/envite/greenbpm/carbonreductor/core/adapter/watttime/config/CarbonAwareSdkClientConfiguration.class",
+			"outputFolder": "target/classes",
+			"hash": "D931F164"
+		},
+		"23": {
+			"name": "de.envite.greenbpm.carbonreductor.core.adapter.watttime.config.PropertyPrefix",
+			"path": "de/envite/greenbpm/carbonreductor/core/adapter/watttime/config/PropertyPrefix.class",
+			"outputFolder": "target/classes",
+			"hash": "506A950D"
+		},
+		"24": {
+			"name": "de.envite.greenbpm.carbonreductor.core.context.ContextTest",
+			"path": "de/envite/greenbpm/carbonreductor/core/context/ContextTest.class",
+			"outputFolder": "target/test-classes",
+			"hash": "ABCBBDCE"
+		},
+		"25": {
+			"name": "de.envite.greenbpm.carbonreductor.core.context.ContextTest$CarbonAwareComputing",
+			"path": "de/envite/greenbpm/carbonreductor/core/context/ContextTest$CarbonAwareComputing.class",
+			"outputFolder": "target/test-classes",
+			"hash": "7D57F1DB"
+		},
+		"26": {
+			"name": "de.envite.greenbpm.carbonreductor.core.context.ContextTest$CarbonAwareSdk",
+			"path": "de/envite/greenbpm/carbonreductor/core/context/ContextTest$CarbonAwareSdk.class",
+			"outputFolder": "target/test-classes",
+			"hash": "42B2B9A3"
+		},
+		"27": {
+			"name": "de.envite.greenbpm.carbonreductor.core.context.ContextTest$DefaultAPI",
+			"path": "de/envite/greenbpm/carbonreductor/core/context/ContextTest$DefaultAPI.class",
+			"outputFolder": "target/test-classes",
+			"hash": "BE29CCCA"
+		},
+		"28": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReduction",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/CarbonReduction.class",
+			"outputFolder": "target/classes",
+			"hash": "7ECBD527"
+		},
+		"29": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReductionTest",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/CarbonReductionTest.class",
+			"outputFolder": "target/test-classes",
+			"hash": "2D3D08DA"
+		},
+		"30": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReductionTest$CrossValidation",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/CarbonReductionTest$CrossValidation.class",
+			"outputFolder": "target/test-classes",
+			"hash": "C9208B81"
+		},
+		"31": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReductionTest$ReductionCalculation",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/CarbonReductionTest$ReductionCalculation.class",
+			"outputFolder": "target/test-classes",
+			"hash": "86C3C8A4"
+		},
+		"32": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReductorConfiguration",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/CarbonReductorConfiguration.class",
+			"outputFolder": "target/classes",
+			"hash": "93D6AAD6"
+		},
+		"33": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReductorConfigurationTest",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/CarbonReductorConfigurationTest.class",
+			"outputFolder": "target/test-classes",
+			"hash": "31D4C560"
+		},
+		"34": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReductorConfigurationTest$Invariants",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/CarbonReductorConfigurationTest$Invariants.class",
+			"outputFolder": "target/test-classes",
+			"hash": "5B1C2D48"
+		},
+		"35": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.EmissionTimeframe",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/EmissionTimeframe.class",
+			"outputFolder": "target/classes",
+			"hash": "3DD510D0"
+		},
+		"36": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.EmissionTimeframeTest",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/EmissionTimeframeTest.class",
+			"outputFolder": "target/test-classes",
+			"hash": "4D0D9F20"
+		},
+		"37": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.EmissionTimeframeTest$CalculateSavedCarbonDelta",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/EmissionTimeframeTest$CalculateSavedCarbonDelta.class",
+			"outputFolder": "target/test-classes",
+			"hash": "B57991BB"
+		},
+		"38": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.EmissionTimeframeTest$CleanEnergyInFutureCalculation",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/EmissionTimeframeTest$CleanEnergyInFutureCalculation.class",
+			"outputFolder": "target/test-classes",
+			"hash": "DB6F7A60"
+		},
+		"39": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.EmissionTimeframeTest$CrossValidation",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/EmissionTimeframeTest$CrossValidation.class",
+			"outputFolder": "target/test-classes",
+			"hash": "D8F7B063"
+		},
+		"40": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.EmissionTimeframeTest$SavedCarbonCalculationInPercentage",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/EmissionTimeframeTest$SavedCarbonCalculationInPercentage.class",
+			"outputFolder": "target/test-classes",
+			"hash": "5D6F97FF"
+		},
+		"41": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.ExceptionHandlingEnum",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/ExceptionHandlingEnum.class",
+			"outputFolder": "target/classes",
+			"hash": "C23D2D8C"
+		},
+		"42": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.EarliestForecastedValue",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/emissionframe/EarliestForecastedValue.class",
+			"outputFolder": "target/classes",
+			"hash": "9E7B71BD"
+		},
+		"43": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.ForecastedValue",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/emissionframe/ForecastedValue.class",
+			"outputFolder": "target/classes",
+			"hash": "DFCA3827"
+		},
+		"44": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.OptimalTime",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/emissionframe/OptimalTime.class",
+			"outputFolder": "target/classes",
+			"hash": "26BD0E36"
+		},
+		"45": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.OptimalTimeTest",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/emissionframe/OptimalTimeTest.class",
+			"outputFolder": "target/test-classes",
+			"hash": "6DD1FE61"
+		},
+		"46": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.OptimalTimeTest$ConvertToOffsetDateTime",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/emissionframe/OptimalTimeTest$ConvertToOffsetDateTime.class",
+			"outputFolder": "target/test-classes",
+			"hash": "92EA0CF1"
+		},
+		"47": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.OptimalTimeTest$Invariant",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/emissionframe/OptimalTimeTest$Invariant.class",
+			"outputFolder": "target/test-classes",
+			"hash": "D6AEC375"
+		},
+		"48": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.OptimalTimeTest$IsInFuture",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/emissionframe/OptimalTimeTest$IsInFuture.class",
+			"outputFolder": "target/test-classes",
+			"hash": "E301B556"
+		},
+		"49": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.input.Milestone",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/input/Milestone.class",
+			"outputFolder": "target/classes",
+			"hash": "D82E6703"
+		},
+		"50": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.input.MilestoneTest",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/input/MilestoneTest.class",
+			"outputFolder": "target/test-classes",
+			"hash": "3F593706"
+		},
+		"51": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.input.ProcessDuration",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/input/ProcessDuration.class",
+			"outputFolder": "target/classes",
+			"hash": "1046C551"
+		},
+		"52": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.input.ProcessDurationTest",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/input/ProcessDurationTest.class",
+			"outputFolder": "target/test-classes",
+			"hash": "0F238566"
+		},
+		"53": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.input.ProcessDurationTest$Invariants",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/input/ProcessDurationTest$Invariants.class",
+			"outputFolder": "target/test-classes",
+			"hash": "E3272865"
+		},
+		"54": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.input.Threshold",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/input/Threshold.class",
+			"outputFolder": "target/classes",
+			"hash": "31ED2B1A"
+		},
+		"55": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.input.ThresholdTest",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/input/ThresholdTest.class",
+			"outputFolder": "target/test-classes",
+			"hash": "1A082D79"
+		},
+		"56": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.input.ThresholdTest$GreaterThanForecastedValue",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/input/ThresholdTest$GreaterThanForecastedValue.class",
+			"outputFolder": "target/test-classes",
+			"hash": "5370B367"
+		},
+		"57": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Location",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/input/location/Location.class",
+			"outputFolder": "target/classes",
+			"hash": "37C2F685"
+		},
+		"58": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.input.location.LocationTest",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/input/location/LocationTest.class",
+			"outputFolder": "target/test-classes",
+			"hash": "C3D7BA17"
+		},
+		"59": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.input.location.LocationTest$Invariants",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/input/location/LocationTest$Invariants.class",
+			"outputFolder": "target/test-classes",
+			"hash": "CA4A0523"
+		},
+		"60": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Locations",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/input/location/Locations.class",
+			"outputFolder": "target/classes",
+			"hash": "759BA873"
+		},
+		"61": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.output.Carbon",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/output/Carbon.class",
+			"outputFolder": "target/classes",
+			"hash": "036B7582"
+		},
+		"62": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.output.CarbonTest",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/output/CarbonTest.class",
+			"outputFolder": "target/test-classes",
+			"hash": "B6D302E3"
+		},
+		"63": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.output.CarbonTest$Invariants",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/output/CarbonTest$Invariants.class",
+			"outputFolder": "target/test-classes",
+			"hash": "3EA50278"
+		},
+		"64": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.output.Delay",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/output/Delay.class",
+			"outputFolder": "target/classes",
+			"hash": "E9892D47"
+		},
+		"65": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.output.DelayTest",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/output/DelayTest.class",
+			"outputFolder": "target/test-classes",
+			"hash": "1B1FE17B"
+		},
+		"66": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.output.Percentage",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/output/Percentage.class",
+			"outputFolder": "target/classes",
+			"hash": "61849A8E"
+		},
+		"67": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.output.PercentageTest",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/output/PercentageTest.class",
+			"outputFolder": "target/test-classes",
+			"hash": "0CAB6EAD"
+		},
+		"68": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.model.output.PercentageTest$Invariants",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/model/output/PercentageTest$Invariants.class",
+			"outputFolder": "target/test-classes",
+			"hash": "5536B439"
+		},
+		"69": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.service.CarbonReductorException",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/service/CarbonReductorException.class",
+			"outputFolder": "target/classes",
+			"hash": "6DCC05CA"
+		},
+		"70": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.service.DelayCalculatorService",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/service/DelayCalculatorService.class",
+			"outputFolder": "target/classes",
+			"hash": "1503A71B"
+		},
+		"71": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.service.DelayCalculatorServiceTest",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/service/DelayCalculatorServiceTest.class",
+			"outputFolder": "target/test-classes",
+			"hash": "7C6DD839"
+		},
+		"72": {
+			"name": "de.envite.greenbpm.carbonreductor.core.domain.service.DelayCalculatorServiceTest$ExceptionHandling",
+			"path": "de/envite/greenbpm/carbonreductor/core/domain/service/DelayCalculatorServiceTest$ExceptionHandling.class",
+			"outputFolder": "target/test-classes",
+			"hash": "D27CCD1C"
+		},
+		"73": {
+			"name": "de.envite.greenbpm.carbonreductor.core.technology.Constants",
+			"path": "de/envite/greenbpm/carbonreductor/core/technology/Constants.class",
+			"outputFolder": "target/classes",
+			"hash": "AD477913"
+		},
+		"74": {
+			"name": "de.envite.greenbpm.carbonreductor.core.usecase.in.DelayCalculator",
+			"path": "de/envite/greenbpm/carbonreductor/core/usecase/in/DelayCalculator.class",
+			"outputFolder": "target/classes",
+			"hash": "583F79D2"
+		},
+		"75": {
+			"name": "de.envite.greenbpm.carbonreductor.core.usecase.out.CarbonEmissionQuery",
+			"path": "de/envite/greenbpm/carbonreductor/core/usecase/out/CarbonEmissionQuery.class",
+			"outputFolder": "target/classes",
+			"hash": "1DE87642"
+		}
+	},
+    "tests": [
+		{
+			"class": 4,
+			"tags": ["PASSED"],
+			"coveredClasses": [3,4,5,14,35,42,43,44,51,57,60],
+			"executionId": "C140B98797717FCC10E7D7B6C4F6F826"
+		},
+		{
+			"class": 7,
+			"tags": ["PASSED"],
+			"coveredClasses": [6,7,35,43,44],
+			"executionId": "21071D9B284EA684BBD09CEA4114D03A"
+		},
+		{
+			"class": 10,
+			"tags": ["PASSED"],
+			"coveredClasses": [8,9,10,57,60],
+			"executionId": "8BF3B8F5161AFBAEF994420C4F61DC2E"
+		},
+		{
+			"class": 16,
+			"tags": ["PASSED"],
+			"coveredClasses": [15,16,35,42,43,44],
+			"executionId": "0100555A23EA1B6EDBCBC1015598589C"
+		},
+		{
+			"class": 18,
+			"tags": ["PASSED"],
+			"coveredClasses": [14,17,18,19,35,42,43,44,51,57,60],
+			"executionId": "9DB83B2D54B4680E734B2EA1468CB023"
+		},
+		{
+			"class": 21,
+			"tags": ["PASSED"],
+			"coveredClasses": [20,21,22],
+			"executionId": "0D4A67DE021AAE85266E0016207C934E"
+		},
+		{
+			"class": 29,
+			"tags": ["PASSED"],
+			"coveredClasses": [28,29,30,31,61,64,66],
+			"executionId": "E2314C66ADF18E6D0F334A97204436DC"
+		},
+		{
+			"class": 30,
+			"tags": ["PASSED"],
+			"coveredClasses": [28,29,30,61,64,66],
+			"executionId": "D457CF6799862681E7F59A4B45FB6B8F"
+		},
+		{
+			"class": 31,
+			"tags": ["PASSED"],
+			"coveredClasses": [28,29,31,61,64,66],
+			"executionId": "A617D40EEEB71CBFE672BABBC0ED10E0"
+		},
+		{
+			"class": 33,
+			"tags": ["PASSED"],
+			"coveredClasses": [32,33,34,41,49,51,54,57,60],
+			"executionId": "AC38D95573FBF1CA63D4C564756697D0"
+		},
+		{
+			"class": 34,
+			"tags": ["PASSED"],
+			"coveredClasses": [32,33,34,49,51,54,57,60],
+			"executionId": "1C5E29A5EC2A99EDFB31296E93959264"
+		},
+		{
+			"class": 36,
+			"tags": ["PASSED"],
+			"coveredClasses": [35,36,37,38,39,40,42,43,44],
+			"executionId": "EA10CF272D4360F1D2D35E1B2C999748"
+		},
+		{
+			"class": 37,
+			"tags": ["PASSED"],
+			"coveredClasses": [35,36,37,42,43,44],
+			"executionId": "E3C6D8E0096FC92E7B4D5B0A29C370AB"
+		},
+		{
+			"class": 38,
+			"tags": ["PASSED"],
+			"coveredClasses": [35,38,43,44],
+			"executionId": "8C0FACE102478566CCA811E23352A060"
+		},
+		{
+			"class": 39,
+			"tags": ["PASSED"],
+			"coveredClasses": [35,36,39,42,43,44],
+			"executionId": "457A037C217D4385E3EA1DE66F99B7B5"
+		},
+		{
+			"class": 40,
+			"tags": ["PASSED"],
+			"coveredClasses": [35,36,40,42,43,44],
+			"executionId": "B4A84E682BCC9EB35555D7DC83E71CE8"
+		},
+		{
+			"class": 45,
+			"tags": ["PASSED"],
+			"coveredClasses": [44,45,46,47,48],
+			"executionId": "B155815A4715FEB66A5A4F78F747F33E"
+		},
+		{
+			"class": 46,
+			"tags": ["PASSED"],
+			"coveredClasses": [44,45,46],
+			"executionId": "12254EF01B4B50A1E6E77C7CA3AA82F6"
+		},
+		{
+			"class": 47,
+			"tags": ["PASSED"],
+			"coveredClasses": [44,45,47],
+			"executionId": "F1FA952D269D6451E9CE55BA06EDB737"
+		},
+		{
+			"class": 48,
+			"tags": ["PASSED"],
+			"coveredClasses": [44,45,48],
+			"executionId": "837CD64DD72D72CAC0562B1936FC4CCA"
+		},
+		{
+			"class": 50,
+			"tags": ["PASSED"],
+			"coveredClasses": [49,50],
+			"executionId": "F3DD7850BC9549D13A332D8FD2164CF4"
+		},
+		{
+			"class": 52,
+			"tags": ["PASSED"],
+			"coveredClasses": [51,52,53],
+			"executionId": "8CF6E1959875D6755E3C166E8DD611C6"
+		},
+		{
+			"class": 53,
+			"tags": ["PASSED"],
+			"coveredClasses": [51,52,53],
+			"executionId": "B82DF3E3F8586E0D5B2BD5C659E0CE77"
+		},
+		{
+			"class": 55,
+			"tags": ["PASSED"],
+			"coveredClasses": [54,55,56],
+			"executionId": "0E9B674DE30B1F1503AA66A9A846A046"
+		},
+		{
+			"class": 56,
+			"tags": ["PASSED"],
+			"coveredClasses": [54,55,56],
+			"executionId": "407348534CFBD4B52FA47F037269A7E0"
+		},
+		{
+			"class": 58,
+			"tags": ["PASSED"],
+			"coveredClasses": [57,58,59,60],
+			"executionId": "66E7063DE9E6A94D4E5C825562093B41"
+		},
+		{
+			"class": 59,
+			"tags": ["PASSED"],
+			"coveredClasses": [57,58,59,60],
+			"executionId": "BD23434C05958EB44076CB73D175F1E6"
+		},
+		{
+			"class": 62,
+			"tags": ["PASSED"],
+			"coveredClasses": [61,62,63],
+			"executionId": "68F4BBEEFAEB98A27252B940D8F61637"
+		},
+		{
+			"class": 63,
+			"tags": ["PASSED"],
+			"coveredClasses": [62,63],
+			"executionId": "74A77ACA37C503BD43D267586CE50E63"
+		},
+		{
+			"class": 65,
+			"tags": ["PASSED"],
+			"coveredClasses": [64,65],
+			"executionId": "A89E79796C580AD9B0ADCE3042270507"
+		},
+		{
+			"class": 67,
+			"tags": ["PASSED"],
+			"coveredClasses": [66,67,68],
+			"executionId": "480236748B69FC447238AE4C8D40B887"
+		},
+		{
+			"class": 68,
+			"tags": ["PASSED"],
+			"coveredClasses": [67,68],
+			"executionId": "6DF38243CD31D237DB4D8E5432D2D21D"
+		},
+		{
+			"class": 71,
+			"tags": ["PASSED"],
+			"coveredClasses": [14,28,32,35,42,43,44,49,51,54,57,60,61,64,66,69,70,71,72],
+			"executionId": "DF724FF34A77F764185E5284AEB1D777"
+		},
+		{
+			"class": 72,
+			"tags": ["PASSED"],
+			"coveredClasses": [14,28,32,49,51,54,57,60,61,64,66,69,70,71,72],
+			"executionId": "5D69391D0DD14070E8FC382BFC5FA7F0"
+		}
+    ]
+}
