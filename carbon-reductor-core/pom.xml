@@ -73,6 +73,12 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>io.skippy</groupId>
+            <artifactId>skippy-junit5</artifactId>
+            <version>${verion.skippy}</version>
+            <scope>test</scope>
+        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -91,6 +97,16 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${version.org.jacoco}</version>
+                <configuration>
+                    <fileSets>
+                        <fileSet>
+                            <directory>${project.basedir}/.skippy</directory>
+                            <includes>
+                                <include>*.exec</include>
+                            </includes>
+                        </fileSet>
+                    </fileSets>
+                </configuration>
                 <executions>
                     <execution>
                         <id>jacoco-initialize</id>
@@ -130,7 +146,30 @@
                             </excludes>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>merge-jacoco-and-skippy</id>
+                        <goals>
+                            <goal>merge</goal>
+                        </goals>
+                        <phase>test</phase>
+                    </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>io.skippy</groupId>
+                <artifactId>skippy-maven</artifactId>
+                <version>${verion.skippy}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>buildFinished</goal>
+                            <goal>buildStarted</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <coverageForSkippedTests>true</coverageForSkippedTests>
+                </configuration>
             </plugin>
         </plugins>
     </build>

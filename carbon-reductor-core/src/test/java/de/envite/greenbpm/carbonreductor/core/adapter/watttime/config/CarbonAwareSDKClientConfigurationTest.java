@@ -1,10 +1,12 @@
 package de.envite.greenbpm.carbonreductor.core.adapter.watttime.config;
 
 import de.envite.greenbpm.api.carbonawaresdk.api.CarbonAwareApi;
+import io.skippy.junit5.PredictWithSkippy;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@PredictWithSkippy
 class CarbonAwareSDKClientConfigurationTest {
 
     private final CarbonAwareSdkClientConfiguration classUnderTest = new CarbonAwareSdkClientConfiguration();

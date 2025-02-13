@@ -4,6 +4,7 @@ import de.envite.greenbpm.api.carbonawaresdk.model.EmissionsDataDTO;
 import de.envite.greenbpm.api.carbonawaresdk.model.EmissionsForecastDTO;
 import de.envite.greenbpm.carbonreductor.core.domain.model.EmissionTimeframe;
 import io.github.domainprimitives.validation.InvariantException;
+import io.skippy.junit5.PredictWithSkippy;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
@@ -12,6 +13,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+@PredictWithSkippy
 class CarbonAwareApiMapperTest {
 
     private final CarbonAwareApiMapper classUnderTest = new CarbonAwareApiMapper();

@@ -5,6 +5,7 @@ import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.Earlies
 import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.ForecastedValue;
 import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.OptimalTime;
 import io.github.domainprimitives.validation.InvariantException;
+import io.skippy.junit5.PredictWithSkippy;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -18,6 +19,7 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
+@PredictWithSkippy
 class EmissionTimeframeTest {
 
     private final OptimalTime optimalTime = new OptimalTime(OffsetDateTime.now());

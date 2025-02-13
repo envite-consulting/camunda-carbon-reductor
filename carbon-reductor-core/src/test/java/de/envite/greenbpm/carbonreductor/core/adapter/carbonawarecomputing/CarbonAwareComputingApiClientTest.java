@@ -11,6 +11,7 @@ import de.envite.greenbpm.carbonreductor.core.domain.model.emissionframe.Optimal
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.ProcessDuration;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Location;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Locations;
+import io.skippy.junit5.PredictWithSkippy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -24,6 +25,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
+@PredictWithSkippy
 @MockitoSettings
 class CarbonAwareComputingApiClientTest {
 
