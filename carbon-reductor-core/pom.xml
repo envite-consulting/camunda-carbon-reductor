@@ -97,6 +97,16 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${version.org.jacoco}</version>
+                <configuration>
+                    <fileSets>
+                        <fileSet>
+                            <directory>${project.basedir}/.skippy</directory>
+                            <includes>
+                                <include>*.exec</include>
+                            </includes>
+                        </fileSet>
+                    </fileSets>
+                </configuration>
                 <executions>
                     <execution>
                         <id>jacoco-initialize</id>
@@ -135,6 +145,13 @@
                                 <exclude>de/envite/greenbpm/carbonreductor/**/*Exception*</exclude>
                             </excludes>
                         </configuration>
+                    </execution>
+                    <execution>
+                        <id>merge-jacoco-and-skippy</id>
+                        <goals>
+                            <goal>merge</goal>
+                        </goals>
+                        <phase>test</phase>
                     </execution>
                 </executions>
             </plugin>
