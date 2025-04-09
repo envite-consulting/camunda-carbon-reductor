@@ -39,9 +39,9 @@
 
         <version.swagger-core>2.2.21</version.swagger-core>
         <version.okhttp>4.12.0</version.okhttp>
-        <version.camunda8>8.6.3</version.camunda8>
-        <version.camunda7.spring-boot>7.22.0</version.camunda7.spring-boot>
-        <version.spring-boot>3.3.4</version.spring-boot>
+        <version.camunda8>8.7.0</version.camunda8>
+        <version.camunda7.spring-boot>7.23.0</version.camunda7.spring-boot>
+        <version.spring-boot>3.4.4</version.spring-boot>
         <version.org.jacoco>0.8.12</version.org.jacoco>
         <version.spring-banner-plugin>1.6.0</version.spring-banner-plugin>
         <version.maven-release-plugin>3.0.1</version.maven-release-plugin>
