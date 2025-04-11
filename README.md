@@ -100,9 +100,9 @@ Other combinations might also work but have not been tested.
 
 | Release | Camunda Platform 8 | Camunda Platform 7 |
 |---------|--------------------|--------------------|
-| 2.1.3   | 8.5.0              | 7.21.0             |
 | 2.1.4   | 8.5.0              | 7.21.0             |
 | 2.1.5   | 8.6.0              | 7.22.0             |
+| 2.1.6   | 8.7.0              | 7.23.0             |
 
 <details>
 
@@ -123,6 +123,7 @@ Other combinations might also work but have not been tested.
 | 2.1.3   | 8.5.0              | 7.21.0             |
 | 2.1.4   | 8.5.0              | 7.21.0             |
 | 2.1.5   | 8.6.0              | 7.22.0             |
+| 2.1.6   | 8.7.0              | 7.23.0             |
 
 </details>
 
