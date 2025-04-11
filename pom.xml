@@ -17,7 +17,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.4</version>
+        <version>3.4.4</version>
         <relativePath />
     </parent>
 
@@ -27,24 +27,22 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.scm.url>https://github.com/envite-consulting/camunda-carbon-reductor.git</project.scm.url>
         <!-- external libraries -->
-        <version.assertj>3.25.3</version.assertj>
-        <version.junit-jupiter>5.11.0-M1</version.junit-jupiter>
-        <version.mockito>5.11.0</version.mockito>
-        <version.slf4j>2.0.16</version.slf4j>
-        <version.gson>2.10.1</version.gson>
-        <version.gson-extras>1.2.0</version.gson-extras>
+        <version.assertj>3.27.3</version.assertj>
+        <version.junit-jupiter>5.12.1</version.junit-jupiter>
+        <version.mockito>5.17.0</version.mockito>
+        <version.slf4j>2.0.17</version.slf4j>
+        <version.gson>2.12.1</version.gson>
         <version.gson-fire>1.9.0</version.gson-fire>
-        <version.lombok>1.18.32</version.lombok>
+        <version.lombok>1.18.38</version.lombok>
         <version.domainprimitives>0.1.1</version.domainprimitives>
 
-        <version.swagger-core>2.2.21</version.swagger-core>
-        <version.okhttp>4.12.0</version.okhttp>
+        <version.swagger-core>2.2.30</version.swagger-core>
         <version.camunda8>8.7.0</version.camunda8>
         <version.camunda7.spring-boot>7.23.0</version.camunda7.spring-boot>
         <version.spring-boot>3.4.4</version.spring-boot>
-        <version.org.jacoco>0.8.12</version.org.jacoco>
+        <version.org.jacoco>0.8.13</version.org.jacoco>
         <version.spring-banner-plugin>1.6.0</version.spring-banner-plugin>
-        <version.maven-release-plugin>3.0.1</version.maven-release-plugin>
+        <version.maven-release-plugin>3.1.1</version.maven-release-plugin>
     </properties>
 
     <scm>
