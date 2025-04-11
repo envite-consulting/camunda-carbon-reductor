@@ -22,8 +22,14 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- external libraries -->
-        <version.openapi-generator>6.6.0</version.openapi-generator>
+        <version.openapi-generator>7.12.0</version.openapi-generator>
         <version.okhttp3>4.12.0</version.okhttp3>
+        <version.okio>3.10.2</version.okio>
+        <version.javaee-web-api>8.0.1</version.javaee-web-api>
+        <version.swagger-annotations>2.2.30</version.swagger-annotations>
+        <version.swagger-annotations-v1>1.6.15</version.swagger-annotations-v1>
+        <version.jackson-databind-nullable>0.2.6</version.jackson-databind-nullable>
+        <version.spotbugs-annotations>4.9.3</version.spotbugs-annotations>
     </properties>
 
     <dependencies>
@@ -40,23 +46,23 @@
         <dependency>
             <groupId>com.squareup.okio</groupId>
             <artifactId>okio</artifactId>
-            <version>3.7.0</version>
+            <version>${version.okio}</version>
         </dependency>
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
-            <version>8.0.1</version>
+            <version>${version.javaee-web-api}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations</artifactId>
-            <version>2.2.20</version>
+            <version>${version.swagger-annotations}</version>
         </dependency>
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
-            <version>1.6.13</version>
+            <version>${version.swagger-annotations-v1}</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -69,14 +75,14 @@
             <version>${version.gson-fire}</version>
         </dependency>
         <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>jsr305</artifactId>
-            <version>3.0.2</version>
+            <groupId>com.github.spotbugs</groupId>
+            <artifactId>spotbugs-annotations</artifactId>
+            <version>${version.spotbugs-annotations}</version>
         </dependency>
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
-            <version>0.2.6</version>
+            <version>${version.jackson-databind-nullable}</version>
         </dependency>
     </dependencies>
 
