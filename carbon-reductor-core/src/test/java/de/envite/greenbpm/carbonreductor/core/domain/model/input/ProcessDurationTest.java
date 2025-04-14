@@ -1,6 +1,7 @@
 package de.envite.greenbpm.carbonreductor.core.domain.model.input;
 
 
+import io.skippy.junit5.PredictWithSkippy;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -10,6 +11,7 @@ import java.time.format.DateTimeParseException;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+@PredictWithSkippy
 class ProcessDurationTest {
 
     @Nested

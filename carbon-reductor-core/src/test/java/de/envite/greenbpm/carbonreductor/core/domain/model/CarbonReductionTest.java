@@ -4,12 +4,14 @@ import de.envite.greenbpm.carbonreductor.core.domain.model.output.Carbon;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Delay;
 import de.envite.greenbpm.carbonreductor.core.domain.model.output.Percentage;
 import io.github.domainprimitives.validation.InvariantException;
+import io.skippy.junit5.PredictWithSkippy;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+@PredictWithSkippy
 class CarbonReductionTest {
 
     @Nested

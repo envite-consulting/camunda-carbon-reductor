@@ -13,6 +13,7 @@ import de.envite.greenbpm.carbonreductor.core.domain.model.input.ProcessDuration
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.Threshold;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Locations;
 import de.envite.greenbpm.carbonreductor.core.usecase.out.CarbonEmissionQuery;
+import io.skippy.junit5.PredictWithSkippy;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,6 +40,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
+@PredictWithSkippy
 @MockitoSettings
 class DelayCalculatorServiceTest {
 
