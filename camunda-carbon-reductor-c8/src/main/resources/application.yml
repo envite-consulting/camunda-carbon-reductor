@@ -3,8 +3,9 @@ camunda:
     auth:
       client-id: ${CLIENT_ID}
       client-secret: ${CLIENT_SECRET}
-    cluster-id: ${CLUSTER_ID}
-    region: ${CLIENT_REGION}
+    cloud:
+      cluster-id: ${CLUSTER_ID}
+      region: ${CLIENT_REGION}
     mode: ${CLIENT_MODE}
 
 carbon-reductor:
