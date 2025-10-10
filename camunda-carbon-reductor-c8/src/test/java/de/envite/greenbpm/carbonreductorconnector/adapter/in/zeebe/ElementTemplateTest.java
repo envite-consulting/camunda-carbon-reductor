@@ -1,21 +1,21 @@
 package de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe;
 
-import io.camunda.zeebe.client.ZeebeClient;
-import io.camunda.zeebe.client.api.command.DeployResourceCommandStep1;
-import io.camunda.zeebe.client.api.response.*;
-import io.camunda.zeebe.process.test.api.ZeebeTestEngine;
-import io.camunda.zeebe.process.test.extension.testcontainer.ZeebeProcessTest;
+import io.camunda.client.CamundaClient;
+import io.camunda.client.api.command.DeployResourceCommandStep1;
+import io.camunda.client.api.response.ActivateJobsResponse;
+import io.camunda.client.api.response.ActivatedJob;
+import io.camunda.client.api.response.CompleteJobResponse;
+import io.camunda.client.api.response.ProcessInstanceEvent;
+import io.camunda.process.test.api.CamundaProcessTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.Duration;
 import java.util.Map;
-import java.util.concurrent.TimeoutException;
 
-import static io.camunda.zeebe.process.test.assertions.BpmnAssert.assertThat;
+import static io.camunda.process.test.api.CamundaAssert.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ZeebeProcessTest
+@CamundaProcessTest
 class ElementTemplateTest {
 
     private static final String TEST_PROCESS = "test.bpmn";
@@ -24,22 +24,20 @@ class ElementTemplateTest {
     private static final String CHECK_VARIABLES = "check_variables";
     private static final String JOB_TYPE = "de.envite.greenbpm.carbonreductorconnector.carbonreductortask:1";
 
-    private ZeebeTestEngine engine;
-    private ZeebeClient zeebeClient;
+    private CamundaClient camundaClient;
 
     @BeforeEach
     void deployProcess() {
-        DeploymentEvent deploymentEvent = deployResources(TEST_PROCESS);
-        assertThat(deploymentEvent).containsProcessesByResourceName(TEST_PROCESS);
+        deployResources(TEST_PROCESS);
     }
 
     @Test
-    void testElementTemplate() throws InterruptedException, TimeoutException {
+    void testElementTemplate() {
         ProcessInstanceEvent processInstanceEvent = startNewProcessInstance(PROCESS_ID);
         assertThat(processInstanceEvent)
                 .isActive()
-                .hasPassedElement("Event_Start")
-                .isWaitingAtElements(CARBON_REDUCTOR_ID);
+                .hasCompletedElement("Event_Start", 1)
+                .hasActiveElements(CARBON_REDUCTOR_ID);
         ActivatedJob activatedJob = activateJob(JOB_TYPE);
         Map<String, Object> inputVariables = activatedJob.getVariablesAsMap();
         assertThat(inputVariables).containsKeys(
@@ -51,7 +49,7 @@ class ElementTemplateTest {
                 "measurementOnly",
                 "thresholdEnabled",
                 "thresholdValue");
-        CompleteJobResponse completeJobResponse = completeTaskForJob(activatedJob, Map.of(
+        completeTaskForJob(activatedJob, Map.of(
                 "originalCarbon", 100,
                 "actualCarbon", 50,
                 "savedCarbon", 50,
@@ -69,37 +67,32 @@ class ElementTemplateTest {
                 "delayedBy");
     }
 
-    private ProcessInstanceEvent startNewProcessInstance(final String process) throws InterruptedException, TimeoutException {
-        ProcessInstanceEvent processInstanceEvent = zeebeClient.newCreateInstanceCommand()
+    private ProcessInstanceEvent startNewProcessInstance(final String process) {
+        return camundaClient.newCreateInstanceCommand()
                 .bpmnProcessId(process)
                 .latestVersion()
                 .send()
                 .join();
-        waitForIdleState(Duration.ofSeconds(1));
-        return processInstanceEvent;
     }
 
-    private ActivatedJob activateJob(final String jobtype) throws InterruptedException, TimeoutException {
-        ActivateJobsResponse response = zeebeClient.newActivateJobsCommand()
+    private ActivatedJob activateJob(final String jobtype) {
+        ActivateJobsResponse response = camundaClient.newActivateJobsCommand()
                 .jobType(jobtype)
                 .maxJobsToActivate(1)
                 .send()
                 .join();
-        waitForIdleState(Duration.ofSeconds(1));
         return response.getJobs().get(0);
     }
 
-    private CompleteJobResponse completeTaskForJob(final ActivatedJob activatedJob, final Map<String, Object> variables) throws InterruptedException, TimeoutException {
-        CompleteJobResponse completeJobResponse = zeebeClient.newCompleteCommand(activatedJob)
+    private CompleteJobResponse completeTaskForJob(final ActivatedJob activatedJob, final Map<String, Object> variables) {
+        return camundaClient.newCompleteCommand(activatedJob)
                 .variables(variables)
                 .send()
                 .join();
-        waitForIdleState(Duration.ofSeconds(1));
-        return completeJobResponse;
     }
 
-    private DeploymentEvent deployResources(final String... resources) {
-        final DeployResourceCommandStep1 commandStep1 = zeebeClient.newDeployResourceCommand();
+    private void deployResources(final String... resources) {
+        final DeployResourceCommandStep1 commandStep1 = camundaClient.newDeployResourceCommand();
 
         DeployResourceCommandStep1.DeployResourceCommandStep2 commandStep2 = null;
         for (final String process : resources) {
@@ -109,11 +102,6 @@ class ElementTemplateTest {
                 commandStep2 = commandStep2.addResourceFromClasspath(process);
             }
         }
-
-        return commandStep2.send().join();
-    }
-
-    private void waitForIdleState(final Duration duration) throws InterruptedException, TimeoutException {
-        engine.waitForIdleState(duration);
+        commandStep2.send().join();
     }
 }

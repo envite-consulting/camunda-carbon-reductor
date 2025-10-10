@@ -88,7 +88,7 @@
         </dependency>
         <dependency>
             <groupId>io.camunda</groupId>
-            <artifactId>zeebe-process-test-extension-testcontainer</artifactId>
+            <artifactId>camunda-process-test-java</artifactId>
             <version>${version.camunda8}</version>
             <scope>test</scope>
         </dependency>
