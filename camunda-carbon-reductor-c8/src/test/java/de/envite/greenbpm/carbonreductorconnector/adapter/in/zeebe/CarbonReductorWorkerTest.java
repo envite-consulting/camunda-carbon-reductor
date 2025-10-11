@@ -10,9 +10,9 @@ import de.envite.greenbpm.carbonreductor.core.domain.service.DelayCalculatorServ
 import de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.variable.CarbonReductorInputVariable;
 import de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.variable.CarbonReductorOutputVariable;
 import de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.variable.CarbonReductorVariableMapper;
-import io.camunda.zeebe.client.ZeebeClient;
-import io.camunda.zeebe.client.api.ZeebeFuture;
-import io.camunda.zeebe.client.api.response.ActivatedJob;
+import io.camunda.client.CamundaClient;
+import io.camunda.client.api.CamundaFuture;
+import io.camunda.client.api.response.ActivatedJob;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -59,7 +59,7 @@ class CarbonReductorWorkerTest {
     void shouldNotTimeShiftWhenEnergyIsClean() throws Exception {
         DelayCalculatorService delayCalculatorService = mock(DelayCalculatorService.class);
         when(delayCalculatorService.calculateDelay(any())).thenReturn(carbonReductorOutput_Clean);
-        ZeebeClient client = mock(ZeebeClient.class, RETURNS_DEEP_STUBS);
+        CamundaClient client = mock(CamundaClient.class, RETURNS_DEEP_STUBS);
 
         var worker = new CarbonReductorWorker(client, delayCalculatorService, variableMapper);
 
@@ -67,8 +67,8 @@ class CarbonReductorWorkerTest {
         when(job.getVariablesAsType(CarbonReductorInputVariable.class)).thenReturn(createInputVariables());
 
         when(job.getRetries()).thenReturn(3);
-        when(client.newSetVariablesCommand(job.getElementInstanceKey()).variables(any(CarbonReductorOutputVariable.class)).send()).thenReturn(mock(ZeebeFuture.class));
-        when(client.newCompleteCommand(job).send()).thenReturn(mock(ZeebeFuture.class));
+        when(client.newSetVariablesCommand(job.getElementInstanceKey()).variables(any(CarbonReductorOutputVariable.class)).send()).thenReturn(mock(CamundaFuture.class));
+        when(client.newCompleteCommand(job).send()).thenReturn(mock(CamundaFuture.class));
         worker.execute(job);
 
         verify(client, times(2)).newSetVariablesCommand(anyLong());
@@ -79,15 +79,15 @@ class CarbonReductorWorkerTest {
     void shouldTimeShiftWhenEnergyIsDirty() throws Exception {
         DelayCalculatorService delayCalculatorService = mock(DelayCalculatorService.class);
         when(delayCalculatorService.calculateDelay(any())).thenReturn(carbonReductorOutput_Dirty);
-        ZeebeClient client = mock(ZeebeClient.class, RETURNS_DEEP_STUBS);
+        CamundaClient client = mock(CamundaClient.class, RETURNS_DEEP_STUBS);
 
         var worker = new CarbonReductorWorker(client, delayCalculatorService, variableMapper);
 
         ActivatedJob job = mock(ActivatedJob.class);
         when(job.getVariablesAsType(CarbonReductorInputVariable.class)).thenReturn(createInputVariables());
         when(job.getRetries()).thenReturn(3);
-        when(client.newSetVariablesCommand(job.getElementInstanceKey()).variables(any(CarbonReductorOutputVariable.class)).send()).thenReturn(mock(ZeebeFuture.class));
-        when(client.newFailCommand(job).retries(999).retryBackoff(any(Duration.class)).send()).thenReturn(mock(ZeebeFuture.class));
+        when(client.newSetVariablesCommand(job.getElementInstanceKey()).variables(any(CarbonReductorOutputVariable.class)).send()).thenReturn(mock(CamundaFuture.class));
+        when(client.newFailCommand(job).retries(999).retryBackoff(any(Duration.class)).send()).thenReturn(mock(CamundaFuture.class));
         worker.execute(job);
 
         verify(client, times(2)).newSetVariablesCommand(job.getElementInstanceKey());
@@ -97,15 +97,15 @@ class CarbonReductorWorkerTest {
     @Test
     void shouldCompleteAfterTimeShift() throws Exception {
         DelayCalculatorService delayCalculatorService = mock(DelayCalculatorService.class);
-        ZeebeClient client = mock(ZeebeClient.class, RETURNS_DEEP_STUBS);
+        CamundaClient client = mock(CamundaClient.class, RETURNS_DEEP_STUBS);
 
         var worker = new CarbonReductorWorker(client, delayCalculatorService, variableMapper);
 
         ActivatedJob job = mock(ActivatedJob.class);
 
         when(job.getRetries()).thenReturn(999);
-        when(client.newSetVariablesCommand(job.getElementInstanceKey()).variables(anyLong()).send()).thenReturn(mock(ZeebeFuture.class));
-        when(client.newCompleteCommand(job).send()).thenReturn(mock(ZeebeFuture.class));
+        when(client.newSetVariablesCommand(job.getElementInstanceKey()).variables(anyLong()).send()).thenReturn(mock(CamundaFuture.class));
+        when(client.newCompleteCommand(job).send()).thenReturn(mock(CamundaFuture.class));
         worker.execute(job);
 
         verify(delayCalculatorService, never()).calculateDelay(any(CarbonReductorConfiguration.class));
@@ -117,7 +117,7 @@ class CarbonReductorWorkerTest {
     void shouldThrowBPMNErrorOnCarbonReductorException() throws Exception {
         DelayCalculatorService delayCalculatorService = mock(DelayCalculatorService.class);
         when(delayCalculatorService.calculateDelay(any())).thenThrow(new CarbonReductorException("Test", new RuntimeException("Testing")));
-        ZeebeClient client = mock(ZeebeClient.class, RETURNS_DEEP_STUBS);
+        CamundaClient client = mock(CamundaClient.class, RETURNS_DEEP_STUBS);
         CarbonReductorOutputVariable defaultCarbonReductorOutput = createDefaultOutput();
 
         var worker = new CarbonReductorWorker(client, delayCalculatorService, variableMapper);
@@ -138,7 +138,7 @@ class CarbonReductorWorkerTest {
     void shouldWriteDataAndNotShiftOnMeasurementOnly() throws Exception {
         DelayCalculatorService delayCalculatorService = mock(DelayCalculatorService.class);
         when(delayCalculatorService.calculateDelay(any())).thenReturn(carbonReductorOutput_Dirty);
-        ZeebeClient client = mock(ZeebeClient.class, RETURNS_DEEP_STUBS);
+        CamundaClient client = mock(CamundaClient.class, RETURNS_DEEP_STUBS);
 
         var worker = new CarbonReductorWorker(client, delayCalculatorService, variableMapper);
 
@@ -147,8 +147,8 @@ class CarbonReductorWorkerTest {
         inputVariables.setMeasurementOnly(true);
         when(job.getVariablesAsType(CarbonReductorInputVariable.class)).thenReturn(inputVariables);
         when(job.getRetries()).thenReturn(3);
-        when(client.newSetVariablesCommand(job.getElementInstanceKey()).variables(any(CarbonReductorOutputVariable.class)).send()).thenReturn(mock(ZeebeFuture.class));
-        when(client.newCompleteCommand(job).send()).thenReturn(mock(ZeebeFuture.class));
+        when(client.newSetVariablesCommand(job.getElementInstanceKey()).variables(any(CarbonReductorOutputVariable.class)).send()).thenReturn(mock(CamundaFuture.class));
+        when(client.newCompleteCommand(job).send()).thenReturn(mock(CamundaFuture.class));
         worker.execute(job);
 
         verify(client, times(2)).newSetVariablesCommand(job.getElementInstanceKey());

@@ -10,9 +10,9 @@ import de.envite.greenbpm.carbonreductor.core.usecase.in.DelayCalculator;
 import de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.variable.CarbonReductorInputVariable;
 import de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.variable.CarbonReductorOutputVariable;
 import de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.variable.CarbonReductorVariableMapper;
-import io.camunda.zeebe.client.ZeebeClient;
-import io.camunda.zeebe.client.api.response.ActivatedJob;
-import io.camunda.zeebe.spring.client.annotation.JobWorker;
+import io.camunda.client.CamundaClient;
+import io.camunda.client.annotation.JobWorker;
+import io.camunda.client.api.response.ActivatedJob;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -24,7 +24,7 @@ import java.time.Duration;
 @RequiredArgsConstructor
 public class CarbonReductorWorker {
 
-    private final ZeebeClient client;
+    private final CamundaClient client;
     private final DelayCalculator delayCalculator;
 
     private final CarbonReductorVariableMapper variableMapper;
