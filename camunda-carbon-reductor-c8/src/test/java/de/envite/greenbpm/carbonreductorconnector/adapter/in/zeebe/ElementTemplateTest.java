@@ -4,7 +4,6 @@ import io.camunda.client.CamundaClient;
 import io.camunda.client.api.command.DeployResourceCommandStep1;
 import io.camunda.client.api.response.ActivateJobsResponse;
 import io.camunda.client.api.response.ActivatedJob;
-import io.camunda.client.api.response.CompleteJobResponse;
 import io.camunda.client.api.response.ProcessInstanceEvent;
 import io.camunda.process.test.api.CamundaProcessTest;
 import org.junit.jupiter.api.BeforeEach;
@@ -84,8 +83,8 @@ class ElementTemplateTest {
         return response.getJobs().get(0);
     }
 
-    private CompleteJobResponse completeTaskForJob(final ActivatedJob activatedJob, final Map<String, Object> variables) {
-        return camundaClient.newCompleteCommand(activatedJob)
+    private void completeTaskForJob(final ActivatedJob activatedJob, final Map<String, Object> variables) {
+        camundaClient.newCompleteCommand(activatedJob)
                 .variables(variables)
                 .send()
                 .join();
