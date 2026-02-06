@@ -14,24 +14,16 @@ import java.time.OffsetDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.Optional;
 
-import static java.lang.String.format;
-import static java.time.format.DateTimeFormatter.ofPattern;
+import static java.time.format.DateTimeFormatter.ISO_DATE_TIME;
 
 @Component
 public class CarbonReductorVariableMapper {
 
-    // Sample Date: 2023-09-08T12:58:20.766Z[GMT]
-    private static final String DATE_TIME_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSSX'['z']'";
-
     private static OffsetDateTime parseDateString(String value) {
         try {
-            return OffsetDateTime.parse(value, ofPattern(DATE_TIME_PATTERN));
+            return OffsetDateTime.parse(value, ISO_DATE_TIME);
         } catch (DateTimeParseException exception) {
-            throw new IllegalArgumentException(
-                    format("Milestone: Unknown date time format (Expected %s)",
-                            DATE_TIME_PATTERN.replace("'", "")
-                    )
-            );
+            throw new IllegalArgumentException("Milestone: Unknown date time format. Expected ISO 8601, e.g. '2024-01-01T11:45:12.123Z[GMT]'.");
         }
     }
 
