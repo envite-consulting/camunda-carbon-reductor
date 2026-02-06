@@ -6,10 +6,13 @@ import de.envite.greenbpm.carbonreductor.core.domain.model.ExceptionHandlingEnum
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.time.*;
 
 import static de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.test.utils.TestDataGenerator.*;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatNoException;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 class CarbonReductorVariableMapperTest {
@@ -42,6 +45,21 @@ class CarbonReductorVariableMapperTest {
             softAssertions.assertAll();
         }
 
+        @ParameterizedTest
+        @ValueSource(strings = {
+                "2026-02-06T11:40:39.188Z[GMT]",
+                "2026-02-06T11:20:15.65Z[GMT]",
+                "2026-02-06T11:40:39.1Z[GMT]",
+                "2026-02-06T11:40:39Z[GMT]",
+                "2026-02-06T11:40:39.188Z"
+        })
+        void should_parse_valid_iso_date_times(String isodatetime) {
+            CarbonReductorInputVariable inputVariables = createInputVariables();
+            inputVariables.setMilestone(isodatetime);
+
+            assertThatNoException().isThrownBy(() -> classUnderTest.mapToDomain(inputVariables));
+        }
+
         @Test
         void should_throw_on_invalid_date() {
             CarbonReductorInputVariable inputVariables = createInputVariables();
@@ -49,7 +67,7 @@ class CarbonReductorVariableMapperTest {
 
             assertThatThrownBy(() -> classUnderTest.mapToDomain(inputVariables))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageStartingWith("Milestone: Unknown date time format (Expected yyyy-MM-ddTHH:mm:ss.SSSX[z])");
+                    .hasMessage("Milestone: Unknown date time format. Expected ISO 8601, e.g. '2024-01-01T11:45:12.123Z[GMT]'.");
         }
     }
 
