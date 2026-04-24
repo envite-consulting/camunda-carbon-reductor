@@ -22,10 +22,11 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- explicitly override to Spring Boot 3 as Camunda 7 is not compatible with Spring Boot 4 -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
-                <version>${version.spring-boot}</version>
+                <version>${version.spring-boot-c7}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -136,6 +137,8 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <!-- Explicitly use Spring Boot 3 plugin for C7 module -->
+                <version>${version.spring-boot-c7}</version>
                 <configuration>
                     <excludes>
                         <exclude>
