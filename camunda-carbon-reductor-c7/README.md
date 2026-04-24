@@ -1,6 +1,10 @@
 # 🌱Camunda Carbon Reductor - Camunda 7
 
-Camunda 7 [External Task Worker](https://docs.camunda.org/manual/7.18/user-guide/process-engine/external-tasks/) adapter implementation of the Carbon Reductor.
+> **⚠️ Camunda 7 EOL:** Camunda 7 is reaching End of Life (EoL)
+> This module uses Spring Boot 3.x.
+
+Camunda 7 [External Task Worker](https://docs.camunda.org/manual/latest/user-guide/process-engine/external-tasks/)
+adapter implementation of the Carbon Reductor.
 Provides also a Service Task Template for configuration ([carbon-reductor.json](../exampleprocess/c7/.camunda/element-templates/carbon-reductor-c7-template.json))
 
 

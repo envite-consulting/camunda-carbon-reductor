@@ -95,36 +95,37 @@ The list of [releases](https://github.com/envite-consulting/camunda-carbon-reduc
 
 We use [Semantic Versioning](https://semver.org/).
 
-The following compatibility matrix shows the officially supported Camunda versions for each release.
+The following compatibility matrix shows the officially supported Camunda and Spring Boot versions for each release.
 Other combinations might also work but have not been tested.
 
-| Release | Camunda Platform 8 | Camunda Platform 7 |
-|---------|--------------------|--------------------|
-| 2.1.5   | 8.6.0              | 7.22.0             |
-| 2.1.6   | 8.7.0              | 7.23.0             |
-| 2.1.7   | 8.8.0              | 7.24.0             |
+| Release | Camunda Platform 8 | Spring Boot (C8) | Camunda Platform 7 | Spring Boot (C7) |
+|---------|--------------------|------------------|--------------------|------------------|
+| 2.1.5   | 8.6.0              | 3.x              | 7.22.0             | 3.x              |
+| 2.1.6   | 8.7.0              | 3.x              | 7.23.0             | 3.x              |
+| 2.1.7   | 8.8.0              | 3.x              | 7.24.0             | 3.x              |
+| 2.1.8   | 8.9.0              | 4.x              | 7.24.0             | 3.x              |
 
 <details>
 
 
 <summary>Click to see older releases</summary>
 
-| Release | Camunda Platform 8 | Camunda Platform 7 |
-|---------|--------------------|--------------------|
-| 1.0.0   | 8.1.0              | 7.18.0             |
-| 1.1.0   | 8.2.0              | 7.19.0             |
-| 2.0.0   | 8.2.3              | 7.19.0             |
-| 2.0.1   | 8.2.3              | 7.19.0             |
-| 2.0.2   | 8.2.3              | 7.19.0             |
-| 2.0.3   | 8.3.0              | 7.19.0             |
-| 2.1.0   | 8.3.0              | 7.20.0             |
-| 2.1.1   | 8.4.0              | 7.20.0             |
-| 2.1.2   | 8.5.0              | 7.21.0             |
-| 2.1.3   | 8.5.0              | 7.21.0             |
-| 2.1.4   | 8.5.0              | 7.21.0             |
-| 2.1.5   | 8.6.0              | 7.22.0             |
-| 2.1.6   | 8.7.0              | 7.23.0             |
-| 2.1.7   | 8.8.0              | 7.24.0             |
+| Release | Camunda Platform 8 | Spring Boot (C8) | Camunda Platform 7 | Spring Boot (C7) |
+|---------|--------------------|------------------|--------------------|------------------|
+| 1.0.0   | 8.1.0              | -                | 7.18.0             | -                |
+| 1.1.0   | 8.2.0              | -                | 7.19.0             | -                |
+| 2.0.0   | 8.2.3              | -                | 7.19.0             | -                |
+| 2.0.1   | 8.2.3              | -                | 7.19.0             | -                |
+| 2.0.2   | 8.2.3              | -                | 7.19.0             | -                |
+| 2.0.3   | 8.3.0              | -                | 7.19.0             | -                |
+| 2.1.0   | 8.3.0              | -                | 7.20.0             | -                |
+| 2.1.1   | 8.4.0              | -                | 7.20.0             | -                |
+| 2.1.2   | 8.5.0              | -                | 7.21.0             | -                |
+| 2.1.3   | 8.5.0              | -                | 7.21.0             | -                |
+| 2.1.4   | 8.5.0              | -                | 7.21.0             | -                |
+| 2.1.5   | 8.6.0              | 3.x              | 7.22.0             | 3.x              |
+| 2.1.6   | 8.7.0              | 3.x              | 7.23.0             | 3.x              |
+| 2.1.7   | 8.8.0              | 3.x              | 7.24.0             | 3.x              |
 
 </details>
 
