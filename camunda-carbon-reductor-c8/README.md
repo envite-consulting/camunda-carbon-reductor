@@ -72,13 +72,17 @@ camunda:
     mode: saas
 ```
 
-If you're running Camunda Platform 8 Self-Managed then use the following configuration:
+If you're running Camunda Platform 8 Self-Managed like c8run then use the following configuration:
 
 ```yml
 camunda:
   client:
-    zeebe:
-      base-url: http://127.0.0.1:26500
+    mode: selfManaged
+    auth:
+      method: none
+    enabled: true
+    grpc-address: http://localhost:26500
+    rest-address: http://localhost:8080
 ```
 
 Once the Connector is running you will see log entries like the following.
