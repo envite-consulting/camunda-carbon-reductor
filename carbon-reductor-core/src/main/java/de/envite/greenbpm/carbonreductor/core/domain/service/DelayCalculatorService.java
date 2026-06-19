@@ -1,5 +1,7 @@
 package de.envite.greenbpm.carbonreductor.core.domain.service;
 
+import static de.envite.greenbpm.carbonreductor.core.domain.model.ExceptionHandlingEnum.CONTINUE_ON_EXCEPTION;
+
 import de.envite.greenbpm.carbonreductor.core.adapter.exception.CarbonEmissionQueryException;
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReduction;
 import de.envite.greenbpm.carbonreductor.core.domain.model.CarbonReductorConfiguration;
@@ -11,21 +13,16 @@ import de.envite.greenbpm.carbonreductor.core.domain.model.output.Percentage;
 import de.envite.greenbpm.carbonreductor.core.usecase.in.DelayCalculator;
 import de.envite.greenbpm.carbonreductor.core.usecase.out.CarbonEmissionQuery;
 import io.github.domainprimitives.type.ValueObject;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
 import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
-
-import static de.envite.greenbpm.carbonreductor.core.domain.model.ExceptionHandlingEnum.CONTINUE_ON_EXCEPTION;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
-@Service
 public class DelayCalculatorService implements DelayCalculator {
 
     private final CarbonEmissionQuery carbonEmissionQuery;

@@ -1,4 +1,7 @@
-package de.envite.greenbpm.carbonreductor.core.adapter.watttime.config;
+package de.envite.greenbpm.carbonreductorconnector.config;
+
+import static de.envite.greenbpm.carbonreductor.core.adapter.watttime.config.PropertyPrefix.CARBON_AWARE_API;
+import static de.envite.greenbpm.carbonreductor.core.technology.Constants.CONFIG_PROPERTY_PREFIX;
 
 import de.envite.greenbpm.api.carbonawaresdk.ApiClient;
 import de.envite.greenbpm.api.carbonawaresdk.api.CarbonAwareApi;
@@ -10,17 +13,19 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import static de.envite.greenbpm.carbonreductor.core.adapter.watttime.config.PropertyPrefix.CARBON_AWARE_API;
-import static de.envite.greenbpm.carbonreductor.core.technology.Constants.CONFIG_PROPERTY_PREFIX;
-
 @Slf4j
 @Configuration
-@ConditionalOnProperty(prefix = CONFIG_PROPERTY_PREFIX, name = CARBON_AWARE_API + ".enabled", matchIfMissing = true)
-public class CarbonAwareSdkClientConfiguration {
+@ConditionalOnProperty(
+    prefix = CONFIG_PROPERTY_PREFIX,
+    name = CARBON_AWARE_API + ".enabled",
+    matchIfMissing = true)
+class CarbonAwareSdkClientConfiguration {
 
   @Bean
   public CarbonAwareApi carbonAwareApi(CarbonAwareClientProperties carbonAwareClientProperties) {
-    log.debug("Creating api client for carbon aware api with base path '{}'", carbonAwareClientProperties.getBasePath());
+    log.debug(
+        "Creating api client for carbon aware api with base path '{}'",
+        carbonAwareClientProperties.getBasePath());
     ApiClient apiClient = new ApiClient();
     apiClient.setBasePath(carbonAwareClientProperties.getBasePath());
     return new CarbonAwareApi(apiClient);
@@ -32,7 +37,8 @@ public class CarbonAwareSdkClientConfiguration {
   }
 
   @Bean
-  public CarbonEmissionQuery carbonEmissionQueryByAwareSdk(CarbonAwareApiMapper carbonAwareApiMapper, CarbonAwareApi carbonAwareApi) {
+  public CarbonEmissionQuery carbonEmissionQueryByAwareSdk(
+      CarbonAwareApiMapper carbonAwareApiMapper, CarbonAwareApi carbonAwareApi) {
     return new CarbonAwareSdkClient(carbonAwareApi, carbonAwareApiMapper);
   }
 }
