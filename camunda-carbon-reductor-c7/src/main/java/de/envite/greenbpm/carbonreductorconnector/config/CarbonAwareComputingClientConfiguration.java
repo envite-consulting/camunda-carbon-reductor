@@ -6,6 +6,7 @@ import static de.envite.greenbpm.carbonreductor.core.technology.Constants.CONFIG
 import de.envite.greenbpm.api.carbonawarecomputing.ApiClient;
 import de.envite.greenbpm.api.carbonawarecomputing.api.ForecastApi;
 import de.envite.greenbpm.carbonreductor.core.adapter.carbonawarecomputing.CarbonAwareComputingApiClient;
+import de.envite.greenbpm.carbonreductor.core.adapter.carbonawarecomputing.CarbonAwareComputingApiClientFactory;
 import de.envite.greenbpm.carbonreductor.core.adapter.carbonawarecomputing.CarbonAwareComputingMapper;
 import de.envite.greenbpm.carbonreductor.core.adapter.carbonawarecomputing.LocationMapper;
 import de.envite.greenbpm.carbonreductor.core.usecase.out.CarbonEmissionQuery;
@@ -18,11 +19,8 @@ import org.springframework.context.annotation.Configuration;
 class CarbonAwareComputingClientConfiguration {
 
   @Bean
-  public ApiClient carbonAwareComputingApiClient(CarbonAwareComputingProperties properties) {
-    ApiClient apiClient = new ApiClient();
-    apiClient.setBasePath(properties.getBasePath());
-    apiClient.setApiKey(properties.getApiKey());
-    return apiClient;
+  public ApiClient carbonAwareComputingApiClient(CarbonAwareComputingConfigProperties properties) {
+    return CarbonAwareComputingApiClientFactory.carbonAwareComputingApiClient(properties);
   }
 
   @Bean

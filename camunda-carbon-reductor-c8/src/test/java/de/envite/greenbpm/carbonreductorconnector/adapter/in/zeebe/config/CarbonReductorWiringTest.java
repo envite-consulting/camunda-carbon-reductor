@@ -20,8 +20,8 @@ class CarbonReductorWiringTest {
               CarbonReductorCoreConfiguration.class,
               CarbonAwareSdkClientConfiguration.class,
               CarbonAwareComputingClientConfiguration.class,
-              CarbonAwareClientProperties.class,
-              CarbonAwareComputingProperties.class);
+              CarbonAwareClientConfigProperties.class,
+              CarbonAwareComputingConfigProperties.class);
 
   @Test
   void defaults_to_carbon_aware_sdk() {

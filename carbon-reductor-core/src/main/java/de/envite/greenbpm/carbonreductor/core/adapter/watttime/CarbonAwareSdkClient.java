@@ -1,5 +1,7 @@
 package de.envite.greenbpm.carbonreductor.core.adapter.watttime;
 
+import static java.util.Optional.ofNullable;
+
 import de.envite.greenbpm.api.carbonawaresdk.ApiResponse;
 import de.envite.greenbpm.api.carbonawaresdk.api.CarbonAwareApi;
 import de.envite.greenbpm.api.carbonawaresdk.model.EmissionsForecastDTO;
@@ -8,13 +10,10 @@ import de.envite.greenbpm.carbonreductor.core.domain.model.EmissionTimeframe;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.ProcessDuration;
 import de.envite.greenbpm.carbonreductor.core.domain.model.input.location.Location;
 import de.envite.greenbpm.carbonreductor.core.usecase.out.CarbonEmissionQuery;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
 import java.time.OffsetDateTime;
 import java.util.List;
-
-import static java.util.Optional.ofNullable;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
