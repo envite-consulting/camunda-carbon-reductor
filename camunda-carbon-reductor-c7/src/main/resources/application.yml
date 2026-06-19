@@ -9,7 +9,8 @@ camunda.bpm:
 carbon-reductor:
   carbon-aware-api:
     # Enable or disable the Carbon Aware Sdk usage (default is true)
-    # enabled: true
+    # enabled: false
+    base-path: "http://localhost:8090"
   carbon-aware-computing:
     # Enable or disable the Carbon Aware Computing API usage (default is false)
     # enabled: true
