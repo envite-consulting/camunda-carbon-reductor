@@ -3,8 +3,8 @@ package de.envite.greenbpm.carbonreductorconnector.adapter.in.zeebe.config;
 import static de.envite.greenbpm.carbonreductor.core.adapter.watttime.config.PropertyPrefix.CARBON_AWARE_API;
 import static de.envite.greenbpm.carbonreductor.core.technology.Constants.CONFIG_PROPERTY_PREFIX;
 
-import de.envite.greenbpm.api.carbonawaresdk.ApiClient;
 import de.envite.greenbpm.api.carbonawaresdk.api.CarbonAwareApi;
+import de.envite.greenbpm.carbonreductor.core.adapter.watttime.CarbonAwareApiFactory;
 import de.envite.greenbpm.carbonreductor.core.adapter.watttime.CarbonAwareApiMapper;
 import de.envite.greenbpm.carbonreductor.core.adapter.watttime.CarbonAwareSdkClient;
 import de.envite.greenbpm.carbonreductor.core.usecase.out.CarbonEmissionQuery;
@@ -22,13 +22,12 @@ import org.springframework.context.annotation.Configuration;
 class CarbonAwareSdkClientConfiguration {
 
   @Bean
-  public CarbonAwareApi carbonAwareApi(CarbonAwareClientProperties carbonAwareClientProperties) {
+  public CarbonAwareApi carbonAwareApi(
+      CarbonAwareClientConfigProperties carbonAwareClientConfigProperties) {
     log.debug(
         "Creating api client for carbon aware api with base path '{}'",
-        carbonAwareClientProperties.getBasePath());
-    ApiClient apiClient = new ApiClient();
-    apiClient.setBasePath(carbonAwareClientProperties.getBasePath());
-    return new CarbonAwareApi(apiClient);
+        carbonAwareClientConfigProperties.getBasePath());
+    return CarbonAwareApiFactory.carbonAwareApi(carbonAwareClientConfigProperties);
   }
 
   @Bean
